@@ -44,7 +44,7 @@ function TestRules() {
 
     return (
         <>
-            <Header />
+         
             <h1>{syllabusTitle} question banks</h1>
             <ul className="nav nav-tabs custom-tabs">
                 {books.map((book, index) => (
@@ -60,7 +60,7 @@ function TestRules() {
             </ul>
 
             <button onClick={handleClick}>Get started</button>
-            <FooterSection />
+            
         </>
     );
 }

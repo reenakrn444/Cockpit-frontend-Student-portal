@@ -181,7 +181,7 @@ function TestPage2() {
         <>
 
 
-            <Header />
+          
 
             <Container maxWidth="lg" sx={{ py: 4 }}>
 
@@ -384,7 +384,6 @@ function TestPage2() {
                 </DialogActions>
             </Dialog>
 
-            <FooterSection />
         </>
     );
 }

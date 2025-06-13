@@ -1,33 +1,156 @@
-@import url('https://fonts.googleapis.com/css2?family=Exo:wght@400;700;800&display=swap');
-
 body {
-  font-family: 'Be Vietnam Pro', sans-serif;
+  font-family: "Be Vietnam Pro", sans-serif;
 }
+
 .hero-section {
-    background: url('/images/world-map.png') no-repeat center center;
-    background-size: cover;
-    position: relative;
-    overflow: hidden;
-  }
+  background: url("/images/world-map.png") no-repeat center center;
+  background-size: 100% auto;
+  position: relative;
+}
 
-  .banner-text {
-    font-size: 18px;
-    width: 60%;
-    color: #555555;
-  }
+.hero-section .banner-text1 {
+  
+  /* width: 60%; */
+  color: #555555;
+  font-family: "Jost";
+  font-weight: 400;
+}
 
-  button{
-    color: #EAB308;
-    background: #183251;
-    border-radius: 6px;
-    padding: 12px 36px;
-  }
+.hero-section .banner-text2 {
+  
+  width: 60%;
+  color: #555555;
+  font-family: "Jost";
+  font-weight: 600;
+}
 
-  .plane-img {
-    position: relative;
-    z-index: 2;
-    max-width: 100%;
-  }
-  .offer{
-    background-color: #F0F7FF;
-  }
+.hero-section button {
+  color: #eab308;
+  background: #183251;
+  border-radius: 6px;
+  padding: 12px 36px;
+}
+
+.plane-img {
+  position: relative;
+  z-index: 2;
+  max-width: 100%;
+}
+
+.offer {
+  background-color: #f0f7ff;
+}
+
+.offer .offer-heading {
+  font-family: Exo;
+  color: #eab308;
+ 
+  text-transform: capitalize;
+}
+
+.offer .offer-text {
+  font-family: Jost;
+  font-weight: 400;
+ 
+  color: #183251;
+  letter-spacing: -0.21px;
+  vertical-align: middle;
+}
+
+.offer .offer-card-title {
+  font-family: Exo;
+  font-weight: 600;
+  font-size: 17.33px;
+  line-height: 21.67px;
+  letter-spacing: 0%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.offer .offer-card-text {
+
+  font-family: Jost;
+  font-weight: 400;
+  font-size: 10.83px;
+  line-height: 15.17px;
+  letter-spacing: -0.07px;
+  vertical-align: middle;
+}
+
+
+
+.testimonials .testimonial-heading {
+ font-family: Exo;
+font-weight: 600;
+
+line-height: 60px;
+letter-spacing: 0%;
+text-align: center;
+}
+
+.testimonials .testimonial-text {
+  font-family: Jost;
+font-weight: 400;
+
+line-height: 30px;
+letter-spacing: 0%;
+text-align: center;
+color: #777777;
+
+}
+
+
+.testimonials .cockpit-testimonial-card {
+  background-color: #1e2a44;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  color: white;
+  width: 100%;
+}
+
+.testimonials .cockpit-testimonial-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+ .testimonials .cockpit-testimonial-quote {
+  color: #ffc107;
+  line-height: 1;
+}
+
+.testimonials .cockpit-testimonial-rating {
+  color: #ffc107;
+}
+
+.testimonials .cockpit-testimonial-text {
+  margin-bottom: 1.5rem;
+  font-family: Jost;
+font-weight: 400;
+font-style: italic;
+
+
+
+}
+
+.testimonials .cockpit-testimonial-user {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.testimonials .cockpit-testimonial-avatar {
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  border-radius: 50%;
+}
+
+.testimonials .cockpit-testimonial-name {
+  font-weight: bold;
+}
+
+.testimonials .cockpit-testimonial-role {
+  color: rgba(255, 255, 255, 0.7);
+}

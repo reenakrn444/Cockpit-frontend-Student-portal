@@ -33,7 +33,7 @@ const plans = [
 const subscription = () => {
   return (
     <>
-    <Header />
+   
     <Container className="py-5">
       <Row className="g-4">
         {plans.map((plan, idx) => (
@@ -72,7 +72,7 @@ const subscription = () => {
         ))}
       </Row>
     </Container>
-    <FooterSection />
+   
     </>
   );
 };

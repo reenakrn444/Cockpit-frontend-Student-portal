@@ -37,7 +37,7 @@ const MultiQuestionCard = () => {
 
   return (
     <>
-      <Header />
+     
       <section className="pt-5 bg-light">
         <div className="container">
           <h1 className="fw-bold text-dark-blue mb-3">
@@ -98,7 +98,7 @@ const MultiQuestionCard = () => {
         </div>
       </div>
       </div>
-      <FooterSection />
+   
     </>
   );
 };

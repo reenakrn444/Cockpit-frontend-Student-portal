@@ -1,50 +1,171 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './Header.css';
-import { useAuth } from '../../contextApi/AuthContext';
-import { Avatar,Box, Typography } from '@mui/material';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Avatar,  Box,  Button,  Drawer,  Grid,  IconButton,  List,  ListItem,  ListItemButton,  ListItemText,  Typography,  useMediaQuery,} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
+import { useTheme } from "@mui/material/styles";
 
 function Header() {
-  // const {user} = useAuth();
-  
-const user = JSON.parse(localStorage.getItem('user'));
-console.log("user is", user);
-const navigate = useNavigate();
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const toggleDrawer = (open) => () => {
+    setDrawerOpen(open);
+  };
+
+  const navItems = [
+    { text: "Home", path: "/" },
+    { text: "Training", path: "/training" },
+    // { text: 'Test', path: '/test' },
+    { text: "Pricing", path: "/pricing" },
+  ];
+
+  const drawerContent = (
+    <Box sx={{ width: 200 }} role="presentation">
+      
+      <Box sx={{ display: "flex", justifyContent: "flex-end", p: 1 }}>
+        <IconButton onClick={toggleDrawer(false)}>
+          <CloseIcon />
+        </IconButton>
+      </Box>
+
+      <List>
+        {navItems.map((item) => (
+          <ListItem key={item.text} disablePadding>
+            <ListItemButton component={Link} to={item.path}>
+              <ListItemText primary={item.text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+        <ListItem disablePadding>
+          {user ? (
+            <ListItemButton onClick={() => navigate("/userprofile")}>
+              <Avatar sx={{ mr: 1 }} />
+              <ListItemText primary={user.username} />
+            </ListItemButton>
+          ) : (
+            <ListItemButton component={Link} to="/profile">
+              <Button variant="outlined" color="warning" sx={{ width: "100%" }}>
+                Get Boarding Pass
+              </Button>
+            </ListItemButton>
+          )}
+        </ListItem>
+      </List>
+    </Box>
+  );
 
   return (
-    <header className="py-3 bg-white border-bottom">
-      <div className="container d-flex justify-content-between align-items-center">
+    <Box
+      component="header"
+      sx={{
+        py: 2,
+        backgroundColor: "white",
+        borderBottom: "1px solid #e0e0e0",
+      }}
+    >
+      <Grid
+        container
+        alignItems="center"
+        justifyContent="space-between"
+        sx={{ maxWidth: "lg", mx: "auto", px: 2 }}
+      >
+        {/* Logo */}
+        <Grid item>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <img
+              src="./images/logo.svg"
+              alt="Plane"
+              style={{ height: "60px" }}
+            />
+          </Box>
+        </Grid>
 
-        <div className="d-flex align-items-center">
-          <img src="images/logo.png" alt="Plane" style={{ height: '60px' }} />
-        </div>
+        {/* Desktop Nav */}
+        {!isMobile && (
+          <>
+            <Grid item>
+              <Box sx={{ display: "flex", gap: 4 }}>
+                {navItems.map((item) => {
+                  const isActive = location.pathname === item.path;
 
-        <nav className="d-flex gap-4">
-          <Link to="/" className="nav-link py-2">Home</Link>
-          <Link to="/training" className="nav-link py-2">Training</Link>
-          <Link to="/test" className="nav-link py-2">Test</Link>
-          <Link to="/pricing" className="nav-link py-2">Pricing</Link>
-        </nav>
-
-        {
-          user ? (
-            <>
-              <Box sx={{ display:'flex',cursor:'pointer', alignItems:'center', gap:'5px'}}
-              onClick={() => navigate('/userprofile')}
-              >
-                <Avatar />
-                <Typography>{user.username}</Typography>
+                  return (
+                    <Link
+                      key={item.text}
+                      to={item.path}
+                      style={{
+                        textDecoration: "none",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        width: isActive ? "92px" : "auto",
+                        height: isActive ? "35px" : "auto",
+                        gap: "10px",
+                        borderRadius: isActive ? "8px" : "0px",
+                        backgroundColor: isActive ? "#183251" : "transparent",
+                        color: isActive ? "#FFFFFF" : "#183251",
+                        fontFamily: "Be Vietnam Pro",
+                        fontWeight: 400,
+                        fontSize: "18px",
+                        transition: "all 0.2s ease-in-out",
+                      }}
+                    >
+                      {item.text}
+                    </Link>
+                  );
+                })}
               </Box>
-            </>
-          ) : (
-            <Link to="/profile" className="btn btn-outline-warning px-4 py-2">Get Boarding Pass</Link>
-          )
-        }
+            </Grid>
 
+            <Grid item>
+              {user ? (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                    cursor: "pointer",
+                  }}
+                  onClick={() => navigate("/userprofile")}
+                >
+                  <Avatar />
+                  <Typography>{user.username}</Typography>
+                </Box>
+              ) : (
+                <Button
+                  variant="outlined"
+                  color="warning"
+                  sx={{ px: 4, py: 1 }}
+                  component={Link}
+                  to="/profile"
+                >
+                  Get Boarding Pass
+                </Button>
+              )}
+            </Grid>
+          </>
+        )}
 
-      </div>
-    </header>
+        {/* Mobile Menu Icon */}
+        {isMobile && (
+          <Grid item>
+            <IconButton onClick={toggleDrawer(true)}>
+              <MenuIcon />
+            </IconButton>
+          </Grid>
+        )}
+      </Grid>
+
+      {/* Drawer */}
+      <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
+        {drawerContent}
+      </Drawer>
+    </Box>
   );
 }
 

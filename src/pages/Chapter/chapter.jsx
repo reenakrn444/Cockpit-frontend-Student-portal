@@ -57,7 +57,7 @@ const handleChapterClick = (chapter) => {
 
     return (
         <>
-            <Header />
+          
             <section className="p-5 bg-light">
                 <div className="container">
                     <h1 className="fw-bold text-dark-blue mb-3">AIR navigation Question Banks</h1>
@@ -99,7 +99,7 @@ const handleChapterClick = (chapter) => {
                     </div>
                 </div>
             </div>
-            <FooterSection />
+           
         </>
     );
 };

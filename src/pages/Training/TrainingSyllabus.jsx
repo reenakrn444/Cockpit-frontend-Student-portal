@@ -19,9 +19,9 @@ function TrainingSyllabus() {
         
   return (
     <>
-      <Header />
+      
       <Syllabus handleClick={handleClick}/>
-      <FooterSection />
+     
     </>
   );
 }
