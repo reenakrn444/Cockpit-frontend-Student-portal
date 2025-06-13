@@ -1,20 +1,22 @@
 .bg-dark-blue {
-    background-color: #112b4b;
-  }
-  
-  .logo-text {
-    font-size: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .plane-icon {
-    height: 65px;
-  }
+  background-color: #112b4b;
+}
 
-  .link-text{
-    text-decoration: none;
-    color: white;
-  }
-  
+.logo-text {
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.plane-icon {
+  height: 65px;
+}
+
+.link-text {
+  text-decoration: none;
+  color: white;
+}
+.footer-platforms .MuiTypography-body1 {
+  margin-bottom: 12px; /* You can adjust this value */
+}

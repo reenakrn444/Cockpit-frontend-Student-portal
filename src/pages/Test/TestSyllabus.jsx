@@ -21,9 +21,9 @@ function TestSyllabus() {
 
   return (
        <>
-      <Header />
+    
       <Syllabus handleClick={handleClick}/>
-      <FooterSection />
+    
     </>
   );
 }

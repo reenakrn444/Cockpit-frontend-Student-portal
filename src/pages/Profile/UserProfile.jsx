@@ -1,5 +1,3 @@
-import Header from "../../components/Header/Header";
-import FooterSection from "../../components/Footer/footer";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -14,10 +12,10 @@ const handleLogout = () => {
 
   return (
     <>
-    <Header/>
+   
       <div>User profile</div>
       <Button onClick={handleLogout} variant="contained">Logout</Button>
-      <FooterSection/>
+    
     </>
   );
 }
