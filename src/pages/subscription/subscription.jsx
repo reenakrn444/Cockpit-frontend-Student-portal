@@ -103,8 +103,8 @@ const Subscription = () => {
   };
 
   return (
-    <Box sx={{ backgroundColor: "#fafafa", minHeight: "auto", my: 5, display: "flex", alignItems: "center", justifyContent: "center", }}>
-      <Container maxWidth="md">
+    <Box sx={{ backgroundColor: "#fafafa", minHeight: "auto", display: "flex", alignItems: "center", justifyContent: "center", }}>
+      <Container maxWidth="md" sx={{ my: 5, }}>
         <Typography variant="h4" align="center" fontWeight={700} gutterBottom>
           Find Your Perfect Plan
         </Typography>
