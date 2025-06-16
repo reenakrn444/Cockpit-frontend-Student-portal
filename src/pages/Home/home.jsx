@@ -1,22 +1,9 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
 import {
-  Box,
-  Grid,
-  Rating,
-  Typography,
-  Button,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Container,
-  Card,
-  CardContent,
   Link,
 } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import "./home.css";
-import { useState } from "react";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 function HomeSection() {
   const navigate = useNavigate();
   const handleClick = () => navigate("/training");

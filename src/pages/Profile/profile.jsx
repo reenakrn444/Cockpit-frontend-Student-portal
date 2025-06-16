@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './profile.css';
 import { apiPost } from '../../api/axios';
 import { useAuth } from '../../contextApi/AuthContext';
-import { useNavigate } from 'react-router-dom';
 
 function Profile() {
   const [activeForm, setActiveForm] = useState('login');

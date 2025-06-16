@@ -1,12 +1,9 @@
-import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './test.css';
 import Header from '../../components/Header/Header';
 import FooterSection from '../../components/Footer/footer';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { apiGet } from '../../api/axios';
-import { useState, useEffect } from 'react';
 
 function TestRules() {
 

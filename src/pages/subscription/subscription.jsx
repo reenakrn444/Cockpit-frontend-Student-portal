@@ -1,20 +1,5 @@
-import React from "react";
-import {
-  Card,
-  CardContent,
-  CardActions,
-  Typography,
-  Button,
-  Grid,
-  Container,
-  Divider,
-  Box,
-  List,
-  ListItem,
-} from "@mui/material";
 import { apiPost } from "../../api/axios";
 import { load } from '@cashfreepayments/cashfree-js';
-import Image from "../../../public/images/SubscriptionHeaderIcon.svg"; // Adjust the path as necessary
 
 const plans = [
   {
@@ -133,19 +118,18 @@ const Subscription = () => {
               >
                 <CardContent sx={{ flexGrow: 1, }}>
                   <Box
+                    component="img"
+                    src="/images/SubscriptionHeaderIcon.svg"
+                    alt="Subscription Icon"
                     sx={{
-                      width: 40,
-                      height: 40,
+                      width: 36,
+                      height: 36,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "left",
                       mb: 2,
                     }}
                   >
-                    {/* <span role="img" aria-label="plan-icon"> */}
-                    {/* public/images/SubscriptionHeaderIcon.png */}
-                    <img src={Image} style={{ width: "38px", height: "38px", alignItems: "center" }}></img>
-                    {/* </span> */}
                   </Box>
                   <Typography variant="h6" align="left" fontWeight={600}>
                     {plan.title}
@@ -231,69 +215,6 @@ const Subscription = () => {
       </Container>
     </Box>
   );
-
-
-  // return (
-  //   <>
-  //     <Container sx={{ py: 5 }}>
-  //       <Grid container spacing={4}>
-  //         {plans.map((plan, idx) => (
-  //           <Grid item size={{ xs: 12, sm: 4, md: 4 }} key={idx}>
-  //             <Card elevation={3} sx={{ height: "100%", textAlign: "center", borderRadius: 2 }}>
-  //               <CardContent>
-  //                 <Box
-  //                   sx={{
-  //                     width: 40,
-  //                     height: 40,
-  //                     backgroundColor: "#f6b800",
-  //                     borderRadius: "50%",
-  //                     display: "inline-flex",
-  //                     alignItems: "center",
-  //                     justifyContent: "center",
-  //                     mb: 2,
-  //                   }}
-  //                 >
-  //                   <span role="img" aria-label="plan-icon"> </span>
-  //                 </Box>
-  //                 <Typography variant="h6" component="div" gutterBottom>
-  //                   {plan.title}
-  //                 </Typography>
-  //                 <Typography variant="subtitle2" color="text.secondary">
-  //                   {plan.subtitle}
-  //                 </Typography>
-  //                 <Typography variant="h4" sx={{ color: "#f6b800", fontWeight: "bold", mt: 1 }}>
-  //                   ₹ {plan.price}
-  //                 </Typography>
-  //                 <Divider sx={{ my: 2 }} />
-  //                 <List sx={{ textAlign: "left", display: "inline-block", px: 0 }}>
-  //                   {plan.benefits.map((item, i) => (
-  //                     <ListItem key={i} sx={{ py: 0.5, px: 0, fontSize: 14 }}>
-  //                       ✔ {item}
-  //                     </ListItem>
-  //                   ))}
-  //                 </List>
-  //                 <Typography variant="body2" color="primary" sx={{ mt: 2 }}>
-  //                   {plan.trialText}
-  //                 </Typography>
-  //                 <Typography variant="caption" color="text.secondary">
-  //                   {plan.cancelNote}
-  //                 </Typography>
-  //               </CardContent>
-  //               <CardActions sx={{ justifyContent: "center", pb: 2 }}>
-  //                 <Button variant="outlined"
-  //                   sx={{ borderColor: "#f6b800", color: "#f6b800", px: 4 }}
-  //                   onClick={() => handleSubscription(plan)}>
-  //                   Get Started
-  //                 </Button>
-  //               </CardActions>
-  //             </Card>
-  //           </Grid>
-  //         ))}
-  //       </Grid>
-  //     </Container>
-  //   </>
-
-  // );
 };
 
 export default Subscription;

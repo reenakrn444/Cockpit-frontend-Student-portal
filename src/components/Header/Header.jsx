@@ -1,9 +1,5 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Avatar,  Box,  Button,  Drawer,  Grid,  IconButton,  List,  ListItem,  ListItemButton,  ListItemText,  Typography,  useMediaQuery,} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
-import { useTheme } from "@mui/material/styles";
+import { Link } from "react-router-dom";
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 function Header() {
   const navigate = useNavigate();

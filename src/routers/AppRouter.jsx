@@ -1,8 +1,7 @@
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Header from '../components/Header/Header';
-import Home from '../pages/Home/home'; 
+import Home from '../pages/Home/home';
 import FooterSection from '../components/Footer/footer';
-import Profile from '../pages/Profile/profile'; 
+import Profile from '../pages/Profile/profile';
 import TrainingSyllabus from '../pages/Training/TrainingSyllabus';
 import Chapter from '../pages/Chapter/chapter';
 import TrainingQuestion from '../pages/Training/TrainingQuestions';

@@ -1,13 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
 import { apiPost } from '../../api/axios';
-import {
-    Container, Typography, Box, Button, Dialog, DialogActions, DialogContent,
-    DialogContentText, DialogTitle, Paper, Grid, Chip, Radio, RadioGroup,
-    FormControlLabel, FormControl
-} from '@mui/material';
-import Header from '../../components/Header/Header';
-import FooterSection from '../../components/Footer/footer';
 
 function TestPage2() {
     const location = useLocation();

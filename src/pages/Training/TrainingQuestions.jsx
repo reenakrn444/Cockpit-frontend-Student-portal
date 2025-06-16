@@ -1,10 +1,7 @@
-import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Grid, Typography, Radio, Box } from "@mui/material";
 
 import "./training.css";
 import { apiGet } from "../../api/axios";
-import { Container } from "react-bootstrap";
 
 const TrainingQuestion = () => {
   const [questions, setQuestions] = useState([]);
