@@ -1,5 +1,3 @@
-import { useParams } from "react-router-dom";
-
 import "./training.css";
 import { apiGet } from "../../api/axios";
 

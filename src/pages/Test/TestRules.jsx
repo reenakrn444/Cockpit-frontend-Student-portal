@@ -34,7 +34,7 @@ function TestRules() {
         if (token) {
             navigate('/testpage', { state: { activeBook, syllabusTitle } });
         } else {
-            navigate('/profile');
+            navigate('/login');
         }
     };
 

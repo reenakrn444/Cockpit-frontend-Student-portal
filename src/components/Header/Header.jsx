@@ -45,7 +45,7 @@ function Header() {
               <ListItemText primary={user.username} />
             </ListItemButton>
           ) : (
-            <ListItemButton component={Link} to="/profile">
+            <ListItemButton component={Link} to="/login">
               <Button variant="outlined" color="warning" sx={{ width: "100%" }}>
                 Get Boarding Pass
               </Button>
@@ -138,7 +138,7 @@ function Header() {
                   color="warning"
                   sx={{ px: 4, py: 1 }}
                   component={Link}
-                  to="/profile"
+                  to="/login"
                 >
                   Get Boarding Pass
                 </Button>

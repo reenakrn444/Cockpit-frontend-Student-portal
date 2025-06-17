@@ -50,7 +50,7 @@ const handleChapterClick = (chapter) => {
   if (user) {
     navigate(`/trainingQuestion/${chapter.syllabus}/${chapter.book}/${chapter.chaptername}`);
   } else {
-    navigate('/profile');
+    navigate('/login');
   }
 };
 
