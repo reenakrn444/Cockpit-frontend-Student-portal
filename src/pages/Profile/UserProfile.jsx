@@ -1,10 +1,8 @@
-import { Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 
 function UserProfile() {
-    const navigate = useNavigate();
-  
-const handleLogout = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("user");
     navigate('/');
@@ -12,10 +10,10 @@ const handleLogout = () => {
 
   return (
     <>
-   
+
       <div>User profile</div>
       <Button onClick={handleLogout} variant="contained">Logout</Button>
-    
+
     </>
   );
 }

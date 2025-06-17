@@ -1,12 +1,11 @@
-import React from 'react';
-import { Card, Button, Container, Row, Col } from "react-bootstrap";
-import Header from '../../components/Header/Header';
-import FooterSection from '../../components/Footer/footer';
+import { apiPost } from "../../api/axios";
+import { load } from '@cashfreepayments/cashfree-js';
 
 const plans = [
   {
     title: "Monthly Plan",
-    price: "₹169",
+    price: "169",
+    days: "30",
     subtitle: "per month",
     benefits: ["Tests", "Trainings", "Full Access"],
     trialText: "Get 15-day free trial (autopay)",
@@ -14,7 +13,8 @@ const plans = [
   },
   {
     title: "6 Months Plan",
-    price: "₹999",
+    price: "999",
+    days: "180",
     subtitle: "6 Months + 1 Month",
     benefits: ["Tests", "Trainings", "Full Access"],
     trialText: "Get 15-day free trial (autopay)",
@@ -22,7 +22,8 @@ const plans = [
   },
   {
     title: "Yearly Plan",
-    price: "₹1999",
+    price: "1999",
+    days: "365",
     subtitle: "per Year",
     benefits: ["Tests", "Trainings", "Full Access"],
     trialText: "Get 15-day free trial (autopay)",
@@ -30,51 +31,190 @@ const plans = [
   },
 ];
 
-const subscription = () => {
+const Subscription = () => {
+
+  let cashfree;
+  let initializeSdk = async () => {
+    cashfree = await load({
+      mode: "sandbox"
+    })
+  }
+
+  initializeSdk();
+
+  const handleSubscription = async (plan) => {
+    const subscriptionData =
+    {
+      "userId": JSON.parse(localStorage.getItem("user"))._id,
+      "amount": Number(plan.price),
+      "duration": Number(plan.days),
+    }
+    try {
+      const response = await apiPost(`/subscription/createSubscriptionPayment`, subscriptionData);
+      console.log("API Response:", response.data);
+      if (response?.data?.message === "Subscription created successfully") {
+        let order = response.data.createdOrder;
+        const options = {
+          paymentSessionId: order?.payment_session_id,
+          redirectTarget: "_modal",
+        };
+        cashfree.checkout(options).then(async (data) => {
+          console.log("Payment Data:", data);
+          if (data) {
+            console.log("Payment Successful:", data);
+            // Handle successful payment
+            // You can update the UI or redirect the user
+            const response = await apiPost(`/subscription/verifySubscriptionPaymentStatus`, { orderId: order.order_id });
+
+            console.log("Verify Payment Response:", response.data);
+            if (response.data.message === "Payment verified successfully") {
+              console.log("Payment verified successfully:", response.data);
+              alert("Payment Successful!");
+            }
+
+            // Optionally, redirect or update UI
+          } else {
+            console.error("Payment Failed:", data);
+            alert("Payment Failed. Please try again.");
+          }
+        }).catch((error) => {
+          console.error("Payment Error:", error);
+          alert("An error occurred during payment. Please try again.");
+        });
+      }
+    } catch (error) {
+      console.error("Error creating subscription:", error);
+    }
+  };
+
   return (
-    <>
-   
-    <Container className="py-5">
-      <Row className="g-4">
-        {plans.map((plan, idx) => (
-          <Col key={idx} xs={12} md={4}>
-            <Card className="h-100 shadow-sm text-center border-0">
-              <Card.Body>
-                <div className="mb-3">
-                  <div
-                    className="rounded-circle d-inline-flex align-items-center justify-content-center"
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      backgroundColor: "#f6b800",
+    <Box sx={{ backgroundColor: "#fafafa", minHeight: "auto", display: "flex", alignItems: "center", justifyContent: "center", }}>
+      <Container maxWidth="md" sx={{ my: 5, }}>
+        <Typography variant="h4" align="center" fontWeight={700} gutterBottom>
+          Find Your Perfect Plan
+        </Typography>
+        <Typography
+          variant="body1"
+          align="center"
+          color="text.secondary"
+          mb={4}
+        >
+          Find the perfect plan to support your learning journey. Our pricing options are thoughtfully designed to fit the needs of students.
+        </Typography>
+        <Grid container spacing={4}>
+          {plans.map((plan, idx) => (
+            <Grid size={{ xs: 12, sm: 4 }} key={idx}>
+              <Card
+                elevation={0}
+                sx={{
+                  borderRadius: 3,
+                  border: "1px solid #E4E4E7",
+                  backgroundColor: "#fff",
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  p: 2
+                }}
+              >
+                <CardContent sx={{ flexGrow: 1, }}>
+                  <Box
+                    component="img"
+                    src="/images/SubscriptionHeaderIcon.svg"
+                    alt="Subscription Icon"
+                    sx={{
+                      width: 36,
+                      height: 36,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "left",
+                      mb: 2,
                     }}
                   >
-                    <span role="img" aria-label="plan-icon"> </span>
-                  </div>
-                </div>
-                <Card.Title>{plan.title}</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
-                  {plan.subtitle}
-                </Card.Subtitle>
-                <h3 className="fw-bold text-warning">{plan.price}</h3>
-                <hr />
-                <ul className="list-unstyled mb-3">
-                  {plan.benefits.map((item, i) => (
-                    <li key={i} className="mb-1">✔ {item}</li>
-                  ))}
-                </ul>
-                <p className="text-primary small mb-1">{plan.trialText}</p>
-                <p className="text-muted small">{plan.cancelNote}</p>
-                <Button variant="outline-warning" className="mt-2 px-4">Get Started</Button>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-    </Container>
-   
-    </>
+                  </Box>
+                  <Typography variant="h6" align="left" fontWeight={600}>
+                    {plan.title}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    align="left"
+                    color="text.secondary"
+                    my={1}
+                  >
+                    Unleash the Power of Your Learning Journey Pro Plan.
+                  </Typography>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                    <Typography
+                      variant="h4"
+                      align="left"
+                      sx={{ color: "#f6b800", fontWeight: 700, mb: 1 }}
+                    >
+                      ₹{plan.price}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      align="left"
+                      color="text.secondary"
+                    >
+                      {plan.subtitle}
+                    </Typography>
+                  </Box>
+
+
+                  <Divider sx={{ my: 2 }} />
+
+                  <List dense sx={{ px: 0 }}>
+                    {plan.benefits.map((item, i) => (
+                      <ListItem
+                        key={i}
+                        disablePadding
+                        sx={{ fontSize: "14px", py: 0.5 }}
+                      >
+                        ✔ {item}
+                      </ListItem>
+                    ))}
+                  </List>
+
+                  <Typography
+                    variant="body2"
+                    color="primary"
+                    sx={{ mt: 2, fontSize: "13px", textAlign: "left" }}
+                  >
+                    {plan.trialText.split("free trial")[0]}
+                    <span style={{ textDecoration: "underline" }}>free trial</span>
+                    {plan.trialText.split("free trial")[1]}
+                  </Typography>
+
+                  <Typography
+                    variant="caption"
+                    color="text.secondary"
+                    sx={{ display: "block", textAlign: "left", mt: 1.5 }}
+                  >
+                    {plan.cancelNote}
+                  </Typography>
+                </CardContent>
+                <CardActions sx={{ justifyContent: "center", }}>
+                  <Button
+                    variant="outlined"
+                    onClick={() => handleSubscription(plan)}
+                    sx={{
+                      borderColor: "#f6b800",
+                      color: "#f6b800",
+                      px: 4,
+                      textTransform: "none",
+                      fontWeight: 600,
+                      fontSize: "14px",
+                    }}
+                  >
+                    Get Started
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+    </Box>
   );
 };
 
-export default subscription;
+export default Subscription;

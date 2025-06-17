@@ -1,22 +1,11 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
 import {
-  Box,
-  Grid,
-  Rating,
-  Typography,
-  Button,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Container,
-  Card,
-  CardContent,
   Link,
 } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import "./home.css";
-import { useState } from "react";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Faq from "./Faq";
+import Features from "./Features";
+
 function HomeSection() {
   const navigate = useNavigate();
   const handleClick = () => navigate("/training");
@@ -70,9 +59,9 @@ function HomeSection() {
             className="cockpit-testimonial-rating"
           />
         </Box>
-       <Typography className="cockpit-testimonial-text" sx={{ fontSize: { xs: '18px', sm: '20px',  md: '22px',  lg: '24px',  xl: '26px',},mb: 3,}}>  
-         {testimonial.text}
-       </Typography>
+        <Typography className="cockpit-testimonial-text" sx={{ fontSize: { xs: '18px', sm: '20px', md: '22px', lg: '24px', xl: '26px', }, mb: 3, }}>
+          {testimonial.text}
+        </Typography>
 
         <Box className="cockpit-testimonial-user">
           <Box className="cockpit-testimonial-avatar" />
@@ -96,7 +85,7 @@ function HomeSection() {
     <>
       <section>
         <Container>
-          <Box className="hero-section" sx={{ py: {md:10,xs:0} }}>
+          <Box className="hero-section" sx={{ py: { md: 10, xs: 0 } }}>
             <Grid
               container
               spacing={4}
@@ -106,7 +95,7 @@ function HomeSection() {
               <Grid size={{ xs: 12 }}>
                 <Typography fontWeight={600} color="#183251" sx={{ fontFamily: "Exo, sans-serif", fontSize: { xs: "1.75rem", sm: "2rem", md: "2.5rem", lg: "3rem", xl: "3.25rem" } }}>Build Your Skills With <br /><Box component="span" color="#EAB308">COCKPIT</Box> — Your Gateway To The Skies!</Typography>
 
-                <Typography className="banner-text1" sx={{ mt: 3,fontSize:{ xs: '18px', sm: '18px', md: '18px', lg: '18px', xl: '18px' },width: { xs: '100%', sm: '100%', md: '60%', lg: '60%', xl: '60%' } }}>
+                <Typography className="banner-text1" sx={{ mt: 3, fontSize: { xs: '18px', sm: '18px', md: '18px', lg: '18px', xl: '18px' }, width: { xs: '100%', sm: '100%', md: '60%', lg: '60%', xl: '60%' } }}>
                   Embark on your aviation journey with expert-led training and
                   personalised learning. Whether you’re a beginner or preparing
                   for exams, we’ll help you soar higher.
@@ -143,7 +132,7 @@ function HomeSection() {
             <Typography
               variant="h4"
               fontWeight={600}
-              fontSize={{xs: "35px", sm: "45px", md: "45px", lg: "45px", xl: "45px" }}
+              fontSize={{ xs: "35px", sm: "45px", md: "45px", lg: "45px", xl: "45px" }}
               textAlign="left"
               className="offer-heading"
               gutterBottom
@@ -155,7 +144,7 @@ function HomeSection() {
               whether you’re just starting or aiming for the high skies
             </Typography>
             <Grid container spacing={4} mt={3}>
-              {cardDetails.map((item, index) => (
+              {Features?.map((item, index) => (
                 <Grid key={index} size={{ xs: 12, md: 6, lg: 3 }}>
                   {/* Use flex column to push the link to the bottom */}
                   <Card
@@ -226,7 +215,7 @@ function HomeSection() {
               <Grid size={{ xs: 12, sm: 6, md: 6 }}>
                 <TestimonialCard />
               </Grid>
-              <Grid size={{ xs: 12, sm: 6, md:6 }}>
+              <Grid size={{ xs: 12, sm: 6, md: 6 }}>
                 <TestimonialCard />
               </Grid>
             </Grid>
@@ -247,17 +236,16 @@ function HomeSection() {
                   color="text.secondary"
                   textAlign="center"
                   mb={5}
-                  fontSize={{ xs: "16px", sm: "16px", md: "18px", lg: "18px", xl: "18px" }}
+                  fontSize={{ xs: "16px", sm: "16px" }}
                 >
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Faucibus in libero risus semper habitant arcu eget.
+                  From takeoff to touchdown, we've got your questions on radar.
                 </Typography>
               </Grid>
             </Grid>
 
             <Grid container justifyContent="center">
               <Grid item size={{ xs: 12, md: 8 }}>
-                {["What Is Cockpit?", "How Does It Help?", "Who Can Join?"].map(
+                {Faq?.map(
                   (question, index) => {
                     const panel = `panel${index}`;
                     return (
@@ -276,13 +264,11 @@ function HomeSection() {
                             height: "80px",
                           }}
                         >
-                          <Typography>{question}</Typography>
+                          <Typography>{question?.question}</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                           <Typography color="text.secondary" fontStyle="italic">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit. Faucibus in libero risus semper habitant arcu
-                            eget.
+                            {question?.answer}
                           </Typography>
                         </AccordionDetails>
                       </Accordion>

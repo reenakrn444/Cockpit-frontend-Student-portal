@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './chapter.css';
 import Header from '../../components/Header/Header';
 import FooterSection from '../../components/Footer/footer';
 import { apiGet } from '../../api/axios';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, } from 'react-router-dom';
 
 const ChapterSection = () => {
     const [activeBook, setactiveBook] = useState('rk bali');
@@ -51,7 +50,7 @@ const handleChapterClick = (chapter) => {
   if (user) {
     navigate(`/trainingQuestion/${chapter.syllabus}/${chapter.book}/${chapter.chaptername}`);
   } else {
-    navigate('/profile');
+    navigate('/login');
   }
 };
 

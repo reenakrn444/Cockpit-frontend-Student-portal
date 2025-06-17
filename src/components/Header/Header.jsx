@@ -1,9 +1,5 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Avatar,  Box,  Button,  Drawer,  Grid,  IconButton,  List,  ListItem,  ListItemButton,  ListItemText,  Typography,  useMediaQuery,} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
-import { useTheme } from "@mui/material/styles";
+import { Link } from "react-router-dom";
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 function Header() {
   const navigate = useNavigate();
@@ -49,7 +45,7 @@ function Header() {
               <ListItemText primary={user.username} />
             </ListItemButton>
           ) : (
-            <ListItemButton component={Link} to="/profile">
+            <ListItemButton component={Link} to="/login">
               <Button variant="outlined" color="warning" sx={{ width: "100%" }}>
                 Get Boarding Pass
               </Button>
@@ -142,7 +138,7 @@ function Header() {
                   color="warning"
                   sx={{ px: 4, py: 1 }}
                   component={Link}
-                  to="/profile"
+                  to="/login"
                 >
                   Get Boarding Pass
                 </Button>

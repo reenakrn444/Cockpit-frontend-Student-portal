@@ -1,8 +1,6 @@
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import Header from '../components/Header/Header';
-import Home from '../pages/Home/home'; 
-import FooterSection from '../components/Footer/footer';
-import Profile from '../pages/Profile/profile'; 
+import { Header, FooterSection } from '../components';
+import Home from '../pages/Home/home';
+import Login from '../pages/Auth/Login';
 import TrainingSyllabus from '../pages/Training/TrainingSyllabus';
 import Chapter from '../pages/Chapter/chapter';
 import TrainingQuestion from '../pages/Training/TrainingQuestions';
@@ -11,10 +9,16 @@ import TestRules from '../pages/Test/TestRules';
 import TestPage2 from '../pages/Test/TestPage2';
 import UserProfile from '../pages/Profile/UserProfile';
 import Subscription from '../pages/subscription/subscription';
+import ForgetPassword from '../pages/Auth/ForgetPassword';
+import ResetPassword from '../pages/Auth/ResetPassword';
+
 
 const AppContent = () => {
   const location = useLocation();
-  const hideHeaderFooter = location.pathname === "/profile";
+  const {pathname} = location
+  const hideHeaderFooter = pathname === "/login" ||
+    pathname === "/forgetpassword" ||
+    pathname.startsWith("/resetpassword");;
 
   return (
     <>
@@ -22,7 +26,9 @@ const AppContent = () => {
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/forgetpassword" element={<ForgetPassword />} />
+        <Route path="/resetpassword/:token" element={<ResetPassword />} />
         <Route path="/training" element={<TrainingSyllabus />} />
         <Route path="/chapter" element={<Chapter />} />
         <Route path="/trainingQuestion/:syllabusName/:bookName/:chapterName" element={<TrainingQuestion />} />
