@@ -90,17 +90,17 @@ const Login = () => {
     try {
       const response = await apiPost('/loginUser', { email, password });
       console.log('Login response:', response);
-      // if (response.status === 200) {
-      //   const token = response.data.token;
-      //   localStorage.setItem('authToken', token);
-      //   localStorage.setItem('user', JSON.stringify(response.data.userData));
-      //   setLoading(false);
-      //   snackbarEmitter('Logged in successfully!', 'success');
-      //   navigate('/');
-      // } else {
-      //   setLoading(false);
-      //   snackbarEmitter('Login failed', 'error');
-      // }
+      if (response?.data?.status === 200) {
+        const token = response.data.token;
+        localStorage.setItem('authToken', token);
+        localStorage.setItem('user', JSON.stringify(response.data.userData));
+        setLoading(false);
+        snackbarEmitter('Logged in successfully!', 'success');
+        navigate('/');
+      } else {
+        setLoading(false);
+        snackbarEmitter('Login failed', 'error');
+      }
     } catch (error) {
       console.log('Login failed', error);
     }
