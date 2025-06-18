@@ -1,9 +1,11 @@
 import { apiGetToken, apiPostToken } from "../../api/axios";
 import { snackbarEmitter } from "../../components/snackbar/CustomSnackBar";
+import { CustomButton } from "../../components";
 
 const UserProfile = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -103,12 +105,15 @@ const UserProfile = () => {
 
     setFormErrors(errors);
     if (isValid) {
+      setLoading(true);
       const { data } = await apiPostToken("/updateUser", userData);
       console.log("User data updated:", data);
       if (data?.status === 200) {
         snackbarEmitter("User data updated successfully!", "success");
+        setLoading(false);
       } else {
         snackbarEmitter(data?.message, "error");
+        setLoading(false);
       }
       fetchUserData();
     }
@@ -227,13 +232,16 @@ const UserProfile = () => {
                 </Grid>
 
                 <Grid size={{ xs: 12, md: 12 }} display="flex" justifyContent="center">
-                  <Button
-                    variant="contained"
-                    sx={{ mt: 2, backgroundColor: "#f1b600", display: "flex", justifyContent: "center", alignItems: "center" }}
+
+                  <CustomButton
                     onClick={handleSave}
+                    loading={loading}
+                    bgColor="#f1b600"
+                    borderRadius="8px"
+                    sx={{ mt: 2, display: "flex", justifyContent: "center", alignItems: "center", width: "fit-content", padding: "10px 20px" }}
                   >
                     Save
-                  </Button>
+                  </CustomButton>
                 </Grid>
               </Grid>
             </Box>
@@ -283,11 +291,18 @@ const UserProfile = () => {
                 color: "#f1b600",
                 fontWeight: 700,
                 fontSize: 16,
-                maxWidth: 200
+                maxWidth: 200,
+                cursor: "pointer",
               }}
               onClick={() => {
                 if (label === "FLIGHT DECK") {
                   navigate("/report");
+                }
+                else if (label === "MAINTENANCE") {
+                  navigate("/changepassword");
+                }
+                else if (label === "FLIGHT LOG") {
+                  navigate("/theme");
                 }
               }}
             >

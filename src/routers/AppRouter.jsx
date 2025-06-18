@@ -12,6 +12,8 @@ import Subscription from '../pages/subscription/subscription';
 import ForgetPassword from '../pages/Auth/ForgetPassword';
 import ResetPassword from '../pages/Auth/ResetPassword';
 import ReportPage from '../pages/Report/ReportPage';
+import ChangePassword from '../pages/Profile/ChangePassword';
+import ThemeSettings from '../pages/Profile/ThemeSetting';
 
 
 const AppContent = () => {
@@ -39,6 +41,11 @@ const AppContent = () => {
         <Route path="/userprofile" element={<UserProfile />} />
         <Route path="/pricing" element={<Subscription />} />
         <Route path="/report" element={<ReportPage />} />
+        <Route path="/changepassword" element={<ChangePassword />} />
+        <Route path="/theme" element={<ThemeSettings />} />
+        <Route path="*" element={<h1>Page Not Found</h1>} />
+
+
       </Routes>
 
       {!hideHeaderFooter && <FooterSection />}
