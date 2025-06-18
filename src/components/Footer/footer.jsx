@@ -10,8 +10,13 @@ function FooterSection() {
       sx={{
         backgroundColor: '#112b4b',
         color: 'white',
-        py: 5,
+        py: 2,
         px: 2,
+        // position: 'fixed',
+        // bottom: 0,
+        // left: 0,
+        // width: '100%',
+        // zIndex: 9999,
       }}
     >
       <Box sx={{ maxWidth: 1200, mx: 'auto' }}>

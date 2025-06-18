@@ -3,7 +3,15 @@ import AppRouter from './routers/AppRouter';
 function App() {
   return (
     <div>
-      <AppRouter/>
+      <Box
+        sx={{
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <AppRouter />
+      </Box>
     </div>
   );
 }

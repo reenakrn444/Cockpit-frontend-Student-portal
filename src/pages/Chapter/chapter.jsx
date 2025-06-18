@@ -1,105 +1,123 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import './chapter.css';
-import Header from '../../components/Header/Header';
-import FooterSection from '../../components/Footer/footer';
 import { apiGet } from '../../api/axios';
-import { Link, } from 'react-router-dom';
 
 const ChapterSection = () => {
-    const [activeBook, setactiveBook] = useState('rk bali');
-
+    const [activeBook, setActiveBook] = useState('');
     const [books, setBooks] = useState([]);
     const [chapters, setChapters] = useState([]);
 
     const location = useLocation();
     const syllabusTitle = location.state;
+    const navigate = useNavigate();
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     useEffect(() => {
-        const fetchBooks = async () => {
+        const fetchBooksAndChapters = async () => {
             try {
-                const response = await apiGet('/getBooks');
-                setBooks(response.data.books);
+                const bookResponse = await apiGet('/getBooks');
+                const fetchedBooks = bookResponse.data.books;
+                setBooks(fetchedBooks);
 
+                const defaultBook = fetchedBooks[0]?.bookTitle || '';
+                setActiveBook(defaultBook);
+
+                const chapterResponse = await apiGet('/getChapters');
+                setChapters(chapterResponse.data.chapters);
             } catch (error) {
-                console.error('Error fetching syllabus:', error);
+                console.error('Error fetching data:', error);
             }
         };
 
-        const fetchChapters = async () => {
-            try {
-                const response = await apiGet('/getChapters');
-                setChapters(response.data.chapters);
+        fetchBooksAndChapters();
+    }, []);
 
-            } catch (error) {
-                console.error('Error fetching syllabus:', error);
-            }
-        };
+    const filteredChapters = useMemo(() => {
+        return chapters.filter(
+            (chapter) =>
+                chapter.book === activeBook && chapter.syllabus === syllabusTitle
+        );
+    }, [chapters, activeBook, syllabusTitle]);
 
-        fetchBooks();
-        fetchChapters();
-
-    }, [])
-
-    const filteredChapters = chapters.filter((chapter) => chapter.book === activeBook && chapter.syllabus === syllabusTitle);
-
-
-    const navigate = useNavigate();
-const handleChapterClick = (chapter) => {
-    const user= localStorage.getItem('user');
-  if (user) {
-    navigate(`/trainingQuestion/${chapter.syllabus}/${chapter.book}/${chapter.chaptername}`);
-  } else {
-    navigate('/login');
-  }
-};
+    const handleChapterClick = (chapter) => {
+        const user = localStorage.getItem('user');
+        if (user) {
+            navigate(`/trainingQuestion/${chapter.syllabus}/${chapter.book}/${chapter.chaptername}`);
+        } else {
+            navigate('/login');
+        }
+    };
 
     return (
-        <>
-          
-            <section className="p-5 bg-light">
-                <div className="container">
-                    <h1 className="fw-bold text-dark-blue mb-3">AIR navigation Question Banks</h1>
-                </div>
-            </section>
-            <div className='container mb-5'>
-                <div className="tabs-section pb-5">
-                    <ul className="nav nav-tabs custom-tabs">
-                        {books.map((book, index) => (
-                            <li className="nav-item" key={index}>
-                                <button
-                                    className={`nav-link ${activeBook === book.bookTitle ? 'active' : ''}`}
-                                    onClick={() => setactiveBook(book.bookTitle)}
-                                >
-                                    {book.bookTitle}
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                    <div className="tab-description px-5 mt-4">
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                        </p>
-                    </div>
-                    <div className="chapter-list px-5">
-                        {
-                            filteredChapters.map((chapter, index) => (
-                                <div
-                                    key={index}
-                                    className="chapter-box link-text"
-                                    onClick={() => handleChapterClick(chapter)}
-                                    style={{ cursor: 'pointer' }}
-                                >
-                                    <p>{chapter.chaptername}</p>
-                                </div>
-                            ))
-                        }
+        <Box>
+            <Box sx={{ p: 4, backgroundColor: '#f5f5f5' }}>
+                <Typography variant="h4" fontWeight={700} color="#0f2848" gutterBottom>
+                    AIR Navigation Question Banks
+                </Typography>
+            </Box>
 
-                    </div>
-                </div>
-            </div>
-           
-        </>
+            <Box className="tabs-section" sx={{ p: isMobile ? 2 : 4, mt: 2, borderRadius: 2 }}>
+                <Box className="custom-tabs" component="ul" sx={{ listStyle: 'none', p: 0, m: 0, display: 'flex', overflowX: 'auto', borderRadius: '10px 10px 0 0', backgroundColor: '#F5F5F5' }}>
+                    {books.map((book, index) => (
+                        <Box component="li" className="nav-item" key={index} sx={{ flex: 1 }}>
+                            <Button
+                                fullWidth
+                                className={`nav-link ${activeBook === book.bookTitle ? 'active' : ''}`}
+                                onClick={() => setActiveBook(book.bookTitle)}
+                                sx={{
+                                    backgroundColor: activeBook === book.bookTitle ? '#f5f5f5' : '#0f2848',
+                                    color: activeBook === book.bookTitle ? '#fbbd00' : '#fff',
+                                    border: 'none',
+                                    borderRight: '1px solid #1c3d63',
+                                    padding: '12px 20px',
+                                    fontWeight: 600,
+                                    textTransform: 'uppercase',
+                                    borderRadius: 0,
+                                    transition: '0.3s',
+                                    width: '100%',
+                                    '&:last-child': {
+                                        borderRight: 'none',
+                                    },
+                                }}
+                            >
+                                {book.bookTitle}
+                            </Button>
+                        </Box>
+                    ))}
+                </Box>
+
+                <Box className="tab-description" sx={{ pt: 3, px: isMobile ? 1 : 4, backgroundColor: '#F5F5F5', }}>
+                    <Typography>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    </Typography>
+                </Box>
+
+                <Box className="chapter-list" sx={{ px: isMobile ? 1 : 4, py: 3, borderRadius: '0 0 10px 10px', backgroundColor: '#F5F5F5', }}>
+                    {filteredChapters.map((chapter, index) => (
+                        <Paper
+                            key={index}
+                            onClick={() => handleChapterClick(chapter)}
+                            sx={{
+                                backgroundColor: '#0f2b50',
+                                color: 'white',
+                                p: 2,
+                                mb: 2,
+                                borderRadius: 2,
+                                fontWeight: 500,
+                                cursor: 'pointer',
+                            }}
+                        >
+                            <Typography sx={{ fontWeight: 500 }}>
+                                <Box sx={{ display: "flex", maxWidth: 200, mx: 'auto' }}>
+                                    Chapter {index + 1} : {" "}
+                                    {chapter.chaptername}
+                                </Box>
+                            </Typography>
+                        </Paper>
+                    ))}
+                </Box>
+            </Box>
+        </Box>
     );
 };
+
 export default ChapterSection;

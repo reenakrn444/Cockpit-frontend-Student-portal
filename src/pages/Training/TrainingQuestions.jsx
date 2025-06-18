@@ -46,8 +46,8 @@ const TrainingQuestion = () => {
           </Typography>
           <Typography
             variant="h5"
-            
-            sx={{ textAlign: "center", color: "#183251",fontFamily: "Exo" }}
+
+            sx={{ textAlign: "center", color: "#183251", fontFamily: "Exo" }}
           >
             {chapterName}
           </Typography>
@@ -57,20 +57,19 @@ const TrainingQuestion = () => {
       <Box sx={{ p: 3 }}>
         <Grid container spacing={3} justifyContent="center">
           {filteredQuestions.map((question, index) => (
-            <Grid key={question.id || index} size={{ xs: 6, md: 8 }}>
+            <Grid key={question.id || index} size={{ xs: 12 }}>
               <Box
                 sx={{
                   border: "1px solid #ccc",
                   borderRadius: 2,
-                  p: 2,
-                  mb: 3,
                 }}
               >
                 <Box
                   sx={{
                     bgcolor: "#183251",
-                    p: 1,
-                    borderRadius: 1,
+                    py: "10px",
+                    px: 2,
+                    borderRadius: "8px 8px 0 0",
                   }}
                 >
                   <Typography variant="subtitle1" sx={{ color: "white" }}>
@@ -85,7 +84,6 @@ const TrainingQuestion = () => {
                       sx={{
                         display: "flex",
                         alignItems: "center",
-                        mb: 1,
                       }}
                     >
                       <Radio
@@ -129,7 +127,7 @@ const TrainingQuestion = () => {
                 {selectedAnswers[question._id] !== undefined && (
                   <Box
                     mt={2}
-                    sx={{ display: "flex", alignItems: "center", gap: 4 }}
+                    sx={{ display: "flex", alignItems: "center", gap: 4, p: 2 }}
                   >
                     <Typography
                       variant="subtitle2"
@@ -140,6 +138,8 @@ const TrainingQuestion = () => {
                         width: "10%",
                         padding: "7px",
                         alignItems: "center",
+                        display: "flex",
+                        justifyContent: "center",
                       }}
                     >
                       Answer

@@ -23,7 +23,7 @@ function Header() {
 
   const drawerContent = (
     <Box sx={{ width: 200 }} role="presentation">
-      
+
       <Box sx={{ display: "flex", justifyContent: "flex-end", p: 1 }}>
         <IconButton onClick={toggleDrawer(false)}>
           <CloseIcon />
@@ -63,6 +63,9 @@ function Header() {
         py: 2,
         backgroundColor: "white",
         borderBottom: "1px solid #e0e0e0",
+        position: "sticky", // or "fixed" if you want it to stay even when scrolling past it
+        top: 0,
+        zIndex: 9999,
       }}
     >
       <Grid
