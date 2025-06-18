@@ -1,6 +1,7 @@
 import { apiPost } from '../../api/axios';
 import { CustomButton } from '../../components';
 import { snackbarEmitter } from '../../components/snackbar/CustomSnackBar';
+import CopyrightFooter from '../../components/copyrighttext';
 
 const Login = () => {
   const [activeForm, setActiveForm] = useState('login');
@@ -99,7 +100,7 @@ const Login = () => {
         navigate('/');
       } else {
         setLoading(false);
-        snackbarEmitter('Login failed', 'error');
+        snackbarEmitter(response?.data?.message, 'error');
       }
     } catch (error) {
       console.log('Login failed', error);
@@ -324,12 +325,7 @@ const Login = () => {
           zIndex: 1,
         }}
       >
-        Made For Aviators with 🤍 to see them in cockpit one day | Copyright ©
-        2023{' '}
-        <Box component="span" sx={{ color: '#f1b600', display: 'inline' }}>
-          Cockpit
-        </Box>{' '}
-        Inc. All rights reserved
+       <CopyrightFooter/>
       </Typography>
     </Box>
   );

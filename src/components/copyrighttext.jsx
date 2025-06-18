@@ -1,0 +1,32 @@
+const CopyrightFooter = () => {
+    const currentYear = new Date().getFullYear();
+    return (
+        <>
+            {/* Made for Aviators with <div class="tenor-gif-embed" data-postid="15442334041274944339" data-share-method="host" data-aspect-ratio="0.829317" data-width="100%"><a href="https://tenor.com/view/heart-love-beating-heart-heartbeat-heart-beat-gif-15442334041274944339">Heart Love Sticker</a>from <a href="https://tenor.com/search/heart-stickers">Heart Stickers</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script> to see them in Cockpit one day | Copyright © {currentYear}{' '}
+            <Box component="span" sx={{ color: '#ffc107', display: 'inline' }}>
+                Cockpit
+            </Box>{' '}
+            Inc. All rights reserved */}
+            Made for Aviators with{' '}
+            <img
+                // src="https://tenor.com/view/heart-i-love-you-love-gif-13639585.gif"
+                src="https://tenor.com/view/heart-love-beating-heart-heartbeat-heart-beat-gif-15442334041274944339.gif"
+                alt="heart"
+                style={{
+                    width: '14px',
+                    height: '14px',
+                    verticalAlign: 'middle',
+                    margin: '0 4px',
+                    backgroundColor: 'transparent',
+                }}
+            />
+            to see them in Cockpit one day | Copyright © {currentYear}{' '}
+            <Box component="span" sx={{ color: '#ffc107', display: 'inline' }}>
+                Cockpit
+            </Box>{' '}
+            Inc. All rights reserved
+        </>
+    );
+};
+
+export default CopyrightFooter;
