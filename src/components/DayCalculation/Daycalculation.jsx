@@ -7,7 +7,6 @@ export const DayCalculation = (fromDate, toDate) => {
 
     // Convert milliseconds to full days
     const daysLeft = Math.max(0, Math.ceil(timeDiff / (1000 * 60 * 60 * 24)));
-    console.log(daysLeft, "daysLeftdaysLeft");
 
     return daysLeft
 }

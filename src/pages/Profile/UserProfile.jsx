@@ -40,7 +40,6 @@ const UserProfile = () => {
     const data = await apiGetToken(`/getUser?userId=${user._id}`);
     if (data?.data?.status === 200) {
       const userInfo = data.data.data;
-      console.log("User data fetched:", userInfo);
 
       setUserData({
         username: userInfo.username,
@@ -117,7 +116,6 @@ const UserProfile = () => {
     if (isValid) {
       setLoading(true);
       const { data } = await apiPostToken("/updateUser", userData);
-      console.log("User data updated:", data);
       if (data?.status === 200) {
         snackbarEmitter("User data updated successfully!", "success");
         setLoading(false);

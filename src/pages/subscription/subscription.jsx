@@ -1,5 +1,6 @@
 import { apiPost } from "../../api/axios";
 import { load } from '@cashfreepayments/cashfree-js';
+import { snackbarEmitter } from "../../components/snackbar/CustomSnackBar";
 
 const plans = [
   {
@@ -51,7 +52,6 @@ const Subscription = () => {
     }
     try {
       const response = await apiPost(`/subscription/createSubscriptionPayment`, subscriptionData);
-      console.log("API Response:", response.data.data);
       if (response?.data?.status === 200) {
         let order = response.data.data;
         const options = {
@@ -59,31 +59,23 @@ const Subscription = () => {
           redirectTarget: "_modal",
         };
         cashfree.checkout(options).then(async (data) => {
-          console.log("Payment Data:", data);
           if (data) {
-            console.log("Payment Successful:", data);
-            // Handle successful payment
-            // You can update the UI or redirect the user
             const response = await apiPost(`/subscription/verifySubscriptionPaymentStatus`, { orderId: order?.orderId });
 
-            console.log("Verify Payment Response:", response.data);
             if (response.data.message === "Payment verified successfully") {
-              console.log("Payment verified successfully:", response.data);
-              alert("Payment Successful!");
+              snackbarEmitter("Payment Successful!", "success");
             }
 
             // Optionally, redirect or update UI
           } else {
-            console.error("Payment Failed:", data);
-            alert("Payment Failed. Please try again.");
+            snackbarEmitter("Payment Failed. Please try again.", "error");
           }
         }).catch((error) => {
-          console.error("Payment Error:", error);
-          alert("An error occurred during payment. Please try again.");
+          snackbarEmitter("An error occurred during payment. Please try again.", "error");
         });
       }
     } catch (error) {
-      console.error("Error creating subscription:", error);
+      snackbarEmitter("Failed to create subscription. Please try again.", "error");
     }
   };
 

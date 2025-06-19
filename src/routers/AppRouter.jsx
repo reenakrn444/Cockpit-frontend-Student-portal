@@ -19,12 +19,17 @@ import ThemeSettings from '../pages/Profile/ThemeSetting';
 const AppContent = () => {
   const location = useLocation();
   const { pathname } = location
+  const AuthRoute = () => {
+    const isAuthenticated = !!localStorage.getItem("authToken");
+    return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
+  };
   const hideHeaderFooter = pathname === "/login" ||
     pathname === "/forgetpassword" ||
     pathname.startsWith("/resetpassword");;
 
   return (
     <>
+      {/* element={<AuthRoute />} */}
       {!hideHeaderFooter && <Header />}
       <Box sx={{ flex: 1, minHeight: 'calc(100vh - 64px)' }}>
         <Routes>
@@ -38,11 +43,13 @@ const AppContent = () => {
           <Route path="/test" element={<TestSyllabus />} />
           <Route path="/testRules" element={<TestRules />} />
           <Route path="/testpage" element={<TestPage2 />} />
-          <Route path="/userprofile" element={<UserProfile />} />
           <Route path="/pricing" element={<Subscription />} />
-          <Route path="/report" element={<ReportPage />} />
-          <Route path="/changepassword" element={<ChangePassword />} />
-          <Route path="/theme" element={<ThemeSettings />} />
+          <Route element={<AuthRoute />}>
+            <Route path="/userprofile" element={<UserProfile />} />
+            <Route path="/report" element={<ReportPage />} />
+            <Route path="/changepassword" element={<ChangePassword />} />
+            <Route path="/theme" element={<ThemeSettings />} />
+          </Route>
           <Route path="*" element={<h1>Page Not Found</h1>} />
         </Routes>
       </Box>

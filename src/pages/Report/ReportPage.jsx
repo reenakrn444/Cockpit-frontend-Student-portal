@@ -14,7 +14,6 @@ const ReportPage = () => {
     const fetchReports = async () => {
         try {
             const response = await apiGetToken(`/reportsByUserId/${userId?._id}`);
-            console.log("Fetched reports:", response.data);
             setReports(response?.data?.data);
         } catch (error) {
             snackbarEmitter("Failed to fetch reports", "error");
