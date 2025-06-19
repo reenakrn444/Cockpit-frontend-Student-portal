@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import "./footer.css";
+import CopyrightFooter from '../copyrighttext';
 
 
 function FooterSection() {
@@ -9,13 +10,18 @@ function FooterSection() {
       sx={{
         backgroundColor: '#112b4b',
         color: 'white',
-        py: 5,
+        py: 2,
         px: 2,
+        // position: 'fixed',
+        // bottom: 0,
+        // left: 0,
+        // width: '100%',
+        // zIndex: 9999,
       }}
     >
       <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
         <Grid container spacing={4} justifyContent={{ xs: 'center', md: 'flex-start' }} textAlign={{ xs: 'center', md: 'left' }}>
-          <Grid size={{ xs: 12,sm:12, md: 4,xl:4,lg:4 }} item>
+          <Grid size={{ xs: 12, sm: 12, md: 4, xl: 4, lg: 4 }} item>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: { xs: 'center', md: 'flex-start' }, mb: 2 }}>
               <img src="images/logo.png" alt="plane" style={{ height: 65 }} />
             </Box>
@@ -24,7 +30,7 @@ function FooterSection() {
             </Typography>
           </Grid>
 
-          <Grid size={{ xs: 12,sm:12,md: 3,xl:3,lg:3 }} className="footer-platforms">
+          <Grid size={{ xs: 12, sm: 12, md: 3, xl: 3, lg: 3 }} className="footer-platforms">
             <Typography variant="h6" sx={{ color: '#ffc107', mb: 2 }}>
               Resources
             </Typography>
@@ -32,7 +38,7 @@ function FooterSection() {
             <Typography variant="body1">FAQ</Typography>
           </Grid>
 
-          <Grid size={{ xs: 12,sm:12, md: 2,xl:2,lg:2 }} className="footer-platforms">
+          <Grid size={{ xs: 12, sm: 12, md: 2, xl: 2, lg: 2 }} className="footer-platforms">
             <Typography variant="h6" sx={{ color: '#ffc107', mb: 2 }}>
               Platforms
             </Typography>
@@ -51,7 +57,7 @@ function FooterSection() {
                 Test
               </Link>
             </Typography>
-            <Typography variant="body1">Syllabus</Typography>
+            <Typography variant="body1">Partner with us</Typography>
           </Grid>
 
           <Grid size={{ xs: 12, sm: 12, md: 3, xl: 3, lg: 3 }} className="footer-platforms">
@@ -61,15 +67,13 @@ function FooterSection() {
             <Typography variant="body1">Tel: + (91) 0000000000</Typography>
             <Typography variant="body1">Mail: support@gmail.com</Typography>
             <Box sx={{ display: 'flex', gap: 2, mt: 2, justifyContent: { xs: 'center', md: 'flex-start' } }}>
-             
             </Box>
           </Grid>
         </Grid>
 
         <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.5)', my: 3 }} />
         <Typography variant="body2" align="center" sx={{ mt: 3 }}>
-          Made For aviators with ❤️ to see them in cockpit one day | copyright © 2025{' '}
-          <span style={{ color: '#ffc107' }}>cockpit</span> inc. all rights reserved
+          <CopyrightFooter />
         </Typography>
       </Box>
     </Box>

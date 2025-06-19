@@ -69,7 +69,6 @@ function TestPage() {
   };
 
   const handleSubmit = () => {
-    console.log('Submitted Answers:', answers);
     alert('Test Submitted!');
     setShowSubmitDialog(false);
   };

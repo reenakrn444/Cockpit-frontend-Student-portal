@@ -1,6 +1,7 @@
 import { apiPost } from '../../api/axios';
 import { CustomButton } from '../../components';
 import { snackbarEmitter } from '../../components/snackbar/CustomSnackBar';
+import CopyrightFooter from '../../components/copyrighttext';
 
 const Login = () => {
   const [activeForm, setActiveForm] = useState('login');
@@ -89,20 +90,27 @@ const Login = () => {
 
     try {
       const response = await apiPost('/loginUser', { email, password });
-      console.log('Login response:', response);
       if (response?.data?.status === 200) {
         const token = response.data.token;
         localStorage.setItem('authToken', token);
-        localStorage.setItem('user', JSON.stringify(response.data.userData));
+        const userdata = {
+          _id: response.data.userData._id,
+          username: response.data.userData.username,
+          isSunscribed: response.data.userData.is_subscribed,
+          subscriptionStartDate: response.data.userData.is_subscribed ? response.data.userData.subscription_start_date : "",
+          subscriptionEndDate: response.data.userData.is_subscribed ? response.data.userData.subscription_end_date : "",
+        }
+        localStorage.setItem('user', JSON.stringify(userdata));
         setLoading(false);
-        snackbarEmitter('Logged in successfully!', 'success');
+        // snackbarEmitter('Logged in successfully!', 'success');
         navigate('/');
       } else {
         setLoading(false);
-        snackbarEmitter('Login failed', 'error');
+        snackbarEmitter(response?.data?.message, 'error');
       }
     } catch (error) {
-      console.log('Login failed', error);
+      setLoading(false);
+      snackbarEmitter('Login failed', 'error');
     }
   };
 
@@ -294,7 +302,7 @@ const Login = () => {
           </CustomButton>
         </form>
 
-        <Typography variant="body2" align="center" color="white" my={2}>
+        {/* <Typography variant="body2" align="center" color="white" my={2}>
           - OR -
         </Typography>
 
@@ -307,7 +315,7 @@ const Login = () => {
               />
             </Grid>
           ))}
-        </Grid>
+        </Grid> */}
       </Box>
 
       {/* Footer Typography OUTSIDE the card */}
@@ -324,12 +332,7 @@ const Login = () => {
           zIndex: 1,
         }}
       >
-        Made For Aviators with 🤍 to see them in cockpit one day | Copyright ©
-        2023{' '}
-        <Box component="span" sx={{ color: '#f1b600', display: 'inline' }}>
-          Cockpit
-        </Box>{' '}
-        Inc. All rights reserved
+        <CopyrightFooter />
       </Typography>
     </Box>
   );
