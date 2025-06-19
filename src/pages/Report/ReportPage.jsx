@@ -1,9 +1,29 @@
 
 import ReportList from "./ReportList";
+import { apiGetToken, apiPostToken } from "../../api/axios";
+import { snackbarEmitter } from "../../components/snackbar/CustomSnackBar";
+import { use } from "react";
 
 const ReportPage = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+    const [reports, setReports] = useState([]);
+
+    const userId = JSON.parse(localStorage.getItem("user"));
+
+    const fetchReports = async () => {
+        try {
+            const response = await apiGetToken(`/reportsByUserId/${userId?._id}`);
+            console.log("Fetched reports:", response.data);
+            setReports(response?.data?.data);
+        } catch (error) {
+            snackbarEmitter("Failed to fetch reports", "error");
+        }
+    };
+
+    useEffect(() => {
+        fetchReports();
+    }, []);
 
     return (
         <Box sx={{ p: isMobile ? 2 : 4, minHeight: "auto" }}>
@@ -57,7 +77,7 @@ const ReportPage = () => {
                 </Grid>
             </Box>
             <Divider sx={{ mb: 2 }} />
-            <ReportList />
+            <ReportList reports={reports} />
         </Box>
     );
 };

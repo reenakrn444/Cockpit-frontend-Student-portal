@@ -1,6 +1,7 @@
 import { apiGetToken, apiPostToken } from "../../api/axios";
 import { snackbarEmitter } from "../../components/snackbar/CustomSnackBar";
 import { CustomButton } from "../../components";
+import { DayCalculation, formatedDate } from "../../components/DayCalculation/Daycalculation";
 
 const UserProfile = () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -28,6 +29,8 @@ const UserProfile = () => {
   const [subscriptionInfo, setSubscriptionInfo] = useState({
     subscription: "",
     daysLeft: 0,
+    subscriptionStartDate: "",
+    subscriptionEndDate: "",
   });
 
   const theme = useTheme();
@@ -35,19 +38,26 @@ const UserProfile = () => {
 
   const fetchUserData = useCallback(async () => {
     const data = await apiGetToken(`/getUser?userId=${user._id}`);
-    console.log("User data fetched:", data);
     if (data?.data?.status === 200) {
       const userInfo = data.data.data;
+      console.log("User data fetched:", userInfo);
+
       setUserData({
         username: userInfo.username,
         email: userInfo.email,
         accessKey: userInfo?.accessKey ? userInfo.accessKey : "",
         userId: userInfo._id,
       });
-      setSubscriptionInfo({
-        subscription: data.subscription,
-        daysLeft: data.daysLeft,
-      });
+
+      if (userInfo?.is_subscribed) {
+        setSubscriptionInfo({
+          subscription: data?.subscription,
+          daysLeft: DayCalculation(userInfo?.subscription_start_date, userInfo?.subscription_end_date),
+          subscriptionStartDate: userInfo?.subscription_start_date,
+          subscriptionEndDate: userInfo?.subscription_end_date,
+        });
+      }
+
     }
   }, []);
 
@@ -128,7 +138,7 @@ const UserProfile = () => {
         <Typography variant="subtitle2">🟡 In-Flight</Typography>
       </Grid>
       <Typography variant="caption" color="gray">
-        Tue, 07 June 2022
+        {formatedDate(subscriptionInfo?.subscriptionStartDate)}
       </Typography>
 
       <Typography
@@ -266,7 +276,7 @@ const UserProfile = () => {
                 </Typography>
               </Box>
               <Box display="flex" justifyContent="center">
-                <Button variant="contained" sx={{ backgroundColor: "#f1b600" }}>
+                <Button variant="contained" sx={{ backgroundColor: "#f1b600" }} onClick={() => navigate("/pricing")}>
                   Subscribe now
                 </Button>
               </Box>

@@ -1,3 +1,4 @@
+import Heart from "../../public/images/Heart.gif"
 const CopyrightFooter = () => {
     const currentYear = new Date().getFullYear();
     return (
@@ -7,10 +8,10 @@ const CopyrightFooter = () => {
                 Cockpit
             </Box>{' '}
             Inc. All rights reserved */}
-            Made for Aviators with{' '}
+            Made for Aviators with
             <img
-                // src="https://tenor.com/view/heart-i-love-you-love-gif-13639585.gif"
-                src="https://tenor.com/view/heart-love-beating-heart-heartbeat-heart-beat-gif-15442334041274944339.gif"
+                // src="https://tenor.com/view/heart-love-beating-heart-heartbeat-heart-beat-gif-15442334041274944339.gif"
+                src={Heart}
                 alt="heart"
                 style={{
                     width: '14px',

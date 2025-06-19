@@ -39,7 +39,8 @@ export const CustomSnackbarProvider = ({ children }) => {
                 open={snackbar.open}
                 autoHideDuration={3000}
                 onClose={handleClose}
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                anchorOrigin={{ vertical: "top", horizontal: 'right' }}
+                sx={{ zIndex: 999999 }} // Ensure it appears above other components
             >
                 <Alert onClose={handleClose} severity={snackbar.severity} variant="filled">
                     {snackbar.message}

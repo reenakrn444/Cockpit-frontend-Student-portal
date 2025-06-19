@@ -24,7 +24,7 @@ export default defineConfig({
         TextField, Toolbar, Tooltip, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Tab, Tabs,
         useTheme, useMediaQuery,
         CircularProgress, Chip, ToggleButtonGroup, ToggleButton, Popover, GlobalStyles,
-        Alert, Snackbar,
+        Alert, Snackbar, Pagination
       } from '@mui/material';
       
       import {

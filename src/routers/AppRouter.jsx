@@ -24,35 +24,9 @@ const AppContent = () => {
     pathname.startsWith("/resetpassword");;
 
   return (
-    // <>
-    //   {!hideHeaderFooter && <Header />}
-
-    //   <Routes>
-    //     <Route path="/" element={<Home />} />
-    //     <Route path="/login" element={<Login />} />
-    //     <Route path="/forgetpassword" element={<ForgetPassword />} />
-    //     <Route path="/resetpassword/:token" element={<ResetPassword />} />
-    //     <Route path="/training" element={<TrainingSyllabus />} />
-    //     <Route path="/chapter" element={<Chapter />} />
-    //     <Route path="/trainingQuestion/:syllabusName/:bookName/:chapterName" element={<TrainingQuestion />} />
-    //     <Route path="/test" element={<TestSyllabus />} />
-    //     <Route path="/testRules" element={<TestRules />} />
-    //     <Route path="/testpage" element={<TestPage2 />} />
-    //     <Route path="/userprofile" element={<UserProfile />} />
-    //     <Route path="/pricing" element={<Subscription />} />
-    //     <Route path="/report" element={<ReportPage />} />
-    //     <Route path="/changepassword" element={<ChangePassword />} />
-    //     <Route path="/theme" element={<ThemeSettings />} />
-    //     <Route path="*" element={<h1>Page Not Found</h1>} />
-
-
-    //   </Routes>
-
-    //   {!hideHeaderFooter && <FooterSection />}
-    // </>
     <>
       {!hideHeaderFooter && <Header />}
-      <Box sx={{ flex: 1, px: 2 }}>
+      <Box sx={{ flex: 1, minHeight: 'calc(100vh - 64px)' }}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />

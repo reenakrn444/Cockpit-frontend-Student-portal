@@ -48,7 +48,7 @@ const ChapterSection = () => {
     };
 
     return (
-        <Box>
+        <Box sx={{ mt: 0 }}>
             <Box sx={{ p: 4, backgroundColor: '#f5f5f5' }}>
                 <Typography variant="h4" fontWeight={700} color="#0f2848" gutterBottom>
                     AIR Navigation Question Banks

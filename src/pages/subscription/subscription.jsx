@@ -51,11 +51,11 @@ const Subscription = () => {
     }
     try {
       const response = await apiPost(`/subscription/createSubscriptionPayment`, subscriptionData);
-      console.log("API Response:", response.data);
-      if (response?.data?.message === "Subscription created successfully") {
-        let order = response.data.createdOrder;
+      console.log("API Response:", response.data.data);
+      if (response?.data?.status === 200) {
+        let order = response.data.data;
         const options = {
-          paymentSessionId: order?.payment_session_id,
+          paymentSessionId: order?.paymentDetails?.payment_session_id,
           redirectTarget: "_modal",
         };
         cashfree.checkout(options).then(async (data) => {
@@ -64,7 +64,7 @@ const Subscription = () => {
             console.log("Payment Successful:", data);
             // Handle successful payment
             // You can update the UI or redirect the user
-            const response = await apiPost(`/subscription/verifySubscriptionPaymentStatus`, { orderId: order.order_id });
+            const response = await apiPost(`/subscription/verifySubscriptionPaymentStatus`, { orderId: order?.orderId });
 
             console.log("Verify Payment Response:", response.data);
             if (response.data.message === "Payment verified successfully") {

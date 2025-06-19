@@ -94,7 +94,14 @@ const Login = () => {
       if (response?.data?.status === 200) {
         const token = response.data.token;
         localStorage.setItem('authToken', token);
-        localStorage.setItem('user', JSON.stringify(response.data.userData));
+        const userdata = {
+          _id: response.data.userData._id,
+          username: response.data.userData.username,
+          isSunscribed: response.data.userData.is_subscribed,
+          subscriptionStartDate: response.data.userData.is_subscribed ? response.data.userData.subscription_start_date : "",
+          subscriptionEndDate: response.data.userData.is_subscribed ? response.data.userData.subscription_end_date : "",
+        }
+        localStorage.setItem('user', JSON.stringify(userdata));
         setLoading(false);
         snackbarEmitter('Logged in successfully!', 'success');
         navigate('/');
@@ -295,7 +302,7 @@ const Login = () => {
           </CustomButton>
         </form>
 
-        <Typography variant="body2" align="center" color="white" my={2}>
+        {/* <Typography variant="body2" align="center" color="white" my={2}>
           - OR -
         </Typography>
 
@@ -308,7 +315,7 @@ const Login = () => {
               />
             </Grid>
           ))}
-        </Grid>
+        </Grid> */}
       </Box>
 
       {/* Footer Typography OUTSIDE the card */}
@@ -325,7 +332,7 @@ const Login = () => {
           zIndex: 1,
         }}
       >
-       <CopyrightFooter/>
+        <CopyrightFooter />
       </Typography>
     </Box>
   );
