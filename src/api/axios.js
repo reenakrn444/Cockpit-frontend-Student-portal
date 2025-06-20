@@ -13,23 +13,23 @@ export const apiGet = async (endpoint) => {
   return await axios.get(`${BASE_URL}${endpoint}`, { headers });
 };
 
-export const apiGetToken = async (endpoint,  userType='student', data) => {
+export const apiGetToken = async (endpoint, userType = 'student', data) => {
   const tokenType = userType === 'student' ? 'authToken' : 'adminToken';
-  const token = localStorage.getItem(tokenType); 
+  const token = localStorage.getItem(tokenType);
 
   const headers = {
     'Content-Type': 'application/json',
-    ...(token && { Authorization: `Bearer ${token}` }), 
+    ...(token && { Authorization: `Bearer ${token}` }),
     // 'User-Type': userType
   };
-  
+
   return await axios.get(`${BASE_URL}${endpoint}`, { headers });
 };
 
 
 // POST
 export const apiPost = async (endpoint, data) => {
-             
+
   const headers = {
     'Content-Type': 'application/json',
   };
@@ -38,23 +38,23 @@ export const apiPost = async (endpoint, data) => {
 };
 
 export const apiPostToken = async (endpoint, data) => {
-  const token = localStorage.getItem('adminToken'); 
+  const token = localStorage.getItem('authToken');
 
   const headers = {
     'Content-Type': 'application/json',
-    ...(token && { Authorization: `Bearer ${token}` }), 
+    ...(token && { Authorization: `Bearer ${token}` }),
   };
 
   return await axios.post(`${BASE_URL}${endpoint}`, data, { headers });
 };
 
 export const apiPostUploadToken = async (endpoint, data) => {
-             
- const token = localStorage.getItem('adminToken'); 
+
+  const token = localStorage.getItem('authToken');
 
   const headers = {
     'Content-Type': 'multipart/form-data',
-    ...(token && { Authorization: `Bearer ${token}` }), 
+    ...(token && { Authorization: `Bearer ${token}` }),
   };
 
 
@@ -77,4 +77,15 @@ export const apiDelete = async (endpoint) => {
   };
 
   return await axios.delete(`${BASE_URL}${endpoint}`, { headers });
+};
+
+export const apiPostImageUpload = async (endpoint, data) => {
+  const token = localStorage.getItem('authToken');
+
+  const headers = {
+    'Content-Type': 'multipart/form-data',
+    ...(token && { Authorization: `Bearer ${token}` }),
+  };
+
+  return await axios.post(`${BASE_URL}${endpoint}`, data, { headers });
 };

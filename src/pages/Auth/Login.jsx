@@ -96,7 +96,8 @@ const Login = () => {
         const userdata = {
           _id: response.data.userData._id,
           username: response.data.userData.username,
-          isSunscribed: response.data.userData.is_subscribed,
+          profileImage: response?.data?.userData?.image || "/default-profile.png",
+          isSubscribed: response.data.userData.is_subscribed,
           subscriptionStartDate: response.data.userData.is_subscribed ? response.data.userData.subscription_start_date : "",
           subscriptionEndDate: response.data.userData.is_subscribed ? response.data.userData.subscription_end_date : "",
         }
@@ -234,7 +235,7 @@ const Login = () => {
               <TextField
                 fullWidth
                 margin="normal"
-            size="small"
+                size="small"
                 placeholder="Enter your User name"
                 value={username}
                 onChange={(e) => handleInputChange('username', e.target.value)}
