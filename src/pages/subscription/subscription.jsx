@@ -1,4 +1,4 @@
-import { apiPost } from "../../api/axios";
+import { apiPost, apiGetToken } from "../../api/axios";
 import { load } from '@cashfreepayments/cashfree-js';
 import { snackbarEmitter } from "../../components/snackbar/CustomSnackBar";
 
@@ -43,7 +43,25 @@ const Subscription = () => {
 
   initializeSdk();
 
+  const getPricingPlans = async () => {
+    try {
+      const response = await apiGetToken(`/admin/getPricing`);
+      console.log("response", response);
+
+      if (response?.data?.status === 200) {
+        return response.data.data;
+      } else {
+        snackbarEmitter("Failed to fetch subscription plans. Please try again.", "error");
+      }
+    } catch (error) { }
+  }
+
+  useEffect(() => {
+    getPricingPlans();
+  }, [])
   const handleSubscription = async (plan) => {
+
+
     const subscriptionData =
     {
       "userId": JSON.parse(localStorage.getItem("user"))._id,
@@ -78,6 +96,7 @@ const Subscription = () => {
       snackbarEmitter("Failed to create subscription. Please try again.", "error");
     }
   };
+
 
   return (
     <Box sx={{ backgroundColor: "#fafafa", minHeight: "auto", display: "flex", alignItems: "center", justifyContent: "center", }}>

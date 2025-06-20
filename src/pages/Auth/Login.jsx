@@ -163,6 +163,7 @@ const Login = () => {
               setUsername('');
               setPassword('');
             }}
+            size="small"
             sx={{
               flex: 1,
               borderRadius: '999px',
@@ -185,6 +186,7 @@ const Login = () => {
               setUsername('');
               setPassword('');
             }}
+            size="small"
             sx={{
               flex: 1,
               borderRadius: '999px',
@@ -213,6 +215,7 @@ const Login = () => {
           <TextField
             fullWidth
             margin="normal"
+            size="small"
             placeholder="Enter your Email Address"
             value={email}
             onChange={(e) => handleInputChange('email', e.target.value)}
@@ -231,6 +234,7 @@ const Login = () => {
               <TextField
                 fullWidth
                 margin="normal"
+            size="small"
                 placeholder="Enter your User name"
                 value={username}
                 onChange={(e) => handleInputChange('username', e.target.value)}
@@ -249,6 +253,7 @@ const Login = () => {
           <TextField
             fullWidth
             margin="normal"
+            size="small"
             placeholder="Enter your Password"
             type={showPassword ? 'text' : 'password'}
             value={password}

@@ -29,7 +29,6 @@ const AppContent = () => {
 
   return (
     <>
-      {/* element={<AuthRoute />} */}
       {!hideHeaderFooter && <Header />}
       <Box sx={{ flex: 1, minHeight: 'calc(100vh - 64px)' }}>
         <Routes>
