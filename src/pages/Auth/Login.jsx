@@ -95,6 +95,7 @@ const Login = () => {
         localStorage.setItem('authToken', token);
         const userdata = {
           _id: response.data.userData._id,
+          userRegisteredDate: response?.data?.userData?.createdAt,
           username: response.data.userData.username,
           profileImage: response?.data?.userData?.image || "/default-profile.png",
           isSubscribed: response.data.userData.is_subscribed,

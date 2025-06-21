@@ -1,77 +1,72 @@
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-// import { apiGetToken } from '../../api/axios';
-// import './syllabus.css';
-
-// function Syllabus({handleClick}) {
-
-//   const[syllabus, setSyllabus]= useState([]);
-
-// useEffect(()=>{
-//       const fetchSyllabus = async () => {
-//       try {
-//         const response = await apiGetToken('/getSyllabus')
-//         setSyllabus(response.data.data);
-
-//       } catch (error) {
-//         console.error('Error fetching syllabus:', error);
-//       }
-//     };
-
-//     fetchSyllabus();
-
-// },[])
-
-//   return (
-//        <>
-//       <section className="p-5 bg-light">
-//         <div className="container">
-//           <h1 className="fw-bold text-dark-blue mb-3">
-//             Discover Our DGCA Question Banks
-//           </h1>
-//           <p className="text-muted fs-5">
-//             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Faucibus in libero risus semper habitant arcu eget.
-//           </p>
-//         </div>
-//       </section>
-//       <div className="container mb-5" >
-//         <div className="course-grid-container" style={{display:'flex', gap:'50px'}}>
-//           {syllabus.map((course, index) => (
-//             <div className="course-card" key={index}>
-//               <div className="course-image">
-//                 <img src={course.imageUrl} alt={course.title} />
-//               </div>
-//               <div className="course-content">
-//                 <h4 style={{fontWeight:'bold'}}>{course.title}</h4>
-//                 <p style={{color:'#EAB308'}}>{course.category}</p>
-//                 <button className="start-btn" onClick={()=> handleClick(course.title)}>Start</button>
-//               </div>
-//             </div>
-//           ))}
-//         </div>
-//       </div>
-//     </>
-//   );
-// }
-
-// export default Syllabus;
-
 import { apiGetToken } from "../../api/axios";
+import { snackbarEmitter } from "../../components/snackbar/CustomSnackBar"
 
-const Syllabus = ({ handleClick }) => {
+const Syllabus = () => {
+  const navigate = useNavigate();
   const [syllabus, setSyllabus] = useState([]);
+  const token = localStorage.getItem("authToken");
+  const userData = JSON.parse(localStorage.getItem('user'));
+  console.log(userData, "userData22222");
+
+  const handleClick = (title, id) => {
+    console.log(title, id,  "paramssssss");
+    
+    navigate('/chapter', { state: {title, id} }); 
+  };
 
   useEffect(() => {
     const fetchSyllabus = async () => {
       try {
         const response = await apiGetToken("/getSyllabus");
         setSyllabus(response.data.data);
+        getStudentProgress();
       } catch (error) {
         console.error("Error fetching syllabus:", error);
       }
     };
+    const getStudentProgress = async () => {
+      try {
+        const response = await apiGetToken(`/task/studentTaskProgress?userId=${userData._id}`);
+        console.log(response, "responsegetStudentprogress");
+        if (response?.data?.status === 200) {
+          const taskStatus = response?.data?.data;
+          console.log(taskStatus, "taskstatus");
+        }
+      }
+      catch (err) {
+        return err
+        // snackbarEmitter("")
+      }
+    }
     fetchSyllabus();
+
   }, []);
+
+
+  const isButtonDisabled = () => {
+    // 1. No token
+    if (!token) return true;
+
+    // 2. Check user existence
+    if (!userData) return true;
+
+    const { isSubscribed, subscriptionEndDate, userRegisteredDate } = userData;
+
+    // 3. If subscribed and subscriptionEndDate exists
+    if (isSubscribed && subscriptionEndDate) {
+      const now = new Date();
+      const endDate = new Date(subscriptionEndDate);
+      return now > endDate; // disable if today > endDate
+    }
+
+    // 4. If not subscribed, check 7-day trial from userRegisteredDate
+    const regDate = new Date(userRegisteredDate);
+    const trialEndDate = new Date(regDate);
+    trialEndDate.setDate(trialEndDate.getDate() + 7);
+    const now = new Date();
+    return now > trialEndDate; // disable if trial is over
+  };
+
 
   return (
     <>
@@ -84,48 +79,10 @@ const Syllabus = ({ handleClick }) => {
           libero risus semper habitant arcu eget.
         </Typography>
 
-        {/* <Container sx={{ mb: 5 }}> */}
         <Grid container spacing={2} >
           {syllabus.map((course, index) => (
             <Grid key={index} size={{ xs: 12, sm: 6, md: 3, lg: 2 }}>
-              {/* <Card sx={{ borderRadius: 3, boxShadow: 3, height: "100%" }}>
-                <CardMedia
-                  component="img"
-                  height="180"
-                  image={course.imageUrl}
-                  alt={course.title}
-                />
-                <CardContent>
-                  <Typography variant="h6" fontWeight="bold" gutterBottom>
-                    {course.title}
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: "#EAB308", mb: 2 }}>
-                    {course.category}
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    fullWidth
-                    onClick={() => handleClick(course.title)}
-                    sx={{
-                      backgroundColor: "#f1b600",
-                      color: "#000",
-                      fontWeight: 600,
-                      width: "fit-content",
-                      padding: "5px",
-                      textTransform: "none",
-                      display: "flex",
-                      borderRadius: "8px",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      "&:hover": {
-                        backgroundColor: "#d9a600",
-                      },
-                    }}
-                  >
-                    Start
-                  </Button>
-                </CardContent>
-              </Card> */}
+
               <Card
                 sx={{
                   borderRadius: 3,
@@ -134,7 +91,6 @@ const Syllabus = ({ handleClick }) => {
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "space-between",
-                  // p: 2,
                 }}
               >
                 <CardMedia
@@ -159,7 +115,8 @@ const Syllabus = ({ handleClick }) => {
                 <Box mt="auto" py={2} display="flex" justifyContent="center">
                   <Button
                     variant="contained"
-                    onClick={() => handleClick(course.title)}
+                    onClick={() => handleClick(course.title, course?._id)}
+                    disabled={index >= 2 && isButtonDisabled()}
                     sx={{
                       backgroundColor: "#EAB308",
                       color: "#FFFFFF",
@@ -180,7 +137,6 @@ const Syllabus = ({ handleClick }) => {
             </Grid>
           ))}
         </Grid>
-        {/* </Container> */}
       </Box>
 
     </>
