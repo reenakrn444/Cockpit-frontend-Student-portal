@@ -1,4 +1,4 @@
-import { apiPost } from "../../api/axios";
+import { apiPost, apiGetToken } from "../../api/axios";
 import { load } from '@cashfreepayments/cashfree-js';
 import { snackbarEmitter } from "../../components/snackbar/CustomSnackBar";
 
@@ -33,7 +33,7 @@ const plans = [
 ];
 
 const Subscription = () => {
-
+  const [subscriptionPlans, setSubscriptionPlans] = useState();
   let cashfree;
   let initializeSdk = async () => {
     cashfree = await load({
@@ -43,7 +43,39 @@ const Subscription = () => {
 
   initializeSdk();
 
+  const getPricingPlans = async () => {
+    try {
+      const response = await apiGetToken(`/admin/getPricing`);
+      console.log("response", response);
+
+      if (response?.data?.status === 200) {
+        console.log("response.data.data", response.data.data);
+        const data = response.data.data;
+        let plans = data.map((plan) => {
+         return {
+              title: plan?.planName,
+              price: plan?.price,
+              days: plan?.duration,
+              subtitle: "per Year",
+              benefits: ["Tests", "Trainings", "Full Access"],
+              trialText: "Get 7-day free trial (autopay)",
+              cancelNote: "Cancellation: Cancel within 15 days or ₹1999 will deduct from the account",
+            }
+        })
+        console.log("plans", plans);
+        setSubscriptionPlans(plans)
+      } else {
+        snackbarEmitter("Failed to fetch subscription plans. Please try again.", "error");
+      }
+    } catch (error) { }
+  }
+
+  useEffect(() => {
+    getPricingPlans();
+  }, [])
   const handleSubscription = async (plan) => {
+
+
     const subscriptionData =
     {
       "userId": JSON.parse(localStorage.getItem("user"))._id,
@@ -79,6 +111,7 @@ const Subscription = () => {
     }
   };
 
+
   return (
     <Box sx={{ backgroundColor: "#fafafa", minHeight: "auto", display: "flex", alignItems: "center", justifyContent: "center", }}>
       <Container maxWidth="md" sx={{ my: 5, }}>
@@ -94,7 +127,7 @@ const Subscription = () => {
           Find the perfect plan to support your learning journey. Our pricing options are thoughtfully designed to fit the needs of students.
         </Typography>
         <Grid container spacing={4}>
-          {plans.map((plan, idx) => (
+          {subscriptionPlans?.map((plan, idx) => (
             <Grid size={{ xs: 12, sm: 4 }} key={idx}>
               <Card
                 elevation={0}

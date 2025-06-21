@@ -6,19 +6,11 @@ import FooterSection from '../../components/Footer/footer';
 import { apiGet } from '../../api/axios';
 import Syllabus from '../../components/syllabus/Syllabus';
 
-function TrainingSyllabus() {
-
-   const navigate = useNavigate();
-
-  const handleClick = (params) => {
-    navigate('/chapter', { state: params }); 
-  };
-        
+const TrainingSyllabus = () => {
+  
   return (
     <>
-      
-      <Syllabus handleClick={handleClick}/>
-     
+      <Syllabus/>
     </>
   );
 }

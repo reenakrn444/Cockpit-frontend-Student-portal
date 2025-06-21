@@ -2,11 +2,17 @@ import { apiGet } from '../../api/axios';
 
 const ChapterSection = () => {
     const [activeBook, setActiveBook] = useState('');
+    const [bookId, setBookId] = useState("");
     const [books, setBooks] = useState([]);
     const [chapters, setChapters] = useState([]);
 
     const location = useLocation();
-    const syllabusTitle = location.state;
+    const locationData = location.state
+    const syllabusTitle = locationData?.title;
+    const syllabusId = locationData?.id;
+
+    console.log(locationData, "locationData", syllabusTitle, "syllabusTitle");
+
     const navigate = useNavigate();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -40,8 +46,11 @@ const ChapterSection = () => {
 
     const handleChapterClick = (chapter) => {
         const user = localStorage.getItem('user');
+        console.log(chapter, "chapter");
+        const chapterId = chapter?._id
+
         if (user) {
-            navigate(`/trainingQuestion/${chapter.syllabus}/${chapter.book}/${chapter.chaptername}`);
+            navigate(`/trainingQuestion/${chapter.syllabus}/${chapter.book}/${chapter.chaptername}`, { state: { syllabusTitle, syllabusId, bookId, chapterId } });
         } else {
             navigate('/login');
         }
@@ -51,7 +60,11 @@ const ChapterSection = () => {
         <Box sx={{ mt: 0 }}>
             <Box sx={{ p: 4, backgroundColor: '#f5f5f5' }}>
                 <Typography variant="h4" fontWeight={700} color="#0f2848" gutterBottom>
-                    AIR Navigation Question Banks
+                    {/* {syllabusTitle} Question Banks */}
+                    {`${syllabusTitle
+                        .split(' ')
+                        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                        .join(' ')} Question Banks`}
                 </Typography>
             </Box>
 
@@ -59,10 +72,15 @@ const ChapterSection = () => {
                 <Box className="custom-tabs" component="ul" sx={{ listStyle: 'none', p: 0, m: 0, display: 'flex', overflowX: 'auto', borderRadius: '10px 10px 0 0', backgroundColor: '#F5F5F5' }}>
                     {books.map((book, index) => (
                         <Box component="li" className="nav-item" key={index} sx={{ flex: 1 }}>
+
                             <Button
                                 fullWidth
                                 className={`nav-link ${activeBook === book.bookTitle ? 'active' : ''}`}
-                                onClick={() => setActiveBook(book.bookTitle)}
+                                onClick={() => {
+                                    { console.log(book, "booksdata") }
+                                    setActiveBook(book.bookTitle);
+                                    setBookId(book?._id);
+                                }}
                                 sx={{
                                     backgroundColor: activeBook === book.bookTitle ? '#f5f5f5' : '#0f2848',
                                     color: activeBook === book.bookTitle ? '#fbbd00' : '#fff',

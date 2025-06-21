@@ -1,6 +1,6 @@
 import { apiGet, apiPostToken } from "../../api/axios";
 import { snackbarEmitter } from "../../components/snackbar/CustomSnackBar";
-import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import { CustomButton } from "../../components";
 
 const TrainingQuestion = () => {
   const [questions, setQuestions] = useState([]);
@@ -10,7 +10,13 @@ const TrainingQuestion = () => {
   const [helpModalOpen, setHelpModalOpen] = useState(false);
   const [currentQuestionId, setCurrentQuestionId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
   const questionsPerPage = 5;
+
+  const location = useLocation();
+  const { syllabusTitle, syllabusId, bookId, chapterId } = location.state
+  console.log(syllabusId, bookId, chapterId, "locationDatasyllabusId, bookId, chapterId");
+
 
   const userId = JSON.parse(localStorage.getItem("user"));
   const { syllabusName, bookName, chapterName } = useParams();
@@ -53,6 +59,7 @@ const TrainingQuestion = () => {
   };
 
   const handleReportApiCall = async (questionId, value) => {
+    setLoading(true);
     const res = await apiPostToken("/reportQuestion", {
       questionId,
       userId: userId?._id,
@@ -60,11 +67,13 @@ const TrainingQuestion = () => {
     });
 
     if (res?.data?.status === 200) {
+      setLoading(false);
       snackbarEmitter("Your request has been submitted successfully.", "success");
       setHelpModalOpen(false);
       setExplanations((prev) => ({ ...prev, [questionId]: "" }));
       setShowExplanationInput((prev) => ({ ...prev, [questionId]: false }));
     } else {
+      setLoading(false);
       snackbarEmitter("Failed to submit your request. Please try again.", "error");
       setHelpModalOpen(false);
       setExplanations((prev) => ({ ...prev, [questionId]: "" }));
@@ -97,13 +106,20 @@ const TrainingQuestion = () => {
   };
 
   const handleSubmitAllAnswers = async () => {
-    const res = await apiPostToken("/submitAllAnswers", {
-      userId: userId?._id,
-      answers: selectedAnswers,
+    const res = await apiPostToken("/task/createTask", {
+      "title": "Complete Chapter 1",
+      "description": "Finish the first chapter of the book",
+      userId : userId?._id,
+      "syllabusId": syllabusId,
+      "chapterId": chapterId,
+      "bookId": bookId,
+      "taskProgress": "completed",
+      "taskCompletionDate": new Date().toISOString().slice(0, 10)
     });
 
     if (res?.data?.status === 200) {
       snackbarEmitter("All answers submitted successfully.", "success");
+      navigate('/chapter', { state: { syllabusTitle, syllabusId } });
     } else {
       snackbarEmitter("Failed to submit answers.", "error");
     }
@@ -232,6 +248,8 @@ const TrainingQuestion = () => {
 
                 {showExplanationInput[question._id] && (
                   <Box sx={{ p: 2, display: "flex", alignItems: "center", gap: 2 }}>
+                    <Typography variant="subtitle2" fontWeight="bold" color="#0081D7">
+                      File your answer</Typography>
                     <TextField
                       placeholder="Write your Explanation"
                       fullWidth
@@ -239,12 +257,16 @@ const TrainingQuestion = () => {
                       value={explanations[question._id] || ""}
                       onChange={(e) => handleExplanationChange(question._id, e.target.value)}
                     />
-                    <Button
+                    <CustomButton
                       variant="contained"
+                      type="submit"
+                      bgColor="#f1b600"
+                      sx={{ width: "fit-content" }}
+                      loading={loading}
                       onClick={() => handleSubmitExplanation(question._id)}
                     >
                       Submit
-                    </Button>
+                    </CustomButton>
                   </Box>
                 )}
               </Box>
@@ -263,12 +285,12 @@ const TrainingQuestion = () => {
 
         {Object.keys(selectedAnswers).length === filteredQuestions.length && (
           <Box sx={{ mt: 4, display: "flex", justifyContent: "center" }}>
-            <Button variant="contained" color="success" 
-            onClick={handleSubmitAllAnswers}>
+            <Button variant="contained" color="success"
+              onClick={handleSubmitAllAnswers}>
               Submit All Answers
             </Button>
           </Box>
-         )}
+        )}
       </Box>
 
       <Modal open={helpModalOpen} onClose={() => setHelpModalOpen(false)}>

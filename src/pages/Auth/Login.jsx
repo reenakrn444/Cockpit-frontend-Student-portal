@@ -95,8 +95,10 @@ const Login = () => {
         localStorage.setItem('authToken', token);
         const userdata = {
           _id: response.data.userData._id,
+          userRegisteredDate: response?.data?.userData?.createdAt,
           username: response.data.userData.username,
-          isSunscribed: response.data.userData.is_subscribed,
+          profileImage: response?.data?.userData?.image || "/default-profile.png",
+          isSubscribed: response.data.userData.is_subscribed,
           subscriptionStartDate: response.data.userData.is_subscribed ? response.data.userData.subscription_start_date : "",
           subscriptionEndDate: response.data.userData.is_subscribed ? response.data.userData.subscription_end_date : "",
         }
@@ -163,6 +165,7 @@ const Login = () => {
               setUsername('');
               setPassword('');
             }}
+            size="small"
             sx={{
               flex: 1,
               borderRadius: '999px',
@@ -185,6 +188,7 @@ const Login = () => {
               setUsername('');
               setPassword('');
             }}
+            size="small"
             sx={{
               flex: 1,
               borderRadius: '999px',
@@ -213,6 +217,7 @@ const Login = () => {
           <TextField
             fullWidth
             margin="normal"
+            size="small"
             placeholder="Enter your Email Address"
             value={email}
             onChange={(e) => handleInputChange('email', e.target.value)}
@@ -231,6 +236,7 @@ const Login = () => {
               <TextField
                 fullWidth
                 margin="normal"
+                size="small"
                 placeholder="Enter your User name"
                 value={username}
                 onChange={(e) => handleInputChange('username', e.target.value)}
@@ -249,6 +255,7 @@ const Login = () => {
           <TextField
             fullWidth
             margin="normal"
+            size="small"
             placeholder="Enter your Password"
             type={showPassword ? 'text' : 'password'}
             value={password}

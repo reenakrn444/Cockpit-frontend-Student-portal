@@ -29,9 +29,8 @@ const AppContent = () => {
 
   return (
     <>
-      {/* element={<AuthRoute />} */}
       {!hideHeaderFooter && <Header />}
-      <Box sx={{ flex: 1, minHeight: 'calc(100vh - 64px)' }}>
+      <Box sx={{ flex: 1, minHeight: 'calc(80vh - 64px)' }}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />

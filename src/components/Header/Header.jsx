@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import { DayCalculation } from "../DayCalculation/Daycalculation";
+
 
 function Header() {
   const navigate = useNavigate();
@@ -10,9 +11,45 @@ function Header() {
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
+  const [userData, setUserData] = useState({
+    username: "",
+    email: "",
+    userId: user?._id,
+    profileImage: ""
+  });
+
+  const [subscriptionInfo, setSubscriptionInfo] = useState({
+    subscription: "",
+    daysLeft: 0,
+    subscriptionStartDate: "",
+    subscriptionEndDate: "",
+  });
+
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open);
   };
+ 
+
+  useEffect(() => {
+    const updateUserFromStorage = () => {
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+      if (storedUser) {
+        setUserData({
+          username: storedUser.username,
+          email: storedUser.email,
+          userId: storedUser._id,
+          profileImage: storedUser.profileImage || "/default-profile.png",
+        });
+      }
+    };
+
+    // Initial call
+    updateUserFromStorage();
+
+    // Update on custom event
+    window.addEventListener("userUpdated", updateUserFromStorage);
+    return () => window.removeEventListener("userUpdated", updateUserFromStorage);
+  }, []);
 
   const navItems = [
     { text: "Home", path: "/" },
@@ -22,7 +59,7 @@ function Header() {
   ];
 
   const drawerContent = (
-    <Box sx={{ width: 200 }} role="presentation">
+    <Box sx={{ width: 200, mt: 5 }} role="presentation">
 
       <Box sx={{ display: "flex", justifyContent: "flex-end", p: 1 }}>
         <IconButton onClick={toggleDrawer(false)}>
@@ -41,8 +78,11 @@ function Header() {
         <ListItem disablePadding>
           {user ? (
             <ListItemButton onClick={() => navigate("/userprofile")}>
-              <Avatar sx={{ mr: 1 }} />
-              <ListItemText primary={user.username} />
+              <Avatar
+                src={userData?.profileImage}
+                sx={{ width: 56, height: 56, cursor: "pointer" }}
+              />
+              <ListItemText primary={userData?.username} />
             </ListItemButton>
           ) : (
             <ListItemButton component={Link} to="/login">
@@ -132,8 +172,11 @@ function Header() {
                   }}
                   onClick={() => navigate("/userprofile")}
                 >
-                  <Avatar />
-                  <Typography>{user.username}</Typography>
+                  <Avatar
+                    src={userData?.profileImage}
+                    sx={{ width: 56, height: 56, cursor: "pointer" }}
+                  />
+                  <Typography>{userData.username}</Typography>
                 </Box>
               ) : (
                 <Button
