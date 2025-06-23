@@ -1,6 +1,7 @@
 import { apiGet, apiPostToken } from "../../api/axios";
 import { snackbarEmitter } from "../../components/snackbar/CustomSnackBar";
 import { CustomButton } from "../../components";
+import { toCapitalize } from "../../Helper/convertUpperCase";
 
 const TrainingQuestion = () => {
   const [questions, setQuestions] = useState([]);
@@ -127,24 +128,30 @@ const TrainingQuestion = () => {
     }
   };
 
+
   return (
-    <Container>
+    <Container maxWidth="xl">
       <Grid container spacing={2} justifyContent="center" sx={{ mt: 3 }}>
-        <Grid size={{ xs: 12, md: 8 }}>
-          <Typography variant="h4" textAlign="center" fontFamily="Exo">
-            Discover Our DGCA Question Banks
+        <Grid size={{ xs: 12, md: 12 }}>
+          <Typography variant="h4" textAlign="left">
+            {`${toCapitalize(syllabusTitle)}, ${toCapitalize(bookName)} Question Banks`}
           </Typography>
           <Typography
             variant="h5"
             textAlign="center"
-            color="#183251"
-            fontFamily="Exo"
+            sx={{
+              color: '#EAB308',
+              fontWeight: 700,
+              letterSpacing: '2px',
+              fontSize: "40px",
+              textTransform: 'uppercase',
+              mt: 2
+            }}
           >
             {chapterName}
           </Typography>
         </Grid>
       </Grid>
-
       <Box sx={{ p: 3 }}>
         <Grid container spacing={3} justifyContent="center">
           {paginatedQuestions.map((question, index) => (
@@ -294,7 +301,6 @@ const TrainingQuestion = () => {
           </Box>
         )}
       </Box>
-
       <Modal open={helpModalOpen} onClose={() => setHelpModalOpen(false)}>
         <Box
           sx={{

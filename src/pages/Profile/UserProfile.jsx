@@ -1,7 +1,7 @@
 import { apiGetToken, apiPostToken, apiPostImageUpload } from "../../api/axios";
 import { snackbarEmitter } from "../../components/snackbar/CustomSnackBar";
 import { CustomButton } from "../../components";
-import { DayCalculation, formatedDate } from "../../components/DayCalculation/Daycalculation";
+import { DayCalculation, formatedDate } from "../../Helper/DayCalculation/Daycalculation";
 
 const UserProfile = () => {
   const user = JSON.parse(localStorage.getItem("user"));

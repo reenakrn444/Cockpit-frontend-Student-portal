@@ -1,11 +1,12 @@
-import { apiGet } from '../../api/axios';
+import { apiGet, apiGetToken } from '../../api/axios';
 
 const ChapterSection = () => {
     const [activeBook, setActiveBook] = useState('');
     const [bookId, setBookId] = useState("");
     const [books, setBooks] = useState([]);
     const [chapters, setChapters] = useState([]);
-
+    const userData = JSON.parse(localStorage.getItem('user'));
+    const [completedChapterIds, setCompletedChapterIds] = useState(new Set());
     const location = useLocation();
     const locationData = location.state
     const syllabusTitle = locationData?.title;
@@ -17,6 +18,36 @@ const ChapterSection = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
+
+
+    const getStudentProgress = async () => {
+        try {
+            const response = await apiGetToken(`/task/studentTaskProgress?userId=${userData._id}`);
+            console.log(response, "responsegetStudentprogress");
+            if (response?.data?.status === 200) {
+                const taskStatus = response?.data?.data;
+                console.log(taskStatus, "taskstatus");
+                const completedIds = new Set();
+                // setUserSyllabuses(taskStatus?.syllabuses || []);
+                taskStatus?.syllabuses?.forEach((syllabus) => {
+                    syllabus.books?.forEach((book) => {
+                        book.chapters?.forEach((chapter) => {
+
+                            if (chapter.isTaskCompleted) {
+                                console.log(chapter, "chapter222");
+                                completedIds.add(chapter._id);
+                            }
+                        });
+                    });
+                });
+                setCompletedChapterIds(completedIds); // ✅ update state
+            }
+        }
+        catch (err) {
+            return err
+            // snackbarEmitter("")
+        }
+    }
     useEffect(() => {
         const fetchBooksAndChapters = async () => {
             try {
@@ -33,6 +64,7 @@ const ChapterSection = () => {
 
                 const chapterResponse = await apiGet(`/chaptersBySyllabusId/${syllabusId}`);
                 setChapters(chapterResponse.data.data);
+                getStudentProgress();
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -65,13 +97,14 @@ const ChapterSection = () => {
                     {`${syllabusTitle
                         .split(' ')
                         .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-                        .join(' ')} Question Banks`}
+                        .join(' ')} Chapters`}
                 </Typography>
             </Box>
 
             <Box className="tabs-section" sx={{ p: isMobile ? 2 : 4, mt: 2, borderRadius: 2 }}>
                 <Box className="custom-tabs" component="ul" sx={{ listStyle: 'none', p: 0, m: 0, display: 'flex', overflowX: 'auto', borderRadius: '10px 10px 0 0', backgroundColor: '#F5F5F5' }}>
                     {books.map((book, index) => (
+
                         <Box component="li" className="nav-item" key={index} sx={{ flex: 1 }}>
                             {/* {console.log(book)} */}
 
@@ -105,14 +138,65 @@ const ChapterSection = () => {
                     ))}
                 </Box>
 
-                <Box className="tab-description" sx={{ pt: 3, px: isMobile ? 1 : 4, backgroundColor: '#F5F5F5', }}>
-                    <Typography>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </Typography>
-                </Box>
 
                 <Box className="chapter-list" sx={{ px: isMobile ? 1 : 4, py: 3, borderRadius: '0 0 10px 10px', backgroundColor: '#F5F5F5', }}>
-                    {filteredChapters.map((chapter, index) => (
+                    {filteredChapters.map((chapter, index) => {
+                        console.log(chapter, "chapter44444");
+
+                        const isCompleted = completedChapterIds.has(chapter._id);
+                        {
+                            console.log(isCompleted, "isCompletedisCompleted");
+                        }
+                        return (
+                            <Paper
+                                key={index}
+                                onClick={() => handleChapterClick(chapter)}
+                                sx={{
+                                    backgroundColor: '#0f2b50',
+                                    color: 'white',
+                                    p: 2,
+                                    mb: 2,
+                                    borderRadius: 2,
+                                    fontWeight: 500,
+                                    cursor: 'pointer',
+                                    display: "flex",
+                                    justifyContent: "space-around",
+                                    alignItems:"center"
+                                }}
+                            >
+                                <Typography sx={{ fontWeight: 500 }}>
+                                    <Box sx={{ display: "flex", maxWidth: 300, mx: 'auto' }}>
+                                        Chapter {chapter.chapterno}: {chapter.chaptername.toUpperCase()}
+                                        {/* {chapter.chaptername} */}
+                                    </Box>
+                                </Typography>
+                                {isCompleted && (
+                                    <CheckCircleIcon sx={{ color: '#27C76F', fontSize: 32 }} />
+                                )}
+                            </Paper>
+
+                            // <Box
+                            //     key={chapter._id}
+                            //     sx={{
+                            //         backgroundColor: '#132F4C',
+                            //         borderRadius: '12px',
+                            //         px: 3,
+                            //         py: 2,
+                            //         display: 'flex',
+                            //         justifyContent: 'space-between',
+                            //         alignItems: 'center',
+                            //         color: '#fff',
+                            //     }}
+                            // >
+                            //     <Typography sx={{ fontWeight: 500, fontSize: 16 }}>
+                            //         Chapter {chapter.chapterno}: {chapter.chaptername.toUpperCase()}
+                            //     </Typography>
+
+                            //     {isCompleted && (
+                            //         <CheckCircleIcon sx={{ color: '#27C76F', fontSize: 32 }} />
+                            //     )}
+                            // </Box>
+                        );
                         <Paper
                             key={index}
                             onClick={() => handleChapterClick(chapter)}
@@ -133,7 +217,7 @@ const ChapterSection = () => {
                                 </Box>
                             </Typography>
                         </Paper>
-                    ))}
+                    })}
                 </Box>
             </Box>
         </Box>

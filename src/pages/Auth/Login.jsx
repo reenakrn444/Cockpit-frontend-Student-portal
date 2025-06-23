@@ -1,7 +1,7 @@
 import { apiPost } from '../../api/axios';
 import { CustomButton } from '../../components';
 import { snackbarEmitter } from '../../components/snackbar/CustomSnackBar';
-import CopyrightFooter from '../../components/copyrighttext';
+import CopyrightFooter from '../../Helper/copyrighttext';
 
 const Login = () => {
   const [activeForm, setActiveForm] = useState('login');

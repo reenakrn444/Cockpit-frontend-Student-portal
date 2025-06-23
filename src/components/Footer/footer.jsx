@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import "./footer.css";
-import CopyrightFooter from '../copyrighttext';
+import CopyrightFooter from '../../Helper/copyrighttext';
 
 
 function FooterSection() {
@@ -20,8 +20,8 @@ function FooterSection() {
       }}
     >
       <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
-        <Grid container spacing={4} justifyContent={{ xs: 'center', md: 'flex-start' }} textAlign={{ xs: 'center', md: 'left' }}>
-          <Grid size={{ xs: 12, sm: 12, md: 4, xl: 4, lg: 4 }} item>
+        <Grid container spacing={2} justifyContent={{ xs: 'center', md: 'flex-start' }} textAlign={{ xs: 'center', md: 'left' }}>
+          <Grid size={{ xs: 12, sm: 12, md: 4}} item>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: { xs: 'center', md: 'flex-start' }, mb: 2 }}>
               <img src="images/logo.png" alt="plane" style={{ height: 65 }} />
             </Box>
@@ -30,15 +30,15 @@ function FooterSection() {
             </Typography>
           </Grid>
 
-          <Grid size={{ xs: 12, sm: 12, md: 3, xl: 3, lg: 3 }} className="footer-platforms">
+          {/* <Grid size={{ xs: 12, sm: 12, md: 3, xl: 3, lg: 3 }} className="footer-platforms">
             <Typography variant="h6" sx={{ color: '#ffc107', mb: 2 }}>
               Resources
             </Typography>
             <Typography variant="body1">Press</Typography>
             <Typography variant="body1">FAQ</Typography>
-          </Grid>
+          </Grid> */}
 
-          <Grid size={{ xs: 12, sm: 12, md: 2, xl: 2, lg: 2 }} className="footer-platforms">
+          <Grid size={{ xs: 12, sm: 12, md: 4 }} className="footer-platforms">
             <Typography variant="h6" sx={{ color: '#ffc107', mb: 2 }}>
               Platforms
             </Typography>
@@ -57,10 +57,12 @@ function FooterSection() {
                 Test
               </Link>
             </Typography>
-            <Typography variant="body1">Partner with us</Typography>
+            <Typography variant="body1"> <Link to="/test" style={{ textDecoration: 'none', color: 'white' }}>
+              Syllabus
+            </Link></Typography>
           </Grid>
 
-          <Grid size={{ xs: 12, sm: 12, md: 3, xl: 3, lg: 3 }} className="footer-platforms">
+          <Grid size={{ xs: 12, sm: 12, md: 4 }} className="footer-platforms">
             <Typography variant="h6" sx={{ color: '#ffc107', mb: 2 }}>
               CONTACT US
             </Typography>
