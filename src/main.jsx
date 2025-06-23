@@ -5,12 +5,12 @@ import theme from './Theme/theme';
 import { CustomSnackbarProvider } from './components';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <CustomSnackbarProvider>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <App />
       </ThemeProvider>
     </CustomSnackbarProvider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
