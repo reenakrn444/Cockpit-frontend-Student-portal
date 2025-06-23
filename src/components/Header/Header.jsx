@@ -55,7 +55,7 @@ function Header() {
     { text: "Home", path: "/" },
     { text: "Training", path: "/training" },
     // { text: 'Test', path: '/test' },
-    { text: "Pricing", path: "/pricing" },
+    // { text: "Pricing", path: "/pricing" },
   ];
 
   const drawerContent = (
