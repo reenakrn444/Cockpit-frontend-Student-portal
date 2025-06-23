@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { DayCalculation } from "../DayCalculation/Daycalculation";
+import { DayCalculation } from "../../Helper/DayCalculation/Daycalculation";
 
 
 function Header() {
@@ -28,7 +28,7 @@ function Header() {
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open);
   };
- 
+
 
   useEffect(() => {
     const updateUserFromStorage = () => {
@@ -86,10 +86,25 @@ function Header() {
             </ListItemButton>
           ) : (
             <ListItemButton component={Link} to="/login">
-              <Button variant="outlined" color="warning" sx={{ width: "100%" }}>
+              <Button variant="outlined" component={Link}
+                to="/login"
+                // color="warning"
+                sx={{
+                  border: "2px solid #EAB308", // custom yellow
+                  color: "#EAB308",
+                  fontWeight: "500",
+                  borderRadius: "8px",
+                  py: 1.5,
+                  textTransform: "none",
+                  display: "flex",
+                  alignItems: "center",
+                }}>
                 Get Boarding Pass
               </Button>
+
             </ListItemButton>
+
+
           )}
         </ListItem>
       </List>
@@ -116,7 +131,8 @@ function Header() {
       >
         {/* Logo */}
         <Grid item>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box component={Link}
+                  to="/" sx={{ display: "flex", alignItems: "center" }}>
             <img
               src="./images/logo.svg"
               alt="Plane"
@@ -179,15 +195,30 @@ function Header() {
                   <Typography>{userData.username}</Typography>
                 </Box>
               ) : (
-                <Button
-                  variant="outlined"
-                  color="warning"
-                  sx={{ px: 4, py: 1 }}
-                  component={Link}
+                <Button variant="outlined" component={Link}
                   to="/login"
-                >
+                  // color="warning"
+                  sx={{
+                    border: "2px solid #EAB308", // custom yellow
+                    color: "#EAB308",
+                    fontWeight: "500",
+                    borderRadius: "8px",
+                    py: 1.5,
+                    textTransform: "none",
+                    display: "flex",
+                    alignItems: "center",
+                  }}>
                   Get Boarding Pass
                 </Button>
+                // <Button
+                //   variant="outlined"
+                //   color="warning"
+                //   sx={{ px: 4, py: 1 }}
+                //   component={Link}
+                //   to="/login"
+                // >
+                //   Get Boarding Pass
+                // </Button>
               )}
             </Grid>
           </>

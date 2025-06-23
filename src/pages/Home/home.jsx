@@ -87,7 +87,8 @@ function HomeSection() {
 
                 <Button
                   variant="contained"
-                  sx={{ mt: 2, px: 4, py: 1.5 }}
+                  sx={{ mt: 2, px: 4, py: 1.5 ,textTransform: "none",}}
+                  
                   onClick={handleClick}
                 >
                   Get Started
@@ -176,11 +177,11 @@ function HomeSection() {
       <section>
         <Box
           className="testimonials"
-          sx={{ py: 8, backgroundColor: "#f5f5f5" }}
+          sx={{ py: 4, backgroundColor: "#f5f5f5" }}
         >
           <Container>
-            <Grid container spacing={4} justifyContent="center">
-              <Grid size={{ xs: 12, sm: 12, md: 8, lg: 8, xl: 8 }}>
+            {/* <Grid container spacing={4} justifyContent="center"> */}
+              {/* <Grid size={{ xs: 12, sm: 12, md: 8, lg: 8, xl: 8 }}>
                 <Typography className="testimonial-heading" fontSize={{ xs: "30px", sm: "30px", md: "40px", lg: "40px", xl: "40px" }}>
                   Aviators Review
                 </Typography>
@@ -191,17 +192,17 @@ function HomeSection() {
                   dreams.
                 </Typography>
               </Grid>
-            </Grid>
-            <Grid container spacing={3} justifyContent="center" sx={{ mt: 6 }}>
+            </Grid> */}
+            {/* <Grid container spacing={3} justifyContent="center" sx={{ mt: 6 }}>
               <Grid size={{ xs: 12, sm: 6, md: 6 }}>
                 <TestimonialCard />
               </Grid>
               <Grid size={{ xs: 12, sm: 6, md: 6 }}>
                 <TestimonialCard />
               </Grid>
-            </Grid>
+            </Grid> */}
 
-            <Grid container spacing={4} justifyContent="center" sx={{ mt: 6 }}>
+            <Grid container spacing={4} justifyContent="center" sx={{ mt: 4 }}>
               <Grid item size={{ xs: 12, md: 6 }}>
                 <Typography
                   variant="h4"

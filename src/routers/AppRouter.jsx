@@ -14,6 +14,7 @@ import ResetPassword from '../pages/Auth/ResetPassword';
 import ReportPage from '../pages/Report/ReportPage';
 import ChangePassword from '../pages/Profile/ChangePassword';
 import ThemeSettings from '../pages/Profile/ThemeSetting';
+import ComingSoon from '../pages/CommingSoon/commingSoon';
 
 
 const AppContent = () => {
@@ -43,6 +44,9 @@ const AppContent = () => {
           <Route path="/testRules" element={<TestRules />} />
           <Route path="/testpage" element={<TestPage2 />} />
           <Route path="/pricing" element={<Subscription />} />
+          <Route path="/syllabus" element={<ComingSoon />} />
+          <Route path="/taketest" element={<ComingSoon />} />
+
           <Route element={<AuthRoute />}>
             <Route path="/userprofile" element={<UserProfile />} />
             <Route path="/report" element={<ReportPage />} />
