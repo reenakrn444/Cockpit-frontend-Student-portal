@@ -131,7 +131,8 @@ function Header() {
       >
         {/* Logo */}
         <Grid item>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box component={Link}
+                  to="/" sx={{ display: "flex", alignItems: "center" }}>
             <img
               src="./images/logo.svg"
               alt="Plane"

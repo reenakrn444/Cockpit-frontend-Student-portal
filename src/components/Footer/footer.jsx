@@ -21,8 +21,9 @@ function FooterSection() {
     >
       <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
         <Grid container spacing={2} justifyContent={{ xs: 'center', md: 'flex-start' }} textAlign={{ xs: 'center', md: 'left' }}>
-          <Grid size={{ xs: 12, sm: 12, md: 4}} item>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: { xs: 'center', md: 'flex-start' }, mb: 2 }}>
+          <Grid size={{ xs: 12, sm: 12, md: 4 }} item>
+            <Box component={Link}
+              to="/" sx={{ display: 'flex', alignItems: 'center', justifyContent: { xs: 'center', md: 'flex-start' }, mb: 2 }}>
               <img src="images/logo.png" alt="plane" style={{ height: 65 }} />
             </Box>
             <Typography variant="h4" sx={{ fontSize: { xs: '1.5rem', md: '2rem' } }}>
@@ -53,18 +54,18 @@ function FooterSection() {
               </Link>
             </Typography>
             <Typography variant="body1">
-              <Link to="/test" style={{ textDecoration: 'none', color: 'white' }}>
+              <Link to="/taketest" style={{ textDecoration: 'none', color: 'white' }}>
                 Test
               </Link>
             </Typography>
-            <Typography variant="body1"> <Link to="/test" style={{ textDecoration: 'none', color: 'white' }}>
+            <Typography variant="body1"> <Link to="/syllabus" style={{ textDecoration: 'none', color: 'white' }}>
               Syllabus
             </Link></Typography>
           </Grid>
 
           <Grid size={{ xs: 12, sm: 12, md: 4 }} className="footer-platforms">
             <Typography variant="h6" sx={{ color: '#ffc107', mb: 2 }}>
-              CONTACT US
+              Contact Us
             </Typography>
             <Typography variant="body1">Tel: + (91) 0000000000</Typography>
             <Typography variant="body1">Mail: support@gmail.com</Typography>
