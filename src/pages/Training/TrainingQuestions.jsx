@@ -24,7 +24,9 @@ const TrainingQuestion = () => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await apiGet("/questions");
+        // const response = await apiGet("/questions");
+        const response = await apiGet(`/questionsByChapterId/${chapterId}`);
+
         setQuestions(response.data.data);
       } catch (error) {
         console.error("Error fetching questions:", error);
@@ -109,7 +111,7 @@ const TrainingQuestion = () => {
     const res = await apiPostToken("/task/createTask", {
       "title": "Complete Chapter 1",
       "description": "Finish the first chapter of the book",
-      userId : userId?._id,
+      userId: userId?._id,
       "syllabusId": syllabusId,
       "chapterId": chapterId,
       "bookId": bookId,

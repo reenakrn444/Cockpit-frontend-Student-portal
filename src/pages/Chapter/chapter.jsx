@@ -24,11 +24,15 @@ const ChapterSection = () => {
                 const fetchedBooks = bookResponse.data.books;
                 setBooks(fetchedBooks);
 
-                const defaultBook = fetchedBooks[0]?.bookTitle || '';
-                setActiveBook(defaultBook);
+                const defaultBook = fetchedBooks[0] || '';
+                setActiveBook(defaultBook?.bookTitle);
+                setBookId(defaultBook?._id)
 
-                const chapterResponse = await apiGet('/getChapters');
-                setChapters(chapterResponse.data.chapters);
+                // const chapterResponse = await apiGet('/getChapters');
+                // setChapters(chapterResponse.data.chapters);
+
+                const chapterResponse = await apiGet(`/chaptersBySyllabusId/${syllabusId}`);
+                setChapters(chapterResponse.data.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -38,11 +42,8 @@ const ChapterSection = () => {
     }, []);
 
     const filteredChapters = useMemo(() => {
-        return chapters.filter(
-            (chapter) =>
-                chapter.book === activeBook && chapter.syllabus === syllabusTitle
-        );
-    }, [chapters, activeBook, syllabusTitle]);
+        return chapters.filter((chapter) => chapter.book === activeBook);
+    }, [chapters, bookId, syllabusTitle]);
 
     const handleChapterClick = (chapter) => {
         const user = localStorage.getItem('user');
@@ -72,18 +73,19 @@ const ChapterSection = () => {
                 <Box className="custom-tabs" component="ul" sx={{ listStyle: 'none', p: 0, m: 0, display: 'flex', overflowX: 'auto', borderRadius: '10px 10px 0 0', backgroundColor: '#F5F5F5' }}>
                     {books.map((book, index) => (
                         <Box component="li" className="nav-item" key={index} sx={{ flex: 1 }}>
+                            {/* {console.log(book)} */}
 
                             <Button
                                 fullWidth
-                                className={`nav-link ${activeBook === book.bookTitle ? 'active' : ''}`}
+                                className={`nav-link ${bookId === book._id ? 'active' : ''}`}
                                 onClick={() => {
                                     { console.log(book, "booksdata") }
                                     setActiveBook(book.bookTitle);
                                     setBookId(book?._id);
                                 }}
                                 sx={{
-                                    backgroundColor: activeBook === book.bookTitle ? '#f5f5f5' : '#0f2848',
-                                    color: activeBook === book.bookTitle ? '#fbbd00' : '#fff',
+                                    backgroundColor: bookId === book._id ? '#f5f5f5' : '#0f2848',
+                                    color: bookId === book._id ? '#fbbd00' : '#fff',
                                     border: 'none',
                                     borderRight: '1px solid #1c3d63',
                                     padding: '12px 20px',
