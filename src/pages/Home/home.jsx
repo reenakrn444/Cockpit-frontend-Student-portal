@@ -65,7 +65,7 @@ function HomeSection() {
   return (
     <>
       <section>
-        <Container>
+        <Container maxWidth="xl">
           <Box className="hero-section" sx={{ py: { md: 10, xs: 0 } }}>
             <Grid
               container
@@ -127,7 +127,7 @@ function HomeSection() {
             </Typography>
             <Grid container spacing={4} mt={3}>
               {Features?.map((item, index) => (
-                <Grid key={index} size={{ xs: 12, md: 6, lg: 3 }}>
+                <Grid key={index} size={{ xs: 12, md: 6, lg: 4 }}>
                   {/* Use flex column to push the link to the bottom */}
                   <Card
                     elevation={2}
@@ -154,7 +154,7 @@ function HomeSection() {
                       </Typography>
 
                       <Link
-                        href="#"
+                        href={item?.navigation}
                         underline="none"
                         sx={{
                           fontWeight: 600,
