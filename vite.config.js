@@ -4,6 +4,9 @@ import { styled } from "@mui/material/styles"; // <-- Make sure this import is a
 
 export default defineConfig({
   plugins: [react()],
+  server: {
+    port: 3173,
+  },
   esbuild: {
     jsxInject: `
       import React, { useState, useEffect, useContext, useMemo ,useRef, createContext, useCallback} from 'react';
