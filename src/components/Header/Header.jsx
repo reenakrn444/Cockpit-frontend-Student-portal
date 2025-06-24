@@ -127,7 +127,7 @@ function Header() {
         container
         alignItems="center"
         justifyContent="space-between"
-        sx={{ maxWidth: "lg", mx: "auto", px: 2 }}
+        sx={{ maxWidth: "xl", mx: "auto", px: 2 }}
       >
         {/* Logo */}
         <Grid item>

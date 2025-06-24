@@ -72,8 +72,9 @@ const Syllabus = () => {
 
 
   return (
-    <>
-      <Box sx={{ py: 5, bgcolor: "#f8f9fa" }} p={5}>
+    < div style={{backgroundColor: "#f8f9fa"}} >
+    <Container maxWidth="xl" >
+      <Box sx={{ py: 5 }} p={5} >
         <Typography variant="h4" fontWeight={700} color="primary" mb={2}>
           Discover Our DGCA Question Banks
         </Typography>
@@ -169,8 +170,8 @@ const Syllabus = () => {
           })}
         </Grid>
       </Box>
-
-    </>
+    </Container>
+    </div>
   );
 };
 

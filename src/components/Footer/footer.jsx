@@ -19,11 +19,11 @@ function FooterSection() {
         // zIndex: 9999,
       }}
     >
-      <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
-        <Grid container spacing={2} justifyContent={{ xs: 'center', md: 'flex-start' }} textAlign={{ xs: 'center', md: 'left' }}>
+      <Box sx={{ maxWidth: "xl", mx: 'auto' }}>
+        <Grid container spacing={2} justifyContent={{ xs: 'center', }} textAlign={{ xs: 'center',  }}>
           <Grid size={{ xs: 12, sm: 12, md: 4 }} item>
             <Box component={Link}
-              to="/" sx={{ display: 'flex', alignItems: 'center', justifyContent: { xs: 'center', md: 'flex-start' }, mb: 2 }}>
+              to="/" sx={{ display: 'flex', alignItems: 'center', justifyContent: { xs: 'center', }, mb: 2 }}>
               <img src="images/logo.png" alt="plane" style={{ height: 65 }} />
             </Box>
             <Typography variant="h4" sx={{ fontSize: { xs: '1.5rem', md: '2rem' } }}>
