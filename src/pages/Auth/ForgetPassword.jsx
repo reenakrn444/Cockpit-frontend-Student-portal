@@ -118,7 +118,7 @@ const ForgetPassword = () => {
                             textAlign: 'center',
                         }}
                     >
-                        Forget Password
+                        Forgot Password
                     </Box>
                 </Box>
 

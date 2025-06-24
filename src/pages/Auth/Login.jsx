@@ -71,12 +71,22 @@ const Login = () => {
         username,
         password,
       });
-      snackbarEmitter('User registered successfully!', 'success');
-      setEmail('');
-      setUsername('');
-      setPassword('');
-      setActiveForm('login');
-      setLoading(false);
+      if (response?.data?.status === 200) {
+        snackbarEmitter('User registered successfully!', 'success');
+        setEmail('');
+        setUsername('');
+        setPassword('');
+        setActiveForm('login');
+        setLoading(false);
+      }
+      else {
+        snackbarEmitter(response?.data?.message, 'error');
+        // setEmail('');
+        // setUsername('');
+        // setPassword('');
+        // setActiveForm('login');
+        setLoading(false);
+      }
     } catch (error) {
       snackbarEmitter('Registration failed', 'error');
       setLoading(false);
@@ -273,7 +283,15 @@ const Login = () => {
                   </IconButton>
                 </InputAdornment>
               ),
-              sx: { borderRadius: '50px', backgroundColor: 'white' },
+              sx: {
+                borderRadius: '50px', backgroundColor: 'white',
+                '& input': {
+                  fontWeight: showPassword ? 400 : 700, // ✅ Apply to input text only
+                },
+                '& input::placeholder': {
+                  fontWeight: "400",                      // ✅ Normal weight for placeholder
+                },
+              },
             }}
           />
 

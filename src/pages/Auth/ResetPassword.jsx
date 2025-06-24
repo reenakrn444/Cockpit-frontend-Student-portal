@@ -152,11 +152,16 @@ const ResetPassword = () => {
                                     </IconButton>
                                 </InputAdornment>
                             ),
-                            sx: { borderRadius: '50px', backgroundColor: 'white' },
+                            sx: {
+                                borderRadius: '50px', backgroundColor: 'white', '& input': {
+                                    fontWeight: showPassword ? 400 : 700, // ✅ Apply to input text only
+                                },
+                                '& input::placeholder': {
+                                    fontWeight: "400",                      // ✅ Normal weight for placeholder
+                                },
+                            },
                         }}
                     />
-
-
                     <CustomButton
                         onClick={handleRegister}
                         loading={loading}

@@ -106,8 +106,6 @@ const ChapterSection = () => {
                     {books.map((book, index) => (
 
                         <Box component="li" className="nav-item" key={index} sx={{ flex: 1 }}>
-                            {/* {console.log(book)} */}
-
                             <Button
                                 fullWidth
                                 className={`nav-link ${bookId === book._id ? 'active' : ''}`}
@@ -127,6 +125,14 @@ const ChapterSection = () => {
                                     borderRadius: 0,
                                     transition: '0.3s',
                                     width: '100%',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    height: '100%', // 
+                                    '&:hover': {
+                                        backgroundColor: bookId === book._id ? '#eaeaea' : '#16355c', // Optional hover bg
+                                        color: bookId === book._id ? '#fbbd00' : '#fff', // keep text white when not active
+                                    },
                                     '&:last-child': {
                                         borderRight: 'none',
                                     },
@@ -161,7 +167,7 @@ const ChapterSection = () => {
                                     cursor: 'pointer',
                                     display: "flex",
                                     justifyContent: "space-around",
-                                    alignItems:"center"
+                                    alignItems: "center"
                                 }}
                             >
                                 <Typography sx={{ fontWeight: 500 }}>

@@ -20,6 +20,7 @@ const UserProfile = () => {
     email: "",
     accessKey: "",
     userId: user?._id,
+    createdAt : new Date(),
   });
 
   const [formErrors, setFormErrors] = useState({
@@ -42,12 +43,14 @@ const UserProfile = () => {
     const data = await apiGetToken(`/getUser?userId=${user._id}`);
     if (data?.data?.status === 200) {
       const userInfo = data.data.data;
+console.log(userInfo, "userInfo");
 
       setUserData({
         username: userInfo.username,
         email: userInfo.email,
         accessKey: userInfo?.accessKey ? userInfo.accessKey : "",
         userId: userInfo._id,
+        createdAt : userInfo?.createdAt
       });
       setProfileImage(userInfo?.image || "/default-profile.png");
 
@@ -147,14 +150,14 @@ const UserProfile = () => {
       setLoading(true);
       const { data } = await apiPostToken("/updateUser", userData);
       if (data?.status === 200) {
-         const updatedUser = {
-            ...user,
-            username: userData?.username
-          };
-          localStorage.setItem("user", JSON.stringify(updatedUser));
-          // Step 4 (optional): Dispatch a custom event to notify other components (like Header)
-          window.dispatchEvent(new Event("userUpdated"));
-          
+        const updatedUser = {
+          ...user,
+          username: userData?.username
+        };
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+        // Step 4 (optional): Dispatch a custom event to notify other components (like Header)
+        window.dispatchEvent(new Event("userUpdated"));
+
         snackbarEmitter("User data updated successfully!", "success");
         setLoading(false);
       } else {
@@ -174,7 +177,7 @@ const UserProfile = () => {
         <Typography variant="subtitle2">🟡 In-Flight</Typography>
       </Grid>
       <Typography variant="caption" color="gray">
-        {formatedDate(subscriptionInfo?.subscriptionStartDate)}
+        {formatedDate(subscriptionInfo?.subscriptionStartDate ? subscriptionInfo?.subscriptionStartDate :userData?.createdAt )}
       </Typography>
 
       <Typography
@@ -316,19 +319,19 @@ const UserProfile = () => {
               <Divider sx={{ borderColor: "#f1b600", mb: 2 }} />
               <Box display="flex" justifyContent="space-between" mt={2}>
                 <Typography variant="body2">SUBSCRIPTION</Typography>
-                <Typography variant="body2">{subscriptionInfo.subscription}</Typography>
+                <Typography variant="body2">{subscriptionInfo.subscription ? subscriptionInfo.subscription : "Free plan for 7 days"}</Typography>
               </Box>
               <Divider sx={{ borderColor: "#575757", my: 1 }} />
-              <Box display="flex" justifyContent="space-between" mt={1} mb={2}>
+              {/* <Box display="flex" justifyContent="space-between" mt={1} mb={2}>
                 <Typography variant="body2">RENEWAL</Typography>
                 <Typography variant="body2">
-                  {subscriptionInfo.daysLeft} DAYS LEFT
+                  {subscriptionInfo?.daysLeft ? subscriptionInfo.daysLeft : "7"} DAYS LEFT
                 </Typography>
-              </Box>
+              </Box> */}
               <Box display="flex" justifyContent="center">
-                <Button variant="contained" sx={{ backgroundColor: "#f1b600" }} onClick={() => navigate("/pricing")}>
+                {/* <Button variant="contained" sx={{ backgroundColor: "#f1b600" }} onClick={() => navigate("/pricing")}>
                   Subscribe now
-                </Button>
+                </Button> */}
               </Box>
             </CardContent>
           </Card>
