@@ -20,7 +20,7 @@ function FooterSection() {
       }}
     >
       <Box sx={{ maxWidth: "xl", mx: 'auto' }}>
-        <Grid container spacing={2} justifyContent={{ xs: 'center', }} textAlign={{ xs: 'center',  }}>
+        <Grid container spacing={2} justifyContent={{ xs: 'center', }} textAlign={{ xs: 'center', }}>
           <Grid size={{ xs: 12, sm: 12, md: 4 }} item>
             <Box component={Link}
               to="/" sx={{ display: 'flex', alignItems: 'center', justifyContent: { xs: 'center', }, mb: 2 }}>
@@ -68,7 +68,18 @@ function FooterSection() {
               Contact Us
             </Typography>
             <Typography variant="body1">Tel: + (91) 0000000000</Typography>
-            <Typography variant="body1">Mail: support@gmail.com</Typography>
+
+            <Typography variant="body1">
+              <strong>Mail:</strong>{' '}
+              <Link
+                component="a"
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=reena.vgt@gmail.com"
+                color="#FFFFFF"
+                // underline="hover"
+                sx={{ wordBreak: 'break-word' }}
+              >
+                reena@sharyo.in
+              </Link></Typography>
             <Box sx={{ display: 'flex', gap: 2, mt: 2, justifyContent: { xs: 'center', md: 'flex-start' } }}>
             </Box>
           </Grid>

@@ -1,6 +1,8 @@
 import { apiPostToken } from "../../api/axios";
 import { snackbarEmitter } from "../../components/snackbar/CustomSnackBar";
 import { CustomButton } from "../../components";
+import { Link } from 'react-router-dom';
+
 
 const ChangePassword = () => {
     const theme = useTheme();
@@ -88,47 +90,71 @@ const ChangePassword = () => {
                         sx={{
                             backgroundColor: "#0c2340",
                             borderRadius: 3,
-                            p: 4,
+                            px: 4,
+                            py: 4,
                             height: "100%",
                             display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "space-between",
-                            color: "#ffffff",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-around",
                             boxShadow: 2,
+
                         }}
                     >
-                        <Box>
-                            <Typography
-                                variant="h6"
-                                fontWeight={700}
-                                sx={{ color: "#f1b600", mb: 2 }}
-                            >
-                                Password
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: "#b0b0b0" }}>
-                                Theme
-                            </Typography>
-                        </Box>
+                        <Grid container spacing={2} >
+                            <Grid size={{ xs: 12, justifyContent: "center", display: "flex", }} >
+                                <Box>
+                                    <Typography
+                                        component={Link}
+                                        to="/changepassword"
+                                        variant="h6"
+                                        fontWeight={700}
+                                        sx={{ color: "#f1b600", textDecoration: "none" }}
+                                    >
+                                        Password
+                                    </Typography>
 
-                        <Divider sx={{ my: 2, borderColor: "#f1b600" }} />
+                                </Box>
 
-                        <Button
-                            variant="contained"
-                            fullWidth
-                            sx={{
-                                backgroundColor: "#f1b600",
-                                color: "#000",
-                                fontWeight: 600,
-                                borderRadius: 2,
-                                textTransform: "none",
-                                mt: "auto",
-                                "&:hover": {
-                                    backgroundColor: "#d9a600",
-                                },
-                            }}
-                        >
-                            Delete Account
-                        </Button>
+                                <Box style={{ marginTop: "20px" }}>
+
+                                    <Typography variant="body2" sx={{ color: "#ffff", textDecoration: "none" }}
+                                        component={Link}
+                                        to="/theme"
+                                    >
+                                        Theme
+                                    </Typography>
+                                </Box>
+                            </Grid>
+                            <Grid size={{ xs: 12, }}>
+                                <Box style={{ marginTop: "10px", marginBottom: "30px", border: "1px solid #f1b600 " }}></Box>
+
+                            </Grid>
+                            <Grid size={{ xs: 12 }}>
+                                <Button
+                                    // variant="contained"
+                                    fullWidth
+
+                                    sx={{
+                                        // backgroundColor: "#f1b600",
+                                        backgroundColor: "transparent",
+                                        color: "transparent",
+                                        // fontWeight: 600,
+                                        // borderRadius: 0,
+                                        textTransform: "none",
+                                        "&:hover": {
+                                            backgroundColor: "#d9a600",
+                                        },
+                                    }}
+                                >
+                                    Delete Account
+                                </Button>
+                            </Grid>
+                        </Grid>
+
+
+
+
                     </Box>
                 </Grid>
 
@@ -181,7 +207,14 @@ const ChangePassword = () => {
                                                     </IconButton>
                                                 </InputAdornment>
                                             ),
-                                            sx: { backgroundColor: "white" },
+                                            sx: {
+                                                backgroundColor: "white", '& input': {
+                                                    fontWeight: showPassword ? 400 : 700, // ✅ Apply to input text only
+                                                },
+                                                '& input::placeholder': {
+                                                    fontWeight: "400",                      // ✅ Normal weight for placeholder
+                                                },
+                                            },
                                         }}
                                     />
                                 </Grid>
@@ -211,7 +244,14 @@ const ChangePassword = () => {
                                                     </IconButton>
                                                 </InputAdornment>
                                             ),
-                                            sx: { backgroundColor: "white" },
+                                            sx: {
+                                                backgroundColor: "white", '& input': {
+                                                    fontWeight: showPassword ? 400 : 700, // ✅ Apply to input text only
+                                                },
+                                                '& input::placeholder': {
+                                                    fontWeight: "400",                      // ✅ Normal weight for placeholder
+                                                },
+                                            },
                                         }}
                                     />
                                 </Grid>
@@ -241,7 +281,14 @@ const ChangePassword = () => {
                                                     </IconButton>
                                                 </InputAdornment>
                                             ),
-                                            sx: { backgroundColor: "white" },
+                                            sx: {
+                                                backgroundColor: "white", '& input': {
+                                                    fontWeight: showPassword ? 400 : 700, // ✅ Apply to input text only
+                                                },
+                                                '& input::placeholder': {
+                                                    fontWeight: "400",                      // ✅ Normal weight for placeholder
+                                                },
+                                            },
                                         }}
                                     />
                                 </Grid>
