@@ -137,7 +137,7 @@ function Header() {
           <Box component={Link}
             to="/" sx={{ display: "flex", alignItems: "center" }}>
             <img
-              src="./images/logo.svg"
+              src="/src/assests/images/fulllogo.svg"
               alt="Plane"
               style={{ height: "60px" }}
             />
