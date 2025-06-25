@@ -70,14 +70,17 @@ function Header() {
       <List>
         {navItems.map((item) => (
           <ListItem key={item.text} disablePadding>
-            <ListItemButton component={Link} to={item.path}>
+            <ListItemButton component={Link} to={item.path} onClick={() => setDrawerOpen(false)}>
               <ListItemText primary={item.text} />
             </ListItemButton>
           </ListItem>
         ))}
         <ListItem disablePadding>
           {user ? (
-            <ListItemButton onClick={() => navigate("/userprofile")}>
+            <ListItemButton onClick={() => {
+              navigate("/userprofile")
+              setDrawerOpen(false);
+            }}>
               <Avatar
                 src={userData?.profileImage}
                 sx={{ width: 56, height: 56, cursor: "pointer" }}
@@ -132,7 +135,7 @@ function Header() {
         {/* Logo */}
         <Grid >
           <Box component={Link}
-                  to="/" sx={{ display: "flex", alignItems: "center" }}>
+            to="/" sx={{ display: "flex", alignItems: "center" }}>
             <img
               src="./images/logo.svg"
               alt="Plane"
@@ -186,7 +189,9 @@ function Header() {
                     gap: 1,
                     cursor: "pointer",
                   }}
-                  onClick={() => navigate("/userprofile")}
+                  onClick={() => {
+                    navigate("/userprofile")
+                  }}
                 >
                   <Avatar
                     src={userData?.profileImage}
@@ -197,7 +202,6 @@ function Header() {
               ) : (
                 <Button variant="outlined" component={Link}
                   to="/login"
-                  // color="warning"
                   sx={{
                     border: "2px solid #EAB308", // custom yellow
                     color: "#EAB308",
@@ -217,9 +221,9 @@ function Header() {
 
         {/* Mobile Menu Icon */}
         {isMobile && (
-          <Grid >
-            <IconButton onClick={toggleDrawer(true)}>
-              <MenuIcon />
+          <Grid>
+            <IconButton onClick={toggleDrawer(!drawerOpen)}>
+              {drawerOpen ? <CloseIcon /> : <MenuIcon /> }
             </IconButton>
           </Grid>
         )}
