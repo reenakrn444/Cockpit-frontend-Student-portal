@@ -191,8 +191,8 @@ console.log(userInfo, "userInfo");
       </Typography>
 
       <Grid container spacing={4}>
-        <Grid size={{ xs: 6, md: 6 }}>
-          <Box display="flex" alignItems="center" gap={2} mb={2}>
+        <Grid size={{ xs: 12, sm :6, md: 6 }}>
+          <Box display="flex" alignItems="center" gap={2} mb={{xs : 0 , md:2}}>
             {/* <Avatar sx={{ width: 56, height: 56 }} /> */}
             <Box position="relative" display="inline-block">
               <Avatar
@@ -216,7 +216,7 @@ console.log(userInfo, "userInfo");
             </Box>
           </Box>
         </Grid>
-        <Grid size={{ xs: 6, md: 6 }}>
+        <Grid size={{ xs: 12,sm:6, md: 6 }}>
           <Box display="flex" justifyContent="center">
             <Button sx={{ mb: 2, backgroundColor: "#f1b600" }} variant="contained" onClick={handleLogout}>
               Logout

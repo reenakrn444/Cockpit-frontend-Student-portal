@@ -13,8 +13,8 @@ const ReportCard = ({ data }) => {
 
   const highlight = reason === "";
   const message = highlight
-    ? `You have reported a question on ${syllabus}, book: ${book}, chapter: ${chapter}`
-    : `Your explanation on a question on ${syllabus}, book: ${book}, chapter: ${chapter} ${status === "pending" ? "is" : "has been"} ${status} by Admin.`;
+    ? `You have reported a question on ${syllabus}, book: ${book}, chapter: ${chapter}, ${status === "pending" ? "is" : "has been"} ${status} by Admin.`
+    : `Your explanation on a question on ${syllabus}, book: ${book}, chapter: ${chapter}, ${status === "pending" ? "is" : "has been"} ${status} by Admin.`;
   const time = new Date(createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
   return (

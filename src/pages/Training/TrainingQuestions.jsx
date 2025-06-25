@@ -154,7 +154,7 @@ const TrainingQuestion = () => {
       </Grid>
       <Box sx={{ p: 3 }}>
         <Grid container spacing={3} justifyContent="center">
-          {paginatedQuestions.map((question, index) => (
+          {paginatedQuestions?.filter(question => question?.isactive)?.map((question, index) => (
             <Grid size={{ xs: 12, }} key={question._id || index}>
               <Box sx={{ border: "1px solid #ccc", borderRadius: 2 }}>
                 <Box
@@ -174,7 +174,7 @@ const TrainingQuestion = () => {
                 </Box>
 
                 <Box sx={{ mt: 2, px: 2 }}>
-                  {question?.options?.filter(question => question?.isactive)?.map((option, idx) => (
+                  {question?.options?.map((option, idx) => (
                     <Box key={idx} sx={{ display: "flex", alignItems: "center" }}>
                       <Radio
                         checked={selectedAnswers[question._id] === idx}

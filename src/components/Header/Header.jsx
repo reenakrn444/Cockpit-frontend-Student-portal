@@ -210,15 +210,6 @@ function Header() {
                   }}>
                   Get Boarding Pass
                 </Button>
-                // <Button
-                //   variant="outlined"
-                //   color="warning"
-                //   sx={{ px: 4, py: 1 }}
-                //   component={Link}
-                //   to="/login"
-                // >
-                //   Get Boarding Pass
-                // </Button>
               )}
             </Grid>
           </>

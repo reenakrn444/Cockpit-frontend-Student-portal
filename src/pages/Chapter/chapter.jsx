@@ -152,7 +152,7 @@ const ChapterSection = () => {
                         console.log(chapter, "chapter44444");
 
                         const isCompleted = completedChapterIds.has(chapter._id);
-                       
+
                         return (
                             <Paper
                                 key={index}
@@ -165,42 +165,24 @@ const ChapterSection = () => {
                                     borderRadius: 2,
                                     fontWeight: 500,
                                     cursor: 'pointer',
-                                    display: "flex",
-                                    justifyContent: "space-around",
-                                    alignItems: "center"
+                                    // display: "flex",
+                                    // justifyContent: "space-around",
+                                    // alignItems: "left"
                                 }}
                             >
-                                <Typography sx={{ fontWeight: 500 }}>
-                                    <Box sx={{ display: "flex", maxWidth: 300, mx: 'auto' }}>
-                                        Chapter {chapter?.chapterno}: {chapter?.chaptername?.toUpperCase()}
-                                    </Box>
-                                </Typography>
-                                {isCompleted && (
-                                    <CheckCircleIcon sx={{ color: '#27C76F', fontSize: 32 }} />
-                                )}
+                                <Grid container spacing={2} alignItems="right" display="flex" justifyContent="center">
+                                    <Grid size={{ xs: 7 }} alignItems="center" display="flex" justifyContent="right">
+                                        <Typography sx={{ fontWeight: 500 }}>
+                                             Chapter {chapter?.chapterno}:  {chapter?.chaptername?.toUpperCase()}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid size={{ xs: 5 }} alignItems="center" display="flex" justifyContent="right">
+                                        {isCompleted && (
+                                            <CheckCircleIcon sx={{ color: '#27C76F', fontSize: 32 }} />
+                                        )}
+                                    </Grid>
+                                </Grid>
                             </Paper>
-
-                            // <Box
-                            //     key={chapter._id}
-                            //     sx={{
-                            //         backgroundColor: '#132F4C',
-                            //         borderRadius: '12px',
-                            //         px: 3,
-                            //         py: 2,
-                            //         display: 'flex',
-                            //         justifyContent: 'space-between',
-                            //         alignItems: 'center',
-                            //         color: '#fff',
-                            //     }}
-                            // >
-                            //     <Typography sx={{ fontWeight: 500, fontSize: 16 }}>
-                            //         Chapter {chapter.chapterno}: {chapter.chaptername.toUpperCase()}
-                            //     </Typography>
-
-                            //     {isCompleted && (
-                            //         <CheckCircleIcon sx={{ color: '#27C76F', fontSize: 32 }} />
-                            //     )}
-                            // </Box>
                         );
                         <Paper
                             key={index}

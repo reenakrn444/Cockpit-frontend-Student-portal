@@ -29,7 +29,6 @@ const ReportPage = () => {
             <Box
                 sx={{
                     width: "100%",
-                    maxWidth: 1131,
                     height: 64,
                     backgroundColor: "#f9f9f9",
                     borderRadius: "12px 12px 0 0",

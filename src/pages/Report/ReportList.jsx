@@ -20,7 +20,6 @@ const ReportList = ({ reports }) => {
             <Typography fontWeight={600} variant="subtitle1" sx={{ mb: 1 }}>
               {formatDateLabel(date)}
             </Typography>
-            <FormControlLabel control={<Checkbox />} label="Select all" sx={{ fontSize: 12 }} />
           </Box>
           <Grid container spacing={2}>
             {grouped[date].map((item) => (
