@@ -1,4 +1,6 @@
 import Heart from "../../public/images/Heart.gif"
+import { Link } from 'react-router-dom';
+
 const CopyrightFooter = () => {
     const currentYear = new Date().getFullYear();
     return (
@@ -22,7 +24,8 @@ const CopyrightFooter = () => {
                 }}
             />
             to see them in Cockpit one day | Copyright © {currentYear}{' '}
-            <Box component="span" sx={{ color: '#ffc107', display: 'inline' }}>
+            <Box component={Link}
+              to="/" sx={{ color: '#ffc107', display: 'inline', textDecoration : "none" }}>
                 Cockpit
             </Box>{' '}
             Inc. All rights reserved

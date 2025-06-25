@@ -1,6 +1,12 @@
 import { Link } from 'react-router-dom';
 import "./footer.css";
 import CopyrightFooter from '../../Helper/copyrighttext';
+import FacebookIcon from "../../assests/images/FaceBookIcon.svg";
+import TwitterIcon from "../../assests/images/TwitterIcon.svg";
+import instagramIcon from "../../assests/images/InstagramIcon.svg";
+import TelegramIcon from "@mui/icons-material/Send";
+import EmailIcon from "@mui/icons-material/Email";
+import PhoneIcon from "@mui/icons-material/Phone";
 
 
 function FooterSection() {
@@ -20,15 +26,22 @@ function FooterSection() {
       }}
     >
       <Box sx={{ maxWidth: "xl", mx: 'auto' }}>
-        <Grid container spacing={2} justifyContent={{ xs: 'center', }} textAlign={{ xs: 'center', }}>
-          <Grid size={{ xs: 12, sm: 12, md: 4 }} item>
-            <Box component={Link}
-              to="/" sx={{ display: 'flex', alignItems: 'center', justifyContent: { xs: 'center', }, mb: 2 }}>
+        <Grid container spacing={2} alignItems="flex-start" justifyContent="center" textAlign="left">
+          <Grid size={{ xs: 12, sm: 12, md: 4 }} sx={{ display: "grid", justifyContent: "center" }}>
+            {/* <Box component={Link}
+              to="/" sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: { xs: 'center', }, mb: 2 }}>
+              <img src="images/logo.png" alt="plane" style={{ height: 65 }} />
+            </Box>
+            <Typography variant="h4" sx={{ fontSize: { xs: '1.5rem', md: '2rem' } }}>
+              RUNWAY TO SKY
+            </Typography> */}
+            <Box component={Link} to="/" sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
               <img src="images/logo.png" alt="plane" style={{ height: 65 }} />
             </Box>
             <Typography variant="h4" sx={{ fontSize: { xs: '1.5rem', md: '2rem' } }}>
               RUNWAY TO SKY
             </Typography>
+
           </Grid>
 
           {/* <Grid size={{ xs: 12, sm: 12, md: 3, xl: 3, lg: 3 }} className="footer-platforms">
@@ -39,7 +52,7 @@ function FooterSection() {
             <Typography variant="body1">FAQ</Typography>
           </Grid> */}
 
-          <Grid size={{ xs: 12, sm: 12, md: 4 }} className="footer-platforms">
+          <Grid size={{ xs: 12, sm: 12, md: 4, }} sx={{ display: "grid", justifyContent: "center" }} className="footer-platforms" >
             <Typography variant="h6" sx={{ color: '#ffc107', mb: 2 }}>
               Platforms
             </Typography>
@@ -63,26 +76,59 @@ function FooterSection() {
             </Link></Typography>
           </Grid>
 
-          <Grid size={{ xs: 12, sm: 12, md: 4 }} className="footer-platforms">
+          <Grid size={{ xs: 12, sm: 12, md: 4, }} sx={{ display: "grid", justifyContent: "center" }} className="footer-platforms">
+            {/* <Grid container spacing={0} > */}
             <Typography variant="h6" sx={{ color: '#ffc107', mb: 2 }}>
               Contact Us
             </Typography>
-            <Typography variant="body1">Tel: + (91) 0000000000</Typography>
-
             <Typography variant="body1">
-              <strong>Mail:</strong>{' '}
-              <Link
-                component="a"
-                href="https://mail.google.com/mail/?view=cm&fs=1&to=reena.vgt@gmail.com"
-                color="#FFFFFF"
-                // underline="hover"
-                sx={{ wordBreak: 'break-word' }}
-              >
-                reena@sharyo.in
-              </Link></Typography>
+              <EmailIcon /> support@thecockpit.in
+              {/* <Link href="mailto:support@thecockpit.in" underline="none" color="inherit" sx={{ ml: 1, underline: "none" }}>support@thecockpit.com</Link> */}
+            </Typography>
+
+            <Grid size={{ xs: 12 }} sx={{ display: "flex", justifyContent: "left" }}>
+              <IconButton component="a" href="https://www.facebook.com" target="_blank" rel="noopener" sx={{ color: "#FFFFFF", padding: 0 }}>
+                <img src={FacebookIcon} alt="Facebook" style={{ width: "20px", height: "20px" }} />
+              </IconButton>
+              <IconButton component="a" href="https://x.com/cockpitaviation?t=GcxKo1eO1uc-JbocOFrCOQ&s=09" target="_blank" rel="noopener" sx={{ color: "#FFFFFF" }}>
+                <img src={TwitterIcon} alt="Facebook" style={{ width: "20px", height: "20px" }} />
+              </IconButton>
+              <IconButton component="a" href="https://www.instagram.com/thecockpit_official?igsh=dHdqMW13M2lnOGoy" target="_blank" rel="noopener" sx={{ color: "#FFFFFF" }}>
+                <img src={instagramIcon} alt="Facebook" style={{ width: "20px", height: "20px" }} />
+              </IconButton>
+              <IconButton component="a" href="https://t.me/thecockpit_official" target="_blank" rel="noopener" sx={{ color: "#FFFFFF" }}>
+                <TelegramIcon />
+              </IconButton>
+            </Grid>
+
+            {/* <Grid size={{ xs: 1 }}>
+                <IconButton component="a" href="https://x.com/cockpitaviation?t=GcxKo1eO1uc-JbocOFrCOQ&s=09" target="_blank" rel="noopener" sx={{ color: "#FFFFFF" }}>
+                  <img src={TwitterIcon} alt="Facebook" style={{ width: "20px", height: "20px" }} />
+                </IconButton>
+              </Grid>
+
+              <Grid size={{ xs: 1 }}>
+                <IconButton component="a" href="https://www.instagram.com/thecockpit_official?igsh=dHdqMW13M2lnOGoy" target="_blank" rel="noopener" sx={{ color: "#FFFFFF" }}>
+                  <img src={instagramIcon} alt="Facebook" style={{ width: "20px", height: "20px" }} />
+                </IconButton>
+              </Grid>
+
+              <Grid size={{ xs: 1 }}>
+                <IconButton component="a" href="https://t.me/thecockpit_official" target="_blank" rel="noopener" sx={{ color: "#FFFFFF" }}>
+                  <TelegramIcon/>
+                </IconButton>
+              </Grid> */}
+
+            {/* <Grid size={{ xs: 1 }}>
+                <IconButton component="a" href="https://www.youtube.com" target="_blank" rel="noopener" sx={{ color: "#FFFFFF" }}>
+                  <YouTubeIcon />
+                </IconButton>
+              </Grid> */}
+            {/* </Grid> */}
             <Box sx={{ display: 'flex', gap: 2, mt: 2, justifyContent: { xs: 'center', md: 'flex-start' } }}>
             </Box>
           </Grid>
+
         </Grid>
 
         <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.5)', my: 3 }} />

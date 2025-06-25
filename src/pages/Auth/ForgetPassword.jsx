@@ -56,6 +56,8 @@ const ForgetPassword = () => {
             }
             else {
                 setLoading(false);
+                snackbarEmitter(response?.data?.message ? response?.data?.message : "User email not found", 'error');
+
             }
         } catch (error) {
             snackbarEmitter('Someting went wrong please try again!', 'error');

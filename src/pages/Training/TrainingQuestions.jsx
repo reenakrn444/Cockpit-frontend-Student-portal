@@ -13,7 +13,7 @@ const TrainingQuestion = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const questionsPerPage = 5;
-
+  const navigate = useNavigate();
   const location = useLocation();
   const { syllabusTitle, syllabusId, bookId, chapterId } = location.state
   console.log(syllabusId, bookId, chapterId, "locationDatasyllabusId, bookId, chapterId");
@@ -122,7 +122,7 @@ const TrainingQuestion = () => {
 
     if (res?.data?.status === 200) {
       snackbarEmitter("All answers submitted successfully.", "success");
-      navigate('/chapter', { state: { syllabusTitle, syllabusId } });
+      navigate('/chapter', { state: { title: syllabusTitle, id: syllabusId } });
     } else {
       snackbarEmitter("Failed to submit answers.", "error");
     }
@@ -174,7 +174,7 @@ const TrainingQuestion = () => {
                 </Box>
 
                 <Box sx={{ mt: 2, px: 2 }}>
-                  {question.options.map((option, idx) => (
+                  {question?.options?.filter(question => question?.isactive)?.map((option, idx) => (
                     <Box key={idx} sx={{ display: "flex", alignItems: "center" }}>
                       <Radio
                         checked={selectedAnswers[question._id] === idx}
@@ -292,12 +292,19 @@ const TrainingQuestion = () => {
           />
         </Box>
 
+{console.log(Object.keys(selectedAnswers).length, filteredQuestions, "filteredQuestions")}
+
         {Object.keys(selectedAnswers).length === filteredQuestions.length && (
           <Box sx={{ mt: 4, display: "flex", justifyContent: "center" }}>
-            <Button variant="contained" color="success"
-              onClick={handleSubmitAllAnswers}>
+            <CustomButton
+              variant="contained"
+              bgColor="#f1b600"
+              sx={{ width: "fit-content" }}
+              loading={loading}
+              onClick={handleSubmitAllAnswers}
+            >
               Submit All Answers
-            </Button>
+            </CustomButton>
           </Box>
         )}
       </Box>
