@@ -7,9 +7,12 @@ import instagramIcon from "../../assests/images/InstagramIcon.svg";
 import TelegramIcon from "@mui/icons-material/Send";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
+import { platformLinks } from './UrlLinksColor';
 
 
 function FooterSection() {
+  console.log(platformLinks, "UrlColor");
+  const location = useLocation();
   return (
     <Box
       component="footer"
@@ -29,7 +32,7 @@ function FooterSection() {
         <Grid container spacing={2} alignItems="flex-start" justifyContent="center" textAlign="left">
           <Grid size={{ xs: 12, sm: 12, md: 4 }} sx={{ display: "grid", justifyContent: "center" }}>
             <Box component={Link} to="/" sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-              <img src="/src/assests/images/logo_tagline.svg" alt="plane" style={{ height: 65 }} />
+              <img src="/src/assests/images/logo_tagline_White.svg" alt="plane" style={{ height: 65 }} />
             </Box>
             <Typography variant="h4" sx={{ fontSize: { xs: '1.5rem', md: '2rem' } }}>
               RUNWAY TO SKY
@@ -46,7 +49,7 @@ function FooterSection() {
           </Grid> */}
 
           <Grid size={{ xs: 12, sm: 12, md: 4, }} sx={{ display: "grid", justifyContent: "center" }} className="footer-platforms" >
-            <Typography variant="h6" sx={{ color: '#ffc107', mb: 2 }}>
+            {/* <Typography variant="h6" sx={{ color: '#ffc107', mb: 2 }}>
               Platforms
             </Typography>
             <Typography variant="body1">
@@ -66,7 +69,28 @@ function FooterSection() {
             </Typography>
             <Typography variant="body1"> <Link to="/syllabus" style={{ textDecoration: 'none', color: 'white' }}>
               Syllabus
-            </Link></Typography>
+            </Link>
+            </Typography> */}
+            <Typography variant="h6" sx={{ color: '#ffc107', mb: 2 }}>
+              Platforms
+            </Typography>
+            {platformLinks.map((link) => {
+              const isActive = location.pathname === link.path;
+
+              return (
+                <Typography key={link.path} variant="body1">
+                  <Link
+                    to={link.path}
+                    style={{
+                      textDecoration: 'none',
+                      color: isActive ? '#ffc107' : 'white',
+                    }}
+                  >
+                    {link.label}
+                  </Link>
+                </Typography>
+              );
+            })}
           </Grid>
 
           <Grid size={{ xs: 12, sm: 12, md: 4, }} sx={{ display: "grid", justifyContent: "center" }} className="footer-platforms">
@@ -80,7 +104,7 @@ function FooterSection() {
             </Typography>
 
             <Grid size={{ xs: 12 }} sx={{ display: "flex", justifyContent: "left" }}>
-              <IconButton component="a" href="https://www.facebook.com/share/1AaigMm3pL/" target="_blank" rel="noopener" sx={{ color: "#FFFFFF", padding: 0 }}>
+              <IconButton component="a" href="https://www.facebook.com/profile.php?id=61577631697630" target="_blank" rel="noopener" sx={{ color: "#FFFFFF", padding: 0 }}>
                 <img src={FacebookIcon} alt="Facebook" style={{ width: "20px", height: "20px" }} />
               </IconButton>
               <IconButton component="a" href="https://x.com/cockpitaviation?t=GcxKo1eO1uc-JbocOFrCOQ&s=09" target="_blank" rel="noopener" sx={{ color: "#FFFFFF" }}>
