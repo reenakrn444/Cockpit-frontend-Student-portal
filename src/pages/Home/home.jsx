@@ -94,7 +94,7 @@ function HomeSection() {
                   Get Started
                 </Button>
               </Grid>
-              <Grid item xs={12} textAlign="center">
+              <Grid size={{xs:12}} textAlign="center">
                 <Box
                   component="img"
                   src="/images/Plane.png"
@@ -203,7 +203,7 @@ function HomeSection() {
             </Grid> */}
 
             <Grid container spacing={4} justifyContent="center" sx={{ mt: 4 }}>
-              <Grid item size={{ xs: 12, md: 6 }}>
+              <Grid  size={{ xs: 12, md: 6 }}>
                 <Typography
                   variant="h4"
                   fontWeight={700}
@@ -226,7 +226,7 @@ function HomeSection() {
             </Grid>
 
             <Grid container justifyContent="center">
-              <Grid item size={{ xs: 12, md: 8 }}>
+              <Grid  size={{ xs: 12, md: 8 }}>
                 {Faq?.map(
                   (question, index) => {
                     const panel = `panel${index}`;

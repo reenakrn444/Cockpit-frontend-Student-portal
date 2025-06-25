@@ -130,7 +130,7 @@ function Header() {
         sx={{ maxWidth: "xl", mx: "auto", px: 2 }}
       >
         {/* Logo */}
-        <Grid item>
+        <Grid >
           <Box component={Link}
                   to="/" sx={{ display: "flex", alignItems: "center" }}>
             <img
@@ -144,7 +144,7 @@ function Header() {
         {/* Desktop Nav */}
         {!isMobile && (
           <>
-            <Grid item>
+            <Grid >
               <Box sx={{ display: "flex", gap: 4 }}>
                 {navItems.map((item) => {
                   const isActive = location.pathname === item.path;
@@ -177,7 +177,7 @@ function Header() {
               </Box>
             </Grid>
 
-            <Grid item>
+            <Grid >
               {user ? (
                 <Box
                   sx={{
@@ -226,7 +226,7 @@ function Header() {
 
         {/* Mobile Menu Icon */}
         {isMobile && (
-          <Grid item>
+          <Grid >
             <IconButton onClick={toggleDrawer(true)}>
               <MenuIcon />
             </IconButton>
