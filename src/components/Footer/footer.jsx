@@ -49,28 +49,7 @@ function FooterSection() {
           </Grid> */}
 
           <Grid size={{ xs: 12, sm: 12, md: 4, }} sx={{ display: "grid", justifyContent: "center" }} className="footer-platforms" >
-            {/* <Typography variant="h6" sx={{ color: '#ffc107', mb: 2 }}>
-              Platforms
-            </Typography>
-            <Typography variant="body1">
-              <Link to="/" style={{ textDecoration: 'none', color: 'white' }}>
-                Home
-              </Link>
-            </Typography>
-            <Typography variant="body1">
-              <Link to="/training" style={{ textDecoration: 'none', color: 'white' }}>
-                Training
-              </Link>
-            </Typography>
-            <Typography variant="body1">
-              <Link to="/taketest" style={{ textDecoration: 'none', color: 'white' }}>
-                Test
-              </Link>
-            </Typography>
-            <Typography variant="body1"> <Link to="/syllabus" style={{ textDecoration: 'none', color: 'white' }}>
-              Syllabus
-            </Link>
-            </Typography> */}
+           
             <Typography variant="h6" sx={{ color: '#ffc107', mb: 2 }}>
               Platforms
             </Typography>
