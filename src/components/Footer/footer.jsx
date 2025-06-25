@@ -28,15 +28,8 @@ function FooterSection() {
       <Box sx={{ maxWidth: "xl", mx: 'auto' }}>
         <Grid container spacing={2} alignItems="flex-start" justifyContent="center" textAlign="left">
           <Grid size={{ xs: 12, sm: 12, md: 4 }} sx={{ display: "grid", justifyContent: "center" }}>
-            {/* <Box component={Link}
-              to="/" sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: { xs: 'center', }, mb: 2 }}>
-              <img src="images/logo.png" alt="plane" style={{ height: 65 }} />
-            </Box>
-            <Typography variant="h4" sx={{ fontSize: { xs: '1.5rem', md: '2rem' } }}>
-              RUNWAY TO SKY
-            </Typography> */}
             <Box component={Link} to="/" sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-              <img src="images/logo.png" alt="plane" style={{ height: 65 }} />
+              <img src="/src/assests/images/logo_tagline.svg" alt="plane" style={{ height: 65 }} />
             </Box>
             <Typography variant="h4" sx={{ fontSize: { xs: '1.5rem', md: '2rem' } }}>
               RUNWAY TO SKY
@@ -87,7 +80,7 @@ function FooterSection() {
             </Typography>
 
             <Grid size={{ xs: 12 }} sx={{ display: "flex", justifyContent: "left" }}>
-              <IconButton component="a" href="https://www.facebook.com" target="_blank" rel="noopener" sx={{ color: "#FFFFFF", padding: 0 }}>
+              <IconButton component="a" href="https://www.facebook.com/share/1AaigMm3pL/" target="_blank" rel="noopener" sx={{ color: "#FFFFFF", padding: 0 }}>
                 <img src={FacebookIcon} alt="Facebook" style={{ width: "20px", height: "20px" }} />
               </IconButton>
               <IconButton component="a" href="https://x.com/cockpitaviation?t=GcxKo1eO1uc-JbocOFrCOQ&s=09" target="_blank" rel="noopener" sx={{ color: "#FFFFFF" }}>
@@ -100,31 +93,6 @@ function FooterSection() {
                 <TelegramIcon />
               </IconButton>
             </Grid>
-
-            {/* <Grid size={{ xs: 1 }}>
-                <IconButton component="a" href="https://x.com/cockpitaviation?t=GcxKo1eO1uc-JbocOFrCOQ&s=09" target="_blank" rel="noopener" sx={{ color: "#FFFFFF" }}>
-                  <img src={TwitterIcon} alt="Facebook" style={{ width: "20px", height: "20px" }} />
-                </IconButton>
-              </Grid>
-
-              <Grid size={{ xs: 1 }}>
-                <IconButton component="a" href="https://www.instagram.com/thecockpit_official?igsh=dHdqMW13M2lnOGoy" target="_blank" rel="noopener" sx={{ color: "#FFFFFF" }}>
-                  <img src={instagramIcon} alt="Facebook" style={{ width: "20px", height: "20px" }} />
-                </IconButton>
-              </Grid>
-
-              <Grid size={{ xs: 1 }}>
-                <IconButton component="a" href="https://t.me/thecockpit_official" target="_blank" rel="noopener" sx={{ color: "#FFFFFF" }}>
-                  <TelegramIcon/>
-                </IconButton>
-              </Grid> */}
-
-            {/* <Grid size={{ xs: 1 }}>
-                <IconButton component="a" href="https://www.youtube.com" target="_blank" rel="noopener" sx={{ color: "#FFFFFF" }}>
-                  <YouTubeIcon />
-                </IconButton>
-              </Grid> */}
-            {/* </Grid> */}
             <Box sx={{ display: 'flex', gap: 2, mt: 2, justifyContent: { xs: 'center', md: 'flex-start' } }}>
             </Box>
           </Grid>
