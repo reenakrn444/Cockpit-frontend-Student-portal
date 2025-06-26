@@ -16,7 +16,7 @@ const TrainingQuestion = () => {
   const questionsPerPage = 5;
   const navigate = useNavigate();
   const location = useLocation();
-  const { syllabusTitle, syllabusId, bookId, chapterId } = location.state
+  const { syllabusTitle, syllabusId, bookId, chapterId, activeBook,  } = location.state
   console.log(syllabusId, bookId, chapterId, "locationDatasyllabusId, bookId, chapterId");
 
   const userId = JSON.parse(localStorage.getItem("user"));
@@ -125,7 +125,7 @@ const TrainingQuestion = () => {
 
     if (res?.data?.status === 200) {
       snackbarEmitter("All answers submitted successfully.", "success");
-      navigate('/chapter', { state: { title: syllabusTitle, id: syllabusId } });
+      navigate('/chapter', { state: { title: syllabusTitle, id: syllabusId , activeBookTab : activeBook, activeBookId : bookId} });
     } else {
       snackbarEmitter("Failed to submit answers.", "error");
     }
