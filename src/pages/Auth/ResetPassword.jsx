@@ -112,7 +112,7 @@ const ResetPassword = () => {
                             px: 2,
                             py: 1,
                             color: '#fff',
-                            backgroundColor: '#f1b600',
+                            backgroundColor: '#EAB308',
                             fontWeight: 500,
                             textTransform: 'none',
                             textAlign: 'center',
@@ -165,7 +165,7 @@ const ResetPassword = () => {
                     <CustomButton
                         onClick={handleRegister}
                         loading={loading}
-                        bgColor="#f1b600"
+                        bgColor="#EAB308"
                         borderRadius="50px"
                         sx={{ mt: 2 }}
                     >

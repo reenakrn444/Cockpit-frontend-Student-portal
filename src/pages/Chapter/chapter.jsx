@@ -1,16 +1,21 @@
 import { apiGet, apiGetToken } from '../../api/axios';
 
 const ChapterSection = () => {
-    const [activeBook, setActiveBook] = useState('');
-    const [bookId, setBookId] = useState("");
     const [books, setBooks] = useState([]);
     const [chapters, setChapters] = useState([]);
     const userData = JSON.parse(localStorage.getItem('user'));
     const [completedChapterIds, setCompletedChapterIds] = useState(new Set());
     const location = useLocation();
     const locationData = location.state
+
     const syllabusTitle = locationData?.title;
     const syllabusId = locationData?.id;
+    const activeBookTab = locationData?.activeBookTab;
+    const ActiveBookId = locationData?.activeBookId;
+    const [activeBook, setActiveBook] = useState("");
+    const [bookId, setBookId] = useState("");
+const tabRefs = useRef({});
+
 
     console.log(locationData, "locationData", syllabusTitle, "syllabusTitle");
 
@@ -59,8 +64,8 @@ const ChapterSection = () => {
                 setBooks(fetchedBooks);
 
                 const defaultBook = fetchedBooks[0] || '';
-                setActiveBook(defaultBook?.bookTitle);
-                setBookId(defaultBook?._id)
+                setActiveBook(activeBookTab ? activeBookTab : defaultBook?.bookTitle);
+                setBookId(ActiveBookId ? ActiveBookId : defaultBook?._id)
 
                 // const chapterResponse = await apiGet('/getChapters');
                 // setChapters(chapterResponse.data.chapters);
@@ -76,6 +81,16 @@ const ChapterSection = () => {
         fetchBooksAndChapters();
     }, []);
 
+    useEffect(() => {
+  if (bookId && tabRefs.current[bookId]) {
+    tabRefs.current[bookId].scrollIntoView({
+      behavior: 'smooth',
+      inline: 'center',
+      block: 'nearest',
+    });
+  }
+}, [bookId, books]);
+
     const filteredChapters = useMemo(() => {
         return chapters.filter((chapter) => chapter.book === activeBook);
     }, [chapters, bookId, syllabusTitle]);
@@ -84,12 +99,7 @@ const ChapterSection = () => {
         const user = localStorage.getItem('user');
         console.log(chapter, "chapter");
         const chapterId = chapter?._id
-
-        if (user) {
-            navigate(`/trainingQuestion/${chapter.syllabus}/${chapter.book}/${chapter.chaptername}`, { state: { syllabusTitle, syllabusId, bookId, chapterId } });
-        } else {
-            navigate('/login');
-        }
+        navigate(`/trainingQuestion/${chapter.syllabus}/${chapter.book}/${chapter.chaptername}`, { state: { syllabusTitle, syllabusId, bookId, chapterId, activeBook } });
     };
 
     return (
@@ -107,7 +117,7 @@ const ChapterSection = () => {
             <Box className="tabs-section" sx={{ p: isMobile ? 2 : 4, mt: 2, borderRadius: 2 }}>
                 <Box className="custom-tabs" component="ul" sx={{ listStyle: 'none', p: 0, m: 0, display: 'flex', overflowX: 'auto', borderRadius: '10px 10px 0 0', backgroundColor: '#F5F5F5' }}>
                     {books.map((book, index) => (
-                        <Box component="li" className="nav-item" key={index} sx={{ minWidth: '25%', flex: 1, borderRight: '1px solid #EAEAEA', }}>
+                        <Box component="li" className="nav-item" ref={(el) => (tabRefs.current[book._id] = el)} key={index} sx={{ minWidth: '25%', flex: 1, borderRight: '1px solid #EAEAEA', }}>
                             <Button
                                 fullWidth
                                 className={`nav-link ${bookId === book._id ? 'active' : ''}`}
@@ -149,7 +159,6 @@ const ChapterSection = () => {
 
                 <Box className="chapter-list" sx={{ px: isMobile ? 1 : 4, py: 3, borderRadius: '0 0 10px 10px', backgroundColor: '#F5F5F5', }}>
                     {filteredChapters?.filter(chapter => chapter.isactive)?.map((chapter, index) => {
-                        console.log(chapter, "chapter44444");
 
                         const isCompleted = completedChapterIds.has(chapter._id);
 
@@ -173,7 +182,7 @@ const ChapterSection = () => {
                                 <Grid container spacing={2} alignItems="right" display="flex" justifyContent="center">
                                     <Grid size={{ xs: 7 }} alignItems="center" display="flex" justifyContent="right">
                                         <Typography sx={{ fontWeight: 500 }}>
-                                             Chapter {chapter?.chapterno}:  {chapter?.chaptername?.toUpperCase()}
+                                            Chapter {chapter?.chapterno}:  {chapter?.chaptername?.toUpperCase()}
                                         </Typography>
                                     </Grid>
                                     <Grid size={{ xs: 5 }} alignItems="center" display="flex" justifyContent="right">
@@ -184,26 +193,6 @@ const ChapterSection = () => {
                                 </Grid>
                             </Paper>
                         );
-                        <Paper
-                            key={index}
-                            onClick={() => handleChapterClick(chapter)}
-                            sx={{
-                                backgroundColor: '#0f2b50',
-                                color: 'white',
-                                p: 2,
-                                mb: 2,
-                                borderRadius: 2,
-                                fontWeight: 500,
-                                cursor: 'pointer',
-                            }}
-                        >
-                            <Typography sx={{ fontWeight: 500 }}>
-                                <Box sx={{ display: "flex", maxWidth: 200, mx: 'auto' }}>
-                                    Chapter {index + 1} : {" "}
-                                    {chapter.chaptername}
-                                </Box>
-                            </Typography>
-                        </Paper>
                     })}
                 </Box>
             </Box>

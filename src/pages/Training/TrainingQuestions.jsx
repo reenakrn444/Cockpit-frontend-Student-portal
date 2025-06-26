@@ -2,6 +2,7 @@ import { apiGet, apiPostToken } from "../../api/axios";
 import { snackbarEmitter } from "../../components/snackbar/CustomSnackBar";
 import { CustomButton } from "../../components";
 import { toCapitalize } from "../../Helper/convertUpperCase";
+import ScrollToTop from "../../components/ScrollToTop";
 
 const TrainingQuestion = () => {
   const [questions, setQuestions] = useState([]);
@@ -15,19 +16,18 @@ const TrainingQuestion = () => {
   const questionsPerPage = 5;
   const navigate = useNavigate();
   const location = useLocation();
-  const { syllabusTitle, syllabusId, bookId, chapterId } = location.state
+  const { syllabusTitle, syllabusId, bookId, chapterId, activeBook,  } = location.state
   console.log(syllabusId, bookId, chapterId, "locationDatasyllabusId, bookId, chapterId");
 
-
   const userId = JSON.parse(localStorage.getItem("user"));
+  console.log(userId, "userId");
+
   const { syllabusName, bookName, chapterName } = useParams();
 
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        // const response = await apiGet("/questions");
         const response = await apiGet(`/questionsByChapterId/${chapterId}`);
-
         setQuestions(response.data.data);
       } catch (error) {
         console.error("Error fetching questions:", error);
@@ -125,7 +125,7 @@ const TrainingQuestion = () => {
 
     if (res?.data?.status === 200) {
       snackbarEmitter("All answers submitted successfully.", "success");
-      navigate('/chapter', { state: { title: syllabusTitle, id: syllabusId } });
+      navigate('/chapter', { state: { title: syllabusTitle, id: syllabusId , activeBookTab : activeBook, activeBookId : bookId} });
     } else {
       snackbarEmitter("Failed to submit answers.", "error");
     }
@@ -225,7 +225,7 @@ const TrainingQuestion = () => {
                         fontWeight="bold"
                         sx={{
                           borderRadius: 5,
-                          backgroundColor: "orange",
+                          backgroundColor: "#EAB308",
                           width: "auto",
                           px: 2,
                           py: 1,
@@ -238,7 +238,7 @@ const TrainingQuestion = () => {
                       </Typography>
                       <Typography variant="body2">{question.explanation}</Typography>
                     </Box>
-                    <Box
+                    {userId && <Box
                       sx={{
                         py: "10px",
                         px: 2,
@@ -254,7 +254,7 @@ const TrainingQuestion = () => {
                       >
                         Help?
                       </Typography>
-                    </Box>
+                    </Box>}
                   </>
                 )}
 
@@ -272,7 +272,7 @@ const TrainingQuestion = () => {
                     <CustomButton
                       variant="contained"
                       type="submit"
-                      bgColor="#f1b600"
+                      bgColor="#EAB308"
                       sx={{ width: "fit-content" }}
                       loading={loading}
                       onClick={() => handleSubmitExplanation(question._id)}
@@ -290,18 +290,29 @@ const TrainingQuestion = () => {
           <Pagination
             count={totalPages}
             page={currentPage}
-            onChange={(event, value) => setCurrentPage(value)}
-            color="primary"
+            onChange={(event, value) => {
+              setCurrentPage(value);
+              window.scrollTo({ top: 0, behavior: 'smooth' }); // 👈 scroll to top
+            }}
+            sx={{
+              '& .MuiPaginationItem-root': {
+                '&.Mui-selected': {
+                  backgroundColor: '#112b4b',
+                  color: '#ffffff',
+                  fontWeight: 'bold',
+                },
+              },
+            }}
           />
         </Box>
 
-{console.log(Object.keys(selectedAnswers).length, filteredQuestions, "filteredQuestions")}
+        {console.log(Object.keys(selectedAnswers).length, filteredQuestions, "filteredQuestions")}
 
-        {Object.keys(selectedAnswers).length === filteredQuestions.length && (
+        {Object.keys(selectedAnswers).length === filteredQuestions.length && userId && (
           <Box sx={{ mt: 4, display: "flex", justifyContent: "center" }}>
             <CustomButton
               variant="contained"
-              bgColor="#f1b600"
+              bgColor="#EAB308"
               sx={{ width: "fit-content" }}
               loading={loading}
               onClick={handleSubmitAllAnswers}
@@ -342,6 +353,7 @@ const TrainingQuestion = () => {
           </Typography>
         </Box>
       </Modal>
+      <ScrollToTop />
     </Container>
   );
 };

@@ -183,7 +183,7 @@ const Login = () => {
               py: 1,
               color: activeForm === 'login' ? '#000' : '#fff',
               backgroundColor:
-                activeForm === 'login' ? '#f1b600' : 'transparent',
+                activeForm === 'login' ? '#EAB308' : 'transparent',
               fontWeight: 500,
               textTransform: 'none',
             }}
@@ -206,7 +206,7 @@ const Login = () => {
               py: 1,
               color: activeForm === 'register' ? '#000' : '#fff',
               backgroundColor:
-                activeForm === 'register' ? '#f1b600' : 'transparent',
+                activeForm === 'register' ? '#EAB308' : 'transparent',
               fontWeight: 500,
               textTransform: 'none',
             }}
@@ -320,7 +320,7 @@ const Login = () => {
           <CustomButton
             onClick={activeForm === 'login' ? handleLogin : handleRegister}
             loading={loading}
-            bgColor="#f1b600"
+            bgColor="#EAB308"
             borderRadius="50px"
           >
             {activeForm === 'login' ? 'Board me' : 'Register'}
