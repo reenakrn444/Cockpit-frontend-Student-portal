@@ -15,6 +15,7 @@ import ReportPage from '../pages/Report/ReportPage';
 import ChangePassword from '../pages/Profile/ChangePassword';
 import ThemeSettings from '../pages/Profile/ThemeSetting';
 import ComingSoon from '../pages/CommingSoon/commingSoon';
+import ScrollToTop from '../components/ScrollToTop';
 
 
 const AppContent = () => {
@@ -32,6 +33,7 @@ const AppContent = () => {
     <>
       {!hideHeaderFooter && <Header />}
       <Box sx={{ flex: 1, minHeight: 'calc(80vh - 64px)' }}>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
