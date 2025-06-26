@@ -8,7 +8,7 @@ const ThemeSettings = () => {
     const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
     return (
-        <Box sx={{ p: 10, minHeight: "auto", backgroundColor: "#fafafa" }}>
+        <Box sx={{ p: 10, minHeight: 'calc(80vh - 64px)', backgroundColor: "#fafafa" }}>
             <Grid container spacing={4} justifyContent="center">
                 {/* Left Password Card */}
                 <Grid size={{ xs: 12, md: 4 }}>
