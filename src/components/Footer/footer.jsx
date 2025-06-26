@@ -30,13 +30,13 @@ function FooterSection() {
     >
       <Box sx={{ maxWidth: "xl", mx: 'auto' }}>
         <Grid container spacing={2} alignItems="flex-start" justifyContent="center" textAlign="left">
-          <Grid size={{ xs: 12, sm: 12, md: 4 }} sx={{ display: "grid", justifyContent: "center" }}>
-            <Box component={Link} to="/" sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-              <img src="/src/assests/images/logo_tagline_White.svg" alt="plane" style={{ height: 65 }} />
+          <Grid size={{ xs: 12, sm: 12, md: 4 }} sx={{ display: "grid", justifyContent: "center", m:"auto" }}>
+            <Box component={Link} to="/" sx={{ display: 'flex', alignItems: 'center', justifyContent:"center"}}>
+              <img src="/src/assests/images/logo_tagline_White.svg" alt="plane" style={{ height: 100 }} />
             </Box>
-            <Typography variant="h4" sx={{ fontSize: { xs: '1.5rem', md: '2rem' } }}>
+            {/* <Typography variant="h4" sx={{ fontSize: { xs: '1.5rem', md: '2rem' } }}>
               RUNWAY TO SKY
-            </Typography>
+            </Typography> */}
 
           </Grid>
 

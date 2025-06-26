@@ -75,7 +75,7 @@ const Syllabus = () => {
     < div style={{ backgroundColor: "#f8f9fa" }} >
       <Container maxWidth="xl" >
         <Box sx={{ py: 5 }} p={5} >
-          <Typography variant="h4" fontWeight={700} color="primary" mb={2}>
+          <Typography variant="h4" fontWeight={700} color="#183251" mb={2}>
             Discover Our DGCA Question Banks
           </Typography>
           <Typography variant="body1" color="text.secondary" fontSize={18} mb={4}>
