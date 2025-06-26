@@ -31,19 +31,19 @@ const ThemeSettings = () => {
                             </Typography>
                             <Typography
                                 variant="body1"
-                                sx={{ color: "#f1b600", fontWeight: 600 }}
+                                sx={{ color: "#EAB308", fontWeight: 600 }}
                             >
                                 Theme
                             </Typography>
                         </Box>
 
-                        <Divider sx={{ my: 2, borderColor: "#f1b600" }} />
+                        <Divider sx={{ my: 2, borderColor: "#EAB308" }} />
 
                         <Button
                             variant="contained"
                             fullWidth
                             sx={{
-                                backgroundColor: "#f1b600",
+                                backgroundColor: "#EAB308",
                                 color: "#000",
                                 fontWeight: 600,
                                 borderRadius: 2,
@@ -89,7 +89,7 @@ const ThemeSettings = () => {
                                 <Box style={{ marginTop: "20px" }}>
 
                                     <Typography variant="h6"
-                                        fontWeight={700} sx={{ color: "#f1b600", textDecoration: "none" }}
+                                        fontWeight={700} sx={{ color: "#EAB308", textDecoration: "none" }}
                                         component={Link}
                                         to="/theme"
                                     >
@@ -98,7 +98,7 @@ const ThemeSettings = () => {
                                 </Box>
                             </Grid>
                             <Grid size={{ xs: 12, }}>
-                                <Box style={{ marginTop: "10px", marginBottom: "30px", border: "1px solid #f1b600 " }}></Box>
+                                <Box style={{ marginTop: "10px", marginBottom: "30px", border: "1px solid #EAB308 " }}></Box>
 
                             </Grid>
                             <Grid size={{ xs: 12 }}>
@@ -107,7 +107,7 @@ const ThemeSettings = () => {
                                     fullWidth
 
                                     sx={{
-                                        // backgroundColor: "#f1b600",
+                                        // backgroundColor: "#EAB308",
                                         backgroundColor: "transparent",
                                         color: "transparent",
                                         // fontWeight: 600,
@@ -145,7 +145,7 @@ const ThemeSettings = () => {
                             sx={{
                                 borderRadius: 3,
                                 boxShadow: 3,
-                                border: mode.title === "Light Mode" ? "3px solid #f1b600" : "",
+                                border: mode.title === "Light Mode" ? "3px solid #EAB308" : "",
                             }}
                         >
                             <CardMedia
@@ -159,7 +159,7 @@ const ThemeSettings = () => {
                                 <Button
                                     variant="contained"
                                     sx={{
-                                        backgroundColor: "#f1b600",
+                                        backgroundColor: "#EAB308",
                                         color: "#000",
                                         fontWeight: 600,
                                         textTransform: "none",

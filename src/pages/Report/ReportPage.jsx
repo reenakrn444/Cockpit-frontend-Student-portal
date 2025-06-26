@@ -62,7 +62,7 @@ const ReportPage = () => {
                             {label && <Typography
                                 sx={{
                                     fontWeight: 700,
-                                    color: index === 0 ? "#f1b600" : "#999",
+                                    color: index === 0 ? "#EAB308" : "#999",
                                     fontSize: 18,
                                     textAlign: "center",
                                     width: "100%",

@@ -20,7 +20,7 @@ const UserProfile = () => {
     email: "",
     accessKey: "",
     userId: user?._id,
-    createdAt : new Date(),
+    createdAt: new Date(),
   });
 
   const [formErrors, setFormErrors] = useState({
@@ -43,14 +43,14 @@ const UserProfile = () => {
     const data = await apiGetToken(`/getUser?userId=${user._id}`);
     if (data?.data?.status === 200) {
       const userInfo = data.data.data;
-console.log(userInfo, "userInfo");
+      console.log(userInfo, "userInfo");
 
       setUserData({
         username: userInfo.username,
         email: userInfo.email,
         accessKey: userInfo?.accessKey ? userInfo.accessKey : "",
         userId: userInfo._id,
-        createdAt : userInfo?.createdAt
+        createdAt: userInfo?.createdAt
       });
       setProfileImage(userInfo?.image || "/default-profile.png");
 
@@ -177,7 +177,7 @@ console.log(userInfo, "userInfo");
         <Typography variant="subtitle2">🟡 In-Flight</Typography>
       </Grid>
       <Typography variant="caption" color="gray">
-        {formatedDate(subscriptionInfo?.subscriptionStartDate ? subscriptionInfo?.subscriptionStartDate :userData?.createdAt )}
+        {formatedDate(subscriptionInfo?.subscriptionStartDate ? subscriptionInfo?.subscriptionStartDate : userData?.createdAt)}
       </Typography>
 
       <Typography
@@ -185,14 +185,14 @@ console.log(userInfo, "userInfo");
         mt={4}
         mb={2}
         fontWeight={700}
-        color="goldenrod"
+        color="#EAB308"
       >
         USER STATUS
       </Typography>
 
-      <Grid container spacing={4}>
-        <Grid size={{ xs: 12, sm :6, md: 6 }}>
-          <Box display="flex" alignItems="center" gap={2} mb={{xs : 0 , md:2}}>
+      <Grid container spacing={{ xs: 2, sm: 4 }}>
+        <Grid size={{ xs: 12, sm: 6, md: 6 }}>
+          <Box display="flex" alignItems="center" gap={2} mb={{ xs: 0, md: 2 }}>
             {/* <Avatar sx={{ width: 56, height: 56 }} /> */}
             <Box position="relative" display="inline-block">
               <Avatar
@@ -216,9 +216,9 @@ console.log(userInfo, "userInfo");
             </Box>
           </Box>
         </Grid>
-        <Grid size={{ xs: 12,sm:6, md: 6 }}>
+        <Grid size={{ xs: 12, sm: 6, md: 6 }}>
           <Box display="flex" justifyContent="center">
-            <Button sx={{ mb: 2, backgroundColor: "#f1b600" }} variant="contained" onClick={handleLogout}>
+            <Button sx={{ mb: { xs: 1, sm: 3 }, backgroundColor: "#EAB308", textTransform: 'none', fontSize: "18px" }} variant="contained" onClick={handleLogout}>
               Logout
             </Button>
           </Box>
@@ -299,7 +299,7 @@ console.log(userInfo, "userInfo");
                   <CustomButton
                     onClick={handleSave}
                     loading={loading}
-                    bgColor="#f1b600"
+                    bgColor="#EAB308"
                     borderRadius="8px"
                     sx={{ mt: 2, display: "flex", justifyContent: "center", alignItems: "center", width: "fit-content", padding: "10px 20px" }}
                   >
@@ -313,10 +313,10 @@ console.log(userInfo, "userInfo");
         <Grid size={{ xs: 12, md: 6 }}>
           <Card sx={{ backgroundColor: "#0c2340", color: "white", borderRadius: 2, margin: 5, maxWidth: 400, m: "auto", }}>
             <CardContent>
-              <Typography variant="h6" align="center" color="#f1b600" gutterBottom>
+              <Typography variant="h6" align="center" color="#EAB308" gutterBottom>
                 FLIGHT PLAN
               </Typography>
-              <Divider sx={{ borderColor: "#f1b600", mb: 2 }} />
+              <Divider sx={{ borderColor: "#F4D269", mb: 2 }} />
               <Box display="flex" justifyContent="space-between" mt={2}>
                 <Typography variant="body2">SUBSCRIPTION</Typography>
                 <Typography variant="body2">{subscriptionInfo.subscription ? subscriptionInfo.subscription : "Free plan for 7 days"}</Typography>
@@ -329,7 +329,7 @@ console.log(userInfo, "userInfo");
                 </Typography>
               </Box> */}
               <Box display="flex" justifyContent="center">
-                {/* <Button variant="contained" sx={{ backgroundColor: "#f1b600" }} onClick={() => navigate("/pricing")}>
+                {/* <Button variant="contained" sx={{ backgroundColor: "#EAB308" }} onClick={() => navigate("/pricing")}>
                   Subscribe now
                 </Button> */}
               </Box>
@@ -351,7 +351,7 @@ console.log(userInfo, "userInfo");
                 alignItems: "center",
                 borderRadius: 2,
                 mx: "auto",
-                color: "#f1b600",
+                color: "#EAB308",
                 fontWeight: 700,
                 fontSize: 16,
                 maxWidth: 200,

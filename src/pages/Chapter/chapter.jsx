@@ -84,12 +84,7 @@ const ChapterSection = () => {
         const user = localStorage.getItem('user');
         console.log(chapter, "chapter");
         const chapterId = chapter?._id
-
-        if (user) {
-            navigate(`/trainingQuestion/${chapter.syllabus}/${chapter.book}/${chapter.chaptername}`, { state: { syllabusTitle, syllabusId, bookId, chapterId } });
-        } else {
-            navigate('/login');
-        }
+        navigate(`/trainingQuestion/${chapter.syllabus}/${chapter.book}/${chapter.chaptername}`, { state: { syllabusTitle, syllabusId, bookId, chapterId } });
     };
 
     return (
@@ -173,7 +168,7 @@ const ChapterSection = () => {
                                 <Grid container spacing={2} alignItems="right" display="flex" justifyContent="center">
                                     <Grid size={{ xs: 7 }} alignItems="center" display="flex" justifyContent="right">
                                         <Typography sx={{ fontWeight: 500 }}>
-                                             Chapter {chapter?.chapterno}:  {chapter?.chaptername?.toUpperCase()}
+                                            Chapter {chapter?.chapterno}:  {chapter?.chaptername?.toUpperCase()}
                                         </Typography>
                                     </Grid>
                                     <Grid size={{ xs: 5 }} alignItems="center" display="flex" justifyContent="right">
@@ -184,26 +179,6 @@ const ChapterSection = () => {
                                 </Grid>
                             </Paper>
                         );
-                        <Paper
-                            key={index}
-                            onClick={() => handleChapterClick(chapter)}
-                            sx={{
-                                backgroundColor: '#0f2b50',
-                                color: 'white',
-                                p: 2,
-                                mb: 2,
-                                borderRadius: 2,
-                                fontWeight: 500,
-                                cursor: 'pointer',
-                            }}
-                        >
-                            <Typography sx={{ fontWeight: 500 }}>
-                                <Box sx={{ display: "flex", maxWidth: 200, mx: 'auto' }}>
-                                    Chapter {index + 1} : {" "}
-                                    {chapter.chaptername}
-                                </Box>
-                            </Typography>
-                        </Paper>
                     })}
                 </Box>
             </Box>

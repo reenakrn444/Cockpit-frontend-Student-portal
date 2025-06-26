@@ -41,7 +41,7 @@ function FooterSection() {
           </Grid>
 
           {/* <Grid size={{ xs: 12, sm: 12, md: 3, xl: 3, lg: 3 }} className="footer-platforms">
-            <Typography variant="h6" sx={{ color: '#ffc107', mb: 2 }}>
+            <Typography variant="h6" sx={{ color: '#EAB308', mb: 2 }}>
               Resources
             </Typography>
             <Typography variant="body1">Press</Typography>
@@ -50,7 +50,7 @@ function FooterSection() {
 
           <Grid size={{ xs: 12, sm: 12, md: 4, }} sx={{ display: "grid", justifyContent: "center" }} className="footer-platforms" >
            
-            <Typography variant="h6" sx={{ color: '#ffc107', mb: 2 }}>
+            <Typography variant="h6" sx={{ color: '#EAB308', mb: 2 }}>
               Platforms
             </Typography>
             {platformLinks.map((link) => {
@@ -62,7 +62,7 @@ function FooterSection() {
                     to={link.path}
                     style={{
                       textDecoration: 'none',
-                      color: isActive ? '#ffc107' : 'white',
+                      color: isActive ? '#EAB308' : 'white',
                     }}
                   >
                     {link.label}
@@ -74,7 +74,7 @@ function FooterSection() {
 
           <Grid size={{ xs: 12, sm: 12, md: 4, }} sx={{ display: "grid", justifyContent: "center" }} className="footer-platforms">
             {/* <Grid container spacing={0} > */}
-            <Typography variant="h6" sx={{ color: '#ffc107', mb: 2 }}>
+            <Typography variant="h6" sx={{ color: '#EAB308', mb: 2 }}>
               Contact Us
             </Typography>
             <Typography variant="body1">

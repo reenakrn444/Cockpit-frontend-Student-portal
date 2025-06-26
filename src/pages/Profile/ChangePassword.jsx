@@ -109,7 +109,7 @@ const ChangePassword = () => {
                                         to="/changepassword"
                                         variant="h6"
                                         fontWeight={700}
-                                        sx={{ color: "#f1b600", textDecoration: "none" }}
+                                        sx={{ color: "#EAB308", textDecoration: "none" }}
                                     >
                                         Password
                                     </Typography>
@@ -127,7 +127,7 @@ const ChangePassword = () => {
                                 </Box>
                             </Grid>
                             <Grid size={{ xs: 12, }}>
-                                <Box style={{ marginTop: "10px", marginBottom: "30px", border: "1px solid #f1b600 " }}></Box>
+                                <Box style={{ marginTop: "10px", marginBottom: "30px", border: "1px solid #EAB308 " }}></Box>
 
                             </Grid>
                             <Grid size={{ xs: 12 }}>
@@ -136,7 +136,7 @@ const ChangePassword = () => {
                                     fullWidth
 
                                     sx={{
-                                        // backgroundColor: "#f1b600",
+                                        // backgroundColor: "#EAB308",
                                         backgroundColor: "transparent",
                                         color: "transparent",
                                         // fontWeight: 600,
@@ -296,7 +296,7 @@ const ChangePassword = () => {
                                 <Grid size={{ xs: 12 }} display="flex" justifyContent="center">
                                     <CustomButton
                                         sx={{
-                                            backgroundColor: "#f1b600",
+                                            backgroundColor: "#EAB308",
                                             fontWeight: 600,
                                             borderRadius: 2,
                                             textTransform: "none",
