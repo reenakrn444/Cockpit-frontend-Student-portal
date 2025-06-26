@@ -40,9 +40,12 @@ const TrainingQuestion = () => {
     (q) =>
       q.syllabus === syllabusName &&
       q.book === bookName &&
-      q.chapter === chapterName
+      q.chapter === chapterName && q.isactive === true
   );
 
+
+  console.log(questions, "filteredQuestions");
+  // filter(question => question?.isactive)
   const totalPages = Math.ceil(filteredQuestions.length / questionsPerPage);
   const paginatedQuestions = filteredQuestions.slice(
     (currentPage - 1) * questionsPerPage,
@@ -154,7 +157,7 @@ const TrainingQuestion = () => {
       </Grid>
       <Box sx={{ p: 3 }}>
         <Grid container spacing={3} justifyContent="center">
-          {paginatedQuestions?.filter(question => question?.isactive)?.map((question, index) => (
+          {paginatedQuestions?.map((question, index) => (
             <Grid size={{ xs: 12, }} key={question._id || index}>
               <Box sx={{ border: "1px solid #ccc", borderRadius: 2 }}>
                 <Box

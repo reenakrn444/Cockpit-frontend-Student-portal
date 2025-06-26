@@ -209,7 +209,7 @@ const ChangePassword = () => {
                                             ),
                                             sx: {
                                                 backgroundColor: "white", '& input': {
-                                                    fontWeight: showPassword ? 400 : 700, // ✅ Apply to input text only
+                                                    fontWeight: showPassword?.current ? 400 : 700, // ✅ Apply to input text only
                                                 },
                                                 '& input::placeholder': {
                                                     fontWeight: "400",                      // ✅ Normal weight for placeholder
@@ -246,7 +246,7 @@ const ChangePassword = () => {
                                             ),
                                             sx: {
                                                 backgroundColor: "white", '& input': {
-                                                    fontWeight: showPassword ? 400 : 700, // ✅ Apply to input text only
+                                                    fontWeight: showPassword?.new ? 400 : 700, // ✅ Apply to input text only
                                                 },
                                                 '& input::placeholder': {
                                                     fontWeight: "400",                      // ✅ Normal weight for placeholder
@@ -283,7 +283,7 @@ const ChangePassword = () => {
                                             ),
                                             sx: {
                                                 backgroundColor: "white", '& input': {
-                                                    fontWeight: showPassword ? 400 : 700, // ✅ Apply to input text only
+                                                    fontWeight: showPassword?.confirm ? 400 : 700, // ✅ Apply to input text only
                                                 },
                                                 '& input::placeholder': {
                                                     fontWeight: "400",                      // ✅ Normal weight for placeholder
