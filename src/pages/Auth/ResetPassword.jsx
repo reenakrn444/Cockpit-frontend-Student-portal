@@ -77,6 +77,14 @@ const ResetPassword = () => {
                 px: 2,
             }}
         >
+            <Box component={Link}
+                to="/" sx={{ position: "fixed", top: 20, left: 20 }}>
+                <img
+                    src="/src/assests/images/fulllogo.svg"
+                    alt="Plane"
+                    style={{ height: "160px" }}
+                />
+            </Box>
             <Box
                 sx={{
                     backgroundColor: 'rgba(0, 0, 0, 0.19)',
@@ -148,7 +156,7 @@ const ResetPassword = () => {
                                         onClick={() => setShowPassword((prev) => !prev)}
                                         edge="end"
                                     >
-                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        {showPassword ? <Visibility /> : <VisibilityOff />}
                                     </IconButton>
                                 </InputAdornment>
                             ),
