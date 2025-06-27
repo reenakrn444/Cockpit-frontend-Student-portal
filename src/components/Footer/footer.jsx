@@ -17,7 +17,7 @@ function FooterSection() {
     <Box
       component="footer"
       sx={{
-        backgroundColor: '#112b4b',
+        backgroundColor: '#183251',
         color: 'white',
         py: 2,
         px: 2,

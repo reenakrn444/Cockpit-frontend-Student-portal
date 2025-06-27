@@ -59,7 +59,7 @@ const ThemeSettings = () => {
                     </Box> */}
                     <Box
                         sx={{
-                            backgroundColor: "#0c2340",
+                            backgroundColor: "#183251",
                             borderRadius: 3,
                             px: 4,
                             py: 4,
@@ -107,15 +107,17 @@ const ThemeSettings = () => {
                                     fullWidth
 
                                     sx={{
-                                        // backgroundColor: "#EAB308",
+                                        // backgroundColor: "#f1b600",
                                         backgroundColor: "transparent",
                                         color: "transparent",
+                                        cursor: "default", // disables pointer hand
+                                        pointerEvents: "none",
                                         // fontWeight: 600,
                                         // borderRadius: 0,
                                         textTransform: "none",
-                                        "&:hover": {
-                                            backgroundColor: "#d9a600",
-                                        },
+                                        // "&:hover": {
+                                        //     backgroundColor: "#d9a600",
+                                        // },
                                     }}
                                 >
                                     Delete Account

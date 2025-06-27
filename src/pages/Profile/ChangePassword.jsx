@@ -82,13 +82,13 @@ const ChangePassword = () => {
 
 
     return (
-        <Box sx={{ p: 5, backgroundColor: "#fafafa", display:"flex", justifyContent:"center", alignItems:"center", minHeight: 'calc(80vh - 64px)' }}>
+        <Box sx={{ p: 5, backgroundColor: "#fafafa", display: "flex", justifyContent: "center", alignItems: "center", minHeight: 'calc(80vh - 64px)' }}>
             <Grid container spacing={4} justifyContent="center">
                 {/* Left Card */}
                 <Grid size={{ xs: 12, md: 4 }}>
                     <Box
                         sx={{
-                            backgroundColor: "#0c2340",
+                            backgroundColor: "#183251",
                             borderRadius: 3,
                             px: 4,
                             py: 4,
@@ -139,12 +139,14 @@ const ChangePassword = () => {
                                         // backgroundColor: "#f1b600",
                                         backgroundColor: "transparent",
                                         color: "transparent",
+                                        cursor: "default", // disables pointer hand
+                                        pointerEvents: "none",
                                         // fontWeight: 600,
                                         // borderRadius: 0,
                                         textTransform: "none",
-                                        "&:hover": {
-                                            backgroundColor: "#d9a600",
-                                        },
+                                        // "&:hover": {
+                                        //     backgroundColor: "#d9a600",
+                                        // },
                                     }}
                                 >
                                     Delete Account

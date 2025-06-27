@@ -287,7 +287,7 @@ const TrainingQuestion = () => {
         </Grid>
 
         <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
-          <Pagination
+          {filteredQuestions.length > 0 && <Pagination
             count={totalPages}
             page={currentPage}
             onChange={(event, value) => {
@@ -303,12 +303,12 @@ const TrainingQuestion = () => {
                 },
               },
             }}
-          />
+          />}
         </Box>
 
         {console.log(Object.keys(selectedAnswers).length, filteredQuestions, "filteredQuestions")}
 
-        {Object.keys(selectedAnswers).length === filteredQuestions.length && userId && (
+        {filteredQuestions.length > 0 && Object.keys(selectedAnswers).length === filteredQuestions.length && userId && (
           <Box sx={{ mt: 4, display: "flex", justifyContent: "center" }}>
             <CustomButton
               variant="contained"

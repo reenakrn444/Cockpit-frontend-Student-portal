@@ -18,6 +18,7 @@ import ComingSoon from '../pages/CommingSoon/commingSoon';
 import ScrollToTop from '../components/ScrollToTop';
 import TermsAndConditions from '../components/Footer/TermsAndConditions';
 import PrivacyPolicy from '../components/Footer/PrivacyPolicy';
+import CookiesPolicy from '../components/Footer/Cookies';
 
 
 const AppContent = () => {
@@ -43,6 +44,7 @@ const AppContent = () => {
           <Route path="/resetpassword/:token" element={<ResetPassword />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/cookies" element={<CookiesPolicy />} />
           <Route path="/training" element={<TrainingSyllabus />} />
           <Route path="/chapter" element={<Chapter />} />
           <Route path="/trainingQuestion/:syllabusName/:bookName/:chapterName" element={<TrainingQuestion />} />
@@ -52,6 +54,7 @@ const AppContent = () => {
           <Route path="/pricing" element={<Subscription />} />
           <Route path="/syllabus" element={<ComingSoon />} />
           <Route path="/taketest" element={<ComingSoon />} />
+
 
           <Route element={<AuthRoute />}>
             <Route path="/userprofile" element={<UserProfile />} />

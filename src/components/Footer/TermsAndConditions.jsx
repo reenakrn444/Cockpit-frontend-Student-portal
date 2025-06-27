@@ -1,25 +1,8 @@
 import {
     Link,
 } from '@mui/material';
-
-const Section = ({ title, items }) => (
-    <Box mb={4}>
-        <Typography variant="h6" component="h2" sx={{ color: '#303A42', mt: 4, mb: 2 }}>
-            {title}
-        </Typography>
-        <List sx={{ pl: 2 }}>
-            {items.map((item, index) => (
-                <ListItem
-                    key={index}
-                    sx={{ pl: 3, position: 'relative', mb: 1 }}
-                >
-                    <Box component="span" sx={{ position: 'absolute', left: 0, color: '#303A42', fontSize: '1.2em' }}>•</Box>
-                    <Typography variant="body2">{item}</Typography>
-                </ListItem>
-            ))}
-        </List>
-    </Box>
-);
+import { Section } from './Section';
+import { formatedDate } from '../../Helper/DayCalculation/Daycalculation';
 
 const TermsAndConditions = () => {
     const theme = useTheme();
@@ -30,9 +13,6 @@ const TermsAndConditions = () => {
             <Container
                 maxWidth="xl"
                 sx={{
-                    // backgroundColor: '#ffffff',
-                    // borderRadius: '12px',
-                    // boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
                     padding: isMobile ? 2 : 5,
                 }}
             >
@@ -41,7 +21,7 @@ const TermsAndConditions = () => {
                 </Typography>
 
                 <Typography variant="body2" className="last-updated" sx={{ color: '#718096', mb: 3, fontStyle: 'italic' }}>
-                    Last Updated: April 30, 2025
+                    Last Updated: {formatedDate(new Date())}
                 </Typography>
 
                 <Typography paragraph>
@@ -221,13 +201,13 @@ const TermsAndConditions = () => {
                                 support@thecockpit.in
                             </Link>
                         </ListItem>
-                        <ListItem sx={{ pl: 3, position: 'relative', mb: 1 }}
+                        {/* <ListItem sx={{ pl: 3, position: 'relative', mb: 1 }}
                         >
                             <Box component="span" sx={{ position: 'absolute', left: 0, color: '#303A42', fontSize: '1.2em' }}>•</Box>
                             <Link href="https://thecockpit.in/contact" target="_blank" rel="noopener noreferrer" underline="hover">
                                 https://thecockpit.in/contact
                             </Link>
-                        </ListItem>
+                        </ListItem> */}
                     </List>
                 </Box>
                 {/* Add other sections here... */}
