@@ -7,7 +7,7 @@ import instagramIcon from "../../assests/images/InstagramIcon.svg";
 import TelegramIcon from "@mui/icons-material/Send";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
-import { platformLinks } from './UrlLinksColor';
+import { platformLinks, ResourcesLink } from './UrlLinksColor';
 
 
 function FooterSection() {
@@ -17,7 +17,7 @@ function FooterSection() {
     <Box
       component="footer"
       sx={{
-        backgroundColor: '#112b4b',
+        backgroundColor: '#183251',
         color: 'white',
         py: 2,
         px: 2,
@@ -30,8 +30,8 @@ function FooterSection() {
     >
       <Box sx={{ maxWidth: "xl", mx: 'auto' }}>
         <Grid container spacing={2} alignItems="flex-start" justifyContent="center" textAlign="left">
-          <Grid size={{ xs: 12, sm: 12, md: 4 }} sx={{ display: "grid", justifyContent: "center", m:"auto" }}>
-            <Box component={Link} to="/" sx={{ display: 'flex', alignItems: 'center', justifyContent:"center"}}>
+          <Grid size={{ xs: 12, sm: 12, md: 3 }} sx={{ display: "grid", justifyContent: "center", m: "auto" }}>
+            <Box component={Link} to="/" sx={{ display: 'flex', alignItems: 'center', justifyContent: "center" }}>
               <img src="/src/assests/images/logo_tagline_White.svg" alt="plane" style={{ height: 100 }} />
             </Box>
             {/* <Typography variant="h4" sx={{ fontSize: { xs: '1.5rem', md: '2rem' } }}>
@@ -40,16 +40,31 @@ function FooterSection() {
 
           </Grid>
 
-          {/* <Grid size={{ xs: 12, sm: 12, md: 3, xl: 3, lg: 3 }} className="footer-platforms">
+          <Grid size={{ xs: 12, sm: 12, md: 3, }} sx={{ display: "grid", justifyContent: "center" }} className="footer-platforms" >
             <Typography variant="h6" sx={{ color: '#EAB308', mb: 2 }}>
               Resources
             </Typography>
-            <Typography variant="body1">Press</Typography>
-            <Typography variant="body1">FAQ</Typography>
-          </Grid> */}
+            {ResourcesLink.map((link) => {
+              const isActive = location.pathname === link.path;
 
-          <Grid size={{ xs: 12, sm: 12, md: 4, }} sx={{ display: "grid", justifyContent: "center" }} className="footer-platforms" >
-           
+              return (
+                <Typography key={link.path} variant="body1">
+                  <Link
+                    to={link.path}
+                    style={{
+                      textDecoration: 'none',
+                      color: isActive ? '#EAB308' : 'white',
+                    }}
+                  >
+                    {link.label}
+                  </Link>
+                </Typography>
+              );
+            })}
+          </Grid>
+
+          <Grid size={{ xs: 12, sm: 12, md: 3, }} sx={{ display: "grid", justifyContent: "center" }} className="footer-platforms" >
+
             <Typography variant="h6" sx={{ color: '#EAB308', mb: 2 }}>
               Platforms
             </Typography>
@@ -72,7 +87,7 @@ function FooterSection() {
             })}
           </Grid>
 
-          <Grid size={{ xs: 12, sm: 12, md: 4, }} sx={{ display: "grid", justifyContent: "center" }} className="footer-platforms">
+          <Grid size={{ xs: 12, sm: 12, md: 3, }} sx={{ display: "grid", justifyContent: "center" }} className="footer-platforms">
             {/* <Grid container spacing={0} > */}
             <Typography variant="h6" sx={{ color: '#EAB308', mb: 2 }}>
               Contact Us

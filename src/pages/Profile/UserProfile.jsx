@@ -171,7 +171,7 @@ const UserProfile = () => {
   return (
     <Box sx={{ p: 4 }}>
       <Grid container justifyContent="space-between" alignItems="center">
-        <Typography variant="h6" fontWeight="bold">
+        <Typography variant="h6" fontWeight="bold" sx={{ color: "#3E435D" }}>
           Good Morning, Captain
         </Typography>
         <Typography variant="subtitle2">🟡 In-Flight</Typography>
@@ -311,7 +311,7 @@ const UserProfile = () => {
           </form>
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
-          <Card sx={{ backgroundColor: "#0c2340", color: "white", borderRadius: 2, margin: 5, maxWidth: 400, m: "auto", }}>
+          <Card sx={{ backgroundColor: "#183251", color: "white", borderRadius: 2, margin: 5, maxWidth: 400, m: "auto", }}>
             <CardContent>
               <Typography variant="h6" align="center" color="#EAB308" gutterBottom>
                 FLIGHT PLAN
@@ -344,7 +344,7 @@ const UserProfile = () => {
           <Grid size={{ xs: 12, md: 4 }} key={label} >
             <Box
               sx={{
-                backgroundColor: "#0c2340",
+                backgroundColor: "#183251",
                 height: 130,
                 display: "flex",
                 justifyContent: "center",
