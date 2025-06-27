@@ -5,4 +5,10 @@ const platformLinks = [
     { label: 'Syllabus', path: '/syllabus' }
 ];
 
-export { platformLinks }
+
+const ResourcesLink = [
+    { label: 'Terms and Conditions', path: '/terms-and-conditions' },
+    { label: 'Privacy Policy', path: '/privacy-policy' },
+]
+
+export { platformLinks, ResourcesLink }

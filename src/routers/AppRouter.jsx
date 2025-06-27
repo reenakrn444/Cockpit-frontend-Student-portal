@@ -16,6 +16,8 @@ import ChangePassword from '../pages/Profile/ChangePassword';
 import ThemeSettings from '../pages/Profile/ThemeSetting';
 import ComingSoon from '../pages/CommingSoon/commingSoon';
 import ScrollToTop from '../components/ScrollToTop';
+import TermsAndConditions from '../components/Footer/TermsAndConditions';
+import PrivacyPolicy from '../components/Footer/PrivacyPolicy';
 
 
 const AppContent = () => {
@@ -39,6 +41,8 @@ const AppContent = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/forgetpassword" element={<ForgetPassword />} />
           <Route path="/resetpassword/:token" element={<ResetPassword />} />
+          <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/training" element={<TrainingSyllabus />} />
           <Route path="/chapter" element={<Chapter />} />
           <Route path="/trainingQuestion/:syllabusName/:bookName/:chapterName" element={<TrainingQuestion />} />
