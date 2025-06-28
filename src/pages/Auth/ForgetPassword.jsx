@@ -81,12 +81,33 @@ const ForgetPassword = () => {
                 px: 2,
             }}
         >
-             <Box component={Link}
-                to="/" sx={{ position: "fixed", top: 20, left: 20 }}>
-                <img
+            <Box component={Link}
+                to="/" sx={{
+                    position: "fixed", top: { xs: 10, sm: 10 }, left: {
+                        xs: '50%',   // Center horizontally on small screens
+                        sm: '20px',  // Align to left on larger screens
+                        md: '20px',
+                    },
+                    transform: {
+                        xs: 'translateX(-50%)',  // Center adjustment for xs
+                        sm: 'none',
+                    },
+                }}>
+
+                <Box
+                    component="img"
                     src="/src/assests/images/fulllogo.svg"
                     alt="Plane"
-                    style={{ height: "160px" }}
+                    sx={{
+                        height: {
+                            xs: 120,  // 👈 Small screens
+                            sm: 160,  // 👈 Medium and up
+                        },
+                        mb: {
+                            xs: 15,
+                            sm: 0
+                        }
+                    }}
                 />
             </Box>
             <Box

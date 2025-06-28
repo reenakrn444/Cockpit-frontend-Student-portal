@@ -27,6 +27,7 @@ const PrivacyPolicy = () => {
                 maxWidth="xl"
                 sx={{
                     padding: isMobile ? 2 : 5,
+                    fontFamily: 'Jost'
                 }}
             >
                 <Typography variant="h3" component="h1" sx={{ color: '#303A42', mb: 1, borderBottom: '2px solid #e2e8f0', pb: 1 }}>
@@ -64,7 +65,7 @@ const PrivacyPolicy = () => {
                         ['Cookies', 'Small files stored on your device to track browsing activity and preferences.'],
                         ['Device', 'Any hardware accessing the Service, such as a computer, mobile phone, or tablet.'],
                         ['Personal Data', 'Information relating to an identified or identifiable individual, including name, email address, or IP address, as defined under the DPDPA.'],
-                        ['Service', <>The website at <Link href="https://thecockpit.in" target="_blank" rel="noopener noreferrer">https://thecockpit.in</Link>.</>],
+                        ['Service', <>The website at <a href="https://thecockpit.in">https://thecockpit.in</a>.</>],
                         ['Service Provider', 'A third party processing data on our behalf to support the Service.'],
                         ['Third-Party Social Media Service', 'External platforms used for login or account creation, including Google, Facebook, Instagram, Twitter, and LinkedIn.'],
                         ['Usage Data', 'Automatically collected data, including IP addresses, browser details, or visit duration.'],
@@ -129,7 +130,7 @@ const PrivacyPolicy = () => {
                 ])}
                 <Typography>
                     You may manage Cookie settings through your browser. For details, refer to our Cookies Policy at{' '}
-                    <Link href="https://thecockpit.in/cookies" target="_blank" rel="noopener">https://thecockpit.in/cookies</Link>.
+                    <a href="https://thecockpit.in/cookies">https://thecockpit.in/cookies</a>
                 </Typography>
 
                 <Divider sx={{ my: 3 }} />
@@ -156,7 +157,7 @@ const PrivacyPolicy = () => {
                         </ListItem>
                     ))}
                 </List>
-<Divider sx={{ my: 2 }} />
+                <Divider sx={{ my: 2 }} />
                 <Typography variant="h6" gutterBottom>Legal Bases for Processing</Typography>
                 <Typography>
                     Under the Digital Personal Data Protection Act, 2023, we process Personal Data based on:
@@ -246,7 +247,7 @@ const PrivacyPolicy = () => {
                 <Typography>
                     Contact <Link href="mailto:support@thecockpit.in">support@thecockpit.in</Link> to exercise these rights. We will respond within one month, extendable per GDPR.
                 </Typography>
- <Divider sx={{ my: 3 }} />
+                <Divider sx={{ my: 3 }} />
                 <Typography variant="h6">Rights for California Residents (CCPA/CPRA)</Typography>
                 <Typography>If you are a California resident, you have the right to:</Typography>
                 {renderList([
@@ -259,12 +260,12 @@ const PrivacyPolicy = () => {
                 <Typography>
                     Submit requests to <Link href="mailto:support@thecockpit.in">support@thecockpit.in</Link> with "CCPA Request" in the subject line. We will verify your identity and respond within 45 days, extendable by 45 days. Authorized agents may submit requests with your signed authorization.
                 </Typography>
- <Divider sx={{ my: 3 }} />
+                <Divider sx={{ my: 3 }} />
                 <Typography variant="h6">CalOPPA Compliance</Typography>
                 <Typography>
                     For users in California, we disclose categories of Personal Data collected, allow requests regarding third-party data sharing, and honor "Do Not Track" signals to the extent feasible.
                 </Typography>
-                 <Divider sx={{ my: 3 }} />
+                <Divider sx={{ my: 3 }} />
 
                 <Typography variant="h6">Other Jurisdictions</Typography>
                 <Typography>
