@@ -13,7 +13,7 @@ const TrainingQuestion = () => {
   const [currentQuestionId, setCurrentQuestionId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const questionsPerPage = 5;
+  const questionsPerPage = 50;
   const navigate = useNavigate();
   const location = useLocation();
   const { syllabusTitle, syllabusId, bookId, chapterId, activeBook,  } = location.state
@@ -51,6 +51,7 @@ const TrainingQuestion = () => {
     (currentPage - 1) * questionsPerPage,
     currentPage * questionsPerPage
   );
+console.log(totalPages, "totalPages", questionsPerPage);
 
   const handleOptionChange = (questionId, optionIndex) => {
     setSelectedAnswers((prev) => ({

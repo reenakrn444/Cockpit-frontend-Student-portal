@@ -35,7 +35,7 @@ const AppContent = () => {
   return (
     <>
       {!hideHeaderFooter && <Header />}
-      <Box sx={{ flex: 1, minHeight: 'calc(80vh - 64px)' }}>
+      <Box sx={{ flex: 1, minHeight: {xs : 'calc(100vh - 64px)', md : 'calc(80vh - 64px)'} }}>
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />

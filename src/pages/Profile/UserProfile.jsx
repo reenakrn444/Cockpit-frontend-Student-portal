@@ -1,7 +1,7 @@
 import { apiGetToken, apiPostToken, apiPostImageUpload } from "../../api/axios";
 import { snackbarEmitter } from "../../components/snackbar/CustomSnackBar";
 import { CustomButton } from "../../components";
-import { DayCalculation, formatedDate } from "../../Helper/DayCalculation/Daycalculation";
+import { DayCalculation, formatedDate, getGreeting } from "../../Helper/DayCalculation/Daycalculation";
 
 const UserProfile = () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -172,12 +172,12 @@ const UserProfile = () => {
     <Box sx={{ p: 4 }}>
       <Grid container justifyContent="space-between" alignItems="center">
         <Typography variant="h6" fontWeight="bold" sx={{ color: "#3E435D" }}>
-          Good Morning, Captain
+          {getGreeting()}, Captain
         </Typography>
         <Typography variant="subtitle2">🟡 In-Flight</Typography>
       </Grid>
       <Typography variant="caption" color="gray">
-        {formatedDate(subscriptionInfo?.subscriptionStartDate ? subscriptionInfo?.subscriptionStartDate : userData?.createdAt)}
+        {formatedDate(new Date())}
       </Typography>
 
       <Typography

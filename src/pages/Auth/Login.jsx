@@ -143,11 +143,32 @@ const Login = () => {
       }}
     >
       <Box component={Link}
-        to="/" sx={{position:"fixed", top:20, left :20}}>
-        <img
+        to="/" sx={{
+          position: "fixed", top: { xs: 10, sm: 10 }, left: {
+            xs: '50%',   // Center horizontally on small screens
+            sm: '20px',  // Align to left on larger screens
+            md: '20px',
+          },
+          transform: {
+            xs: 'translateX(-50%)',  // Center adjustment for xs
+            sm: 'none',
+          },
+        }}>
+
+        <Box
+          component="img"
           src="/src/assests/images/fulllogo.svg"
           alt="Plane"
-          style={{ height: "160px" }}
+          sx={{
+            height: {
+              xs: 120,  // 👈 Small screens
+              sm: 160,  // 👈 Medium and up
+            },
+            mb: {
+              xs: 15,
+              sm: 0
+            }
+          }}
         />
       </Box>
 
@@ -161,6 +182,7 @@ const Login = () => {
           maxWidth: 420,
           color: 'white',
           zIndex: 2,
+          mt: { xs: 4, sm: 2, md: 0 }
         }}
       >
         <Typography variant="h6" align="center" gutterBottom>
