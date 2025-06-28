@@ -5,7 +5,7 @@ import { formatedDate } from '../../Helper/DayCalculation/Daycalculation';
 
 const CookiesPolicy = () => {
     return (
-        <Container maxWidth="xl" sx={{ py: 4, color: '#303A42' }}>
+        <Container maxWidth="xl" sx={{ py: 4, color: '#303A42', fontFamily: 'Jost' }}>
             <Typography variant="h4" sx={{ color: '#303A42', mb: 1, borderBottom: '2px solid #e2e8f0', pb: 1 }}>Cookies Policy</Typography>
             <Typography variant="body2" sx={{ color: '#718096', mb: 3, fontStyle: 'italic' }}>Last Updated: {formatedDate(new Date())}</Typography>
 
@@ -15,7 +15,7 @@ const CookiesPolicy = () => {
 
             <Typography paragraph>
                 Cookies are small text files placed on your device (computer, mobile device, or other) by a website to store details about your browsing activity. Cookies do not typically contain personally identifiable information, but personal data we store about you may be linked to information stored in and obtained from cookies. For more details on how we handle, store, and secure your personal data, please refer to our{' '}
-                <Link href="https://thecockpit.in/privacy" target="_blank" rel="noopener">Privacy Policy</Link>.
+                <a href="https://thecockpit.in/privacy-policy">Privacy Policy</a>.
             </Typography>
 
             <Typography paragraph>
@@ -40,7 +40,7 @@ const CookiesPolicy = () => {
                 </ListItem>
                 <ListItem sx={{ display: 'list-item' }}>
                     <strong>Website</strong> refers to TheCockpit, accessible from{' '}
-                    <Link href="https://thecockpit.in" target="_blank" rel="noopener">https://thecockpit.in</Link>.
+                    <a href="https://thecockpit.in">https://thecockpit.in</a>.
                 </ListItem>
                 <ListItem sx={{ display: 'list-item' }}>
                     <strong>You</strong> refers to the individual accessing or using the Website, or a company or legal entity on behalf of which such individual is accessing or using the Website.
