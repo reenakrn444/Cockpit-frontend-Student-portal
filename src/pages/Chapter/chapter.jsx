@@ -14,7 +14,7 @@ const ChapterSection = () => {
     const ActiveBookId = locationData?.activeBookId;
     const [activeBook, setActiveBook] = useState("");
     const [bookId, setBookId] = useState("");
-const tabRefs = useRef({});
+    const tabRefs = useRef({});
 
 
     console.log(locationData, "locationData", syllabusTitle, "syllabusTitle");
@@ -82,14 +82,14 @@ const tabRefs = useRef({});
     }, []);
 
     useEffect(() => {
-  if (bookId && tabRefs.current[bookId]) {
-    tabRefs.current[bookId].scrollIntoView({
-      behavior: 'smooth',
-      inline: 'center',
-      block: 'nearest',
-    });
-  }
-}, [bookId, books]);
+        if (bookId && tabRefs.current[bookId]) {
+            tabRefs.current[bookId].scrollIntoView({
+                behavior: 'smooth',
+                inline: 'center',
+                block: 'nearest',
+            });
+        }
+    }, [bookId, books]);
 
     const filteredChapters = useMemo(() => {
         return chapters.filter((chapter) => chapter.book === activeBook);
@@ -174,18 +174,16 @@ const tabRefs = useRef({});
                                     borderRadius: 2,
                                     fontWeight: 500,
                                     cursor: 'pointer',
-                                    // display: "flex",
-                                    // justifyContent: "space-around",
-                                    // alignItems: "left"
+
                                 }}
                             >
                                 <Grid container spacing={2} alignItems="right" display="flex" justifyContent="center">
-                                    <Grid size={{ xs: 7 }} alignItems="center" display="flex" justifyContent="right">
+                                    <Grid size={{ xs: 10, sm: 11 }} alignItems="left" display="grid" justifyContent={{ xs: "left", sm: "center" }} pl={{ xs: 0, sm: 4 }}>
                                         <Typography sx={{ fontWeight: 500 }}>
                                             Chapter {chapter?.chapterno}:  {chapter?.chaptername?.toUpperCase()}
                                         </Typography>
                                     </Grid>
-                                    <Grid size={{ xs: 5 }} alignItems="center" display="flex" justifyContent="right">
+                                    <Grid size={{ xs: 2, sm: 1 }} alignItems="center" display="flex" justifyContent={{ xs: "right" }} pr={{ xs: 0 }}>
                                         {isCompleted && (
                                             <CheckCircleIcon sx={{ color: '#27C76F', fontSize: 32 }} />
                                         )}
