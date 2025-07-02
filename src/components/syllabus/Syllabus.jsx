@@ -8,13 +8,7 @@ const Syllabus = ({ handleClick }) => {
   const token = localStorage.getItem("authToken");
   const userData = JSON.parse(localStorage.getItem('user'));
   const [userSyllabuses, setUserSyllabuses] = useState([]);
-  console.log(userData, "userData22222");
 
-  // const handleClick = (title, id) => {
-  //   console.log(title, id, "paramssssss");
-
-  //   navigate('/chapter', { state: { title, id } });
-  // };
 
   useEffect(() => {
     const fetchSyllabus = async () => {

@@ -18,20 +18,6 @@ const ResetPassword = () => {
     const cleanedToken = token.startsWith(':') ? token.substring(1) : token;
     const [loading, setLoading] = useState(false);
 
-    // const handleInputChange = (field, value) => {
-    //     if (field === 'password') setPassword(value);
-
-    //     setErrors((prev) => {
-    //         let errorMsg = '';
-
-    //         if (value.trim() === '') {
-    //             errorMsg = `${field[0].toUpperCase() + field.slice(1)} is required`;
-    //         }
-
-    //         return { ...prev, [field]: errorMsg };
-    //     });
-    // };
-
     const handleInputChange = (field, value) => {
         if (field === 'password') setPassword(value);
         if (field === 'confirmPassword') setConfirmPassword(value);
@@ -124,10 +110,7 @@ const ResetPassword = () => {
                     src="/src/assests/images/fulllogo.svg"
                     alt="Plane"
                     sx={{
-                        height: {
-                            xs: 120,  // 👈 Small screens
-                            sm: 160,  // 👈 Medium and up
-                        },
+                        height: 100,
                         mb: {
                             xs: 15,
                             sm: 0
