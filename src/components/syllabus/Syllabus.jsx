@@ -1,8 +1,8 @@
-import { apiGetToken } from "../../api/axios";
+import { apiGet } from "../../api/axios";
 import { toCapitalize } from "../../Helper/convertUpperCase";
 import { snackbarEmitter } from "../../components/snackbar/CustomSnackBar"
 
-const Syllabus = () => {
+const Syllabus = ({ handleClick }) => {
   const navigate = useNavigate();
   const [syllabus, setSyllabus] = useState([]);
   const token = localStorage.getItem("authToken");
@@ -10,16 +10,16 @@ const Syllabus = () => {
   const [userSyllabuses, setUserSyllabuses] = useState([]);
   console.log(userData, "userData22222");
 
-  const handleClick = (title, id) => {
-    console.log(title, id, "paramssssss");
+  // const handleClick = (title, id) => {
+  //   console.log(title, id, "paramssssss");
 
-    navigate('/chapter', { state: { title, id } });
-  };
+  //   navigate('/chapter', { state: { title, id } });
+  // };
 
   useEffect(() => {
     const fetchSyllabus = async () => {
       try {
-        const response = await apiGetToken("/getSyllabus");
+        const response = await apiGet("/getSyllabus");
         setSyllabus(response.data.data);
         getStudentProgress();
       } catch (error) {
@@ -28,7 +28,7 @@ const Syllabus = () => {
     };
     const getStudentProgress = async () => {
       try {
-        const response = await apiGetToken(`/task/studentTaskProgress?userId=${userData._id}`);
+        const response = await apiGet(`/task/studentTaskProgress?userId=${userData._id}`);
         console.log(response, "responsegetStudentprogress");
         if (response?.data?.status === 200) {
           const taskStatus = response?.data?.data;

@@ -16,7 +16,6 @@ const TrainingQuestion = () => {
   const [attempted, setAttempted] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-
   const questionsPerPage = 50;
   const navigate = useNavigate();
   const location = useLocation();
@@ -38,9 +37,9 @@ const TrainingQuestion = () => {
 
   const filteredQuestions = questions.filter(
     (q) =>
-      q.syllabus === syllabusName &&
-      q.book === bookName &&
-      q.chapter === chapterName &&
+      // q.syllabus === syllabusName &&
+      // q.book === bookName &&
+      // q.chapter === chapterName &&
       q.isactive === true
   );
 
