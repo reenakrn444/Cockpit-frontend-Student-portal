@@ -74,12 +74,10 @@ function HomeSection() {
               alignItems="center"
             >
               <Grid size={{ xs: 12 }}>
-                <Typography fontWeight={600} color="#183251" sx={{ fontFamily: "Exo, sans-serif", fontSize: { xs: "1.75rem", sm: "2rem", md: "2.5rem", lg: "3rem", xl: "3.25rem" } }}>Build Your Skills With <br /><Box component="span" color="#EAB308">COCKPIT</Box> — Your Gateway To The Skies!</Typography>
+                <Typography fontWeight={600} color="#183251" sx={{ fontFamily: "Exo, sans-serif", fontSize: { xs: "1.75rem", sm: "2rem", md: "2.5rem", lg: "3rem", xl: "3.25rem" } }}>Build Your Skills For DGCA Exams With <br /><Box component="span" color="#EAB308">COCKPIT</Box> — Your Gateway To The Skies!</Typography>
 
                 <Typography className="banner-text1" sx={{ mt: 3, fontSize: { xs: '18px', sm: '18px', md: '18px', lg: '18px', xl: '18px' }, width: { xs: '100%', sm: '100%', md: '60%', lg: '60%', xl: '60%' } }}>
-                  Embark on your aviation journey with expert-led training and
-                  personalised learning. Whether you’re a beginner or preparing
-                  for exams, we’ll help you soar higher.
+                  Most trusted pilot training platform for aspiring aviators - offering DGCA aligned content, CPL & ATPL exam prep, adaptive mock testing, and expert aviation guidance to help you succeed.
                 </Typography>
                 <Typography fontWeight={600} className="banner-text2">
                   Ready for Takeoff?
@@ -87,14 +85,14 @@ function HomeSection() {
 
                 <Button
                   variant="contained"
-                  sx={{ mt: 2, px: 4, py: 1.5 ,textTransform: "none",}}
-                  
+                  sx={{ mt: 2, px: 4, py: 1.5, textTransform: "none", }}
+
                   onClick={handleClick}
                 >
                   Get Started
                 </Button>
               </Grid>
-              <Grid size={{xs:12}} textAlign="center">
+              <Grid size={{ xs: 12 }} textAlign="center">
                 <Box
                   component="img"
                   src="/images/Plane.png"
@@ -127,7 +125,7 @@ function HomeSection() {
             </Typography>
             <Grid container spacing={4} mt={3}>
               {Features?.map((item, index) => (
-                <Grid key={index} size={{ xs: 12, md: 6, lg: 4 }}>
+                <Grid key={index} size={{ xs: 12, sm: 3, md: 3, lg: 3 }}>
                   {/* Use flex column to push the link to the bottom */}
                   <Card
                     elevation={2}
@@ -139,13 +137,10 @@ function HomeSection() {
                       height: "100%",
                     }}
                   >
+                    <CardHeader title={item.title} className="offer-card-title"
+                      sx={{ fontWeight: "bold", mb: 2 }}></CardHeader>
                     <CardContent sx={{ flexGrow: 1 }}>
-                      <Typography
-                        className="offer-card-title"
-                        sx={{ fontWeight: "bold", mb: 2 }}
-                      >
-                        {item.title}
-                      </Typography>
+
                       <Typography
                         className="offer-card-text"
                         sx={{ color: "text.secondary", mb: 2 }}
@@ -153,6 +148,9 @@ function HomeSection() {
                         {item.text}
                       </Typography>
 
+
+                    </CardContent>
+                    <CardActions>
                       <Link
                         href={item?.navigation}
                         underline="none"
@@ -163,9 +161,9 @@ function HomeSection() {
                           mt: "auto",
                         }}
                       >
-                        Learn more →
+                        {item?.navigateText} →
                       </Link>
-                    </CardContent>
+                    </CardActions>
                   </Card>
                 </Grid>
               ))}
@@ -181,7 +179,7 @@ function HomeSection() {
         >
           <Container>
             {/* <Grid container spacing={4} justifyContent="center"> */}
-              {/* <Grid size={{ xs: 12, sm: 12, md: 8, lg: 8, xl: 8 }}>
+            {/* <Grid size={{ xs: 12, sm: 12, md: 8, lg: 8, xl: 8 }}>
                 <Typography className="testimonial-heading" fontSize={{ xs: "30px", sm: "30px", md: "40px", lg: "40px", xl: "40px" }}>
                   Aviators Review
                 </Typography>
@@ -203,7 +201,7 @@ function HomeSection() {
             </Grid> */}
 
             <Grid container spacing={4} justifyContent="center" sx={{ mt: 4 }}>
-              <Grid  size={{ xs: 12, md: 6 }}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <Typography
                   variant="h4"
                   fontWeight={700}
@@ -226,7 +224,7 @@ function HomeSection() {
             </Grid>
 
             <Grid container justifyContent="center">
-              <Grid  size={{ xs: 12, md: 8 }}>
+              <Grid size={{ xs: 12, md: 8 }}>
                 {Faq?.map(
                   (question, index) => {
                     const panel = `panel${index}`;
