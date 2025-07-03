@@ -20,6 +20,8 @@ const TrainingQuestion = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { syllabusTitle, syllabusId, bookId, chapterId, activeBook } = location.state;
+  console.log(activeBook, "activeBook");
+  
   const userId = JSON.parse(localStorage.getItem("user"));
   const { syllabusName, bookName, chapterName } = useParams();
 
@@ -186,7 +188,7 @@ const TrainingQuestion = () => {
                   // textDecoration: "underline" 
                 }}
               >
-                {toCapitalize(bookName)}
+                {toCapitalize(activeBook)}
               </Box>{" "}
               &gt; Question Banks
             </Typography>
