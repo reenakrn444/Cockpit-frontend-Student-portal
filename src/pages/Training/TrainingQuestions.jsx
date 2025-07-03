@@ -37,9 +37,6 @@ const TrainingQuestion = () => {
 
   const filteredQuestions = questions.filter(
     (q) =>
-      // q.syllabus === syllabusName &&
-      // q.book === bookName &&
-      // q.chapter === chapterName &&
       q.isactive === true
   );
 
