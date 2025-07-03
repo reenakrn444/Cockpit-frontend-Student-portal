@@ -4,9 +4,10 @@ import {
 import "./home.css";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Faq from "./Faq";
-import Features from "./Features";
+import getFeatures from "./Features";
 
 function HomeSection() {
+  const Features = getFeatures();
   const navigate = useNavigate();
   const handleClick = () => navigate("/training");
 
