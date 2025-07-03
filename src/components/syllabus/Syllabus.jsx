@@ -85,9 +85,10 @@ const Syllabus = ({ handleClick }) => {
               const total = matchedUserSyllabus?.totalChapters || 0;
               const completed = matchedUserSyllabus?.completedChapters || 0;
               const completionPercentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+              console.log(matchedUserSyllabus, "matchedUserSyllabus");
+
               return (
                 <Grid key={course._id} size={{ xs: 12, sm: 6, md: 3, lg: 2 }}>
-
                   <Card
                     sx={{
                       borderRadius: 3,
