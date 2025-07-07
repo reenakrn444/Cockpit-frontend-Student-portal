@@ -12,8 +12,8 @@ function TestSyllabus() {
 
    const navigate = useNavigate();
 
-  const handleClick = (params) => {
-    navigate('/testRules', { state: params }); 
+  const handleClick = (title,id) => {
+    navigate('/testRules', { state: { title, id } }); 
   };
 
   return (
