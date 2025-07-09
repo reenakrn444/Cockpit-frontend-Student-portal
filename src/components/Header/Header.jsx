@@ -54,8 +54,9 @@ function Header() {
   const navItems = [
     { text: "Home", path: "/" },
     { text: "Training", path: "/training" },
-    // { text: 'Test', path: '/test' },
-    // { text: "Pricing", path: "/pricing" },
+    { text: 'Test', path: '/test' },
+    { text: "Pricing", path: "/pricing" },
+    {text : "Partner with Us",  path : "partner-with-us"}
   ];
 
   const drawerContent = (

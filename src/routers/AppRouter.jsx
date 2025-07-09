@@ -19,6 +19,7 @@ import ScrollToTop from '../components/ScrollToTop';
 import TermsAndConditions from '../components/Footer/TermsAndConditions';
 import PrivacyPolicy from '../components/Footer/PrivacyPolicy';
 import CookiesPolicy from '../components/Footer/Cookies';
+import PartnerWithUsForm from '../pages/PartnerWithUs/partnerWithUS';
 
 
 const AppContent = () => {
@@ -54,7 +55,7 @@ const AppContent = () => {
           <Route path="/pricing" element={<Subscription />} />
           <Route path="/syllabus" element={<ComingSoon />} />
           <Route path="/taketest" element={<ComingSoon />} />
-
+          <Route path="/partner-with-us" element={<PartnerWithUsForm />} />
 
           <Route element={<AuthRoute />}>
             <Route path="/userprofile" element={<UserProfile />} />
