@@ -26,6 +26,8 @@ const Syllabus = () => {
         console.error("Error fetching syllabus:", error);
       }
     };
+
+    
     const getStudentProgress = async () => {
       try {
         const response = await apiGetToken(`/task/studentTaskProgress?userId=${userData._id}`);

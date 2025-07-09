@@ -19,6 +19,8 @@ import ScrollToTop from '../components/ScrollToTop';
 import TermsAndConditions from '../components/Footer/TermsAndConditions';
 import PrivacyPolicy from '../components/Footer/PrivacyPolicy';
 import CookiesPolicy from '../components/Footer/Cookies';
+import TestInstructions from '../pages/Test/TestInstructions';
+import PressPage from '../pages/Press/Press';
 
 
 const AppContent = () => {
@@ -54,6 +56,9 @@ const AppContent = () => {
           <Route path="/pricing" element={<Subscription />} />
           <Route path="/syllabus" element={<ComingSoon />} />
           <Route path="/taketest" element={<ComingSoon />} />
+          <Route path="/testInstructions" element = {<TestInstructions />} />
+          <Route path="/press" element = {<PressPage />} />
+
 
 
           <Route element={<AuthRoute />}>
