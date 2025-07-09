@@ -3,6 +3,7 @@ import { CustomButton } from '../../components';
 import { snackbarEmitter } from '../../components/snackbar/CustomSnackBar';
 import CopyrightFooter from '../../Helper/copyrighttext';
 import { Link } from 'react-router-dom';
+import { useGoogleLogin } from '@react-oauth/google';
 
 
 const Login = () => {
@@ -14,6 +15,26 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+
+  const Googlelogin = useGoogleLogin({
+    onSuccess: async (TokenResponse) => {
+      await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+        headers: {
+          Authorization: `Bearer ${TokenResponse?.access_token}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log('User Info:', data);
+          setEmail(data?.email);
+          setUsername(data?.name);
+        })
+        .catch((err) => {
+          console.error('Failed to fetch user info', err);
+        });
+    },
+    flow: 'implicit',
+  });
 
   const handleInputChange = (field, value) => {
     if (field === 'email') setEmail(value);
@@ -356,20 +377,39 @@ const Login = () => {
           </CustomButton>
         </form>
 
-        {/* <Typography variant="body2" align="center" color="white" my={2}>
+        {activeForm === 'login' && <><Typography variant="body2" align="center" color="white" my={2}>
           - OR -
         </Typography>
 
-        <Grid container justifyContent="center" spacing={2}>
-          {['apple', 'google', 'twitter'].map((provider) => (
-            <Grid key={provider}>
-              <Avatar
-                src={`/images/${provider}.png`}
-                sx={{ width: 40, height: 40, backgroundColor: 'white' }}
-              />
-            </Grid>
-          ))}
-        </Grid> */}
+          <Grid container justifyContent="center" spacing={8}>
+            {['apple', 'google'].map((provider) => (
+              <Grid key={provider} >
+                <Box
+                  src={`/src/assests/images/${provider}.svg`}
+                  sx={{
+                    width: 40,
+                    height: 40,
+                    backgroundColor: '#fff',
+                    borderRadius: '60px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    boxShadow: 1,
+                  }}
+                  onClick={() => {
+                    if (provider === "google") {
+                      Googlelogin();
+                    }
+                  }}
+                >
+                  <img src={`/src/assests/images/${provider}.svg`} alt="apple" style={{ width: 80, height: 80 }} />
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+        </>
+        }
       </Box>
 
       {/* Footer Typography OUTSIDE the card */}
