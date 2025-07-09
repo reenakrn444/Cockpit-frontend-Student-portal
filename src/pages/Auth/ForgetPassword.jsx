@@ -99,10 +99,7 @@ const ForgetPassword = () => {
                     src="/src/assests/images/fulllogo.svg"
                     alt="Plane"
                     sx={{
-                        height: {
-                            xs: 120,  // 👈 Small screens
-                            sm: 160,  // 👈 Medium and up
-                        },
+                        height: 100,
                         mb: {
                             xs: 15,
                             sm: 0

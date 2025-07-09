@@ -16,11 +16,12 @@ const TrainingQuestion = () => {
   const [attempted, setAttempted] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-
   const questionsPerPage = 50;
   const navigate = useNavigate();
   const location = useLocation();
   const { syllabusTitle, syllabusId, bookId, chapterId, activeBook } = location.state;
+  console.log(activeBook, "activeBook");
+  
   const userId = JSON.parse(localStorage.getItem("user"));
   const { syllabusName, bookName, chapterName } = useParams();
 
@@ -38,9 +39,6 @@ const TrainingQuestion = () => {
 
   const filteredQuestions = questions.filter(
     (q) =>
-      q.syllabus === syllabusName &&
-      q.book === bookName &&
-      q.chapter === chapterName &&
       q.isactive === true
   );
 
@@ -190,7 +188,7 @@ const TrainingQuestion = () => {
                   // textDecoration: "underline" 
                 }}
               >
-                {toCapitalize(bookName)}
+                {toCapitalize(activeBook)}
               </Box>{" "}
               &gt; Question Banks
             </Typography>

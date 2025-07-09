@@ -1,25 +1,19 @@
-import { apiGetToken } from "../../api/axios";
+import { apiGet } from "../../api/axios";
 import { toCapitalize } from "../../Helper/convertUpperCase";
 import { snackbarEmitter } from "../../components/snackbar/CustomSnackBar"
 
-const Syllabus = () => {
+const Syllabus = ({ handleClick }) => {
   const navigate = useNavigate();
   const [syllabus, setSyllabus] = useState([]);
   const token = localStorage.getItem("authToken");
   const userData = JSON.parse(localStorage.getItem('user'));
   const [userSyllabuses, setUserSyllabuses] = useState([]);
-  console.log(userData, "userData22222");
 
-  const handleClick = (title, id) => {
-    console.log(title, id, "paramssssss");
-
-    navigate('/chapter', { state: { title, id } });
-  };
 
   useEffect(() => {
     const fetchSyllabus = async () => {
       try {
-        const response = await apiGetToken("/getSyllabus");
+        const response = await apiGet("/getSyllabus");
         setSyllabus(response.data.data);
         getStudentProgress();
       } catch (error) {
@@ -30,7 +24,7 @@ const Syllabus = () => {
     
     const getStudentProgress = async () => {
       try {
-        const response = await apiGetToken(`/task/studentTaskProgress?userId=${userData._id}`);
+        const response = await apiGet(`/task/studentTaskProgress?userId=${userData._id}`);
         console.log(response, "responsegetStudentprogress");
         if (response?.data?.status === 200) {
           const taskStatus = response?.data?.data;
@@ -93,9 +87,10 @@ const Syllabus = () => {
               const total = matchedUserSyllabus?.totalChapters || 0;
               const completed = matchedUserSyllabus?.completedChapters || 0;
               const completionPercentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+              console.log(matchedUserSyllabus, "matchedUserSyllabus");
+
               return (
                 <Grid key={course._id} size={{ xs: 12, sm: 6, md: 3, lg: 2 }}>
-
                   <Card
                     sx={{
                       borderRadius: 3,

@@ -92,7 +92,7 @@ const ChapterSection = () => {
     }, [bookId, books]);
 
     const filteredChapters = useMemo(() => {
-        return chapters.filter((chapter) => chapter.book === activeBook);
+        return chapters.filter((chapter) => chapter?.bookId === bookId);
     }, [chapters, bookId, syllabusTitle]);
 
     const handleChapterClick = (chapter) => {
