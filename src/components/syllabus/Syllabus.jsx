@@ -20,6 +20,8 @@ const Syllabus = ({ handleClick }) => {
         console.error("Error fetching syllabus:", error);
       }
     };
+
+    
     const getStudentProgress = async () => {
       try {
         const response = await apiGet(`/task/studentTaskProgress?userId=${userData._id}`);
