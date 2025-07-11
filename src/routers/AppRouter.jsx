@@ -21,7 +21,8 @@ import PrivacyPolicy from '../components/Footer/PrivacyPolicy';
 import CookiesPolicy from '../components/Footer/Cookies';
 import PartnerWithUsForm from '../pages/PartnerWithUs/partnerWithUS';
 import PressPage from '../pages/Press/Press';
-
+import FlightLog from '../pages/Profile/FlightLog';
+import FlightLogReport from '../pages/Profile/FlightLogReport';
 
 const AppContent = () => {
   const location = useLocation();
@@ -37,7 +38,7 @@ const AppContent = () => {
   return (
     <>
       {!hideHeaderFooter && <Header />}
-      <Box sx={{ flex: 1, minHeight: {xs : 'calc(100vh - 64px)', md : 'calc(80vh - 64px)'} }}>
+      <Box sx={{ flex: 1, minHeight: { xs: 'calc(100vh - 64px)', md: 'calc(80vh - 64px)' } }}>
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -64,6 +65,8 @@ const AppContent = () => {
             <Route path="/report" element={<ReportPage />} />
             <Route path="/changepassword" element={<ChangePassword />} />
             <Route path="/theme" element={<ThemeSettings />} />
+            <Route path="/flight-log" element={<FlightLog />} />
+            <Route path="/flight-log-report" element={<FlightLogReport />} />
           </Route>
           <Route path="*" element={<h1>Page Not Found</h1>} />
         </Routes>

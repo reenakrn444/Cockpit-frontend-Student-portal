@@ -1,4 +1,3 @@
-import { DialogContentText } from '@mui/material';
 import { apiPost } from '../../api/axios';
 
 function TestPage2() {
