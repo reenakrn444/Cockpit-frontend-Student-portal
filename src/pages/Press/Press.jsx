@@ -1,4 +1,4 @@
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+
 
 const styles = {
   root: {
@@ -62,6 +62,7 @@ const styles = {
     p: 1,
     borderRadius: 3,
     backgroundColor: "white",
+    cursor: "pointer",
   },
   largeCardImage: {
     width: { xs: "100%", sm: "334px" },
@@ -69,7 +70,7 @@ const styles = {
     borderRadius: 3,
     objectFit: "cover",
     flexShrink: 0,
-    backgroundColor:"white"
+    backgroundColor: "white",
   },
   largeCardText: {
     pl: { sm: 3 },
@@ -203,14 +204,38 @@ const styles = {
   },
 };
 
-
-
-
 const PressPage = () => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const navigate = useNavigate();
 
   const handlePlayClick = () => {
     setIsPlaying(true);
+  };
+
+ const cardData = [
+  {
+    image: "/images/doctor.png",
+    text: "DGCA’s Medical Test Mandate at IAF Centres: Pros and Cons for Pilots",
+    date: "July 04 , 2025",
+    onClick: () => navigate("/blog2"),
+  },
+  {
+    image: "/images/newaeroplane.png",
+    text: "Code 7500: How Hijacking Protocols Changed Aviation Forever",
+    date: "July 11, 2025",
+    onClick: () =>  navigate("/blog3"),
+  },
+  {
+    image: "/images/aeroplaneparts.png",
+    text: "Storm Spotters in the Sky: How Airborne Weather Radar Keeps Flights Safe",
+    date: "July 11, 2025",
+    onClick: () => navigate("/blog4"),
+  }
+];
+
+
+  const handleBlog1 = () => {
+    navigate("/blog1");
   };
 
   return (
@@ -226,17 +251,17 @@ const PressPage = () => {
         <Grid size={{ xs: 12, md: 8 }}>
           <Grid container spacing={2}>
             <Grid size={{ xs: 12 }}>
-              <Card sx={styles.largeCard}>
+              <Card sx={styles.largeCard} onClick={() => handleBlog1()}>
                 <Box
                   component="img"
-                  src="/images/crash.svg"
+                  src="/images/aeroplane.png"
                   alt="Feature"
                   sx={styles.largeCardImage}
                 />
                 <Box sx={styles.largeCardText}>
                   <Typography sx={styles.pressHeading} gutterBottom>
-                    Porttitor pharetra, consectetur viverra est nisl a,
-                    vulputate id…
+                    DGCA’s New FTO Ranking System: What Aspiring Pilots Need to
+                    Know
                   </Typography>
 
                   <Typography
@@ -244,35 +269,34 @@ const PressPage = () => {
                     color="text.secondary"
                     sx={styles.bodyText}
                   >
-                    Dui massa sapien ornare leo. Sagittis, sollicitudin sed
-                    integer maecenas sit. Nibh suspendisse lectus hendrerit
-                    pretium…
+                    India’s aviation sector is booming, with airlines like
+                    IndiGo and Air India expanding fleets and routes. But recent
+                    incidents, including crashes involving trainer aircraft,
+                    have exposed gaps in the quality of some FTOs...
                   </Typography>
 
                   <Typography variant="caption" color="text.secondary">
-                    13 Sept, 2021
+                    July 11, 2025
                   </Typography>
                 </Box>
               </Card>
             </Grid>
 
-            {[...Array(6)].map((_, i) => (
+            {cardData.map((item, i) => (
               <Grid size={{ xs: 12, md: 6 }} key={i}>
-                <Card sx={{ borderRadius: "20px" }}>
+                <Card sx={{ borderRadius: "20px", cursor: "pointer" }}  onClick={item.onClick} >
                   <CardMedia
                     component="img"
-                    image="/images/aeroplane.svg"
+                    image={item.image}
                     alt={`Plane ${i}`}
                     sx={styles.smallCardMedia}
                   />
                   <CardContent>
                     <Typography sx={styles.subtitleText}>
-                      Porttitor pharetra, consectetur viverra est nisl a,
-                      vulputate id.
+                      {item.text}
                     </Typography>
-
                     <Typography variant="caption" color="text.secondary">
-                      13 Sept, 2021
+                      {item.date}
                     </Typography>
                   </CardContent>
                 </Card>
@@ -309,7 +333,7 @@ const PressPage = () => {
             </Card>
           ))}
 
-          <Typography variant="subtitle1" fontWeight="bold" gutterBottom mt={4}>
+          {/* <Typography variant="subtitle1" fontWeight="bold" gutterBottom mt={4}>
             Featured Video
           </Typography>
           <Card sx={{ borderRadius: "20px" }}>
@@ -344,7 +368,7 @@ const PressPage = () => {
                 </Box>
               </Card>
             </Box>
-          </Card>
+          </Card> */}
         </Grid>
       </Grid>
 

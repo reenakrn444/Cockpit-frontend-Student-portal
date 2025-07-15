@@ -23,6 +23,11 @@ import PartnerWithUsForm from '../pages/PartnerWithUs/partnerWithUS';
 import PressPage from '../pages/Press/Press';
 import FlightLog from '../pages/Profile/FlightLog';
 import FlightLogReport from '../pages/Profile/FlightLogReport';
+import BlogSection1 from '../pages/Press/Blog1';
+import BlogSection2 from '../pages/Press/Blog2';
+import BlogSection3 from '../pages/Press/Blog3';
+import BlogSection4 from '../pages/Press/Blog4';
+
 
 const AppContent = () => {
   const location = useLocation();
@@ -58,6 +63,10 @@ const AppContent = () => {
           <Route path="/syllabus" element={<ComingSoon />} />
           <Route path="/taketest" element={<ComingSoon />} />
           <Route path="/press" element={<PressPage />} />
+          <Route path="/blog1" element={<BlogSection1 />} />
+          <Route path="/blog2" element={<BlogSection2 />} />
+          <Route path="/blog3" element={<BlogSection3 />} />
+          <Route path="/blog4" element={<BlogSection4 />} />
           <Route path="/partner-with-us" element={<PartnerWithUsForm />} />
 
           <Route element={<AuthRoute />}>
