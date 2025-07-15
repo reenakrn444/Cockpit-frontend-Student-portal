@@ -1,14 +1,6 @@
 
 const styles = {
-  container: {
-    p: { xs: 2, sm: 4 },
-    maxWidth: "1000px",
-    mx: "auto",
-    borderRadius:"20px",
-    fontSize: "14px",
-    lineHeight: 1.8,
-    backgroundColor: "#F5F5F5",
-  },
+
   heading: {
     color: "#183251",
     fontFamily: "Jost",
@@ -46,8 +38,8 @@ const styles = {
     fontSize: { xs: "16px", sm: "18px" },
     textTransform: "none",
     color: "#EAB308",
-    borderRadius:"8px",
-    width:"auto"
+    borderRadius: "8px",
+    width: "auto"
   },
 };
 
@@ -90,89 +82,88 @@ const instructions = [
   },
 ];
 
-const TestInstructions = () => {
+const TestInstructions = ({ syllabusId, bookId, activeBook, syllabusTitle }) => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <>
-    <Box sx={{ p: { md: 10, xs: 2 } }}>
+      <Box sx={styles.container}>
 
-        <Box sx={styles.container}>
-     
-      <Typography gutterBottom sx={styles.heading}>
-        General Information
-      </Typography>
+        <Typography gutterBottom sx={styles.heading}>
+          General Information
+        </Typography>
 
-      <Typography sx={styles.itemText}>Total Questions: [X Questions]</Typography>
-      <Typography sx={styles.itemText}>Total Time: [Y Minutes]</Typography>
-      <Typography sx={styles.itemText}>Question Type: Multiple Choice Questions (MCQs)</Typography>
-      <Typography sx={styles.itemText}>
-        Marking Scheme: [Explain if applicable: No Negative Marking]
-      </Typography>
+        <Typography sx={styles.itemText}>Total Questions: [50 Questions]</Typography>
+        <Typography sx={styles.itemText}>Total Time: [90 Minutes]</Typography>
+        <Typography sx={styles.itemText}>Question Type: Multiple Choice Questions (MCQs)</Typography>
+        <Typography sx={styles.itemText}>
+          Marking Scheme: [Explain if applicable: No Negative Marking]
+        </Typography>
 
-      {/* Test Interface Overview */}
-      <Typography variant="h6" sx={{ ...styles.heading, mt: 4 }} gutterBottom>
-        Test Interface Overview
-      </Typography>
+        {/* Test Interface Overview */}
+        <Typography variant="h6" sx={{ ...styles.heading, mt: 4 }} gutterBottom>
+          Test Interface Overview
+        </Typography>
 
-     <Grid container spacing={0}>
-  {instructions.map((instruction, index) => (
-    <Grid size={{ xs: 12 }} key={index}>
-      <Typography display="inline" sx={styles.sectionTitle}>
-        {index + 1}. {instruction.title}:
-      </Typography>
-      <Box ml={2} component="ul" sx={{ pl: 2, m: 0 }}>
-        {instruction.points.map((point, i) => (
-          <li key={i} style={{ marginBottom: "4px" }}>
-            <Typography component="span" sx={styles.itemText}>
-              {point}
-            </Typography>
-          </li>
-        ))}
+        <Grid container spacing={0}>
+          {instructions.map((instruction, index) => (
+            <Grid size={{ xs: 12 }} key={index}>
+              <Typography display="inline" sx={styles.sectionTitle}>
+                {index + 1}. {instruction.title}:
+              </Typography>
+              <Box ml={2} component="ul" sx={{ pl: 2, m: 0 }}>
+                {instruction.points.map((point, i) => (
+                  <li key={i} style={{ marginBottom: "4px" }}>
+                    <Typography component="span" sx={styles.itemText}>
+                      {point}
+                    </Typography>
+                  </li>
+                ))}
+              </Box>
+            </Grid>
+          ))}
+        </Grid>
+
+
+        {/* Rules and Regulations */}
+        <Typography variant="h6" sx={styles.subHeading}>
+          Rules and Regulations
+        </Typography>
+        <Typography sx={styles.itemText}>
+          No External Help: The use of study materials, electronic devices, or assistance from others is strictly prohibited.
+        </Typography>
+        <Typography sx={styles.itemText}>
+          Single Attempt: Once submitted, the test cannot be resumed or retaken.
+        </Typography>
+        <Typography sx={{ ...styles.itemText, mt: 1 }}>
+          Any attempt to breach the guidelines may lead to termination of your test session and may impact your eligibility for further assessments.
+        </Typography>
+
+        {/* Evaluation */}
+        <Typography variant="h6" sx={styles.subHeading}>
+          Evaluation
+        </Typography>
+        <Typography sx={styles.itemText}>
+          Your results will be displayed upon submission or available in your dashboard.
+        </Typography>
+
+        {/* Final Note */}
+        <Typography sx={styles.finalNote(isSmall)}>
+          By swiping and starting the test, you confirm that you have read, understood, and agreed to the Terms and Conditions and the rules outlined above.
+        </Typography>
       </Box>
-    </Grid>
-  ))}
-</Grid>
-
-
-      {/* Rules and Regulations */}
-      <Typography variant="h6" sx={styles.subHeading}>
-        Rules and Regulations
-      </Typography>
-      <Typography sx={styles.itemText}>
-        No External Help: The use of study materials, electronic devices, or assistance from others is strictly prohibited.
-      </Typography>
-      <Typography sx={styles.itemText}>
-        Single Attempt: Once submitted, the test cannot be resumed or retaken.
-      </Typography>
-      <Typography sx={{ ...styles.itemText, mt: 1 }}>
-        Any attempt to breach the guidelines may lead to termination of your test session and may impact your eligibility for further assessments.
-      </Typography>
-
-      {/* Evaluation */}
-      <Typography variant="h6" sx={styles.subHeading}>
-        Evaluation
-      </Typography>
-      <Typography sx={styles.itemText}>
-        Your results will be displayed upon submission or available in your dashboard.
-      </Typography>
-
-      {/* Final Note */}
-      <Typography sx={styles.finalNote(isSmall)}>
-        By swiping and starting the test, you confirm that you have read, understood, and agreed to the Terms and Conditions and the rules outlined above.
-      </Typography>
-    </Box>
-    <Box display="flex" justifyContent="center" alignItems="center" sx={{ mt: 2 }}>
-  <Button variant="contained" sx={styles.getStartedButton}>
-      Get Started
-    </Button>
-</Box>
-
-
-    </Box>
+      <Box display="flex" justifyContent="center" alignItems="center" sx={{ mt: 2 }}>
+        <Button variant="contained" sx={styles.getStartedButton} onClick={() => {
+          navigate("/testpage", { state: { syllabusId, bookId, activeBook, syllabusTitle } })
+        }
+        }>
+          Get Started
+        </Button>
+      </Box>
     </>
-    
+
   );
 };
 

@@ -4,14 +4,57 @@ import { LineChart, Line, XAxis, YAxis, Tooltip as RechartsTooltip, CartesianGri
 const books = ["Air Navigation", "Meteorology", "Technical"];
 const attempts = ["1st Attempt", "2nd Attempt", "3rd Attempt"];
 const chartData = [
-  { month: "Jan", score: 0 },
-  { month: "Feb", score: 15 },
-  { month: "Mar", score: 30 },
-  { month: "Apr", score: 45 },
-  { month: "May", score: 50 },
-  { month: "Jul", score: 60 },
-  { month: "Sep", score: 80 },
+  { month: "Jan 2024", score: 0, total: 100, correct: 50, incorrect: 50 },
+  { month: "Jan 2024", score: 10, total: 100, correct: 10, incorrect: 90 },
+  { month: "Feb 2024", score: 15, total: 100, correct: 50, incorrect: 50 },
+  { month: "Feb 2024", score: 15, total: 100, correct: 50, incorrect: 50 },
+  { month: "Feb 2024", score: 15, total: 100, correct: 50, incorrect: 50 },
+  { month: "Mar 2024", score: 10, total: 100, correct: 50, incorrect: 50 },
+  { month: "Mar 2024", score: 20, total: 100, correct: 50, incorrect: 50 },
+  { month: "Mar 2024", score: 30, total: 100, correct: 50, incorrect: 50 },
+  { month: "Apr 2024", score: 45, total: 100, correct: 50, incorrect: 50 },
+  { month: "May 2024", score: 50, total: 100, correct: 50, incorrect: 50 },
+  { month: "Jul 2024", score: 60, total: 100, correct: 50, incorrect: 50 },
+  { month: "Sept 2024", score: 80, total: 100, correct: 50, incorrect: 50 },
+  { month: "Jan 2025", score: 30, total: 100, correct: 10, incorrect: 90 },
+
 ];
+
+const chartDataWithIndex = chartData.map((item, index, arr) => {
+  const count = arr.slice(0, index + 1).filter(d => d.month === item.month).length;
+  return {
+    ...item,
+    label: `${item.month} (${count})`, // Unique label for X axis
+  };
+});
+
+
+// ✅ Custom Tooltip component
+const CustomTooltip = ({ active, payload, label }) => {
+  if (active && payload?.length) {
+    const { score, total, correct, incorrect } = payload[0].payload;
+    return (
+      <div
+        style={{
+          background: "#fff",
+          padding: "10px",
+          border: "1px solid #ccc",
+          borderRadius: "8px",
+          boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)",
+          fontSize: 14,
+        }}
+      >
+        <p><strong>{label}</strong></p>
+        <p>Score: {score}</p>
+        <p>Total: {total}</p>
+        <p>Correct: {correct}</p>
+        <p>Incorrect: {incorrect}</p>
+      </div>
+    );
+  }
+
+  return null;
+};
 
 const FlightLogReport = () => {
   const [selectedBook, setSelectedBook] = useState("");
@@ -120,13 +163,29 @@ const FlightLogReport = () => {
           Track how your Test & compares to your industry average.
         </Typography>
 
-        <ResponsiveContainer width="100%" height={300}>
+        {/* <ResponsiveContainer width="100%" height={300}>
           <LineChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="month" />
             <YAxis label={{ value: "Score", angle: -90, position: "insideLeft" }} />
             <RechartsTooltip />
             <Line type="monotone" dataKey="score" stroke="#F5B400" strokeWidth={3} />
+          </LineChart>
+        </ResponsiveContainer> */}
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={chartDataWithIndex}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="label" />
+            <YAxis label={{ value: "Score", angle: -90, position: "insideLeft" }} />
+            <RechartsTooltip content={CustomTooltip} />
+            <Line
+              type="monotone"
+              dataKey="score"
+              stroke="#F5B400"
+              strokeWidth={3}
+              dot={{ r: 4 }}
+              activeDot={{ r: 6 }}
+            />
           </LineChart>
         </ResponsiveContainer>
       </Box>

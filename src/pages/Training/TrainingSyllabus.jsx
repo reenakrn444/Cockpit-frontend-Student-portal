@@ -11,7 +11,6 @@ const TrainingSyllabus = () => {
 
   const handleClick = (title, id) => {
     console.log(title, id, "paramssssss");
-
     navigate('/chapter', { state: { title, id } });
   };
 

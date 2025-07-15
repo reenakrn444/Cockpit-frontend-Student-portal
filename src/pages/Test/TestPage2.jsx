@@ -1,8 +1,8 @@
-import { apiPost } from '../../api/axios';
+import { apiPost, apiPostToken } from '../../api/axios';
 
 function TestPage2() {
     const location = useLocation();
-    const { activeBook, syllabusTitle } = location.state || {};
+    const { activeBook, syllabusTitle, syllabusId, bookId, activeBookTab } = location.state || {};
     const [questions, setQuestions] = useState([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [selectedOptions, setSelectedOptions] = useState({});
@@ -13,16 +13,18 @@ function TestPage2() {
 
     // Fetch questions
     useEffect(() => {
-        const fetchQuestions = async () => {
+        const fetchTestQuestions = async () => {
             try {
-                const req = { syllabus: syllabusTitle, book: activeBook };
-                const response = await apiPost('/randomQuestions', req);
+                const req = { syllabusId: syllabusId, bookId: bookId };
+                const response = await apiPostToken('/testQuestionsByBookId', req);
+                console.log(response, "responseTestQuestions");
+
                 setQuestions(response.data.data || []);
             } catch (error) {
                 console.error('Error fetching questions:', error);
             }
         };
-        fetchQuestions();
+        fetchTestQuestions();
     }, [activeBook, syllabusTitle]);
 
     // Timer logic
@@ -32,7 +34,6 @@ function TestPage2() {
                 if (prev <= 0) {
                     clearInterval(timer);
                     setTimeout(() => confirmSubmit(), 0);
-                    // return 0;
                 }
                 return prev - 1;
             });
@@ -172,14 +173,12 @@ function TestPage2() {
         <>
 
 
-          
+
 
             <Container maxWidth="lg" sx={{ py: 4 }}>
 
 
                 {/* Question Number Chips */}
-
-
                 {isSubmitted ? (
                     // ✅ Summary UI
                     <Box sx={{ mt: 2 }}>
@@ -244,7 +243,7 @@ function TestPage2() {
                 ) : (
                     <>
                         <Typography variant="h4" mb={4} sx={{ fontWeight: 'bold' }}>
-                            {syllabusTitle} {activeBook}
+                            {syllabusTitle} , {activeBook}
                         </Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, justifyContent: 'center', mb: 4 }}>
                             {questions.map((question, index) => (
