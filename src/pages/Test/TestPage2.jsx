@@ -2,6 +2,7 @@ import { apiPostToken } from '../../api/axios';
 import TestFooter from './TestPageFooter';
 import TestHeader from './TestPageHeader';
 import { formatTime } from './forrmatTime';
+import { snackbarEmitter } from '../../components/snackbar/CustomSnackBar';
 
 function TestPage2() {
     const location = useLocation();
@@ -20,6 +21,92 @@ function TestPage2() {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [timeTaken, setTimeTaken] = useState(0);
     const [quizId, setQuizId] = useState('');
+
+    const confirmSubmit = async () => {
+        try {
+            const evalResult = {};
+            let correct = 0, incorrect = 0, skipped = 0;
+
+            const questionsList = questions.map((question) => {
+                const selected = selectedOptions[question._id];
+                const isMarked = markedForReview[question._id];
+                const isSkippedFlag = skip[question._id];
+
+                const isSkipped =
+                    !selected && isSkippedFlag && !isMarked ? true : false;
+
+                const isAnswered =
+                    !!selected && !isMarked ? true : false;
+
+                const choosedOption = isAnswered ? selected : null;
+
+                // Evaluation
+                if (!selected) {
+                    evalResult[question._id] = 'skipped';
+                    skipped++;
+                } else {
+                    const chosenOption = question.options.find(
+                        (opt) => opt.id === selected
+                    );
+                    if (chosenOption?.isCorrect) {
+                        evalResult[question._id] = 'correct';
+                        correct++;
+                    } else {
+                        evalResult[question._id] = 'incorrect';
+                        incorrect++;
+                    }
+                }
+
+                return {
+                    question: question.question,
+                    options: question.options,
+                    explanation: question.explanation,
+                    isAnswered,
+                    isSkipped,
+                    choosedOption,
+
+                };
+            });
+
+            const payload = {
+                syllabusId,
+                syllabus: syllabusTitle,
+                bookId,
+                book: activeBook,
+                quizId: quizId,
+                userId: JSON.parse(localStorage.getItem('user'))._id,
+                questionsList,
+            };
+
+            console.log(payload, "payload");
+
+            const response = await apiPostToken('/testResults', payload);
+
+            console.log('Submit response:', response);
+            if (response?.data?.status === 200) {
+                console.log('Test submitted successfully');
+                navigate('/test-result', {
+                    state: {
+                        evaluation: evalResult,
+                        resultCounts: { correct, incorrect, skipped },
+                        timeTaken: (90 * 60) - timeLeft,
+                        syllabusTitle,
+                        activeBook,
+                        quizId,
+                        questionsList
+                    },
+                });
+            }
+            // setEvaluation(evalResult);
+            // setResultCounts({ correct, incorrect, skipped });
+            // setOpenSubmitDialog(false);
+            // setIsSubmitted(true);
+            // setTimeTaken((90 * 60) - timeLeft);
+        } catch (error) {
+            console.error('Error during evaluation and submission:', error);
+        }
+    };
+
 
     useEffect(() => {
         const fetchTestQuestions = async () => {
@@ -69,11 +156,108 @@ function TestPage2() {
         };
     }, []);
 
-    // const formatTime = (seconds) => {
-    //     const minutes = Math.floor(seconds / 60);
-    //     const secs = seconds % 60;
-    //     return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
-    // };
+    //    Handling test terms and conditions
+    useEffect(() => {
+        const enterFullscreen = () => {
+            const el = document.documentElement;
+            if (el.requestFullscreen) el.requestFullscreen();
+            else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+            else if (el.mozRequestFullScreen) el.mozRequestFullScreen();
+            else if (el.msRequestFullscreen) el.msRequestFullscreen();
+        };
+
+        enterFullscreen();
+
+        const onExit = () => {
+            snackbarEmitter("Exiting fullscreen is not allowed. Your test may be terminated.", "error");
+            enterFullscreen();
+        };
+
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement) onExit();
+        });
+
+        return () => {
+            document.removeEventListener('fullscreenchange', onExit);
+        };
+    }, []);
+
+    useEffect(() => {
+        let violationCount = 0;
+
+        const handleVisibilityChange = () => {
+            if (document.hidden) {
+                violationCount++;
+                snackbarEmitter(`Tab switch detected! This may lead to auto-submission.`, "warning");
+                // alert(`Tab switch detected! Warning ${violationCount}/3`);
+                if (violationCount >= 1) {
+                    confirmSubmit();
+                    snackbarEmitter('Too many violations. Your test will be auto-submitted.', "error");
+                }
+            }
+        };
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+        return () => {
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+        };
+    }, [confirmSubmit]);
+
+    useEffect(() => {
+        const blockKeys = (e) => {
+            if (
+                e.ctrlKey ||
+                e.metaKey ||
+                ['F12', 'F5'].includes(e.key) ||
+                (e.key === 'u' && e.ctrlKey)
+            ) {
+                e.preventDefault();
+                snackbarEmitter("Keyboard shortcuts are disabled during the test.", "warning");
+            }
+        };
+
+        const disableContextMenu = (e) => e.preventDefault();
+
+        document.addEventListener('keydown', blockKeys);
+        document.addEventListener('contextmenu', disableContextMenu);
+
+        return () => {
+            document.removeEventListener('keydown', blockKeys);
+            document.removeEventListener('contextmenu', disableContextMenu);
+        };
+    }, []);
+
+    useEffect(() => {
+        const handleOffline = () => {
+            snackbarEmitter('You lost internet connection. Please reconnect quickly to avoid submission issues.', "warning");
+        };
+
+        window.addEventListener('offline', handleOffline);
+
+        return () => {
+            window.removeEventListener('offline', handleOffline);
+        };
+    }, []);
+
+    useEffect(() => {
+        const isCompatibleBrowser = () => {
+            const ua = navigator.userAgent;
+            return /Chrome|Firefox|Edg/.test(ua);
+        };
+
+        if (!isCompatibleBrowser()) {
+            snackbarEmitter('Please use Google Chrome, Firefox, or Edge for the best experience.', "error");
+        }
+
+        // if (!window.navigator.javaEnabled()) {
+        //     alert("JavaScript must be enabled to take the test.");
+        // }
+    }, []);
+
+    useEffect(() => {
+        console.log("Monitoring active: time tracking, tab switches, keyboard use, and fullscreen enforcement.");
+    }, []);
+
 
     const handleOptionSelect = (questionId, optionId) => {
         setSelectedOptions((prev) => ({ ...prev, [questionId]: optionId }));
@@ -169,90 +353,6 @@ function TestPage2() {
         return '#F6F6F6';
     };
 
-    const confirmSubmit = async () => {
-        try {
-            const evalResult = {};
-            let correct = 0, incorrect = 0, skipped = 0;
-
-            const questionsList = questions.map((question) => {
-                const selected = selectedOptions[question._id];
-                const isMarked = markedForReview[question._id];
-                const isSkippedFlag = skip[question._id];
-
-                const isSkipped =
-                    !selected && isSkippedFlag && !isMarked ? true : false;
-
-                const isAnswered =
-                    !!selected && !isMarked ? true : false;
-
-                const choosedOption = isAnswered ? selected : null;
-
-                // Evaluation
-                if (!selected) {
-                    evalResult[question._id] = 'skipped';
-                    skipped++;
-                } else {
-                    const chosenOption = question.options.find(
-                        (opt) => opt.id === selected
-                    );
-                    if (chosenOption?.isCorrect) {
-                        evalResult[question._id] = 'correct';
-                        correct++;
-                    } else {
-                        evalResult[question._id] = 'incorrect';
-                        incorrect++;
-                    }
-                }
-
-                return {
-                    question: question.question,
-                    options: question.options,
-                    explanation: question.explanation,
-                    isAnswered,
-                    isSkipped,
-                    choosedOption,
-
-                };
-            });
-
-            const payload = {
-                syllabusId,
-                syllabus: syllabusTitle,
-                bookId,
-                book: activeBook,
-                quizId: quizId,
-                userId: JSON.parse(localStorage.getItem('user'))._id,
-                questionsList,
-            };
-
-            console.log(payload, "payload");
-
-            const response = await apiPostToken('/testResults', payload);
-
-            console.log('Submit response:', response);
-            if (response?.data?.status === 200) {
-                console.log('Test submitted successfully');
-                navigate('/test-result', {
-                    state: {
-                        evaluation: evalResult,
-                        resultCounts: { correct, incorrect, skipped },
-                        timeTaken: (90 * 60) - timeLeft,
-                        syllabusTitle,
-                        activeBook,
-                        quizId,
-                        questionsList
-                    },
-                });
-            }
-            // setEvaluation(evalResult);
-            // setResultCounts({ correct, incorrect, skipped });
-            // setOpenSubmitDialog(false);
-            // setIsSubmitted(true);
-            // setTimeTaken((90 * 60) - timeLeft);
-        } catch (error) {
-            console.error('Error during evaluation and submission:', error);
-        }
-    };
 
 
     return (

@@ -24,10 +24,16 @@ const Login = () => {
         },
       })
         .then((res) => res.json())
-        .then((data) => {
+        .then(async (data) => {
           console.log('User Info:', data);
           setEmail(data?.email);
           setUsername(data?.name);
+          const googleLoginRes = await apiPost('/AuthLoginUser', {
+            email: data?.email,
+          })
+          const token = googleLoginRes.data.token;
+          storeLoginDetails(token, googleLoginRes);
+          console.log(googleLoginRes, "googleLoginRes");
         })
         .catch((err) => {
           console.error('Failed to fetch user info', err);
@@ -104,10 +110,6 @@ const Login = () => {
       }
       else {
         snackbarEmitter(response?.data?.message, 'error');
-        // setEmail('');
-        // setUsername('');
-        // setPassword('');
-        // setActiveForm('login');
         setLoading(false);
       }
     } catch (error) {
@@ -125,20 +127,8 @@ const Login = () => {
       const response = await apiPost('/loginUser', { email, password });
       if (response?.data?.status === 200) {
         const token = response.data.token;
-        localStorage.setItem('authToken', token);
-        const userdata = {
-          _id: response.data.userData._id,
-          userRegisteredDate: response?.data?.userData?.createdAt,
-          username: response.data.userData.username,
-          profileImage: response?.data?.userData?.image || "/default-profile.png",
-          isSubscribed: response.data.userData.is_subscribed,
-          subscriptionStartDate: response.data.userData.is_subscribed ? response.data.userData.subscription_start_date : "",
-          subscriptionEndDate: response.data.userData.is_subscribed ? response.data.userData.subscription_end_date : "",
-        }
-        localStorage.setItem('user', JSON.stringify(userdata));
-        setLoading(false);
+        storeLoginDetails(token, response);
         // snackbarEmitter('Logged in successfully!', 'success');
-        navigate('/');
       } else {
         setLoading(false);
         snackbarEmitter(response?.data?.message, 'error');
@@ -149,6 +139,21 @@ const Login = () => {
     }
   };
 
+  const storeLoginDetails = (token, response) => {
+    setLoading(false);
+    localStorage.setItem('authToken', token);
+    const userdata = {
+      _id: response.data.userData._id,
+      userRegisteredDate: response?.data?.userData?.createdAt,
+      username: response.data.userData.username,
+      profileImage: response?.data?.userData?.image || "/default-profile.png",
+      isSubscribed: response.data.userData.is_subscribed,
+      subscriptionStartDate: response.data.userData.is_subscribed ? response.data.userData.subscription_start_date : "",
+      subscriptionEndDate: response.data.userData.is_subscribed ? response.data.userData.subscription_end_date : "",
+    }
+    localStorage.setItem('user', JSON.stringify(userdata));
+    navigate('/');
+  }
   return (
     <Box
       sx={{

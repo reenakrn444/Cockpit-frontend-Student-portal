@@ -21,7 +21,7 @@ const Syllabus = ({ handleClick, syllabusType }) => {
       }
     };
 
-    
+
     const getStudentProgress = async () => {
       try {
         const response = await apiGet(`/task/studentTaskProgress?userId=${userData._id}`);
@@ -59,11 +59,11 @@ const Syllabus = ({ handleClick, syllabusType }) => {
     }
 
     // 4. If not subscribed, check 7-day trial from userRegisteredDate
-    // const regDate = new Date(userRegisteredDate);
-    // const trialEndDate = new Date(regDate);
-    // trialEndDate.setDate(trialEndDate.getDate() + 7);
-    // const now = new Date();
-    // return now > trialEndDate; // disable if trial is over
+    const regDate = new Date(userRegisteredDate);
+    const trialEndDate = new Date(regDate);
+    trialEndDate.setDate(trialEndDate.getDate() + 7);
+    const now = new Date();
+    return now > trialEndDate; // disable if trial is over
   };
 
 
@@ -157,7 +157,7 @@ const Syllabus = ({ handleClick, syllabusType }) => {
                           },
                         }}
                       >
-                        {syllabusType === "Training"  && matchedUserSyllabus && completionPercentage > 0 ? "Resume" : "Start"}
+                        {syllabusType === "Training" && matchedUserSyllabus && completionPercentage > 0 ? "Resume" : "Start"}
                       </Button>
                     </Box>
                   </Card>

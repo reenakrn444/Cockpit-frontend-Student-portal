@@ -57,7 +57,6 @@ function Header() {
     { text: "Training", path: "/training" },
     ...(token ? [{ text: "Test", path: "/test" }] : []),
     { text: "Pricing", path: "/pricing" },
-    { text: "Partner with Us", path: "/partner-with-us" }
   ];
 
   const drawerContent = (
