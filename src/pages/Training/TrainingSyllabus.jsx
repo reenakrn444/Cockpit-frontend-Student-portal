@@ -16,7 +16,7 @@ const TrainingSyllabus = () => {
 
   return (
     <>
-      <Syllabus handleClick={handleClick} />
+      <Syllabus handleClick={handleClick} syllabusType="Training" />
     </>
   );
 }

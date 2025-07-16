@@ -1,8 +1,9 @@
 const platformLinks = [
     { label: 'Home', path: '/' },
     { label: 'Training', path: '/training' },
-    { label: 'Test', path: '/taketest' },
-    { label: 'Syllabus', path: '/syllabus' }
+    { label: 'Test', path: '/test' },
+    { label: 'Partner With Us', path: '/partner-with-us' },
+    // { label: 'Syllabus', path: '/syllabus' }
 ];
 
 

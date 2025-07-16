@@ -19,7 +19,7 @@ function TestSyllabus() {
   return (
     <>
 
-      <Syllabus handleClick={handleClick} />
+      <Syllabus handleClick={handleClick} syllabusType="Test" />
 
     </>
   );
