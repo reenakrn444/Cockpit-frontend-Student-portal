@@ -82,6 +82,8 @@ const instructions = [
   },
 ];
 
+import { Link } from "@mui/material";
+
 const TestInstructions = ({ syllabusId, bookId, activeBook, syllabusTitle }) => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -151,7 +153,7 @@ const TestInstructions = ({ syllabusId, bookId, activeBook, syllabusTitle }) => 
 
         {/* Final Note */}
         <Typography sx={styles.finalNote(isSmall)}>
-          By swiping and starting the test, you confirm that you have read, understood, and agreed to the Terms and Conditions and the rules outlined above.
+          By swiping and starting the test, you confirm that you have read, understood, and agreed to the  <Link href="/test-terms-and-conditions" underline="hover" sx={{ color: '#1A7FC1' }}>Terms and Conditions </Link> and the rules outlined above.
         </Typography>
       </Box>
       <Box display="flex" justifyContent="center" alignItems="center" sx={{ mt: 2 }}>

@@ -17,6 +17,7 @@ import ThemeSettings from '../pages/Profile/ThemeSetting';
 import ComingSoon from '../pages/CommingSoon/commingSoon';
 import ScrollToTop from '../components/ScrollToTop';
 import TermsAndConditions from '../components/Footer/TermsAndConditions';
+import TestTermsAndConditions from '../components/Footer/TestTermsAndConditions';
 import PrivacyPolicy from '../components/Footer/PrivacyPolicy';
 import CookiesPolicy from '../components/Footer/Cookies';
 import PressPage from '../pages/Press/Press';
@@ -52,6 +53,7 @@ const AppContent = () => {
           <Route path="/forgetpassword" element={<ForgetPassword />} />
           <Route path="/resetpassword/:token" element={<ResetPassword />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+          <Route path="/test-terms-and-conditions" element={<TestTermsAndConditions />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/cookies" element={<CookiesPolicy />} />
           <Route path="/training" element={<TrainingSyllabus />} />

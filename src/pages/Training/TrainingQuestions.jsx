@@ -323,6 +323,7 @@ const TrainingQuestion = () => {
                         value={idx}
                         name={`question-${question._id}`}
                         sx={{
+                          fontSize: "18px",
                           color:
                             selectedAnswers.hasOwnProperty(question._id)
                               ? option.isCorrect
