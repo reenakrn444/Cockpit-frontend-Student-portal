@@ -5,6 +5,7 @@ import { DayCalculation } from "../../Helper/DayCalculation/Daycalculation";
 function Header() {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
+  const token = localStorage.getItem("authToken");
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
@@ -54,7 +55,7 @@ function Header() {
   const navItems = [
     { text: "Home", path: "/" },
     { text: "Training", path: "/training" },
-    { text: 'Test', path: '/test' },
+    ...(token ? [{ text: "Test", path: "/test" }] : []),
     { text: "Pricing", path: "/pricing" },
     { text: "Partner with Us", path: "/partner-with-us" }
   ];
