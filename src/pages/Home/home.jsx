@@ -11,7 +11,8 @@ import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
 function HomeSection() {
   const Features = getFeatures();
   const navigate = useNavigate();
-  const handleClick = () => navigate("/training");
+  const handleClick = () => navigate(!token ? "/login" : "/training");
+    const token = localStorage.getItem("authToken");
 
   const [expanded, setExpanded] = useState("panel0");
 

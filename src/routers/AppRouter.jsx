@@ -21,11 +21,13 @@ import PrivacyPolicy from '../components/Footer/PrivacyPolicy';
 import CookiesPolicy from '../components/Footer/Cookies';
 import PartnerWithUsForm from '../pages/PartnerWithUs/partnerWithUS';
 import PressPage from '../pages/Press/Press';
+import FlightLog from '../pages/Profile/FlightLog';
+import FlightLogReport from '../pages/Profile/FlightLogReport';
 import BlogSection1 from '../pages/Press/Blog1';
 import BlogSection2 from '../pages/Press/Blog2';
 import BlogSection3 from '../pages/Press/Blog3';
 import BlogSection4 from '../pages/Press/Blog4';
-
+import TestResultPage from '../pages/Test/TestResult';
 
 const AppContent = () => {
   const location = useLocation();
@@ -36,12 +38,13 @@ const AppContent = () => {
   };
   const hideHeaderFooter = pathname === "/login" ||
     pathname === "/forgetpassword" ||
+    pathname === "/testpage" ||
     pathname.startsWith("/resetpassword");;
 
   return (
     <>
       {!hideHeaderFooter && <Header />}
-      <Box sx={{ flex: 1, minHeight: {xs : 'calc(100vh - 64px)', md : 'calc(80vh - 64px)'} }}>
+      <Box sx={{ flex: 1, minHeight: { xs: 'calc(100vh - 64px)', md: 'calc(80vh - 64px)' } }}>
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -72,6 +75,9 @@ const AppContent = () => {
             <Route path="/report" element={<ReportPage />} />
             <Route path="/changepassword" element={<ChangePassword />} />
             <Route path="/theme" element={<ThemeSettings />} />
+            <Route path="/flight-log" element={<FlightLog />} />
+            <Route path="/flight-log-report" element={<FlightLogReport />} />
+            <Route path="/test-result" element={<TestResultPage />} />
           </Route>
           <Route path="*" element={<h1>Page Not Found</h1>} />
         </Routes>

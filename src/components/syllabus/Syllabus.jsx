@@ -2,7 +2,7 @@ import { apiGet } from "../../api/axios";
 import { toCapitalize } from "../../Helper/convertUpperCase";
 import { snackbarEmitter } from "../../components/snackbar/CustomSnackBar"
 
-const Syllabus = ({ handleClick }) => {
+const Syllabus = ({ handleClick, syllabusType }) => {
   const navigate = useNavigate();
   const [syllabus, setSyllabus] = useState([]);
   const token = localStorage.getItem("authToken");
@@ -116,7 +116,7 @@ const Syllabus = ({ handleClick }) => {
                         <Typography variant="body2" sx={{ color: "#EAB308" }}>
                           {course.category}
                         </Typography>
-                        {matchedUserSyllabus && completionPercentage > 0 && (
+                        {syllabusType === "Training" && matchedUserSyllabus && completionPercentage > 0 && (
                           <>
                             <Box mt={1} pr={1.5}>
                               <LinearProgress
@@ -157,11 +157,10 @@ const Syllabus = ({ handleClick }) => {
                           },
                         }}
                       >
-                        {matchedUserSyllabus && completionPercentage > 0 ? "Resume" : "Start"}
+                        {syllabusType === "Training"  && matchedUserSyllabus && completionPercentage > 0 ? "Resume" : "Start"}
                       </Button>
                     </Box>
                   </Card>
-
                 </Grid>
               );
             })}

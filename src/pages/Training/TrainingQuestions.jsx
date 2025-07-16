@@ -21,7 +21,7 @@ const TrainingQuestion = () => {
   const location = useLocation();
   const { syllabusTitle, syllabusId, bookId, chapterId, activeBook } = location.state;
   console.log(activeBook, "activeBook");
-  
+
   const userId = JSON.parse(localStorage.getItem("user"));
   const { syllabusName, bookName, chapterName } = useParams();
 
@@ -147,8 +147,8 @@ const TrainingQuestion = () => {
   const wrongCount = Object.values(attempted).filter((val) => val === "wrong").length;
   const totalAttempted = correctCount + wrongCount;
   const percentage = totalAttempted
-  ? Math.round((correctCount / totalAttempted) * 100)
-  : 0;
+    ? Math.round((correctCount / totalAttempted) * 100)
+    : 0;
 
   return (
     <Container maxWidth="xl">

@@ -11,13 +11,12 @@ const TrainingSyllabus = () => {
 
   const handleClick = (title, id) => {
     console.log(title, id, "paramssssss");
-
     navigate('/chapter', { state: { title, id } });
   };
 
   return (
     <>
-      <Syllabus handleClick={handleClick} />
+      <Syllabus handleClick={handleClick} syllabusType="Training" />
     </>
   );
 }

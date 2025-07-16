@@ -56,7 +56,7 @@ function Header() {
     { text: "Training", path: "/training" },
     { text: 'Test', path: '/test' },
     { text: "Pricing", path: "/pricing" },
-    {text : "Partner with Us",  path : "partner-with-us"}
+    { text: "Partner with Us", path: "/partner-with-us" }
   ];
 
   const drawerContent = (
@@ -162,8 +162,9 @@ function Header() {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        width: isActive ? "92px" : "auto",
-                        height: isActive ? "35px" : "auto",
+                        width: isActive ? 'fit-content' : "auto",
+                        padding: "8px",
+                        // height: isActive ? "35px" : "auto",
                         gap: "10px",
                         borderRadius: isActive ? "8px" : "0px",
                         backgroundColor: isActive ? "#183251" : "transparent",
@@ -224,7 +225,7 @@ function Header() {
         {isMobile && (
           <Grid>
             <IconButton onClick={toggleDrawer(!drawerOpen)}>
-              {drawerOpen ? <CloseIcon /> : <MenuIcon /> }
+              {drawerOpen ? <CloseIcon /> : <MenuIcon />}
             </IconButton>
           </Grid>
         )}

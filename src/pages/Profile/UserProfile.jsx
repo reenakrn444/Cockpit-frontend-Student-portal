@@ -365,7 +365,7 @@ const UserProfile = () => {
                   navigate("/changepassword");
                 }
                 else if (label === "FLIGHT LOG") {
-                  navigate("/theme");
+                  navigate("/flight-log");
                 }
               }}
             >
