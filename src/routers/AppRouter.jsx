@@ -19,7 +19,7 @@ import ScrollToTop from '../components/ScrollToTop';
 import TermsAndConditions from '../components/Footer/TermsAndConditions';
 import PrivacyPolicy from '../components/Footer/PrivacyPolicy';
 import CookiesPolicy from '../components/Footer/Cookies';
-import PartnerWithUsForm from '../pages/PartnerWithUs/partnerWithUS';
+import PartnerWithUsForm from "../pages/PartnerWithUs/partnerWithUS"
 import PressPage from '../pages/Press/Press';
 import FlightLog from '../pages/Profile/FlightLog';
 import FlightLogReport from '../pages/Profile/FlightLogReport';
