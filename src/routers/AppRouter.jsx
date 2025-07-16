@@ -19,7 +19,6 @@ import ScrollToTop from '../components/ScrollToTop';
 import TermsAndConditions from '../components/Footer/TermsAndConditions';
 import PrivacyPolicy from '../components/Footer/PrivacyPolicy';
 import CookiesPolicy from '../components/Footer/Cookies';
-import PartnerWithUsForm from "../pages/PartnerWithUs/partnerWithUS"
 import PressPage from '../pages/Press/Press';
 import FlightLog from '../pages/Profile/FlightLog';
 import FlightLogReport from '../pages/Profile/FlightLogReport';
@@ -28,6 +27,7 @@ import BlogSection2 from '../pages/Press/Blog2';
 import BlogSection3 from '../pages/Press/Blog3';
 import BlogSection4 from '../pages/Press/Blog4';
 import TestResultPage from '../pages/Test/TestResult';
+import PartnerWithUsForm from "../pages/PartnerWithUs/PartnerWithUsForm"
 
 const AppContent = () => {
   const location = useLocation();
