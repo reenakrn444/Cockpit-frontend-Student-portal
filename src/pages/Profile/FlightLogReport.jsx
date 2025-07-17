@@ -375,9 +375,11 @@ const FlightLogReport = () => {
           <FormControl fullWidth>
             <TextField
               fullWidth
-              placeholder="Attempts"
+              label="Number of Attempts"
+              placeholder="Number of Attempts"
               value={attempts?.toString() || "0"}
               InputProps={{ readOnly: true }}
+              disabled
             />
           </FormControl>
         </Grid>

@@ -15,6 +15,8 @@ const TrainingQuestion = () => {
   const [loading, setLoading] = useState(false);
   const [attempted, setAttempted] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const questionRefs = useRef({});
+
 
   const questionsPerPage = 50;
   const navigate = useNavigate();
@@ -114,6 +116,7 @@ const TrainingQuestion = () => {
   };
 
   const handleSubmitAllAnswers = async () => {
+    setLoading(true);
     const res = await apiPostToken("/task/createTask", {
       title: "Complete Chapter 1",
       description: "Finish the first chapter of the book",
@@ -128,6 +131,7 @@ const TrainingQuestion = () => {
     if (res?.data?.status === 200) {
       snackbarEmitter("All answers submitted successfully.", "success");
       setIsSubmitted(true);
+      setLoading(false);
       window.scrollTo({ top: 0, behavior: "smooth" });
 
       // navigate("/chapter", {
@@ -292,11 +296,11 @@ const TrainingQuestion = () => {
       </Grid>
       {/* Questions Section */}
 
-      <Box sx={{ p: 3 }}>
+      <Box sx={{ p: 3 }} >
         <Grid container spacing={3} justifyContent="center">
           {paginatedQuestions?.map((question, index) => (
-            <Grid size={{ xs: 12 }} key={question._id || index}>
-              <Box sx={{ border: "1px solid #ccc", borderRadius: 2 }}>
+            <Grid size={{ xs: 12 }} key={question._id || index} >
+              <Box sx={{ border: "1px solid #ccc", borderRadius: 2 }} >
                 <Box
                   sx={{
                     bgcolor: "#183251",
@@ -307,8 +311,13 @@ const TrainingQuestion = () => {
                     justifyContent: "space-between",
                     alignItems: "center",
                   }}
+                  ref={(el) => {
+                    if (el) {
+                      questionRefs.current[question._id] = el;
+                    }
+                  }}
                 >
-                  <Typography variant="subtitle1" color="white">
+                  <Typography variant="subtitle1" color="white" >
                     {index + 1 + (currentPage - 1) * questionsPerPage}. {question.question}
                   </Typography>
                 </Box>
@@ -371,6 +380,7 @@ const TrainingQuestion = () => {
                       sx={{
                         borderRadius: 5,
                         backgroundColor: "#EAB308",
+                        color: "#ffffff",
                         width: "auto",
                         px: 2,
                         py: 1,
@@ -456,20 +466,7 @@ const TrainingQuestion = () => {
           )}
         </Box>
 
-        {/* <Box sx={{ mt: 4, display: "flex", justifyContent: "center", gap: 4 }}>
-          <Typography variant="body1" color="green">
-            Correct: {correctCount}
-          </Typography>
-          <Typography variant="body1" color="red">
-            Wrong: {wrongCount}
-          </Typography>
-          <Typography variant="body1">Total Attempted: {totalAttempted}</Typography>
-          <Typography variant="body1" fontWeight="bold">
-            Accuracy: {percentage}%
-          </Typography>
-        </Box> */}
-
-        {filteredQuestions.length > 0 &&
+        {/* {filteredQuestions.length > 0 &&
           Object.keys(selectedAnswers).length === filteredQuestions.length &&
           userId && (
             <Box sx={{ mt: 4, display: "flex", justifyContent: "center" }}>
@@ -483,7 +480,48 @@ const TrainingQuestion = () => {
                 Submit All Answers
               </CustomButton>
             </Box>
-          )}
+          )} */}
+
+        <Box sx={{ mt: 4, display: "flex", justifyContent: "center" }}>
+          <CustomButton
+            variant="contained"
+            bgColor={
+              Object.keys(selectedAnswers).length === filteredQuestions.length
+                ? "#EAB308"  // Active yellow
+                : "#D3D3D3"  // Disabled grey
+            }
+            sx={{
+              width: "fit-content",
+              cursor: "pointer",
+              color:
+                Object.keys(selectedAnswers).length === filteredQuestions.length
+                  ? "white"
+                  : "#666666", // dark text when disabled
+            }}
+            loading={loading}
+            onClick={() => {
+              if (Object.keys(selectedAnswers).length === filteredQuestions.length) {
+                handleSubmitAllAnswers();
+              } else {
+                const firstUnanswered = filteredQuestions.find(
+                  (q) => !selectedAnswers.hasOwnProperty(q._id)
+                );
+                const element = questionRefs.current[firstUnanswered?._id];
+                if (element) {
+                  const topOffset = element.getBoundingClientRect().top + window.scrollY;
+                  const adjustedOffset = topOffset - 120; // Scroll 120px above the question
+                  window.scrollTo({
+                    top: adjustedOffset,
+                    behavior: "smooth",
+                  });
+                }
+              }
+            }}
+          >
+            Submit All Answers
+          </CustomButton>
+        </Box>
+
       </Box>
 
       <Modal open={helpModalOpen} onClose={() => setHelpModalOpen(false)}>
@@ -523,4 +561,6 @@ const TrainingQuestion = () => {
 };
 
 export default TrainingQuestion;
+
+
 

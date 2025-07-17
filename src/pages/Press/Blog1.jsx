@@ -7,6 +7,7 @@ const styles = {
   title: {
     fontWeight: 700,
     mb: 4,
+    mt:5
   },
   subheading: {
     fontWeight: 700,
@@ -67,11 +68,16 @@ const BlogSection1 = () => {
             image="/images/aeroplane.png"
             alt="Main Blog"
           />
-          <CardContent>
-            <Typography variant="h5" sx={{ fontWeight: 600, mb: 1 }}>
+        </Card>
+      </Container>
+
+      {/* Blog Content */}
+      <Box sx={styles.wrapper}>
+        <Container maxWidth="md">
+            <Typography variant="h5" sx={{ fontWeight: 600, mb: 1, fontSize: "42px" }}>
               DGCA’s New FTO Ranking System: What Aspiring Pilots Need to Know
             </Typography>
-            <Typography variant="h8" sx={{ fontWeight: 300, mb: 1 }}>
+            <Typography variant="h8" sx={{ fontWeight: 300, mb: 3 }}>
               Picture this: you’re an aspiring pilot, dreaming of soaring
               through the skies, but faced with a daunting choice—picking the
               right flying school in India. With 34 DGCA-approved Flying
@@ -82,13 +88,7 @@ const BlogSection1 = () => {
               promises to revolutionize pilot training in India by shining a
               spotlight on quality, safety, and transparency.
             </Typography>
-          </CardContent>
-        </Card>
-      </Container>
-
-      {/* Blog Content */}
-      <Box sx={styles.wrapper}>
-        <Container maxWidth="md">
+          
           <Typography variant="h5" sx={styles.title}>
             Why the DGCA Introduced the FTO Ranking System
           </Typography>

@@ -6,13 +6,14 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Faq from "./Faq";
 import getFeatures from "./Features";
 import reviews from "./Reviews";
+import PartnerSection from "./partners";
 import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
 
 function HomeSection() {
   const Features = getFeatures();
   const navigate = useNavigate();
   const handleClick = () => navigate(!token ? "/login" : "/training");
-    const token = localStorage.getItem("authToken");
+  const token = localStorage.getItem("authToken");
 
   const [expanded, setExpanded] = useState("panel0");
 
@@ -195,7 +196,9 @@ function HomeSection() {
           </Container>
         </Box>
       </section>
-
+      <section>
+        <PartnerSection />
+      </section>
       <section>
         <Box
           className="testimonials"
@@ -215,7 +218,7 @@ function HomeSection() {
                 </Typography>
               </Grid>
             </Grid>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 4, mt: 4 }}>
               <IconButton onClick={handlePrev} disabled={currentIndex === 0}
                 disableRipple
                 sx={{

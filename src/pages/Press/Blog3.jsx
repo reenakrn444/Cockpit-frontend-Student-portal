@@ -6,6 +6,7 @@ const styles = {
   title: {
     fontWeight: 700,
     mb: 4,
+    mt: 5,
   },
   subheading: {
     fontWeight: 700,
@@ -39,31 +40,35 @@ const styles = {
   },
 };
 
-const cardData = [
-  {
-    image: "/images/doctor.png",
-    title: "DGCA’s Medical Test Mandate at IAF Centres: Pros and Cons for Pilots",
-    date: "July 04 , 2025",
-    onClick: () => console.log("Card 1 clicked"),
-  },
-  {
-    image: "/images/newaeroplane.png",
-    title: "Code 7500: How Hijacking Protocols Changed Aviation Forever",
-    date: "July 11, 2025",
-    onClick: () =>
-      (window.location.href = "/blog/code-7500-hijacking-protocols"),
-  },
-  {
-    image: "/images/aeroplaneparts.png",
-    title: "Storm Spotters in the Sky: How Airborne Weather Radar Keeps Flights Safe",
-    date: "July 11, 2025",
-    onClick: () => console.log("Card 3 clicked"),
-  },
-];
+
 
 const BlogSection3 = () => {
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down("sm"));
+  const navigate = useNavigate();
+  const cardData = [
+    {
+      image: "/images/doctor.png",
+      title:
+        "DGCA’s Medical Test Mandate at IAF Centres: Pros and Cons for Pilots",
+      date: "July 04 , 2025",
+      onClick: () => navigate("/blog2"),
+    },
+    {
+      image: "/images/newaeroplane.png",
+      title: "Code 7500: How Hijacking Protocols Changed Aviation Forever",
+      date: "July 11, 2025",
+      onClick: () => navigate("/blog3"),
+    },
+    {
+      image: "/images/aeroplaneparts.png",
+      title:
+        "Storm Spotters in the Sky: How Airborne Weather Radar Keeps Flights Safe",
+      date: "July 11, 2025",
+      onClick: () => navigate("/blog4"),
+    },
+  ];
+
 
   const responsiveText = isXs ? "body2" : "body1";
 
@@ -77,8 +82,8 @@ const BlogSection3 = () => {
             image="/images/newaeroplane.png"
             alt="Main Blog"
           />
-          <CardContent>
-            <Typography variant="h5" sx={{ fontWeight: 600, mb: 1 }}>
+        </Card>
+          <Typography variant="h5" sx={{ fontWeight: 600, mb: 1 , mt: 5, fontSize: "42px"}}>
               Code 7500: How Hijacking Protocols Changed Aviation Forever
             </Typography>
             <Typography variant="h8" sx={{ fontWeight: 300, mb: 1 }}>
@@ -92,8 +97,6 @@ const BlogSection3 = () => {
               story of Code 7500, the silent alarm that transformed aviation
               security.
             </Typography>
-          </CardContent>
-        </Card>
         <Typography variant="h6" sx={styles.subheading}>
           The Birth of Code 7500
         </Typography>

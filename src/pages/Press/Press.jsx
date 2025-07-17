@@ -88,11 +88,13 @@ const styles = {
     boxShadow: "none",
     p: 1.5,
     mb: 2,
+   cursor: "pointer"
   },
   shortcutImage: {
     width: 64,
     height: 64,
     borderRadius: "12px",
+    border: "1px solid #DDDDE033",
   },
   featuredVideoBox: {
     position: "relative",
@@ -158,7 +160,7 @@ const styles = {
     display: "flex",
     flexDirection: { xs: "column", md: "row" },
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
     gap: 4,
   },
   footerHeading: {
@@ -212,26 +214,30 @@ const PressPage = () => {
     setIsPlaying(true);
   };
 
- const cardData = [
-  {
-    image: "/images/doctor.png",
-    text: "DGCA’s Medical Test Mandate at IAF Centres: Pros and Cons for Pilots",
-    date: "July 04 , 2025",
-    onClick: () => navigate("/blog2"),
-  },
-  {
-    image: "/images/newaeroplane.png",
-    text: "Code 7500: How Hijacking Protocols Changed Aviation Forever",
-    date: "July 11, 2025",
-    onClick: () =>  navigate("/blog3"),
-  },
-  {
-    image: "/images/aeroplaneparts.png",
-    text: "Storm Spotters in the Sky: How Airborne Weather Radar Keeps Flights Safe",
-    date: "July 11, 2025",
-    onClick: () => navigate("/blog4"),
-  }
-];
+  const cardData = [
+    {
+      image: "/images/doctor.png",
+      text: "DGCA’s Medical Test Mandate at IAF Centres: Pros and Cons for Pilots",
+      date: "July 04 , 2025",
+      onClick: () => navigate("/blog2"),
+    },
+
+  ];
+
+  const runwayKnowledge = [
+    {
+      image: "/images/newaeroplane.png",
+      text: "Code 7500: How Hijacking Protocols Changed Aviation Forever",
+      date: "July 11, 2025",
+      onClick: () => navigate("/blog3"),
+    },
+    {
+      image: "/images/aeroplaneparts.png",
+      text: "Storm Spotters in the Sky: How Airborne Weather Radar Keeps Flights Safe",
+      date: "July 11, 2025",
+      onClick: () => navigate("/blog4"),
+    }
+  ]
 
 
   const handleBlog1 = () => {
@@ -242,9 +248,9 @@ const PressPage = () => {
     <Box sx={styles.root}>
       {/* Heading */}
       <Typography {...styles.mainHeading}>PRESS</Typography>
-      <Typography {...styles.subHeading}>
+      {/* <Typography {...styles.subHeading}>
         Ut condimentum volutpat, eget mauris senectus.
-      </Typography>
+      </Typography> */}
 
       <Grid container spacing={4} mt={2}>
         {/* Left Section */}
@@ -284,7 +290,7 @@ const PressPage = () => {
 
             {cardData.map((item, i) => (
               <Grid size={{ xs: 12, md: 6 }} key={i}>
-                <Card sx={{ borderRadius: "20px", cursor: "pointer" }}  onClick={item.onClick} >
+                <Card sx={{ borderRadius: "20px", cursor: "pointer" }} onClick={item.onClick} >
                   <CardMedia
                     component="img"
                     image={item.image}
@@ -310,11 +316,11 @@ const PressPage = () => {
           <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
             Shortcut Links
           </Typography>
-          {[...Array(4)].map((_, i) => (
-            <Card key={i} sx={styles.shortcutCard}>
+          {runwayKnowledge.map((data, i) => (
+            <Card key={i} sx={styles.shortcutCard}  onClick={data.onClick}>
               <CardMedia
                 component="img"
-                image="/images/notificationIcon.svg"
+                image={data.image}
                 alt={`Shortcut ${i}`}
                 sx={styles.shortcutImage}
               />
@@ -324,10 +330,10 @@ const PressPage = () => {
                   fontWeight="bold"
                   sx={styles.notificationText}
                 >
-                  Faucibus interdum cras imperdiet fames. Ullamcorper.
+                  {data.text}
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
-                  13 Sept, 2021
+                 {data.date}
                 </Typography>
               </Box>
             </Card>
@@ -384,7 +390,7 @@ const PressPage = () => {
           </Typography>
         </Box>
 
-        <Box sx={styles.emailSection}>
+        {/* <Box sx={styles.emailSection}>
           <TextField
             fullWidth
             size="small"
@@ -394,7 +400,7 @@ const PressPage = () => {
           <Button variant="contained" sx={styles.signUpBtn}>
             Sign Up
           </Button>
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );
