@@ -7,6 +7,7 @@ const styles = {
   title: {
     fontWeight: 700,
     mb: 4,
+    mt: 5,
   },
   subheading: {
     fontWeight: 700,
@@ -67,8 +68,13 @@ const BlogSection4 = () => {
             image="/images/aeroplaneparts.png"
             alt="Airborne Weather Radar"
           />
-          <CardContent>
-            <Typography variant="h5" sx={{ fontWeight: 600, mb: 1 }}>
+        </Card>
+      </Container>
+
+      {/* Blog Content */}
+      <Box sx={styles.wrapper}>
+        <Container maxWidth="md">
+           <Typography variant="h5" sx={{ fontWeight: 600, mb: 1, mt: 5, fontSize: "42px" }}>
               Storm Spotters in the Sky: How Airborne Weather Radar Keeps
               Flights Safe
             </Typography>
@@ -88,13 +94,7 @@ const BlogSection4 = () => {
               pulse-Doppler systems provide pilots with real-time data to make
               informed decisions in the skies.
             </Typography>
-          </CardContent>
-        </Card>
-      </Container>
 
-      {/* Blog Content */}
-      <Box sx={styles.wrapper}>
-        <Container maxWidth="md">
           <Typography variant="h5" sx={styles.title}>
             How Airborne Weather Radar Works
           </Typography>

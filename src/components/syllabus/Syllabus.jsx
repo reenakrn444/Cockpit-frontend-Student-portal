@@ -1,16 +1,28 @@
-import { apiGet } from "../../api/axios";
+import { apiGet, apiPostToken } from "../../api/axios";
 import { toCapitalize } from "../../Helper/convertUpperCase";
-import { snackbarEmitter } from "../../components/snackbar/CustomSnackBar"
 
 const Syllabus = ({ handleClick, syllabusType }) => {
   const navigate = useNavigate();
   const [syllabus, setSyllabus] = useState([]);
+  const [countResult, setCountResult] = useState();
   const token = localStorage.getItem("authToken");
-  const userData = JSON.parse(localStorage.getItem('user'));
+  const userData = JSON.parse(localStorage.getItem("user"));
   const [userSyllabuses, setUserSyllabuses] = useState([]);
-
+  const [showSubscribeCard, setShowSubscribeCard] = useState(false);
+  const [subscriptionDaysLeft, setSubscriptionDaysLeft] = useState(null);
 
   useEffect(() => {
+    const fetchFlightLogData = async () => {
+      try {
+        const requestBody = {
+          fromDate: userData?.userRegisteredDate,
+          toDate: new Date().toISOString(),
+        };
+        const response = await apiPostToken("/countTotalTest", requestBody);
+        setCountResult(response?.data?.data?.completedTest || 0);
+      } catch (error) { }
+    };
+
     const fetchSyllabus = async () => {
       try {
         const response = await apiGet("/getSyllabus");
@@ -21,64 +33,161 @@ const Syllabus = ({ handleClick, syllabusType }) => {
       }
     };
 
-
     const getStudentProgress = async () => {
       try {
-        const response = await apiGet(`/task/studentTaskProgress?userId=${userData._id}`);
-        console.log(response, "responsegetStudentprogress");
+        const response = await apiGet(
+          `/task/studentTaskProgress?userId=${userData._id}`
+        );
         if (response?.data?.status === 200) {
-          const taskStatus = response?.data?.data;
-          console.log(taskStatus, "taskstatus");
-          setUserSyllabuses(taskStatus?.syllabuses || []);
+          setUserSyllabuses(response?.data?.data?.syllabuses || []);
         }
-      }
-      catch (err) {
-        return err
-        // snackbarEmitter("")
-      }
-    }
+      } catch (err) { }
+    };
+
+    fetchFlightLogData();
     fetchSyllabus();
 
+    if (userData?.isSubscribed && userData?.subscriptionEndDate) {
+      const now = new Date();
+      const end = new Date(userData.subscriptionEndDate);
+      const diffInMs = end - now;
+      const days = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+      setSubscriptionDaysLeft(days);
+    }
   }, []);
 
-
-  const isButtonDisabled = () => {
-    // 1. No token
-    if (!token) return true;
-
-    // 2. Check user existence
-    if (!userData) return true;
-
-    const { isSubscribed, subscriptionEndDate, userRegisteredDate } = userData;
-
-    // 3. If subscribed and subscriptionEndDate exists
-    if (isSubscribed && subscriptionEndDate) {
-      const now = new Date();
-      const endDate = new Date(subscriptionEndDate);
-      return now > endDate; // disable if today > endDate
-    }
-
-    // 4. If not subscribed, check 7-day trial from userRegisteredDate
-    const regDate = new Date(userRegisteredDate);
-    const trialEndDate = new Date(regDate);
-    trialEndDate.setDate(trialEndDate.getDate() + 7);
-    const now = new Date();
-    return now > trialEndDate; // disable if trial is over
+  const isButtonDisabledForTraining = (index) => {
+    if (token) return false;
+    return index >= 2;
   };
 
+  const shouldDisableTestButton = (index) => {
+    if (!token) return true;
+
+    const { isSubscribed, subscriptionEndDate } = userData || {};
+    const now = new Date();
+    const end = new Date(subscriptionEndDate);
+
+    if (isSubscribed && end < now) return true;
+    if (isSubscribed && end >= now) return false;
+    if (!isSubscribed && countResult >= 3) return true;
+    return false;
+  };
+
+  useEffect(() => {
+    if (!token || !userData || syllabusType !== "Test") return;
+
+    const { isSubscribed, subscriptionEndDate } = userData;
+
+    const isPlanExpired = isSubscribed && new Date(subscriptionEndDate) < new Date();
+    const isFreeTestLimitReached = !isSubscribed && countResult >= 3;
+
+    if (isFreeTestLimitReached && !isPlanExpired) {
+      setShowSubscribeCard(true);
+    }
+  }, [countResult, syllabusType, token, userData]);
 
   return (
-    < div style={{ backgroundColor: "#f8f9fa" }} >
-      <Container maxWidth="xl" >
-        <Box sx={{ py: 5 }} p={5} >
-          <Typography variant="h4" fontWeight={700} color="#183251" mb={2}>
-            Discover Our DGCA Question Banks
-          </Typography>
-          <Typography variant="body1" color="text.secondary" fontSize={18} mb={4}>
-            Practice Questions for Air Navigation, Meteorology, Technical General, Regulation & More - Crafted for CPL & ATPL aspirants.
-          </Typography>
+    <div style={{ backgroundColor: "#f8f9fa" }}>
+      <Container maxWidth="xl">
+        <Box sx={{ py: 5 }} p={5}>
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12, md: 8 }}>
+              <Typography variant="h4" fontWeight={700} color="#183251" mb={2}>
+                Discover Our DGCA Question Banks
+              </Typography>
+              <Typography
+                variant="body1"
+                color="text.secondary"
+                fontSize={18}
+                mb={4}
+              >
+                Practice Questions for Air Navigation, Meteorology, Technical
+                General, Regulation & More - Crafted for CPL & ATPL aspirants.
+              </Typography>
+            </Grid>
+            <Grid size={{ xs: 12, md: 3 }} ml="auto">
+              {syllabusType === "Test" && subscriptionDaysLeft !== null && (
+                subscriptionDaysLeft > 0 && subscriptionDaysLeft <= 3 ? (
+                  <Card
+                    sx={{
+                      p: 3,
+                      mb: 3,
+                      backgroundColor: "#FFF3CD",
+                      border: "1px solid #FFEEBA",
+                      borderRadius: 2,
+                    }}
+                  >
+                    <Typography variant="body1" color="text.primary" fontWeight={600}>
+                      Your subscription will expire in {subscriptionDaysLeft} day
+                      {subscriptionDaysLeft > 1 ? "s" : ""}. Renew now to avoid
+                      interruption.
+                    </Typography>
+                    <Button
+                      variant="contained"
+                      sx={{
+                        mt: 2,
+                        backgroundColor: "#EAB308",
+                        textTransform: "none",
+                      }}
+                      onClick={() => navigate("/pricing")}
+                    >
+                      Renew Plan
+                    </Button>
+                  </Card>
+                ) : subscriptionDaysLeft <= 0 ? (
+                  <Card
+                    sx={{
+                      p: 3,
+                      mb: 3,
+                      backgroundColor: "#F8D7DA",
+                      border: "1px solid #F5C6CB",
+                      borderRadius: 2,
+                    }}
+                  >
+                    <Typography variant="body1" color="error" fontWeight={600}>
+                      Your subscription has expired. Please renew to continue taking tests.
+                    </Typography>
+                    <Button
+                      variant="contained"
+                      sx={{
+                        mt: 2,
+                        backgroundColor: "#C5322A",
+                        textTransform: "none",
+                      }}
+                      onClick={() => navigate("/pricing")}
+                    >
+                      Renew Plan
+                    </Button>
+                  </Card>
+                ) : null
+              )}
 
-          <Grid container spacing={2} >
+              {syllabusType === "Test" && showSubscribeCard && (
+                <Card
+                  sx={{
+                    p: 3,
+                    mb: 3,
+                    backgroundColor: "#FFF3CD",
+                    border: "1px solid #FFEEBA",
+                    borderRadius: 2,
+                  }}
+                >
+                  <Typography variant="body1" color="text.primary" fontWeight={600}>
+                    You’ve completed your 3 free tests. Subscribe to unlock full access.
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    sx={{ mt: 2, backgroundColor: "#EAB308", textTransform: "none" }}
+                    onClick={() => navigate("/pricing")}
+                  >
+                    View Subscription Plans
+                  </Button>
+                </Card>
+              )}
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
             {syllabus.map((course, index) => {
               const matchedUserSyllabus = userSyllabuses.find(
                 (item) => item._id === course._id
@@ -86,19 +195,37 @@ const Syllabus = ({ handleClick, syllabusType }) => {
 
               const total = matchedUserSyllabus?.totalChapters || 0;
               const completed = matchedUserSyllabus?.completedChapters || 0;
-              const completionPercentage = total > 0 ? Math.round((completed / total) * 100) : 0;
-              console.log(matchedUserSyllabus, "matchedUserSyllabus");
+              const completionPercentage =
+                total > 0 ? Math.round((completed / total) * 100) : 0;
+
+              const handleBtnClick = () => {
+                if (syllabusType === "Training" && !token && index >= 2) {
+                  navigate("/login");
+                  return;
+                }
+                if (syllabusType === "Test" && shouldDisableTestButton(index)) {
+                  return;
+                }
+                handleClick(course.title, course?._id);
+              };
+
+              const isDisabled =
+                syllabusType === "Test" && shouldDisableTestButton(index);
 
               return (
-                <Grid key={course._id} size={{ xs: 12, sm: 6, md: 3, lg: 2 }}>
+                <Grid
+                  key={course._id}
+                  size={{ xs: 12, sm: 6, md: 3, lg: 2 }}
+                  sx={{ display: "flex" }}
+                >
                   <Card
                     sx={{
                       borderRadius: 3,
                       boxShadow: 3,
-                      height: "100%",
                       display: "flex",
                       flexDirection: "column",
-                      justifyContent: "space-between",
+                      height: "100%",
+                      width: "100%",
                     }}
                   >
                     <CardMedia
@@ -107,44 +234,59 @@ const Syllabus = ({ handleClick, syllabusType }) => {
                       image={course.imageUrl}
                       alt={course.title}
                     />
-                    <Box sx={{ ml: 2 }}>
 
-                      <CardContent sx={{ px: 0 }}>
+                    <CardContent
+                      sx={{
+                        flexGrow: 1,
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <Box>
                         <Typography variant="h6" fontWeight="bold" gutterBottom>
-                          {`${toCapitalize(course?.title)}`}
+                          {toCapitalize(course?.title)}
                         </Typography>
                         <Typography variant="body2" sx={{ color: "#EAB308" }}>
                           {course.category}
                         </Typography>
-                        {syllabusType === "Training" && matchedUserSyllabus && completionPercentage > 0 && (
-                          <>
-                            <Box mt={1} pr={1.5}>
-                              <LinearProgress
-                                variant="determinate"
-                                value={completionPercentage}
-                                sx={{
-                                  height: 8,
-                                  borderRadius: 5,
-                                  backgroundColor: "#e0e0e0",
-                                  '& .MuiLinearProgress-bar': {
-                                    backgroundColor: '#1e3a8a', // dark blue
-                                  },
-                                }}
-                              />
-                            </Box>
-                            <Typography variant="caption" color="textSecondary" mt={1}>
-                              {completionPercentage}% completed
-                            </Typography>
-                          </>
-                        )}
-                      </CardContent>
-                    </Box>
 
-                    <Box mt="auto" py={2} display="flex" justifyContent="center">
+                        {syllabusType === "Training" &&
+                          matchedUserSyllabus &&
+                          completionPercentage > 0 && (
+                            <>
+                              <Box mt={1}>
+                                <LinearProgress
+                                  variant="determinate"
+                                  value={completionPercentage}
+                                  sx={{
+                                    height: 8,
+                                    borderRadius: 5,
+                                    backgroundColor: "#e0e0e0",
+                                    "& .MuiLinearProgress-bar": {
+                                      backgroundColor: "#1e3a8a",
+                                    },
+                                  }}
+                                />
+                              </Box>
+                              <Typography
+                                variant="caption"
+                                color="textSecondary"
+                                mt={1}
+                                display="block"
+                              >
+                                {completionPercentage}% completed
+                              </Typography>
+                            </>
+                          )}
+                      </Box>
+                    </CardContent>
+
+                    <Box py={2} display="flex" justifyContent="center">
                       <Button
                         variant="contained"
-                        onClick={() => handleClick(course.title, course?._id)}
-                        disabled={index >= 2 && isButtonDisabled()}
+                        onClick={handleBtnClick}
+                        disabled={isDisabled}
                         sx={{
                           backgroundColor: "#EAB308",
                           color: "#FFFFFF",
@@ -157,7 +299,11 @@ const Syllabus = ({ handleClick, syllabusType }) => {
                           },
                         }}
                       >
-                        {syllabusType === "Training" && matchedUserSyllabus && completionPercentage > 0 ? "Resume" : "Start"}
+                        {syllabusType === "Training" && !token && index >= 2 ? "Login to continue" : syllabusType === "Training" &&
+                          matchedUserSyllabus &&
+                          completionPercentage > 0
+                          ? "Resume"
+                          : "Start"}
                       </Button>
                     </Box>
                   </Card>

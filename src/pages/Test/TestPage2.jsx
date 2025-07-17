@@ -21,6 +21,8 @@ function TestPage2() {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [timeTaken, setTimeTaken] = useState(0);
     const [quizId, setQuizId] = useState('');
+    const [openReviewWarning, setOpenReviewWarning] = useState(false);
+
 
     const confirmSubmit = async () => {
         try {
@@ -263,12 +265,38 @@ function TestPage2() {
         setSelectedOptions((prev) => ({ ...prev, [questionId]: optionId }));
     };
 
+    // const handleMarkForReview = (questionId) => {
+    //     setMarkedForReview((prev) => ({ ...prev, [questionId]: !prev[questionId] }));
+    //     handleNext();
+    // };
+
     const handleMarkForReview = (questionId) => {
-        setMarkedForReview((prev) => ({ ...prev, [questionId]: !prev[questionId] }));
+        const isSelected = !!selectedOptions[questionId];
+
+        if (!isSelected) {
+            // Show dialog if no option selected
+            setOpenReviewWarning(true);
+            return;
+        }
+
+        // Mark for review and move to next
+        setMarkedForReview((prev) => ({ ...prev, [questionId]: true }));
+        handleNext();
     };
 
     const handleSkip = (questionId) => {
-        setSkip((prev) => ({ ...prev, [questionId]: !prev[questionId] }));
+        // Reset selected option
+        setSelectedOptions((prev) => {
+            const updated = { ...prev };
+            delete updated[questionId];
+            return updated;
+        });
+
+        // Mark as skipped
+        setSkip((prev) => ({ ...prev, [questionId]: true }));
+
+        // Move to next question
+        handleNext();
     };
 
     // NEW: centralize question change to track visited
@@ -319,16 +347,37 @@ function TestPage2() {
         setOpenSubmitDialog(true);
     }, []);
 
-    const getChipColor = (index, questionId) => {
-        const result = evaluation[questionId];
-        if (result === 'correct') return '#22C55E';
-        if (result === 'incorrect') return 'red';
-        if (result === 'skipped') return 'white';
-        if (markedForReview[questionId]) return '#A855F7';
-        if (skip[questionId]) return '#000000';
-        if (selectedOptions[questionId]) return '#A3E635';
-        return '#F6F6F6';
-    };
+
+    // const getChipColor = (index, questionId) => {
+    //     const isCurrent = index === currentQuestionIndex;
+    //     const isMarked = markedForReview[questionId];
+    //     const isSkipped = skip[questionId];
+    //     const isSelected = selectedOptions[questionId];
+
+    //     if (isCurrent) return 'white'; // text color for current question
+    //     if (isMarked || isSelected) return 'white'; // text color for marked or answered
+    //     return 'black'; // default text color
+    // };
+
+  const getChipColor = (index, questionId) => {
+    const isCurrent = index === currentQuestionIndex;
+    const isMarked = markedForReview[questionId];
+    const isSkipped = skip[questionId];
+    const isSelected = selectedOptions[questionId];
+    const isVisited = visitedQuestions[questionId];
+
+    // Always white for current
+    if (isCurrent) return 'white';
+
+    // Skipped → black text
+    if (isSkipped) return 'black';
+
+    // Not visited at all → black
+    if (!isVisited && !isSelected && !isMarked) return 'black';
+
+    // All others (answered, marked, not-answered but visited) → white
+    return 'white';
+};
 
     const getChipBackgroundColor = (index, questionId) => {
         const result = evaluation[questionId];
@@ -349,7 +398,7 @@ function TestPage2() {
         if (index === currentQuestionIndex) return '#0D76F3';
         if (markedForReview[questionId]) return '#A855F7';
         if (skip[questionId]) return 'white';
-        if (selectedOptions[questionId]) return '#A3E635';
+        if (selectedOptions[questionId]) return '#22C55E';
         return '#F6F6F6';
     };
 
@@ -374,23 +423,24 @@ function TestPage2() {
                                     cursor: 'pointer',
                                     minWidth: 50,
                                     backgroundColor: getChipBackgroundColor(index, question._id),
-                                    color: getChipColor(index, question._id) === "#000000" || getChipColor(index, question._id) === "#F6F6F6" ? "black" : 'white',
+                                    color: getChipColor(index, question._id),
+                                    // color: getChipColor(index, question._id) === "#000000" || getChipColor(index, question._id) === "#F6F6F6" ? "black" : 'white',
                                     fontWeight: 'bold',
                                     borderRadius: 2,
-                                    borderColor: getChipBackgroundColor(index, question._id),
+                                    borderColor:  skip[question._id] ? 'black' : getChipBackgroundColor(index, question._id),
                                 }}
                             />
                         ))}
                     </Box>
                 </Box>
 
-                <Typography variant="h6" sx={{ mb: 4 }}>
+                <Typography variant="h6" sx={{ mb: 2 }}>
                     <span style={{ color: '#183251', fontWeight: 'bold' }}>Time Left:</span>{' '}
                     <span style={{ color: '#EAB308', fontWeight: 'bold' }}>{formatTime(timeLeft)}</span>
                 </Typography>
 
                 {questions.length > 0 && (
-                    <Paper sx={{ p: 3, mb: 4, border: '1px solid', borderColor: 'grey.400' }}>
+                    <Paper sx={{ p: 3, mb: 2, border: '1px solid', borderColor: 'grey.400' }}>
                         <Typography sx={{ fontSize: '18px' }}>
                             <span style={{ color: 'white', backgroundColor: '#183251', borderRadius: '50%', padding: '3px', display: 'inline-block', textAlign: 'center', width: '30px', height: '30px' }}>
                                 {currentQuestionIndex + 1}
@@ -439,15 +489,15 @@ function TestPage2() {
                     </Paper>
                 )}
 
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="space-between" alignItems="center" sx={{ mt: 4 }}>
-                    <Button variant="outlined" onClick={handlePrevious} sx={{ backgroundColor: "#183251", color: "white" }}>Previous</Button>
-                    <Button variant="outlined" onClick={handleNext} sx={{ backgroundColor: "#183251", color: "white" }}>Next</Button>
-                    <Button variant="outlined" onClick={handleReset} sx={{ backgroundColor: "#C5322A", color: "white" }}>Reset</Button>
-                    <Button onClick={() => handleSkip(questions[currentQuestionIndex]?._id)} sx={{ border: '1px solid #183251', color: "#183251" }}>Skip</Button>
-                    <Button onClick={() => handleMarkForReview(questions[currentQuestionIndex]?._id)} sx={{ backgroundColor: "#A855F7", color: "white" }}>
+                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="space-between" alignItems="center" sx={{ mt: 3, mb: 4 }}>
+                    <Button variant="outlined" onClick={handlePrevious} sx={{ backgroundColor: "#183251", color: "white", textTransform: "none" }}>Previous</Button>
+                    <Button variant="outlined" onClick={handleNext} sx={{ backgroundColor: "#183251", color: "white", textTransform: "none" }}>Next</Button>
+                    <Button variant="outlined" onClick={handleReset} sx={{ backgroundColor: "#C5322A", color: "white", textTransform: "none" }}>Reset</Button>
+                    <Button onClick={() => handleSkip(questions[currentQuestionIndex]?._id)} sx={{ border: '1px solid #183251', color: "#183251", textTransform: "none" }}>Skip</Button>
+                    <Button onClick={() => handleMarkForReview(questions[currentQuestionIndex]?._id)} sx={{ backgroundColor: "#A855F7", color: "white", textTransform: "none" }}>
                         {markedForReview[questions[currentQuestionIndex]?._id] ? 'Unmark Review' : 'Mark for Review'}
                     </Button>
-                    <Button variant="contained" onClick={handleSubmit} sx={{ backgroundColor: "#C5322A", color: "white" }}>Submit</Button>
+                    <Button variant="contained" onClick={handleSubmit} sx={{ backgroundColor: "#22C55E", color: "white", textTransform: "none" }}>Submit</Button>
                 </Stack>
             </Container>
 
@@ -459,10 +509,25 @@ function TestPage2() {
                     <DialogContentText>Are you sure you want to submit the test?</DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setOpenSubmitDialog(false)} sx={{ border: '1px solid #183251', color: '#183251' }}>No</Button>
-                    <Button onClick={confirmSubmit} variant="contained" sx={{ backgroundColor: '#183251', color: 'white' }}>Yes</Button>
+                    <Button onClick={() => setOpenSubmitDialog(false)} sx={{ border: '1px solid #183251', color: '#183251', textTransform: "none" }}>No</Button>
+                    <Button onClick={confirmSubmit} variant="contained" sx={{ backgroundColor: '#183251', color: 'white', textTransform: "none" }}>Yes</Button>
                 </DialogActions>
             </Dialog>
+
+
+            {/* mark as review dailog box */}
+            <Dialog open={openReviewWarning} onClose={() => setOpenReviewWarning(false)}>
+                <DialogTitle>Mark for Review</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>Please choose an option before marking this question for review.</DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenReviewWarning(false)} sx={{ textTransform: "none" }}>
+                        OK
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
         </>
     );
 }

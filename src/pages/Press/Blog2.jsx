@@ -7,6 +7,7 @@ const styles = {
   title: {
     fontWeight: 700,
     mb: 4,
+    mt: 5,
   },
   subheading: {
     fontWeight: 700,
@@ -67,8 +68,13 @@ const BlogSection2 = () => {
             image="/images/doctor.png"
             alt="Main Blog"
           />
-          <CardContent>
-            <Typography variant="h5" sx={{ fontWeight: 600, mb: 1 }}>
+        </Card>
+      </Container>
+
+      {/* Blog Content */}
+      <Box sx={styles.wrapper}>
+        <Container maxWidth="md">
+           <Typography variant="h5" sx={{ fontWeight: 600, mb: 1, fontSize: "42px" }}>
               DGCA’s Medical Test Mandate at IAF Centres: Pros and Cons for
               Pilots
             </Typography>
@@ -85,13 +91,7 @@ const BlogSection2 = () => {
               market globally, continues to grow, this change has sparked
               intense debate among pilots, airlines, and industry stakeholders.
             </Typography>
-          </CardContent>
-        </Card>
-      </Container>
 
-      {/* Blog Content */}
-      <Box sx={styles.wrapper}>
-        <Container maxWidth="md">
           <Typography variant="h5" sx={styles.title}>
             Background: The Push for Change
           </Typography>

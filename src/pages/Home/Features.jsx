@@ -11,13 +11,13 @@ const getFeatures = () => {
         {
             title: "Realistic Practice Tests",
             text: "Experience exam-like tests that mimic real conditions, complete with a timer and a variety of question formats to enhance your readiness. Get instant feedback on your performance to identify areas for improvement and boost your confidence.",
-            navigation: "/taketest",
+            navigation: token ? "/test" : "/login",
             navigateText: "Learn more"
         },
         {
             title: "Personalized Progress Tracking",
             text: "Monitor your learning journey with easy-to-read charts and graphs that show your strengths and weak areas. Get tailored suggestions to improve your scores over time.",
-            navigation: "/syllabus",
+            navigation: token ? "/flight-log" : "/login",
             navigateText: "Learn more"
         },
         {

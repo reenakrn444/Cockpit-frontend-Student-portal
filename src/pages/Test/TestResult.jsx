@@ -229,7 +229,7 @@ const TestResultPage = () => {
                                             else if (option.id === q.choosedOption && !option.isCorrect) color = '#C5322A';
 
                                             return (
-                                                <li key={option._id} style={{ color, fontWeight: option.isCorrect ? 'bold' : 'normal', fontSize: "14px" }}>
+                                                <li key={option._id} style={{ color, fontWeight: option.isCorrect ? 'bold' : 'normal', fontSize: "16px" }}>
                                                     {option.text}
                                                 </li>
                                             );
@@ -239,13 +239,13 @@ const TestResultPage = () => {
                                         <Typography fontWeight="bold" color="#00000" mt={1} sx={{ fontSize: '16px' }}>
                                             ANSWER:
                                         </Typography>
-                                        <Typography color="#A3E635" mt={1} sx={{ fontSize: '16px' }}>
+                                        <Typography color="#A3E635" mt={1} sx={{ fontSize: '16px', color: '#A3E635', fontWeight: 'bold' }}>
                                             {q.options.find((opt) => opt.isCorrect)?.text}
                                         </Typography>
                                     </Box>
 
                                     {q.explanation && (
-                                        <Typography variant="body2" mt={1}>
+                                        <Typography variant="body2" mt={1} sx={{ fontSize: '16px' }}>
                                             {q.explanation}
                                         </Typography>
                                     )}
