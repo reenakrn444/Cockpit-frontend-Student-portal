@@ -42,7 +42,7 @@ const UserProfile = () => {
   const fetchUserData = useCallback(async () => {
     const data = await apiGetToken(`/getUser?userId=${user._id}`);
     if (data?.data?.status === 200) {
-      const userInfo = data.data.data;
+      const userInfo = data.data.data.user;
       console.log(userInfo, "userInfo");
 
       setUserData({
@@ -54,10 +54,9 @@ const UserProfile = () => {
       });
       setProfileImage(userInfo?.image || "/default-profile.png");
 
-
       if (userInfo?.is_subscribed) {
         setSubscriptionInfo({
-          subscription: data?.subscription,
+          subscription: data.data.data?.subscription[0]?.subscriptionPlan,
           daysLeft: DayCalculation(userInfo?.subscription_start_date, userInfo?.subscription_end_date),
           subscriptionStartDate: userInfo?.subscription_start_date,
           subscriptionEndDate: userInfo?.subscription_end_date,
@@ -319,15 +318,16 @@ const UserProfile = () => {
               <Divider sx={{ borderColor: "#F4D269", mb: 2 }} />
               <Box display="flex" justifyContent="space-between" mt={2}>
                 <Typography variant="body2">SUBSCRIPTION</Typography>
+                {console.log(subscriptionInfo, "subscriptionInfo")}
                 <Typography variant="body2">{subscriptionInfo.subscription ? subscriptionInfo.subscription : "Free plan for 7 days"}</Typography>
               </Box>
               <Divider sx={{ borderColor: "#575757", my: 1 }} />
-              {/* <Box display="flex" justifyContent="space-between" mt={1} mb={2}>
+              <Box display="flex" justifyContent="space-between" mt={1} mb={2}>
                 <Typography variant="body2">RENEWAL</Typography>
                 <Typography variant="body2">
                   {subscriptionInfo?.daysLeft ? subscriptionInfo.daysLeft : "7"} DAYS LEFT
                 </Typography>
-              </Box> */}
+              </Box>
               <Box display="flex" justifyContent="center">
                 {/* <Button variant="contained" sx={{ backgroundColor: "#EAB308" }} onClick={() => navigate("/pricing")}>
                   Subscribe now

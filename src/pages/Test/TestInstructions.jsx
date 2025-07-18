@@ -97,11 +97,11 @@ const TestInstructions = ({ syllabusId, bookId, activeBook, syllabusTitle }) => 
           General Information
         </Typography>
 
-        <Typography sx={styles.itemText}>Total Questions: [50 Questions]</Typography>
-        <Typography sx={styles.itemText}>Total Time: [90 Minutes]</Typography>
+        <Typography sx={styles.itemText}>Total Questions: 50 Questions</Typography>
+        <Typography sx={styles.itemText}>Total Time: 90 Minutes</Typography>
         <Typography sx={styles.itemText}>Question Type: Multiple Choice Questions (MCQs)</Typography>
         <Typography sx={styles.itemText}>
-          Marking Scheme: [Explain if applicable: No Negative Marking]
+          Marking Scheme: Explain if applicable: No Negative Marking
         </Typography>
 
         {/* Test Interface Overview */}

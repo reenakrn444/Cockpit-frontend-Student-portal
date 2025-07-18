@@ -1,10 +1,11 @@
-import { apiPost, apiGetToken } from "../../api/axios";
+import { apiPost, apiPostToken, apiGetToken } from "../../api/axios";
 import { load } from '@cashfreepayments/cashfree-js';
 import { snackbarEmitter } from "../../components/snackbar/CustomSnackBar";
 
 const Subscription = () => {
   const [subscriptionPlans, setSubscriptionPlans] = useState();
   const token = localStorage.getItem("authToken");
+  const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   let cashfree;
   let initializeSdk = async () => {
@@ -30,6 +31,7 @@ const Subscription = () => {
             title: plan?.planName,
             price: plan?.price,
             days: plan?.duration,
+            planId: plan?._id,
             subtitle: "per Year",
             benefits: ["Tests", "Trainings", "Full Access"],
             trialText: "Get 7-day free trial (autopay)",
@@ -53,35 +55,78 @@ const Subscription = () => {
       navigate("/login");
       return;
     }
-    const subscriptionData =
-    {
-      "userId": JSON.parse(localStorage.getItem("user"))._id,
-      "amount": Number(plan.price),
-      "duration": parseInt(plan.days),
-    }
+
+
+    console.log(plan, "planssssss");
+
     try {
-      const response = await apiPost(`/subscription/createSubscriptionPayment`, subscriptionData);
-      if (response?.data?.status === 200) {
-        let order = response.data.data;
-        const options = {
-          paymentSessionId: order?.paymentDetails?.payment_session_id,
-          redirectTarget: "_modal",
-        };
-        cashfree.checkout(options).then(async (data) => {
-          if (data) {
-            const response = await apiPost(`/subscription/verifySubscriptionPaymentStatus`, { orderId: order?.orderId });
+      const requestBody = {
+        "duration": plan?.days,
+        "price": plan?.price,
+        "subscriptionPlan": plan?.title,
+        "pricingId": plan?.planId
+      }
+      const subscriptionRes = await apiPostToken(`/subscription/createSubscription`, requestBody);
+      if (subscriptionRes?.data?.status === 200) {
+        console.log("createSubscription response", subscriptionRes.data);
 
-            if (response.data.message === "Payment verified successfully") {
-              snackbarEmitter("Payment Successful!", "success");
+        const subscriptionData =
+        {
+          "subcriptionId": subscriptionRes.data.data._id,
+          "amount": Number(plan.price),
+          "duration": parseInt(plan.days),
+        }
+        console.log(subscriptionRes.data, "createSubscription response");
+
+        const response = await apiPostToken(`/subscription/createSubscriptionPayment`, subscriptionData);
+        if (response?.data?.status === 200) {
+          let order = response.data.data;
+          const options = {
+            paymentSessionId: order?.paymentDetails?.payment_session_id,
+            redirectTarget: "_modal",
+          };
+          cashfree.checkout(options).then(async (data) => {
+            if (data) {
+              const response = await apiPostToken(`/subscription/verifySubscriptionPaymentStatus`, { orderId: order?.orderId });
+              console.log(response.data, "verifySubscriptionPaymentStatus response");
+
+              if (response.data.status === 200) {
+                snackbarEmitter("Payment Successful!", "success");
+                // Step 1: Get current date as subscription start date
+                const subscriptionStartDate = new Date();
+
+                // Step 2: Calculate end date by adding duration in days
+                const subscriptionEndDate = new Date(subscriptionStartDate);
+                subscriptionEndDate.setDate(subscriptionEndDate.getDate() + Number(response.data.data.duration));
+
+                // Step 3: Update user object
+                const updatedUser = {
+                  ...user,
+                  subscriptionStartDate: subscriptionStartDate.toISOString(),
+                  subscriptionEndDate: subscriptionEndDate.toISOString(),
+                  isSubscribed: true,
+                };
+
+                console.log(updatedUser, "updatedUser");
+
+                localStorage.setItem("user", JSON.stringify(updatedUser));
+
+                // Step 4 (optional): Dispatch a custom event to notify other components (like Header)
+                window.dispatchEvent(new Event("userUpdated"));
+                navigate("/test")
+              }
+
+              // Optionally, redirect or update UI
+            } else {
+              snackbarEmitter("Payment Failed. Please try again.", "error");
             }
-
-            // Optionally, redirect or update UI
-          } else {
-            snackbarEmitter("Payment Failed. Please try again.", "error");
-          }
-        }).catch((error) => {
-          snackbarEmitter("An error occurred during payment. Please try again.", "error");
-        });
+          }).catch((error) => {
+            snackbarEmitter("An error occurred during payment. Please try again.", "error");
+          });
+        }
+      }
+      else{
+        snackbarEmitter("Failed to create subscription. Please try again.", "error");
       }
     } catch (error) {
       snackbarEmitter("Failed to create subscription. Please try again.", "error");
@@ -176,7 +221,7 @@ const Subscription = () => {
                     ))}
                   </List>
 
-                  <Typography
+                  {/* <Typography
                     variant="body2"
                     color="primary"
                     sx={{ mt: 2, fontSize: "13px", textAlign: "left" }}
@@ -184,15 +229,15 @@ const Subscription = () => {
                     {plan.trialText.split("free trial")[0]}
                     <span style={{ textDecoration: "underline" }}>free trial</span>
                     {plan.trialText.split("free trial")[1]}
-                  </Typography>
+                  </Typography> */}
 
-                  <Typography
+                  {/* <Typography
                     variant="caption"
                     color="text.secondary"
                     sx={{ display: "block", textAlign: "left", mt: 1.5 }}
                   >
                     {plan.cancelNote}
-                  </Typography>
+                  </Typography> */}
                 </CardContent>
                 <CardActions sx={{ justifyContent: "center", }}>
                   <Button

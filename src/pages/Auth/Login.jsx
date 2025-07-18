@@ -387,7 +387,7 @@ const Login = () => {
         </Typography>
 
           <Grid container justifyContent="center" spacing={8}>
-            {['apple', 'google'].map((provider) => (
+            {['google'].map((provider) => (
               <Grid key={provider} >
                 <Box
                   src={provider === 'apple' ? AppleLoginLogo : GoogleLoginLogo}

@@ -33,11 +33,11 @@ const TestFooter = () => {
         spacing={{ xs: 2, sm: 4, md: 6 }}
         flexWrap="wrap"
       >
-        <LegendItem color="#1976d2" label="Current" />
-        <LegendItem color="#ffffff" label="Not Attempted" />
-        <LegendItem color="#2e7d32" label="Answered" />
-        <LegendItem color="#f9a825" label="Not Answered" />
-        <LegendItem color="#9c27b0" label="Review" />
+        <LegendItem color="#0D76F3" label="Current" />
+        <LegendItem color="#ffffff" label="Skipped" />
+        <LegendItem color="#22C55E" label="Answered" />
+        <LegendItem color="#EAB308" label="Not Answered" />
+        <LegendItem color="#A855F7" label="Review" />
       </Stack>
     </Box>
   );

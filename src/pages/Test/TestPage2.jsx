@@ -117,6 +117,8 @@ function TestPage2() {
                 const req = { syllabusId, bookId };
                 const response = await apiPostToken('/testQuestionsByBookId', req);
                 setQuestions(response.data.data || []);
+                console.log('Fetched questions:', response.data.data);
+
                 setQuizId(response?.data?.data[0]?.quizId || ''); // Set quizId from response
 
                 // ✅ Start timer after data is fetched
@@ -124,7 +126,7 @@ function TestPage2() {
                     setTimeLeft((prev) => {
                         if (prev <= 1) {
                             clearInterval(newTimer);
-                            setTimeout(() => confirmSubmit(), 0); // auto-submit on timeout
+                            // setTimeout(() => confirmSubmit(), 0); // auto-submit on timeout
                             return 0;
                         }
                         return prev - 1;
@@ -139,6 +141,12 @@ function TestPage2() {
         };
         fetchTestQuestions();
     }, [activeBook, syllabusTitle]);
+
+    useEffect(() => {
+  if (timeLeft === 0 && quizId && questions.length > 0) {
+    confirmSubmit();
+  }
+}, [timeLeft, quizId, questions]);
 
     // Prevent browser back navigation
     useEffect(() => {
@@ -360,25 +368,25 @@ function TestPage2() {
     //     return 'black'; // default text color
     // };
 
-  const getChipColor = (index, questionId) => {
-    const isCurrent = index === currentQuestionIndex;
-    const isMarked = markedForReview[questionId];
-    const isSkipped = skip[questionId];
-    const isSelected = selectedOptions[questionId];
-    const isVisited = visitedQuestions[questionId];
+    const getChipColor = (index, questionId) => {
+        const isCurrent = index === currentQuestionIndex;
+        const isMarked = markedForReview[questionId];
+        const isSkipped = skip[questionId];
+        const isSelected = selectedOptions[questionId];
+        const isVisited = visitedQuestions[questionId];
 
-    // Always white for current
-    if (isCurrent) return 'white';
+        // Always white for current
+        if (isCurrent) return 'white';
 
-    // Skipped → black text
-    if (isSkipped) return 'black';
+        // Skipped → black text
+        if (isSkipped) return 'black';
 
-    // Not visited at all → black
-    if (!isVisited && !isSelected && !isMarked) return 'black';
+        // Not visited at all → black
+        if (!isVisited && !isSelected && !isMarked) return 'black';
 
-    // All others (answered, marked, not-answered but visited) → white
-    return 'white';
-};
+        // All others (answered, marked, not-answered but visited) → white
+        return 'white';
+    };
 
     const getChipBackgroundColor = (index, questionId) => {
         const result = evaluation[questionId];
@@ -428,7 +436,7 @@ function TestPage2() {
                                     // color: getChipColor(index, question._id) === "#000000" || getChipColor(index, question._id) === "#F6F6F6" ? "black" : 'white',
                                     fontWeight: 'bold',
                                     borderRadius: 2,
-                                    borderColor:  skip[question._id] ? 'black' : getChipBackgroundColor(index, question._id),
+                                    borderColor: skip[question._id] ? 'black' : getChipBackgroundColor(index, question._id),
                                 }}
                             />
                         ))}
@@ -508,6 +516,7 @@ function TestPage2() {
                 <DialogTitle>Confirm Submission</DialogTitle>
                 <DialogContent>
                     <DialogContentText>Are you sure you want to submit the test?</DialogContentText>
+                    <DialogContentText>Please ensure that all questions marked for review have been addressed before submitting</DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => setOpenSubmitDialog(false)} sx={{ border: '1px solid #183251', color: '#183251', textTransform: "none" }}>No</Button>
