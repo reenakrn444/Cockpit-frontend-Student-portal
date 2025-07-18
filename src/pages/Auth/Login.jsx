@@ -4,7 +4,7 @@ import { snackbarEmitter } from '../../components/snackbar/CustomSnackBar';
 import CopyrightFooter from '../../Helper/copyrighttext';
 import { Link } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
-
+import { HeaderLogo, AppleLoginLogo, GoogleLoginLogo } from '../Home/ImagesRender';
 
 const Login = () => {
   const [activeForm, setActiveForm] = useState('login');
@@ -183,7 +183,7 @@ const Login = () => {
 
         <Box
           component="img"
-          src="/src/assests/images/fulllogo.svg"
+          src={HeaderLogo}
           alt="Plane"
           sx={{
             height: 100,
@@ -390,7 +390,7 @@ const Login = () => {
             {['apple', 'google'].map((provider) => (
               <Grid key={provider} >
                 <Box
-                  src={`/src/assests/images/${provider}.svg`}
+                  src={provider === 'apple' ? AppleLoginLogo : GoogleLoginLogo}
                   sx={{
                     width: 40,
                     height: 40,
@@ -408,7 +408,7 @@ const Login = () => {
                     }
                   }}
                 >
-                  <img src={`/src/assests/images/${provider}.svg`} alt="apple" style={{ width: 80, height: 80 }} />
+                  <img src={provider === 'apple' ? AppleLoginLogo : GoogleLoginLogo} alt="apple" style={{ width: 80, height: 80 }} />
                 </Box>
               </Grid>
             ))}
