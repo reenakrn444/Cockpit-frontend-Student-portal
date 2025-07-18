@@ -25,6 +25,7 @@ const TrainingQuestion = () => {
   console.log(activeBook, "activeBook");
 
   const userId = JSON.parse(localStorage.getItem("user"));
+  const token = localStorage.getItem("authToken");
   const { syllabusName, bookName, chapterName } = useParams();
 
   useEffect(() => {
@@ -171,11 +172,11 @@ const TrainingQuestion = () => {
                   activeBookId: bookId,
                 },
               })}
-              sx={{ display: "flex", alignItems: "center", cursor: "pointer", color: "#183251" }}
+              sx={{ display: "flex", alignItems: "center", cursor: "pointer", color: "#183251",  }}
             >
               <ArrowBackIcon sx={{ mr: 0.5 }} />
             </Box>
-            <Typography variant="h4" textAlign="left">
+            <Typography variant="h4" textAlign="left" fontSize={{ xs: '1.5rem', sm: '2.1rem' }}>
               {toCapitalize(syllabusTitle)} &gt;{" "}
               <Box
                 component="span"
@@ -194,7 +195,7 @@ const TrainingQuestion = () => {
               >
                 {toCapitalize(activeBook)}
               </Box>{" "}
-              &gt; Question Banks
+             
             </Typography>
           </Box>
 
@@ -209,6 +210,7 @@ const TrainingQuestion = () => {
               fontSize: "40px",
               textTransform: "uppercase",
               mt: 2,
+              fontSize:{ xs: '1.5rem', sm: '2.1rem' }
             }}
           >
             {chapterName}
@@ -483,7 +485,67 @@ const TrainingQuestion = () => {
           )} */}
 
         <Box sx={{ mt: 4, display: "flex", justifyContent: "center" }}>
-          <CustomButton
+          {token && filteredQuestions.length > 0 && (
+            <Box sx={{ mt: 4, display: "flex", justifyContent: "center" }}>
+              <CustomButton
+                variant="contained"
+                bgColor={
+                  Object.keys(selectedAnswers).length === filteredQuestions.length
+                    ? "#EAB308"
+                    : "#D3D3D3"
+                }
+                sx={{
+                  width: "fit-content",
+                  cursor: "pointer",
+                  color:
+                    Object.keys(selectedAnswers).length === filteredQuestions.length
+                      ? "white"
+                      : "#666666",
+                }}
+                loading={loading}
+                onClick={() => {
+                  if (Object.keys(selectedAnswers).length === filteredQuestions.length) {
+                    handleSubmitAllAnswers();
+                  } else {
+                    const firstUnanswered = filteredQuestions.find(
+                      (q) => !selectedAnswers.hasOwnProperty(q._id)
+                    );
+                    const element = questionRefs.current[firstUnanswered?._id];
+                    if (element) {
+                      // Determine page number for the unanswered question
+                      const index = filteredQuestions.findIndex(q => q._id === firstUnanswered?._id);
+                      const pageNum = Math.floor(index / questionsPerPage) + 1;
+                      if (pageNum !== currentPage) {
+                        setCurrentPage(pageNum);
+                        setTimeout(() => {
+                          const el = questionRefs.current[firstUnanswered?._id];
+                          if (el) {
+                            const topOffset = el.getBoundingClientRect().top + window.scrollY;
+                            const adjustedOffset = topOffset - 120;
+                            window.scrollTo({
+                              top: adjustedOffset,
+                              behavior: "smooth",
+                            });
+                          }
+                        }, 300); // give time for page to re-render
+                      } else {
+                        const topOffset = element.getBoundingClientRect().top + window.scrollY;
+                        const adjustedOffset = topOffset - 120;
+                        window.scrollTo({
+                          top: adjustedOffset,
+                          behavior: "smooth",
+                        });
+                      }
+                    }
+                  }
+                }}
+              >
+                Submit All Answers
+              </CustomButton>
+            </Box>
+          )}
+
+          {/* <CustomButton
             variant="contained"
             bgColor={
               Object.keys(selectedAnswers).length === filteredQuestions.length
@@ -519,7 +581,7 @@ const TrainingQuestion = () => {
             }}
           >
             Submit All Answers
-          </CustomButton>
+          </CustomButton> */}
         </Box>
 
       </Box>

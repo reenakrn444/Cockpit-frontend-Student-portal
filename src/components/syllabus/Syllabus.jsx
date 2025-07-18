@@ -47,7 +47,9 @@ const Syllabus = ({ handleClick, syllabusType }) => {
     fetchFlightLogData();
     fetchSyllabus();
 
+    
     if (userData?.isSubscribed && userData?.subscriptionEndDate) {
+
       const now = new Date();
       const end = new Date(userData.subscriptionEndDate);
       const diffInMs = end - now;
@@ -292,6 +294,7 @@ const Syllabus = ({ handleClick, syllabusType }) => {
                           color: "#FFFFFF",
                           fontWeight: 600,
                           px: 4,
+                          m:2,
                           borderRadius: "8px",
                           textTransform: "none",
                           "&:hover": {
