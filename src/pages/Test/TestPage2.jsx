@@ -3,6 +3,7 @@ import TestFooter from './TestPageFooter';
 import TestHeader from './TestPageHeader';
 import { formatTime } from './forrmatTime';
 import { snackbarEmitter } from '../../components/snackbar/CustomSnackBar';
+import { HeaderLogo } from '../Home/ImagesRender';
 
 function TestPage2() {
     const location = useLocation();

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { HeaderLogo } from "../../pages/Home/ImagesRender";
 
 import { DayCalculation } from "../../Helper/DayCalculation/Daycalculation";
 
@@ -139,7 +140,7 @@ function Header() {
           <Box component={Link}
             to="/" sx={{ display: "flex", alignItems: "center" }}>
             <img
-              src="/src/assests/images/fulllogo.svg"
+              src={HeaderLogo}
               alt="Plane"
               style={{ height: "60px" }}
             />

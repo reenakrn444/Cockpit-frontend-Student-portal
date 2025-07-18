@@ -10,6 +10,7 @@ import YoutubeIcon from "../../assests/images/YoutubeIcon.svg";
 import PhoneIcon from "@mui/icons-material/Phone";
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import { platformLinks, ResourcesLink } from './UrlLinksColor';
+import { FooterLogo } from '../../pages/Home/ImagesRender';
 
 
 function FooterSection() {
@@ -29,7 +30,7 @@ function FooterSection() {
         <Grid container spacing={2} alignItems={{ xs: "center", sm: "flex-start" }} justifyContent="center" textAlign="left">
           <Grid size={{ xs: 12, sm: 3, md: 3 }} sx={{ display: "grid", justifyContent: "center", m: "auto", textAlign: { xs: "center", sm: "left", md: 'left' }, }}>
             <Box component={Link} to="/" sx={{ display: 'flex', alignItems: 'center', justifyContent: "center" }}>
-              <img src="/src/assests/images/logo_tagline_White.svg" alt="plane" style={{ height: 150, width: 200 }} />
+              <img src={FooterLogo} alt="plane" style={{ height: 150, width: 200 }} />
             </Box>
           </Grid>
 

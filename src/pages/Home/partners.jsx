@@ -50,6 +50,8 @@
 
 // export default PartnerSection;
 
+import { HeaderLogo , FourStripesPartnerLogo, AviationPartnerLogo} from "./ImagesRender";
+
 
 import { keyframes } from '@emotion/react';
 
@@ -60,8 +62,8 @@ const scroll = keyframes`
 `;
 
 const partners = [
-    { name: '4 Stripes', src: '/src/assests/images/4StripesPartner.png' },
-    { name: 'Aviators Library', src: '/src/assests/images/AviatorsLibraryPartners.jpg' },
+    { name: '4 Stripes', src: FourStripesPartnerLogo },
+    { name: 'Aviators Library', src: AviationPartnerLogo },
 ];
 
 const PartnerSection = () => {

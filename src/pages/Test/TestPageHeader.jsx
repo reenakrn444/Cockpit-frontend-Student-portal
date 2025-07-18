@@ -1,3 +1,4 @@
+import { HeaderLogo } from "../Home/ImagesRender";
 const TestHeader = () => {
     return (
         <Box
@@ -22,7 +23,7 @@ const TestHeader = () => {
                     <Box
                         to="/" sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                         <img
-                            src="/src/assests/images/fulllogo.svg"
+                            src={HeaderLogo}
                             alt="Plane"
                             style={{ height: "60px" }}
                         />
