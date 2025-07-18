@@ -172,7 +172,7 @@ const UserProfile = () => {
     <Box sx={{ p: 4 }}>
       <Grid container justifyContent="space-between" alignItems="center">
         <Typography variant="h6" fontWeight="bold" sx={{ color: "#3E435D" }}>
-          {getGreeting()}, Captain
+          {getGreeting()}, Captain {userData.username}
         </Typography>
         <Typography variant="subtitle2">🟡 In-Flight</Typography>
       </Grid>
@@ -365,7 +365,7 @@ const UserProfile = () => {
                   navigate("/changepassword");
                 }
                 else if (label === "FLIGHT LOG") {
-                  navigate("/theme");
+                  navigate("/flight-log");
                 }
               }}
             >

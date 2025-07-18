@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
+import { HeaderLogo } from "../../pages/Home/ImagesRender";
+
 import { DayCalculation } from "../../Helper/DayCalculation/Daycalculation";
 
 
 function Header() {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
+  const token = localStorage.getItem("authToken");
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
@@ -54,8 +57,8 @@ function Header() {
   const navItems = [
     { text: "Home", path: "/" },
     { text: "Training", path: "/training" },
-    { text: 'Test', path: '/test' },
-    // { text: "Pricing", path: "/pricing" },
+    ...(token ? [{ text: "Test", path: "/test" }] : []),
+    { text: "Pricing", path: "/pricing" },
   ];
 
   const drawerContent = (
@@ -137,7 +140,7 @@ function Header() {
           <Box component={Link}
             to="/" sx={{ display: "flex", alignItems: "center" }}>
             <img
-              src="/src/assests/images/fulllogo.svg"
+              src={HeaderLogo}
               alt="Plane"
               style={{ height: "60px" }}
             />
@@ -161,8 +164,9 @@ function Header() {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        width: isActive ? "92px" : "auto",
-                        height: isActive ? "35px" : "auto",
+                        width: isActive ? 'fit-content' : "auto",
+                        padding: "8px",
+                        // height: isActive ? "35px" : "auto",
                         gap: "10px",
                         borderRadius: isActive ? "8px" : "0px",
                         backgroundColor: isActive ? "#183251" : "transparent",
@@ -223,7 +227,7 @@ function Header() {
         {isMobile && (
           <Grid>
             <IconButton onClick={toggleDrawer(!drawerOpen)}>
-              {drawerOpen ? <CloseIcon /> : <MenuIcon /> }
+              {drawerOpen ? <CloseIcon /> : <MenuIcon />}
             </IconButton>
           </Grid>
         )}

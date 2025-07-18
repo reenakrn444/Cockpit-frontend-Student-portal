@@ -8,19 +8,19 @@ import Syllabus from '../../components/syllabus/Syllabus';
 
 function TestSyllabus() {
 
-  const[syllabus, setSyllabus]= useState([]);
 
-   const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  const handleClick = (title,id) => {
-    navigate('/testRules', { state: { title, id } }); 
+  const handleClick = (title, id) => {
+    console.log(title, id, "paramssssss");
+    navigate('/testRules', { state: { title, id } });
   };
 
   return (
-       <>
-    
-      <Syllabus handleClick={handleClick}/>
-    
+    <>
+
+      <Syllabus handleClick={handleClick} syllabusType="Test" />
+
     </>
   );
 }

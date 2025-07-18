@@ -2,38 +2,10 @@ import { apiPost, apiGetToken } from "../../api/axios";
 import { load } from '@cashfreepayments/cashfree-js';
 import { snackbarEmitter } from "../../components/snackbar/CustomSnackBar";
 
-const plans = [
-  {
-    title: "Monthly Plan",
-    price: "169",
-    days: "30",
-    subtitle: "per month",
-    benefits: ["Tests", "Trainings", "Full Access"],
-    trialText: "Get 15-day free trial (autopay)",
-    cancelNote: "Cancellation: Cancel within 15 days or ₹169 will deduct from the account",
-  },
-  {
-    title: "6 Months Plan",
-    price: "999",
-    days: "180",
-    subtitle: "6 Months + 1 Month",
-    benefits: ["Tests", "Trainings", "Full Access"],
-    trialText: "Get 15-day free trial (autopay)",
-    cancelNote: "Cancellation: Cancel within 15 days or ₹999 will deduct from the account",
-  },
-  {
-    title: "Yearly Plan",
-    price: "1999",
-    days: "365",
-    subtitle: "per Year",
-    benefits: ["Tests", "Trainings", "Full Access"],
-    trialText: "Get 15-day free trial (autopay)",
-    cancelNote: "Cancellation: Cancel within 15 days or ₹1999 will deduct from the account",
-  },
-];
-
 const Subscription = () => {
   const [subscriptionPlans, setSubscriptionPlans] = useState();
+  const token = localStorage.getItem("authToken");
+  const navigate = useNavigate();
   let cashfree;
   let initializeSdk = async () => {
     cashfree = await load({
@@ -51,16 +23,18 @@ const Subscription = () => {
       if (response?.data?.status === 200) {
         console.log("response.data.data", response.data.data);
         const data = response.data.data;
+        console.log(data, "dataPlans");
+
         let plans = data.map((plan) => {
-         return {
-              title: plan?.planName,
-              price: plan?.price,
-              days: plan?.duration,
-              subtitle: "per Year",
-              benefits: ["Tests", "Trainings", "Full Access"],
-              trialText: "Get 7-day free trial (autopay)",
-              cancelNote: "Cancellation: Cancel within 15 days or ₹1999 will deduct from the account",
-            }
+          return {
+            title: plan?.planName,
+            price: plan?.price,
+            days: plan?.duration,
+            subtitle: "per Year",
+            benefits: ["Tests", "Trainings", "Full Access"],
+            trialText: "Get 7-day free trial (autopay)",
+            cancelNote: "Cancellation: Cancel within 15 days or ₹1999 will deduct from the account",
+          }
         })
         console.log("plans", plans);
         setSubscriptionPlans(plans)
@@ -73,14 +47,17 @@ const Subscription = () => {
   useEffect(() => {
     getPricingPlans();
   }, [])
+
   const handleSubscription = async (plan) => {
-
-
+    if (!token) {
+      navigate("/login");
+      return;
+    }
     const subscriptionData =
     {
       "userId": JSON.parse(localStorage.getItem("user"))._id,
       "amount": Number(plan.price),
-      "duration": Number(plan.days),
+      "duration": parseInt(plan.days),
     }
     try {
       const response = await apiPost(`/subscription/createSubscriptionPayment`, subscriptionData);
@@ -129,6 +106,8 @@ const Subscription = () => {
         <Grid container spacing={4}>
           {subscriptionPlans?.map((plan, idx) => (
             <Grid size={{ xs: 12, sm: 4 }} key={idx}>
+              {console.log(plan, "plan")
+              }
               <Card
                 elevation={0}
                 sx={{
@@ -180,11 +159,9 @@ const Subscription = () => {
                       align="left"
                       color="text.secondary"
                     >
-                      {plan.subtitle}
+                      {plan?.days === "1 year" ? "per year" : plan.days}
                     </Typography>
                   </Box>
-
-
                   <Divider sx={{ my: 2 }} />
 
                   <List dense sx={{ px: 0 }}>
@@ -230,7 +207,7 @@ const Subscription = () => {
                       fontSize: "14px",
                     }}
                   >
-                    Get Started
+                    {!token ? "Login to subscribe the plan" : "Get Started"}
                   </Button>
                 </CardActions>
               </Card>

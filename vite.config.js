@@ -13,7 +13,7 @@ export default defineConfig({
       import {
         AppBar, Avatar, Autocomplete, Badge, Box, Button, 
         Card, CardContent, Checkbox, Container, Collapse, CardActions, CardActionArea, CardMedia, CardHeader,
-        Divider, Drawer, Dialog, DialogContent, DialogTitle, DialogActions,
+        Divider, Drawer, Dialog, DialogContent, DialogContentText,  DialogTitle, DialogActions,
         FormControl, FormControlLabel, FormHelperText, FormLabel, FormGroup,
         Grid, 
         IconButton, InputAdornment, InputBase, InputLabel, 

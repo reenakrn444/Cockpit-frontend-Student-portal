@@ -5,18 +5,15 @@ import "./home.css";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Faq from "./Faq";
 import getFeatures from "./Features";
+import reviews from "./Reviews";
+import PartnerSection from "./partners";
+import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
 
 function HomeSection() {
   const Features = getFeatures();
   const navigate = useNavigate();
-  const handleClick = () => navigate("/training");
-
-  const testimonial = {
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Faucibus in libero risus semper habitant arcu eget. Et integer facilisi",
-    name: "Awlad Hossain",
-    role: "UI Designer",
-    rating: 5,
-  };
+  const handleClick = () => navigate(!token ? "/login" : "/training");
+  const token = localStorage.getItem("authToken");
 
   const [expanded, setExpanded] = useState("panel0");
 
@@ -24,42 +21,69 @@ function HomeSection() {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const TestimonialCard = () => (
-    <Card className="cockpit-testimonial-card" sx={{ fontSize: "1rem" }}>
-      <CardContent>
-        <Box className="cockpit-testimonial-header">
-          <Typography
-            sx={{ fontSize: "3rem" }}
-            className="cockpit-testimonial-quote"
-          >
-            “
-          </Typography>
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const cardsToShow = isSmallScreen ? 1 : 2;
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => Math.max(prev - cardsToShow, 0));
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prev) =>
+      Math.min(prev + cardsToShow, reviews.length - cardsToShow)
+    );
+  };
+
+  const visibleCards = reviews.slice(currentIndex, currentIndex + cardsToShow);
+
+  const TestimonialCard = ({ testimonial }) => (
+    <Card
+      className="cockpit-testimonial-card"
+      sx={{
+        fontSize: "6px",
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      <CardContent sx={{ flexGrow: 1 }}>
+        <Box
+          className="cockpit-testimonial-header"
+          sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+        >
+          <img src="/src/assests/images/RatingHeader.svg" alt="“" width={30} height={30}></img>
           <Rating
             value={testimonial.rating}
             readOnly
             size="small"
-            className="cockpit-testimonial-rating"
           />
         </Box>
-        <Typography className="cockpit-testimonial-text" sx={{ fontSize: { xs: '18px', sm: '20px', md: '22px', lg: '24px', xl: '26px', }, mb: 3, }}>
-          {testimonial.text}
+        <Typography
+          sx={{ fontSize: { xs: '16px', sm: '14px', md: '14px' }, mt: 2 }}
+        >
+          {testimonial.review}
         </Typography>
+      </CardContent>
 
-        <Box className="cockpit-testimonial-user">
-          <Box className="cockpit-testimonial-avatar" />
+      <CardActions sx={{ pt: 0 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <Avatar
+            alt={testimonial.userName}
+            src={testimonial.image || undefined}
+          />
           <Box>
-            <Typography
-              variant="subtitle1"
-              className="cockpit-testimonial-name"
-            >
-              {testimonial.name}
+            <Typography variant="subtitle1">
+              {testimonial.userName}
             </Typography>
-            <Typography variant="caption" className="cockpit-testimonial-role">
-              {testimonial.role}
+            <Typography variant="caption">
+              {testimonial.studentDesig}
             </Typography>
           </Box>
         </Box>
-      </CardContent>
+      </CardActions>
     </Card>
   );
 
@@ -172,15 +196,17 @@ function HomeSection() {
           </Container>
         </Box>
       </section>
-
+      <section>
+        <PartnerSection />
+      </section>
       <section>
         <Box
           className="testimonials"
           sx={{ py: 4, backgroundColor: "#f5f5f5" }}
         >
           <Container>
-            {/* <Grid container spacing={4} justifyContent="center"> */}
-            {/* <Grid size={{ xs: 12, sm: 12, md: 8, lg: 8, xl: 8 }}>
+            <Grid container spacing={4} justifyContent="center">
+              <Grid size={{ xs: 12, sm: 12, md: 8, lg: 8, xl: 8 }}>
                 <Typography className="testimonial-heading" fontSize={{ xs: "30px", sm: "30px", md: "40px", lg: "40px", xl: "40px" }}>
                   Aviators Review
                 </Typography>
@@ -191,14 +217,52 @@ function HomeSection() {
                   dreams.
                 </Typography>
               </Grid>
-            </Grid> */}
+            </Grid>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 4, mt: 4 }}>
+              <IconButton onClick={handlePrev} disabled={currentIndex === 0}
+                disableRipple
+                sx={{
+                  '&:hover': {
+                    backgroundColor: 'transparent',
+                  },
+                  '&.Mui-disabled': {
+                    opacity: 0.3, // optional: customize disabled opacity
+                  },
+                }}
+              >
+                <ArrowBackIos />
+              </IconButton>
+              <Grid container spacing={2}>
+                {visibleCards.map((review, index) => (
+                  <Grid size={{ xs: 12, sm: 6 }} key={index}>
+                    <TestimonialCard testimonial={review} />
+                  </Grid>
+                ))}
+              </Grid>
+              <IconButton
+                onClick={handleNext}
+                disabled={currentIndex + cardsToShow >= reviews.length}
+                disableRipple
+                sx={{
+                  '&:hover': {
+                    backgroundColor: 'transparent',
+                  },
+                  '&.Mui-disabled': {
+                    opacity: 0.3, // optional: customize disabled opacity
+                  },
+                }}
+              >
+                <ArrowForwardIos />
+              </IconButton>
+            </Box>
+
+
             {/* <Grid container spacing={3} justifyContent="center" sx={{ mt: 6 }}>
-              <Grid size={{ xs: 12, sm: 6, md: 6 }}>
-                <TestimonialCard />
-              </Grid>
-              <Grid size={{ xs: 12, sm: 6, md: 6 }}>
-                <TestimonialCard />
-              </Grid>
+              {reviews.map((review, index) => (
+                <Grid size={{ xs: 12, sm: 4, md: 4 }} key={index}>
+                  <TestimonialCard testimonial={review} />
+                </Grid>
+              ))}
             </Grid> */}
 
             <Grid container spacing={4} justifyContent="center" sx={{ mt: 4 }}>

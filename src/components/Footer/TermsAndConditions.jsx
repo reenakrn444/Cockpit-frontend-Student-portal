@@ -201,13 +201,6 @@ const TermsAndConditions = () => {
                                 support@thecockpit.in
                             </Link>
                         </ListItem>
-                        {/* <ListItem sx={{ pl: 3, position: 'relative', mb: 1 }}
-                        >
-                            <Box component="span" sx={{ position: 'absolute', left: 0, color: '#303A42', fontSize: '1.2em' }}>•</Box>
-                            <Link href="https://thecockpit.in/contact" target="_blank" rel="noopener noreferrer" underline="hover">
-                                https://thecockpit.in/contact
-                            </Link>
-                        </ListItem> */}
                     </List>
                 </Box>
                 {/* Add other sections here... */}

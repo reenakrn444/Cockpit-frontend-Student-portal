@@ -3,7 +3,8 @@ import { CustomButton } from '../../components';
 import { snackbarEmitter } from '../../components/snackbar/CustomSnackBar';
 import CopyrightFooter from '../../Helper/copyrighttext';
 import { Link } from 'react-router-dom';
-
+import { useGoogleLogin } from '@react-oauth/google';
+import { HeaderLogo, AppleLoginLogo, GoogleLoginLogo } from '../Home/ImagesRender';
 
 const Login = () => {
   const [activeForm, setActiveForm] = useState('login');
@@ -14,6 +15,32 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+
+  const Googlelogin = useGoogleLogin({
+    onSuccess: async (TokenResponse) => {
+      await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+        headers: {
+          Authorization: `Bearer ${TokenResponse?.access_token}`,
+        },
+      })
+        .then((res) => res.json())
+        .then(async (data) => {
+          console.log('User Info:', data);
+          setEmail(data?.email);
+          setUsername(data?.name);
+          const googleLoginRes = await apiPost('/AuthLoginUser', {
+            email: data?.email,
+          })
+          const token = googleLoginRes.data.token;
+          storeLoginDetails(token, googleLoginRes);
+          console.log(googleLoginRes, "googleLoginRes");
+        })
+        .catch((err) => {
+          console.error('Failed to fetch user info', err);
+        });
+    },
+    flow: 'implicit',
+  });
 
   const handleInputChange = (field, value) => {
     if (field === 'email') setEmail(value);
@@ -83,10 +110,6 @@ const Login = () => {
       }
       else {
         snackbarEmitter(response?.data?.message, 'error');
-        // setEmail('');
-        // setUsername('');
-        // setPassword('');
-        // setActiveForm('login');
         setLoading(false);
       }
     } catch (error) {
@@ -104,20 +127,8 @@ const Login = () => {
       const response = await apiPost('/loginUser', { email, password });
       if (response?.data?.status === 200) {
         const token = response.data.token;
-        localStorage.setItem('authToken', token);
-        const userdata = {
-          _id: response.data.userData._id,
-          userRegisteredDate: response?.data?.userData?.createdAt,
-          username: response.data.userData.username,
-          profileImage: response?.data?.userData?.image || "/default-profile.png",
-          isSubscribed: response.data.userData.is_subscribed,
-          subscriptionStartDate: response.data.userData.is_subscribed ? response.data.userData.subscription_start_date : "",
-          subscriptionEndDate: response.data.userData.is_subscribed ? response.data.userData.subscription_end_date : "",
-        }
-        localStorage.setItem('user', JSON.stringify(userdata));
-        setLoading(false);
+        storeLoginDetails(token, response);
         // snackbarEmitter('Logged in successfully!', 'success');
-        navigate('/');
       } else {
         setLoading(false);
         snackbarEmitter(response?.data?.message, 'error');
@@ -128,6 +139,21 @@ const Login = () => {
     }
   };
 
+  const storeLoginDetails = (token, response) => {
+    setLoading(false);
+    localStorage.setItem('authToken', token);
+    const userdata = {
+      _id: response.data.userData._id,
+      userRegisteredDate: response?.data?.userData?.createdAt,
+      username: response.data.userData.username,
+      profileImage: response?.data?.userData?.image || "/default-profile.png",
+      isSubscribed: response.data.userData.is_subscribed,
+      subscriptionStartDate: response.data.userData.is_subscribed ? response.data.userData.subscription_start_date : "",
+      subscriptionEndDate: response.data.userData.is_subscribed ? response.data.userData.subscription_end_date : "",
+    }
+    localStorage.setItem('user', JSON.stringify(userdata));
+    navigate('/');
+  }
   return (
     <Box
       sx={{
@@ -157,7 +183,7 @@ const Login = () => {
 
         <Box
           component="img"
-          src="/src/assests/images/fulllogo.svg"
+          src={HeaderLogo}
           alt="Plane"
           sx={{
             height: 100,
@@ -356,20 +382,39 @@ const Login = () => {
           </CustomButton>
         </form>
 
-        {/* <Typography variant="body2" align="center" color="white" my={2}>
+        {activeForm === 'login' && <><Typography variant="body2" align="center" color="white" my={2}>
           - OR -
         </Typography>
 
-        <Grid container justifyContent="center" spacing={2}>
-          {['apple', 'google', 'twitter'].map((provider) => (
-            <Grid key={provider}>
-              <Avatar
-                src={`/images/${provider}.png`}
-                sx={{ width: 40, height: 40, backgroundColor: 'white' }}
-              />
-            </Grid>
-          ))}
-        </Grid> */}
+          <Grid container justifyContent="center" spacing={8}>
+            {['apple', 'google'].map((provider) => (
+              <Grid key={provider} >
+                <Box
+                  src={provider === 'apple' ? AppleLoginLogo : GoogleLoginLogo}
+                  sx={{
+                    width: 40,
+                    height: 40,
+                    backgroundColor: '#fff',
+                    borderRadius: '60px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    boxShadow: 1,
+                  }}
+                  onClick={() => {
+                    if (provider === "google") {
+                      Googlelogin();
+                    }
+                  }}
+                >
+                  <img src={provider === 'apple' ? AppleLoginLogo : GoogleLoginLogo} alt="apple" style={{ width: 80, height: 80 }} />
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+        </>
+        }
       </Box>
 
       {/* Footer Typography OUTSIDE the card */}
