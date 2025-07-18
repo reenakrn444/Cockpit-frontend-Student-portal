@@ -1,5 +1,6 @@
 import { apiPost, apiPostToken, apiGetToken } from "../../api/axios";
 import { load } from '@cashfreepayments/cashfree-js';
+import { CashFreeMode } from "../../config";
 import { snackbarEmitter } from "../../components/snackbar/CustomSnackBar";
 
 const Subscription = () => {
@@ -8,9 +9,11 @@ const Subscription = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   let cashfree;
+  console.log(CashFreeMode, "CashFreeMode");
+  
   let initializeSdk = async () => {
     cashfree = await load({
-      mode: "sandbox"
+      mode: CashFreeMode
     })
   }
 
@@ -125,7 +128,7 @@ const Subscription = () => {
           });
         }
       }
-      else{
+      else {
         snackbarEmitter("Failed to create subscription. Please try again.", "error");
       }
     } catch (error) {

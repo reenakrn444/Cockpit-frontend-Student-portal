@@ -31,12 +31,23 @@ const Login = () => {
           const googleLoginRes = await apiPost('/AuthLoginUser', {
             email: data?.email,
           })
+          if (googleLoginRes?.data?.status !== 200) {
+            snackbarEmitter("Invalid Credentials", 'error');
+            setLoading(false);
+            setEmail("");
+            return;
+          }
+          
+          console.log(googleLoginRes, "googleLoginRes");
           const token = googleLoginRes.data.token;
           storeLoginDetails(token, googleLoginRes);
-          console.log(googleLoginRes, "googleLoginRes");
         })
         .catch((err) => {
           console.error('Failed to fetch user info', err);
+          snackbarEmitter('Failed to fetch user info', 'error');
+          setLoading(false);
+          console.log(err.status, "error");
+
         });
     },
     flow: 'implicit',
