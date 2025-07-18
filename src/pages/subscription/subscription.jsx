@@ -84,10 +84,14 @@ const Subscription = () => {
         const response = await apiPostToken(`/subscription/createSubscriptionPayment`, subscriptionData);
         if (response?.data?.status === 200) {
           let order = response.data.data;
+          console.log("createSubscriptionPayment response", order);
+          
           const options = {
             paymentSessionId: order?.paymentDetails?.payment_session_id,
             redirectTarget: "_modal",
           };
+          console.log(options, "options");
+          
           cashfree.checkout(options).then(async (data) => {
             if (data) {
               const response = await apiPostToken(`/subscription/verifySubscriptionPaymentStatus`, { orderId: order?.orderId });

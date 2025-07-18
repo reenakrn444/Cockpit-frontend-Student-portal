@@ -207,7 +207,6 @@ const TrainingQuestion = () => {
               color: "#EAB308",
               fontWeight: 700,
               letterSpacing: "2px",
-              fontSize: "40px",
               textTransform: "uppercase",
               mt: 2,
               fontSize:{ xs: '1.5rem', sm: '2.1rem' }
