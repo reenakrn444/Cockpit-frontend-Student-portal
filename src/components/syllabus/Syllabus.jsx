@@ -47,7 +47,7 @@ const Syllabus = ({ handleClick, syllabusType }) => {
     fetchFlightLogData();
     fetchSyllabus();
 
-    
+
     if (userData?.isSubscribed && userData?.subscriptionEndDate) {
 
       const now = new Date();
@@ -64,7 +64,7 @@ const Syllabus = ({ handleClick, syllabusType }) => {
   };
 
   const shouldDisableTestButton = (index) => {
-    if (!token) return true;
+    if (!token) return false;
 
     const { isSubscribed, subscriptionEndDate } = userData || {};
     const now = new Date();
@@ -205,7 +205,8 @@ const Syllabus = ({ handleClick, syllabusType }) => {
                   navigate("/login");
                   return;
                 }
-                if (syllabusType === "Test" && shouldDisableTestButton(index)) {
+                if (syllabusType === "Test" && !token) {
+                  navigate("/login");
                   return;
                 }
                 handleClick(course.title, course?._id);
@@ -294,7 +295,7 @@ const Syllabus = ({ handleClick, syllabusType }) => {
                           color: "#FFFFFF",
                           fontWeight: 600,
                           px: 4,
-                          m:2,
+                          m: 2,
                           borderRadius: "8px",
                           textTransform: "none",
                           "&:hover": {
@@ -305,8 +306,8 @@ const Syllabus = ({ handleClick, syllabusType }) => {
                         {syllabusType === "Training" && !token && index >= 2 ? "Login to continue" : syllabusType === "Training" &&
                           matchedUserSyllabus &&
                           completionPercentage > 0
-                          ? "Resume"
-                          : "Start"}
+                          ? "Resume" :
+                          syllabusType === "Test" && !token ? "Login to Start" : "Start"}
                       </Button>
                     </Box>
                   </Card>
