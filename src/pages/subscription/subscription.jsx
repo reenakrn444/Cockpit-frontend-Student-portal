@@ -10,7 +10,7 @@ const Subscription = () => {
   const navigate = useNavigate();
   let cashfree;
   console.log(CashFreeMode, "CashFreeMode");
-  
+
   let initializeSdk = async () => {
     cashfree = await load({
       mode: CashFreeMode
@@ -85,47 +85,25 @@ const Subscription = () => {
         if (response?.data?.status === 200) {
           let order = response.data.data;
           console.log("createSubscriptionPayment response", order);
-          
+
           const options = {
             paymentSessionId: order?.paymentDetails?.payment_session_id,
             redirectTarget: "_modal",
           };
           console.log(options, "options");
-          
+
           cashfree.checkout(options).then(async (data) => {
-            if (data) {
-              const response = await apiPostToken(`/subscription/verifySubscriptionPaymentStatus`, { orderId: order?.orderId });
-              console.log(response.data, "verifySubscriptionPaymentStatus response");
-
-              if (response.data.status === 200) {
-                snackbarEmitter("Payment Successful!", "success");
-                // Step 1: Get current date as subscription start date
-                const subscriptionStartDate = new Date();
-
-                // Step 2: Calculate end date by adding duration in days
-                const subscriptionEndDate = new Date(subscriptionStartDate);
-                subscriptionEndDate.setDate(subscriptionEndDate.getDate() + Number(response.data.data.duration));
-
-                // Step 3: Update user object
-                const updatedUser = {
-                  ...user,
-                  subscriptionStartDate: subscriptionStartDate.toISOString(),
-                  subscriptionEndDate: subscriptionEndDate.toISOString(),
-                  isSubscribed: true,
-                };
-
-                console.log(updatedUser, "updatedUser");
-
-                localStorage.setItem("user", JSON.stringify(updatedUser));
-
-                // Step 4 (optional): Dispatch a custom event to notify other components (like Header)
-                window.dispatchEvent(new Event("userUpdated"));
-                navigate("/test")
-              }
-
+            console.log(data, "checkout response");
+            const paymentMessage = data?.paymentDetails?.paymentMessage;
+            if (data?.payment_status === "SUCCESS") {
+              handleVerifySubscription(order);
               // Optionally, redirect or update UI
-            } else {
-              snackbarEmitter("Payment Failed. Please try again.", "error");
+            }
+            else if (paymentMessage === "Payment finished. Check status.") {
+              handleVerifySubscription(order);
+            }
+            else {
+              snackbarEmitter("Payment was cancelled or failed.", "error");
             }
           }).catch((error) => {
             snackbarEmitter("An error occurred during payment. Please try again.", "error");
@@ -140,7 +118,36 @@ const Subscription = () => {
     }
   };
 
+  const handleVerifySubscription = async (order) => {
+    const response = await apiPostToken(`/subscription/verifySubscriptionPaymentStatus`, { orderId: order?.orderId });
+    console.log(response.data, "verifySubscriptionPaymentStatus response");
 
+    if (response.data.status === 200) {
+      snackbarEmitter("Payment Successful!", "success");
+      // Step 1: Get current date as subscription start date
+      const subscriptionStartDate = new Date();
+
+      // Step 2: Calculate end date by adding duration in days
+      const subscriptionEndDate = new Date(subscriptionStartDate);
+      subscriptionEndDate.setDate(subscriptionEndDate.getDate() + Number(response.data.data.duration));
+
+      // Step 3: Update user object
+      const updatedUser = {
+        ...user,
+        subscriptionStartDate: subscriptionStartDate.toISOString(),
+        subscriptionEndDate: subscriptionEndDate.toISOString(),
+        isSubscribed: true,
+      };
+
+      console.log(updatedUser, "updatedUser");
+
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+
+      // Step 4 (optional): Dispatch a custom event to notify other components (like Header)
+      window.dispatchEvent(new Event("userUpdated"));
+      navigate("/test")
+    }
+  };
   return (
     <Box sx={{ backgroundColor: "#fafafa", minHeight: "auto", display: "flex", alignItems: "center", justifyContent: "center", }}>
       <Container maxWidth="md" sx={{ my: 5, }}>
