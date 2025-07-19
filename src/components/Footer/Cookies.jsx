@@ -169,11 +169,29 @@ import {
 } from '@mui/material';
 import { formatedDate } from '../../Helper/DayCalculation/Daycalculation';
 
+const listSx = {
+    pl: 2,
+    listStyleType: 'disc',
+    listStylePosition: 'inside',
+    '& .MuiListItem-root': {
+        display: 'list-item',
+        listStyleType: 'disc',
+        fontSize: '1rem',
+    },
+    '& li::marker': {
+        fontSize: '1rem',
+    },
+};
+
 const CookiesPolicy = () => {
     return (
         <Container maxWidth="xl" sx={{ py: 4, color: '#303A42', fontFamily: 'Jost' }}>
-            <Typography variant="h4" sx={{ color: '#303A42', mb: 1, borderBottom: '2px solid #e2e8f0', pb: 1 }}>Cookie Policy</Typography>
-            <Typography variant="body2" sx={{ color: '#718096', mb: 3, fontStyle: 'italic' }}>Effective Date: {formatedDate(new Date())}</Typography>
+            <Typography variant="h4" sx={{ color: '#303A42', mb: 1, borderBottom: '2px solid #e2e8f0', pb: 1 }}>
+                Cookie Policy
+            </Typography>
+            <Typography variant="body2" sx={{ color: '#718096', mb: 3, fontStyle: 'italic' }}>
+                Effective Date: {formatedDate(new Date())}
+            </Typography>
 
             <Typography paragraph>
                 This Cookie Policy explains how The Cockpit ("we," "us," or "our") uses cookies and similar tracking technologies on our website, thecockpit.in (the "Website"), to enhance your experience, analyze usage, and deliver personalized Services. This policy is part of our broader policy and applies to all users of the Website.
@@ -223,29 +241,45 @@ const CookiesPolicy = () => {
 
             <Typography variant="h5" gutterBottom>3. How We Use Cookies</Typography>
             <Typography paragraph>Cookies help us:</Typography>
-            <Typography paragraph>• Ensure seamless navigation and access to Services.</Typography>
-            <Typography paragraph>• Analyze Website performance and user behavior to identify areas for improvement.</Typography>
-            <Typography paragraph>• Personalize your experience by remembering your preferences and tailoring content.</Typography>
-            <Typography paragraph>• Measure the effectiveness of our marketing campaigns (if applicable).</Typography>
-            <Typography paragraph>• Enhance security by detecting unusual activity.</Typography>
+            <List component="ul" sx={listSx}>
+                <ListItem>Ensure seamless navigation and access to Services.</ListItem>
+                <ListItem>Analyze Website performance and user behavior to identify areas for improvement.</ListItem>
+                <ListItem>Personalize your experience by remembering your preferences and tailoring content.</ListItem>
+                <ListItem>Measure the effectiveness of our marketing campaigns (if applicable).</ListItem>
+                <ListItem>Enhance security by detecting unusual activity.</ListItem>
+            </List>
 
             <Typography variant="h5" gutterBottom>4. Third-Party Cookies</Typography>
             <Typography paragraph>
                 Some cookies are set by third-party services we use, such as:
             </Typography>
-            <Typography paragraph>• <strong>Google Analytics:</strong> To track Website usage and performance.</Typography>
-            <Typography paragraph>• <strong>Social Media Plugins:</strong> To enable sharing or login via platforms like Google or Facebook.</Typography>
-            <Typography paragraph>• <strong>Payment Processors:</strong> To facilitate secure transactions.</Typography>
+            <List component="ul" sx={listSx}>
+                <ListItem>
+                    <strong>Google Analytics:</strong> To track Website usage and performance.
+                </ListItem>
+                <ListItem>
+                    <strong>Social Media Plugins:</strong> To enable sharing or login via platforms like Google or Facebook.
+                </ListItem>
+                <ListItem>
+                    <strong>Payment Processors:</strong> To facilitate secure transactions.
+                </ListItem>
+            </List>
 
             <Typography variant="h5" gutterBottom>5. Cookie Retention</Typography>
             <Typography paragraph>
                 Cookies have varying lifespans:
             </Typography>
-            <Typography paragraph>• <strong>Session Cookies:</strong> Temporary and deleted when you close your browser (e.g., for login sessions).</Typography>
-            <Typography paragraph>• <strong>Persistent Cookies:</strong> Remain on your device for a set period (e.g., 30 days for analytics).</Typography>
-            <Typography paragraph>
-                We retain cookie data only as long as necessary for the purposes described, in line with our privacy policy.
-            </Typography>
+            <List component="ul" sx={listSx}>
+                <ListItem>
+                    <strong>Session Cookies:</strong> Temporary and deleted when you close your browser (e.g., for login sessions).
+                </ListItem>
+                <ListItem>
+                    <strong>Persistent Cookies:</strong> Remain on your device for a set period (e.g., 30 days for analytics).
+                </ListItem>
+                <ListItem>
+                    We retain cookie data only as long as necessary for the purposes described, in line with our privacy policy.
+                </ListItem>
+            </List>
 
             <Typography variant="h5" gutterBottom>6. Updates to This Cookie Policy</Typography>
             <Typography paragraph>
@@ -256,9 +290,12 @@ const CookiesPolicy = () => {
             <Typography paragraph>
                 For questions about cookies or this policy, contact us at:
             </Typography>
-            <Typography>Email: <Link href="mailto:support@thecockpit.in">support@thecockpit.in</Link></Typography>
+            <Typography>
+                Email: <Link href="mailto:support@thecockpit.in">support@thecockpit.in</Link>
+            </Typography>
         </Container>
     );
 };
 
 export default CookiesPolicy;
+

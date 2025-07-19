@@ -318,177 +318,176 @@
 
 // export default PrivacyPolicy;
 
-
 import {
     Link,
 } from '@mui/material';
-import { Section } from './Section';
 import { formatedDate } from '../../Helper/DayCalculation/Daycalculation';
+
+const renderList = (items) => (
+    <List sx={{ pl: 2 }}>
+        {items.map((item, index) => (
+            <ListItem key={index} sx={{ pl: 3, position: 'relative' }}>
+                <Box component="span" sx={{ position: 'absolute', left: 0, color: '#303A42', fontSize: '2.2em' }}>•</Box>
+                <ListItemText primary={<Typography variant="body2">{item}</Typography>} />
+            </ListItem>
+        ))}
+    </List>
+);
 
 const PrivacyPolicy = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-    const BulletItem = ({ children }) => (
-        <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1, mb: 0.5 }}>
-            <Box component="span" sx={{ fontSize: '1.2em', lineHeight: '1.5em' }}>•</Box>
-            <Typography sx={{ fontSize: '0.95rem' }}>{children}</Typography>
-        </Box>
-    );
-
     return (
         <Box sx={{ backgroundColor: '#f8fafc', py: isMobile ? 2 : 3 }}>
-            <Container
-                maxWidth="lg"
-                sx={{
-                    padding: isMobile ? 2 : 5,
-                    fontFamily: 'Jost'
-                }}
-            >
+            <Container maxWidth="xl" sx={{ padding: isMobile ? 2 : 5, fontFamily: 'Jost' }}>
                 <Typography variant="h3" component="h1" sx={{ color: '#303A42', mb: 1, borderBottom: '2px solid #e2e8f0', pb: 1 }}>
                     Privacy Policy
                 </Typography>
 
-                <Typography variant="body2" className="last-updated" sx={{ color: '#718096', mb: 3, fontStyle: 'italic' }}>
-                    Last Updated: {formatedDate(new Date())}
+                <Typography variant="body2" sx={{ color: '#718096', mb: 3, fontStyle: 'italic' }}>
+                    Effective Date: {formatedDate(new Date())}
                 </Typography>
 
                 <Typography paragraph>
                     By using, accessing or participating in the Service, you agree to the terms of this privacy policy (the "Privacy Policy"). Capitalized terms not defined in this Privacy Policy have the meanings set forth in the Terms and Conditions. We reserve the right to change our Privacy Policy at any time.
                 </Typography>
 
-                <Typography variant="h4" gutterBottom>1. Information We Collect</Typography>
-                <Typography>We collect various types of information to deliver, improve, and personalize our Services.</Typography>
+                <Typography variant="h5" gutterBottom>1. Information We Collect</Typography>
 
                 <Typography variant="h6" gutterBottom>1.1 Personal Information</Typography>
-                <Typography paragraph>
-                    Personal information is data that can identify you, either directly or indirectly. We collect the following personal information:
-                </Typography>
-                <Typography paragraph>
-                    <strong>Account Creation:</strong> When you register for an account, we collect your full name, email address, phone number (optional), username, and a secure password.
-                </Typography>
-                <Typography paragraph>
-                    <strong>Profile Details:</strong> You may voluntarily provide additional information, such as your grade level, academic interests, institution name, or study preferences, to enhance your experience.
-                </Typography>
-                <Typography paragraph>
-                    <strong>Communication:</strong> If you contact us (e.g., via support forms or email), we collect your name, contact details, and the content of your communication.
-                </Typography>
-                <Typography paragraph>
-                    <strong>Third-Party Logins:</strong> If you sign up or log in using third-party services (e.g., Google, Apple, or other OAuth providers), we may collect your name, email address, and profile picture, as permitted by those platforms' privacy settings.
-                </Typography>
+                {renderList([
+                    'Account Creation: Full name, email, phone (optional), username, password.',
+                    'Profile Details: Grade, interests, institution name, study preferences.',
+                    'Communication: Name, contact details, message content.',
+                    'Third-Party Logins: Name, email, profile picture via OAuth providers.'
+                ])}
 
                 <Typography variant="h6" gutterBottom>1.2 Usage and Performance Data</Typography>
-                <Typography paragraph>
-                    To provide meaningful insights and improve our Services, we collect:
-                </Typography>
-                <Typography paragraph>
-                    <strong>Test and Question Data:</strong> Details about the questions you practice, tests you take, answers submitted, scores achieved, time spent on activities, and performance metrics.
-                </Typography>
-                <Typography paragraph>
-                    <strong>Interaction Data:</strong> Information about how you navigate the Website, such as pages visited, buttons clicked, features used, and preferences selected.
-                </Typography>
-                <Typography paragraph>
-                    <strong>Progress Tracking:</strong> Data on your learning progress, including completed modules, strengths, and areas for improvement, to generate analytics and recommendations.
-                </Typography>
+                {renderList([
+                    'Test and Question Data: Attempts, answers, scores, time spent, metrics.',
+                    'Interaction Data: Navigation paths, clicks, usage preferences.',
+                    'Progress Tracking: Completed modules, strengths, weaknesses.'
+                ])}
 
                 <Typography variant="h6" gutterBottom>1.3 Technical and Device Information</Typography>
-                <Typography paragraph>
-                    We collect technical data to ensure compatibility, security, and performance:
-                </Typography>
-                <Typography paragraph>
-                    <strong>Device Information:</strong> Device type (e.g., mobile, desktop), operating system, browser type, and version.
-                </Typography>
-                <Typography paragraph>
-                    <strong>Network Information:</strong> IP address, internet service provider.
-                </Typography>
-                <Typography paragraph>
-                    <strong>Log Data:</strong> Timestamps, referral URLs, and error logs to diagnose technical issues.
-                </Typography>
+                {renderList([
+                    'Device Type, OS, Browser.',
+                    'IP Address, ISP.',
+                    'Timestamps, Referrals, Logs.'
+                ])}
 
                 <Typography variant="h6" gutterBottom>1.4 Information from Third Parties</Typography>
-                <Typography paragraph>
-                    We may receive information from third parties, such as:
-                </Typography>
-                <Typography paragraph>
-                    <strong>Analytics Providers:</strong> Aggregated usage data from tools like Google Analytics to understand Website performance.
-                </Typography>
-                <Typography paragraph>
-                    <strong>Educational Partners:</strong> If you access our Services through an institution, we may receive your name, student ID, or course details, with your or your institution's consent.
-                </Typography>
+                {renderList([
+                    'Analytics: Aggregated insights from Google Analytics.',
+                    'Educational Partners: Name, student ID, course details (if applicable).'
+                ])}
 
                 <Typography variant="h6" gutterBottom>1.5 Tracking Technologies and Cookies</Typography>
-                <Typography paragraph>
-                    We use Cookies and similar technologies, including web beacons, to enhance and analyze the Service. Cookie types include:
-                </Typography>
-                <BulletItem>Necessary Cookies (Session): Enable core Service functionality and user authentication.</BulletItem>
-                <BulletItem>Policy Acceptance Cookies (Persistent): Record your consent to Cookie use.</BulletItem>
-                <BulletItem>Functionality Cookies (Persistent): Store preferences, such as login details or language settings.</BulletItem>
-                <Typography paragraph>
-                    You may manage Cookie settings through your browser. For details, refer to our <Link href="https://thecockpit.in/cookies" target="_blank">Cookies Policy</Link>.
-                </Typography>
+                {renderList([
+                    'Necessary Cookies: Session management.',
+                    'Policy Cookies: Store cookie consent.',
+                    'Functionality Cookies: Preferences like login/language.'
+                ])}
+                <Typography>Manage settings through your browser. Details: <Link href="https://thecockpit.in/cookies">Cookies Policy</Link></Typography>
 
                 <Typography variant="h6" gutterBottom>1.6 Information from Minors</Typography>
-                <Typography paragraph>
-                    If you are under 16, we may require parental or guardian consent to collect and process your personal information.
-                </Typography>
+                <Typography>If you are under 16, parental or guardian consent may be required.</Typography>
+
+                <Divider sx={{ my: 3 }} />
 
                 <Typography variant="h5" gutterBottom>2. How We Use Your Information</Typography>
-                <Typography paragraph>We use your information to deliver, enhance, and personalize our Services while ensuring compliance with legal obligations. Specific purposes include:</Typography>
-                <BulletItem>Service Delivery</BulletItem>
-                <BulletItem>Account Management</BulletItem>
-                <BulletItem>Personalization</BulletItem>
-                <BulletItem>Performance Insights</BulletItem>
-                <BulletItem>Website Improvement</BulletItem>
-                <BulletItem>Communication</BulletItem>
-                <BulletItem>Security</BulletItem>
-                <BulletItem>Compliance</BulletItem>
+                {renderList([
+                    'Service Delivery and Access.',
+                    'Account Management and Authentication.',
+                    'Content Personalization and Suggestions.',
+                    'Performance Insights and Reports.',
+                    'Website Optimization and Bug Tracking.',
+                    'Communication and Notifications.',
+                    'Security Monitoring and Fraud Prevention.',
+                    'Legal Compliance.'
+                ])}
+
+                <Divider sx={{ my: 3 }} />
 
                 <Typography variant="h5" gutterBottom>3. How We Share Your Information</Typography>
-                <Typography paragraph>
-                    We do not sell, rent, or trade your personal information. We may share your information only in the following circumstances:
-                </Typography>
-                <BulletItem>With Service Providers</BulletItem>
-                <BulletItem>With Educational Partners</BulletItem>
-                <BulletItem>With Your Consent</BulletItem>
+                {renderList([
+                    'Service Providers under data protection agreements.',
+                    'Educational Partners (with consent).',
+                    'With Your Explicit Consent.'
+                ])}
+
+                <Divider sx={{ my: 3 }} />
 
                 <Typography variant="h5" gutterBottom>4. Data Security</Typography>
-                <Typography paragraph>
-                    We prioritize the security of your information and implement industry-standard measures to protect it.
-                </Typography>
+                {renderList([
+                    'SSL/TLS encryption.',
+                    'Access controls for staff.',
+                    'Regular audits and penetration testing.',
+                    'Data minimization practices.'
+                ])}
+                <Typography>No method is entirely secure; we notify you promptly if breaches occur.</Typography>
+
+                <Divider sx={{ my: 3 }} />
 
                 <Typography variant="h5" gutterBottom>5. Your Rights and Choices</Typography>
-                <Typography paragraph>
-                    You have rights over your personal information, subject to applicable laws. These include access, correction, deletion, and consent withdrawal. Contact us at <Link href="mailto:support@thecockpit.in">support@thecockpit.in</Link>.
-                </Typography>
+                {renderList([
+                    'Access and Review Your Information.',
+                    'Correct Inaccuracies.',
+                    'Request Deletion.',
+                    'Withdraw Consent.',
+                    'Opt-out of Marketing.',
+                    'Close Your Account.'
+                ])}
+                <Typography>To exercise rights: <Link href="mailto:support@thecockpit.in">support@thecockpit.in</Link></Typography>
+
+                <Divider sx={{ my: 3 }} />
 
                 <Typography variant="h5" gutterBottom>6. Data Retention</Typography>
-                <Typography paragraph>
-                    We retain your information only for as long as necessary or as required by law. Inactive accounts may be deleted after 2 years. Certain records are retained for up to 5 years.
-                </Typography>
+                {renderList([
+                    'While account is active.',
+                    'Inactive accounts deleted after 2 years.',
+                    'Legal data retained up to 5 years.'
+                ])}
+
+                <Divider sx={{ my: 3 }} />
 
                 <Typography variant="h5" gutterBottom>7. International Data Transfers</Typography>
-                <Typography paragraph>
-                    By using our Services, you consent to the transfer of your data to India and jurisdictions where our service providers operate.
+                <Typography>
+                    Your data may be processed in India. We use SCCs and work with certified providers (e.g., SOC 2). By using our Services, you consent to lawful transfers.
                 </Typography>
+
+                <Divider sx={{ my: 3 }} />
 
                 <Typography variant="h5" gutterBottom>8. Third-Party Links and Services</Typography>
-                <Typography paragraph>
-                    We are not responsible for third-party content or privacy practices. Review their policies before interacting.
+                <Typography>
+                    Links to external resources may be present. Their policies apply independently.
                 </Typography>
+
+                <Divider sx={{ my: 3 }} />
 
                 <Typography variant="h5" gutterBottom>9. Changes to This Privacy Policy</Typography>
-                <Typography paragraph>
-                    We may update this Privacy Policy. We will notify you of material changes via the Website or email.
+                <Typography>
+                    We will post updates with revised dates. Substantial changes may be emailed or shown in-app.
                 </Typography>
 
+                <Divider sx={{ my: 3 }} />
+
                 <Typography variant="h5" gutterBottom>10. Contact Us</Typography>
-                <Typography paragraph>
-                    If you have any questions, please contact us at:
-                </Typography>
-                <Typography>Email: <Link href="mailto:support@thecockpit.in">support@thecockpit.in</Link></Typography>
+                {renderList([
+                    <span>
+                        Email:{' '}
+                        <Link href="mailto:support@thecockpit.in" underline="hover">
+                            support@thecockpit.in
+                        </Link>
+                    </span>
+                ])}
             </Container>
         </Box>
     );
 };
 
 export default PrivacyPolicy;
+
+
+
