@@ -28,7 +28,8 @@ import BlogSection2 from '../pages/Press/Blog2';
 import BlogSection3 from '../pages/Press/Blog3';
 import BlogSection4 from '../pages/Press/Blog4';
 import TestResultPage from '../pages/Test/TestResult';
-import PartnerWithUsForm from "../pages/PartnerWithUs/PartnerWithUsForm"
+import PartnerWithUsForm from "../pages/PartnerWithUs/PartnerWithUsForm";
+import PaymentPolicy from '../components/Footer/PaymentPolicy';
 
 const AppContent = () => {
   const location = useLocation();
@@ -55,6 +56,7 @@ const AppContent = () => {
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
           <Route path="/test-terms-and-conditions" element={<TestTermsAndConditions />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/payment-policy" element={<PaymentPolicy />} />
           <Route path="/cookies" element={<CookiesPolicy />} />
           <Route path="/training" element={<TrainingSyllabus />} />
           <Route path="/chapter" element={<Chapter />} />

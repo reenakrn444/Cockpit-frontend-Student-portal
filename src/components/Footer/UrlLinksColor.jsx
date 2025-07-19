@@ -10,9 +10,10 @@ const platformLinks = [
 const ResourcesLink = [
     { label: 'Terms and Conditions', path: '/terms-and-conditions' },
     { label: 'Privacy Policy', path: '/privacy-policy' },
+    { label: 'Cookies', path: '/cookies' },
+    { label: 'Payment Policy', path: '/payment-policy' },
     { label: 'Press', path: '/press' },
 
-    // { label: 'Cookies', path: '/cookies' },
 ]
 
 export { platformLinks, ResourcesLink }
