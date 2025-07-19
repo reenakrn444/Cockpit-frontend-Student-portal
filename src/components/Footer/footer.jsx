@@ -70,7 +70,7 @@ function FooterSection() {
               Platforms
             </Typography>
             {platformLinks
-              .filter(link => link.label !== 'Test' || localStorage.getItem("authToken")) // hide 'Test' if no token
+              // .filter(link => link.label !== 'Test' || localStorage.getItem("authToken")) // hide 'Test' if no token
               .map((link) => {
                 const isActive = location.pathname === link.path;
 
