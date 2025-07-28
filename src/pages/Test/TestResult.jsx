@@ -28,6 +28,8 @@ const TestResultPage = () => {
     };
 
     const getChipColor = (question) => {
+        console.log(question, "question");
+        
         if (question.currectAnswer) return '#22C55E'; // green
         if (question.wrongAnswer) return '#C5322A'; // red
         if (question.skipperAnswer) return '#F6F6F6'; // gray
@@ -224,6 +226,7 @@ const TestResultPage = () => {
                                     </Typography>
                                     <ul style={{ paddingLeft: '1.5rem', marginBottom: '0.5rem' }}>
                                         {q.options.map((option) => {
+
                                             let color = 'black';
                                             if (option.isCorrect) color = '#A3E635';
                                             else if (option.id === q.choosedOption && !option.isCorrect) color = '#C5322A';

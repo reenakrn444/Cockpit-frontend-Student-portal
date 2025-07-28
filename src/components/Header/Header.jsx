@@ -57,7 +57,7 @@ function Header() {
   const navItems = [
     { text: "Home", path: "/" },
     { text: "Training", path: "/training" },
-    ...(token ? [{ text: "Test", path: "/test" }] : []),
+    { text: "Test", path: "/test" },
     { text: "Pricing", path: "/pricing" },
   ];
 

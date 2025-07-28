@@ -69,23 +69,25 @@ function FooterSection() {
             <Typography variant="h6" sx={{ color: '#EAB308', mb: 2 }}>
               Platforms
             </Typography>
-            {platformLinks.map((link) => {
-              const isActive = location.pathname === link.path;
+            {platformLinks
+              // .filter(link => link.label !== 'Test' || localStorage.getItem("authToken")) // hide 'Test' if no token
+              .map((link) => {
+                const isActive = location.pathname === link.path;
 
-              return (
-                <Typography key={link.path} variant="body1">
-                  <Link
-                    to={link.path}
-                    style={{
-                      textDecoration: 'none',
-                      color: isActive ? '#EAB308' : 'white',
-                    }}
-                  >
-                    {link.label}
-                  </Link>
-                </Typography>
-              );
-            })}
+                return (
+                  <Typography key={link.path} variant="body1">
+                    <Link
+                      to={link.path}
+                      style={{
+                        textDecoration: 'none',
+                        color: isActive ? '#EAB308' : 'white',
+                      }}
+                    >
+                      {link.label}
+                    </Link>
+                  </Typography>
+                );
+              })}
           </Grid>
 
           <Grid size={{ xs: 12, sm: 3, md: 3, }} sx={{ display: "grid", justifyContent: "center", textAlign: { xs: "center", sm: "left", md: 'left' }, }} className="footer-platforms">

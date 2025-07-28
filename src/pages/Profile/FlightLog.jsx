@@ -157,7 +157,7 @@ const FlightLog = () => {
                 ringWidth={15}
                 textColor="#000"
                 customSegmentStops={[0, grade, 100]}
-                currentValueText={`Your Grade: ${countResult.grade.toFixed(2)}%`}
+                currentValueText={`Your Grade: ${ countResult?.grade ? countResult?.grade?.toFixed(2) : "0"}%`}
                 height={180}
                 width={270}
               />
