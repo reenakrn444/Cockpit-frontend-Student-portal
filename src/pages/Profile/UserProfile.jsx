@@ -170,7 +170,7 @@ const UserProfile = () => {
   return (
     <Box sx={{ p: 4 }}>
       <Grid container justifyContent="space-between" alignItems="center">
-        <Typography variant="h6" fontWeight="bold" sx={{ color: "#3E435D" }}>
+        <Typography variant="h6" fontWeight="bold" sx={{ color: theme.userprofie.text }}>
           {getGreeting()}, Captain {userData.username}
         </Typography>
         <Typography variant="subtitle2">🟡 In-Flight</Typography>
@@ -273,26 +273,6 @@ const UserProfile = () => {
                   />
                 </Grid>
 
-                {/* <Grid size={{ xs: 12, md: 12 }}>
-                  <Typography sx={{ fontSize: 14, fontWeight: 500, mb: 0.5 }}>
-                    Access key
-                  </Typography>
-                  <TextField
-                    placeholder="key"
-                    name="accessKey"
-                    value={userData.accessKey}
-                    onChange={handleChange}
-                    fullWidth
-                    size="small"
-                    variant="outlined"
-                    sx={{
-                      "& .MuiOutlinedInput-root": {
-                        borderRadius: "8px",
-                      },
-                    }}
-                  />
-                </Grid> */}
-
                 <Grid size={{ xs: 12, md: 12 }} display="flex" justifyContent="center">
 
                   <CustomButton
@@ -310,7 +290,7 @@ const UserProfile = () => {
           </form>
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
-          <Card sx={{ backgroundColor: "#183251", color: "white", borderRadius: 2, margin: 5, maxWidth: 400, m: "auto", }}>
+          <Card sx={{ backgroundColor: theme.footer.background.default, color: "white", borderRadius: 2, margin: 5, maxWidth: 400, m: "auto", }}>
             <CardContent>
               <Typography variant="h6" align="center" color="#EAB308" gutterBottom>
                 FLIGHT PLAN
@@ -344,7 +324,7 @@ const UserProfile = () => {
           <Grid size={{ xs: 12, md: 4 }} key={label} >
             <Box
               sx={{
-                backgroundColor: "#183251",
+                backgroundColor: theme.footer.background.default,
                 height: 130,
                 display: "flex",
                 justifyContent: "center",

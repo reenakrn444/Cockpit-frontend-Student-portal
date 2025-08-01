@@ -2,6 +2,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 
 const ReportCard = ({ data }) => {
+  const theme = useTheme();
   const [expanded, setExpanded] = useState(false);
   const {
     userId,
@@ -24,12 +25,13 @@ const ReportCard = ({ data }) => {
         gap: 2,
         alignItems: "flex-start",
         p: 2,
-        backgroundColor: highlight ? "#fefdc7" : "#ffffff",
+        backgroundColor: highlight ? theme.report.report : theme.report.filedReport,
+        border: !highlight ? `2px solid ${theme.report.filedReportBorder}` : 'transparent',
         borderRadius: 2,
         boxShadow: 0,
       }}
     >
-      <Avatar sx={{ bgcolor: "#1976d2", width: 36, height: 36 }}>
+      <Avatar sx={{ bgcolor: theme.report.avatar, width: 36, height: 36 }}>
         {userId?.username?.[0]?.toUpperCase() || "U"}
       </Avatar>
       <Box flex={1}>
@@ -48,7 +50,7 @@ const ReportCard = ({ data }) => {
             mt={2}
             p={2}
             sx={{
-              backgroundColor: "#f1f1f1",
+              backgroundColor: !highlight ? theme.report.filedReportBorder : theme.report.filedReport,
               borderRadius: 2,
             }}
           >

@@ -1,4 +1,5 @@
 import formFields from "./partnerFormFieldsArray";
+import { apiPostToken } from "../../api/axios";
 
 const initialFormData = formFields.reduce((acc, field) => {
     acc[field.name] = "";
@@ -62,7 +63,10 @@ const PartnerWithUsForm = () => {
 
     const submitFormData = async () => {
         console.log("Submitting to API:", formData);
-        // Example: await api.post('/partner-inquiry', formData);
+       const response =  await apiPostToken('/registerPartner', formData);
+       console.log(response, "responseData");
+       
+
     };
 
     const handleSubmit = () => {
@@ -104,6 +108,7 @@ const PartnerWithUsForm = () => {
                                 value={formData[field.name]}
                                 onChange={handleChange}
                                 fullWidth
+                                size="small"
                                 variant="outlined"
                                 multiline={field.type === "multiline"}
                                 minRows={field.type === "multiline" ? 4 : undefined}

@@ -16,11 +16,12 @@ import { FooterLogo } from '../../pages/Home/ImagesRender';
 function FooterSection() {
   console.log(platformLinks, "UrlColor");
   const location = useLocation();
+  const theme = useTheme();
   return (
     <Box
       component="footer"
       sx={{
-        backgroundColor: '#183251',
+        backgroundColor: theme.footer.background.default,
         color: 'white',
         py: 4,
         px: 4,
