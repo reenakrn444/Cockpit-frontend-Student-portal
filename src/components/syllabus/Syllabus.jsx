@@ -3,6 +3,7 @@ import { toCapitalize } from "../../Helper/convertUpperCase";
 
 const Syllabus = ({ handleClick, syllabusType }) => {
   const navigate = useNavigate();
+  const theme = useTheme();
   const [syllabus, setSyllabus] = useState([]);
   const [countResult, setCountResult] = useState();
   const token = localStorage.getItem("authToken");
@@ -90,17 +91,17 @@ const Syllabus = ({ handleClick, syllabusType }) => {
   }, [countResult, syllabusType, token, userData]);
 
   return (
-    <div style={{ backgroundColor: "#f8f9fa" }}>
+    <Box sx={{ backgroundColor: theme.syllabus.background }}>
       <Container maxWidth="xl">
         <Box sx={{ py: 5 }} p={5}>
           <Grid container spacing={2}>
             <Grid size={{ xs: 12, md: 8 }}>
-              <Typography variant="h4" fontWeight={700} color="#183251" mb={2}>
+              <Typography variant="h4" fontWeight={700} color={theme.header.primary.main} mb={2}>
                 Discover Our DGCA Question Banks
               </Typography>
               <Typography
                 variant="body1"
-                color="text.secondary"
+                color={theme.header.primary.secondary}
                 fontSize={18}
                 mb={4}
               >
@@ -229,6 +230,7 @@ const Syllabus = ({ handleClick, syllabusType }) => {
                       flexDirection: "column",
                       height: "100%",
                       width: "100%",
+                      backgroundColor:theme.card.bgcolor
                     }}
                   >
                     <CardMedia
@@ -317,7 +319,7 @@ const Syllabus = ({ handleClick, syllabusType }) => {
           </Grid>
         </Box>
       </Container>
-    </div>
+    </Box>
   );
 };
 

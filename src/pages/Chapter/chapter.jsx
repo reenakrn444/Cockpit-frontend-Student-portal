@@ -173,7 +173,7 @@ const ChapterSection = () => {
                                 key={index}
                                 onClick={() => handleChapterClick(chapter)}
                                 sx={{
-                                    backgroundColor: '#0f2b50',
+                                    backgroundColor: theme.syllabus.chaptersBackground,
                                     color: 'white',
                                     p: 2,
                                     mb: 2,

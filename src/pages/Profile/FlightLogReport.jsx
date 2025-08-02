@@ -91,7 +91,7 @@ const FlightLogReport = () => {
     if (active && payload?.length) {
       const { score, total, correct, incorrect } = payload[0].payload;
       return (
-        <div style={{ background: "#fff", padding: "10px", border: "1px solid #ccc", borderRadius: "8px" }}>
+        <div style={{ background: theme.card.bgcolor, padding: "10px", border: "1px solid #ccc", borderRadius: "8px" }}>
           <p><strong>{label}</strong></p>
           <p>Score: {score}</p>
           <p>Total: {total}</p>

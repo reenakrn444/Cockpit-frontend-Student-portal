@@ -29,6 +29,7 @@ export const lightTheme = createTheme({
         },
         primary: {
             main: '#EAB308',
+            secondary: "#EAB308"
         },
     },
     header: {
@@ -64,13 +65,31 @@ export const lightTheme = createTheme({
         filedReport: '#ffffff',
         avatar: "#1976d2",
         filedReportBorder: "#F0F0F0",
-        testReportGraph :'#FFFFFF'
-
+        testReportGraph: '#FFFFFF'
     },
     card: {
         bgcolor: "transparent",
         border: '1px solid #E5E7E9',
-        textColor : "#000000"
+        textColor: "#000000",
+        cardColor: "#ffffff"
+    },
+    HomeHeader: {
+        headingText: "#183251",
+        homeButton: "#183251",
+        backgroundColor: "#f0f7ff",
+        background2: "#f9f9f9",
+        partnerText: '#1D1D1D',
+        smallPartnerText: "#777777",
+        reviewBackground: "#f5f5f5",
+        reviewCard: "#1e2a44",
+        questionBackground: "#289BDE1A",
+        questionBackgroundnotchoosed: "#ffffff",
+        questionAnswer: "#777777",
+        questionBackgroundBorder: 'transparent'
+    },
+    syllabus: {
+        background: '#f8f9fa',
+        chaptersBackground : '#0f2b50'
     },
     typography: {
         fontFamily: '"Jost"',
@@ -95,6 +114,7 @@ export const darkTheme = createTheme({
         },
         primary: {
             main: '#EAB308',
+            secondary: "#ffffff",
         },
     },
     header: {
@@ -131,12 +151,31 @@ export const darkTheme = createTheme({
         filedReport: '#000000',
         avatar: "#7BCCFE",
         filedReportBorder: "#1A1A1A",
-        testReportGraph :'#1E1E1E'
+        testReportGraph: '#1E1E1E'
     },
     card: {
         bgcolor: "#000000",
         border: '1px solid #18212E',
-        textColor : "#ffffff"
+        textColor: "#ffffff",
+        cardColor: "#000000"
+    },
+    HomeHeader: {
+        headingText: "#ffffff",
+        homeButton: "#EAB308",
+        backgroundColor: "#212121",
+        background2: "#000000",
+        partnerText: '#EAB308',
+        smallPartnerText: "#ffffff",
+        reviewBackground: "#000000",
+        reviewCard: "#141F2D",
+        questionBackground: "#80C4EC1A",
+        questionBackgroundnotchoosed: "#000000",
+        questionAnswer: "#ffffff",
+        questionBackgroundBorder: "1px solid #3D3D3D"
+    },
+    syllabus: {
+        background: '#121212',
+        chaptersBackground : '#141F2D'
     },
     typography: {
         fontFamily: '"Jost"',
