@@ -29,7 +29,12 @@ export const lightTheme = createTheme({
         },
         primary: {
             main: '#EAB308',
-            secondary: "#EAB308"
+            secondary: "#EAB308",
+            trimester: "#ffffff",
+            trimesterAcccordian: "#ffffff",
+            trimesterAcccordianText: "#000000",
+            skippedBackground: "#F6F6F6",
+            skippedText: "#000000",
         },
     },
     header: {
@@ -40,7 +45,8 @@ export const lightTheme = createTheme({
         },
         primary: {
             main: '#183251',
-            active: "#ffffff"
+            active: "#ffffff",
+            text: "#0f2848"
         },
     },
     footer: {
@@ -89,7 +95,10 @@ export const lightTheme = createTheme({
     },
     syllabus: {
         background: '#f8f9fa',
-        chaptersBackground : '#0f2b50'
+        chaptersBackground: '#0f2b50',
+        booksBackground: '#f5f5f5',
+        instructionsText: "#555555",
+        instrucctionsTermsText: "#183251"
     },
     typography: {
         fontFamily: '"Jost"',
@@ -115,6 +124,12 @@ export const darkTheme = createTheme({
         primary: {
             main: '#EAB308',
             secondary: "#ffffff",
+            trimester: "#000000",
+            trimesterAcccordian: "#000000",
+            trimesterAcccordianText: "#ffffff",
+            skippedBackground: "#000000",
+            skippedText: "#F6F6F6",
+
         },
     },
     header: {
@@ -125,7 +140,8 @@ export const darkTheme = createTheme({
         },
         primary: {
             main: '#EAB308',
-            active: "#ffffff"
+            active: "#ffffff",
+            text: "#EAB308"
         },
     },
     footer: {
@@ -175,7 +191,11 @@ export const darkTheme = createTheme({
     },
     syllabus: {
         background: '#121212',
-        chaptersBackground : '#141F2D'
+        chaptersBackground: '#141F2D',
+        booksBackground: '#161616',
+        instructionsText: "#ffffff",
+        instrucctionsTermsText: "#183251"
+
     },
     typography: {
         fontFamily: '"Jost"',
