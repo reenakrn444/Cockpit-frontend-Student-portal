@@ -35,6 +35,7 @@ export const lightTheme = createTheme({
             trimesterAcccordianText: "#000000",
             skippedBackground: "#F6F6F6",
             skippedText: "#000000",
+            testQuestion: "#183251",
         },
     },
     header: {
@@ -129,7 +130,7 @@ export const darkTheme = createTheme({
             trimesterAcccordianText: "#ffffff",
             skippedBackground: "#000000",
             skippedText: "#F6F6F6",
-
+            testQuestion: "#ffffff",
         },
     },
     header: {
