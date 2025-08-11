@@ -1,214 +1,213 @@
-
-
-const styles = {
-  root: {
-    p: { xs: 2, md: 4 },
-    backgroundColor: "#FAFAFA",
-  },
-  mainHeading: {
-    variant: "h4",
-    align: "center",
-    fontWeight: "bold",
-    gutterBottom: true,
-    fontFamily: "Jost",
-    fontSize: { xs: "24px", sm: "30px", md: "36px" },
-  },
-  subHeading: {
-    fontFamily: "Jost",
-    fontWeight: 500,
-    fontStyle: "normal",
-    fontSize: { xs: "14px", sm: "16px", md: "18px" },
-    lineHeight: "160%",
-    letterSpacing: "2%",
-    textAlign: "center",
-    color: "#000000CC",
-    mt: 1,
-  },
-  pressHeading: {
-    fontFamily: "Jost",
-    fontWeight: 500,
-    fontStyle: "normal",
-    fontSize: { xs: "20px", sm: "24px", md: "30px" },
-    letterSpacing: "2%",
-  },
-  bodyText: {
-    fontFamily: "Jost",
-    fontWeight: 400,
-    fontStyle: "normal",
-    fontSize: { xs: "14px", sm: "16px", md: "18px" },
-    letterSpacing: "2%",
-    marginBottom: 2,
-  },
-  subtitleText: {
-    fontFamily: "Jost",
-    fontWeight: 500,
-    fontStyle: "normal",
-    fontSize: { xs: "16px", sm: "18px", md: "20px" },
-    lineHeight: "130%",
-    letterSpacing: "2%",
-  },
-  notificationText: {
-    fontFamily: "Jost",
-    fontWeight: 500,
-    fontStyle: "normal",
-    fontSize: { xs: "14px", sm: "16px", md: "18px" },
-    lineHeight: "130%",
-    letterSpacing: "2%",
-  },
-  largeCard: {
-    display: "flex",
-    flexDirection: { xs: "column", sm: "row" },
-    alignItems: { sm: "center" },
-    p: 1,
-    borderRadius: 3,
-    backgroundColor: "white",
-    cursor: "pointer",
-  },
-  largeCardImage: {
-    width: { xs: "100%", sm: "334px" },
-    height: { xs: 180, sm: "297px" },
-    borderRadius: 3,
-    objectFit: "cover",
-    flexShrink: 0,
-    backgroundColor: "white",
-  },
-  largeCardText: {
-    pl: { sm: 3 },
-    pt: { xs: 2, sm: 0 },
-    backgroundColor: "fff",
-  },
-  smallCardMedia: {
-    height: 140,
-  },
-  shortcutCard: {
-    display: "flex",
-    alignItems: "center",
-    borderRadius: "12px",
-    backgroundColor: "#fff",
-    boxShadow: "none",
-    p: 1.5,
-    mb: 2,
-   cursor: "pointer"
-  },
-  shortcutImage: {
-    width: 64,
-    height: 64,
-    borderRadius: "12px",
-    border: "1px solid #DDDDE033",
-  },
-  featuredVideoBox: {
-    position: "relative",
-  },
-  videoCard: {
-    borderRadius: "20px",
-    overflow: "hidden",
-  },
-  videoWrapper: {
-    position: "relative",
-    paddingTop: "56.25%", // 16:9 Aspect Ratio
-    backgroundColor: "#000",
-  },
-  thumbnail: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    overflow: "hidden",
-  },
-  thumbnailImg: {
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-    borderRadius: "20px",
-  },
-  iframe: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    border: "none",
-    borderRadius: "20px",
-  },
-  playButton: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    backgroundColor: "#fff",
-    borderRadius: "50%",
-    width: 60,
-    height: 60,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: 2,
-    cursor: "pointer",
-  },
-  playIcon: {
-    fontSize: 30,
-    color: "#000",
-  },
-  footerBox: {
-    mt: 10,
-    px: { xs: 2, md: 6 },
-    py: 6,
-    backgroundColor: "#fff",
-    borderRadius: "33px",
-    border: "1px solid #E0E0E0",
-    display: "flex",
-    flexDirection: { xs: "column", md: "row" },
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 4,
-  },
-  footerHeading: {
-    fontFamily: "Jost",
-    fontWeight: 700,
-    fontStyle: "normal",
-    fontSize: { xs: "24px", sm: "32px", md: "40px" },
-    lineHeight: "120%",
-    letterSpacing: "0%",
-    color: "#EAB308",
-  },
-  footerSubtext: {
-    fontFamily: "Jost",
-    fontWeight: 400,
-    fontStyle: "normal",
-    fontSize: { xs: "14px", sm: "16px", md: "18px" },
-    lineHeight: "150%",
-    letterSpacing: "0%",
-    color: "text.secondary",
-    mt: 1,
-  },
-  emailSection: {
-    display: "flex",
-    gap: 1,
-    width: "100%",
-    maxWidth: 400,
-  },
-  emailInput: {
-    backgroundColor: "#fff",
-  },
-  signUpBtn: {
-    fontFamily: "Jost",
-    fontWeight: 400,
-    fontStyle: "normal",
-    fontSize: { xs: "14px", sm: "15px", md: "16px" },
-    lineHeight: "150%",
-    letterSpacing: "0%",
-    backgroundColor: "#E4B200",
-    color: "#fff",
-    px: 3,
-    whiteSpace: "nowrap",
-    textTransform: "none",
-  },
-};
-
 const PressPage = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const navigate = useNavigate();
+  const theme = useTheme();
+  const styles = {
+    root: {
+      p: { xs: 2, md: 4 },
+      backgroundColor: theme.palette.background.default,
+    },
+    mainHeading: {
+      variant: "h4",
+      align: "center",
+      color: theme.header.primary.main,
+      fontWeight: "bold",
+      gutterBottom: true,
+      fontFamily: "Jost",
+      fontSize: { xs: "24px", sm: "30px", md: "36px" },
+    },
+    subHeading: {
+      fontFamily: "Jost",
+      fontWeight: 500,
+      fontStyle: "normal",
+      fontSize: { xs: "14px", sm: "16px", md: "18px" },
+      lineHeight: "160%",
+      letterSpacing: "2%",
+      textAlign: "center",
+      color: "#000000CC",
+      mt: 1,
+    },
+    pressHeading: {
+      fontFamily: "Jost",
+      fontWeight: 500,
+      fontStyle: "normal",
+      fontSize: { xs: "20px", sm: "24px", md: "30px" },
+      letterSpacing: "2%",
+    },
+    bodyText: {
+      fontFamily: "Jost",
+      fontWeight: 400,
+      fontStyle: "normal",
+      fontSize: { xs: "14px", sm: "16px", md: "18px" },
+      letterSpacing: "2%",
+      marginBottom: 2,
+    },
+    subtitleText: {
+      fontFamily: "Jost",
+      fontWeight: 500,
+      fontStyle: "normal",
+      fontSize: { xs: "16px", sm: "18px", md: "20px" },
+      lineHeight: "130%",
+      letterSpacing: "2%",
+    },
+    notificationText: {
+      fontFamily: "Jost",
+      fontWeight: 500,
+      fontStyle: "normal",
+      fontSize: { xs: "14px", sm: "16px", md: "18px" },
+      lineHeight: "130%",
+      letterSpacing: "2%",
+    },
+    largeCard: {
+      display: "flex",
+      flexDirection: { xs: "column", sm: "row" },
+      alignItems: { sm: "center" },
+      p: 1,
+      borderRadius: 3,
+      backgroundColor: theme.card.bgcolor,
+      cursor: "pointer",
+    },
+    largeCardImage: {
+      width: { xs: "100%", sm: "334px" },
+      height: { xs: 180, sm: "297px" },
+      borderRadius: 3,
+      objectFit: "cover",
+      flexShrink: 0,
+      backgroundColor: "white",
+    },
+    largeCardText: {
+      pl: { sm: 3 },
+      pt: { xs: 2, sm: 0 },
+      backgroundColor: "fff",
+    },
+    smallCardMedia: {
+      height: 140,
+    },
+    shortcutCard: {
+      display: "flex",
+      alignItems: "center",
+      borderRadius: "12px",
+      backgroundColor :theme.card.bgcolor,
+      boxShadow: "none",
+      p: 1.5,
+      mb: 2,
+      cursor: "pointer"
+    },
+    shortcutImage: {
+      width: 64,
+      height: 64,
+      borderRadius: "12px",
+      border: "1px solid #DDDDE033",
+    },
+    featuredVideoBox: {
+      position: "relative",
+    },
+    videoCard: {
+      borderRadius: "20px",
+      overflow: "hidden",
+    },
+    videoWrapper: {
+      position: "relative",
+      paddingTop: "56.25%", // 16:9 Aspect Ratio
+      backgroundColor: "#000",
+    },
+    thumbnail: {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      overflow: "hidden",
+    },
+    thumbnailImg: {
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+      borderRadius: "20px",
+    },
+    iframe: {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      border: "none",
+      borderRadius: "20px",
+    },
+    playButton: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      backgroundColor: "#fff",
+      borderRadius: "50%",
+      width: 60,
+      height: 60,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: 2,
+      cursor: "pointer",
+    },
+    playIcon: {
+      fontSize: 30,
+      color: "#000",
+    },
+    footerBox: {
+      mt: 10,
+      px: { xs: 2, md: 6 },
+      py: 6,
+    backgroundColor :theme.card.bgcolor,
+      borderRadius: "33px",
+      border: "1px solid #E0E0E0",
+      display: "flex",
+      flexDirection: { xs: "column", md: "row" },
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 4,
+    },
+    footerHeading: {
+      fontFamily: "Jost",
+      fontWeight: 700,
+      fontStyle: "normal",
+      fontSize: { xs: "24px", sm: "32px", md: "40px" },
+      lineHeight: "120%",
+      letterSpacing: "0%",
+      color: "#EAB308",
+    },
+    footerSubtext: {
+      fontFamily: "Jost",
+      fontWeight: 400,
+      fontStyle: "normal",
+      fontSize: { xs: "14px", sm: "16px", md: "18px" },
+      lineHeight: "150%",
+      letterSpacing: "0%",
+      color: "text.secondary",
+      mt: 1,
+    },
+    emailSection: {
+      display: "flex",
+      gap: 1,
+      width: "100%",
+      maxWidth: 400,
+    },
+    emailInput: {
+      backgroundColor: "#fff",
+    },
+    signUpBtn: {
+      fontFamily: "Jost",
+      fontWeight: 400,
+      fontStyle: "normal",
+      fontSize: { xs: "14px", sm: "15px", md: "16px" },
+      lineHeight: "150%",
+      letterSpacing: "0%",
+      backgroundColor: "#E4B200",
+      color: "#fff",
+      px: 3,
+      whiteSpace: "nowrap",
+      textTransform: "none",
+    },
+  };
 
   const handlePlayClick = () => {
     setIsPlaying(true);
@@ -290,7 +289,7 @@ const PressPage = () => {
 
             {cardData.map((item, i) => (
               <Grid size={{ xs: 12, md: 6 }} key={i}>
-                <Card sx={{ borderRadius: "20px", cursor: "pointer" }} onClick={item.onClick} >
+                <Card sx={{ borderRadius: "20px", cursor: "pointer" , backgroundColor :theme.card.bgcolor}} onClick={item.onClick} >
                   <CardMedia
                     component="img"
                     image={item.image}
@@ -317,7 +316,7 @@ const PressPage = () => {
             Shortcut Links
           </Typography>
           {runwayKnowledge.map((data, i) => (
-            <Card key={i} sx={styles.shortcutCard}  onClick={data.onClick}>
+            <Card key={i} sx={styles.shortcutCard} onClick={data.onClick}>
               <CardMedia
                 component="img"
                 image={data.image}
@@ -333,7 +332,7 @@ const PressPage = () => {
                   {data.text}
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
-                 {data.date}
+                  {data.date}
                 </Typography>
               </Box>
             </Card>

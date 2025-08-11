@@ -1,6 +1,10 @@
-const styles = {
+
+const BlogSection2 = () => {
+  const navigate = useNavigate();
+  const theme = useTheme();
+  const styles = {
   wrapper: {
-    backgroundColor: "#fff",
+    backgroundColor: theme.palette.background.default,
     py: 8,
     mt: { xs: 2, sm: 8 },
   },
@@ -32,8 +36,7 @@ const styles = {
   },
 };
 
-const BlogSection2 = () => {
-  const navigate = useNavigate();
+
   const cardData = [
     {
       image: "/images/doctor.png",
@@ -58,7 +61,7 @@ const BlogSection2 = () => {
   ];
 
   return (
-    <Box sx={{ backgroundColor: "#F9F9F9" }}>
+    <Box sx={{ backgroundColor: theme.palette.background.default }}>
       {/* Hero Blog Card */}
       <Container maxWidth="md" sx={{ pt: 8 }}>
         <Card sx={{ borderRadius: "20px", overflow: "hidden" }}>
@@ -240,7 +243,7 @@ const BlogSection2 = () => {
       </Box>
 
       {/* From the Blog */}
-      <Box sx={{ backgroundColor: "#F9F9F9", py: 8 }}>
+      <Box sx={{ backgroundColor: theme.palette.background.default, py: 8 }}>
         <Container>
           <Typography
             variant="h5"
@@ -259,6 +262,7 @@ const BlogSection2 = () => {
                     overflow: "hidden",
                     margin: "0 auto",
                     cursor: "pointer",
+                    backgroundColor: theme.card.bgcolor,
                   }}
                   onClick={item.onClick}
                 >
