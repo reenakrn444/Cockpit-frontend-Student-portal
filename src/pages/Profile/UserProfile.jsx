@@ -21,6 +21,9 @@ const UserProfile = () => {
     accessKey: "",
     userId: user?._id,
     createdAt: new Date(),
+    phone: "",
+    gender: "",
+    dob: ""
   });
 
   const [formErrors, setFormErrors] = useState({
@@ -50,7 +53,10 @@ const UserProfile = () => {
         email: userInfo.email,
         accessKey: userInfo?.accessKey ? userInfo.accessKey : "",
         userId: userInfo._id,
-        createdAt: userInfo?.createdAt
+        createdAt: userInfo?.createdAt,
+        phone: userInfo?.phone,
+        gender: userInfo?.gender,
+        dob: userInfo?.dob ? new Date(userInfo?.dob).toISOString().split("T")[0] : ""
       });
       setProfileImage(userInfo?.image || "/default-profile.png");
 
@@ -124,7 +130,7 @@ const UserProfile = () => {
   const handleSave = async (e) => {
     e.preventDefault();
 
-    const { username, email } = userData;
+    const { username, email, } = userData;
     const errors = { username: "", email: "" };
     let isValid = true;
 
@@ -193,7 +199,7 @@ const UserProfile = () => {
         <Grid size={{ xs: 12, sm: 6, md: 6 }}>
           <Box display="flex" alignItems="center" gap={2} mb={{ xs: 0, md: 2 }}>
             {/* <Avatar sx={{ width: 56, height: 56 }} /> */}
-            <Box position="relative" display="inline-block">
+            {/* <Box position="relative" display="inline-block">
               <Avatar
                 src={profileImage || "/default-profile.png"}
                 sx={{ width: 56, height: 56, cursor: "pointer" }}
@@ -206,7 +212,7 @@ const UserProfile = () => {
                 onChange={handleImageUpload}
                 style={{ display: "none" }}
               />
-            </Box>
+            </Box> */}
             <Box>
               <Typography fontWeight="bold">{userData.username}</Typography>
               <Typography variant="body2" color="gray">
@@ -272,6 +278,74 @@ const UserProfile = () => {
                     }}
                   />
                 </Grid>
+
+                <Grid size={{ xs: 12, md: 12 }}>
+                  <Typography sx={{ fontSize: 14, fontWeight: 500, mb: 0.5 }}>
+                    Phone Number
+                  </Typography>
+                  <TextField
+                    placeholder="Enter phone number"
+                    name="phone"
+                    value={userData.phone || ""}
+                    onChange={handleChange}
+                    fullWidth
+                    size="small"
+                    variant="outlined"
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                  />
+                </Grid>
+
+                <Grid size={{ xs: 12, md: 12 }}>
+                  <Typography sx={{ fontSize: 14, fontWeight: 500, mb: 0.5 }}>
+                    Gender
+                  </Typography>
+                  <TextField
+                    select
+                    name="gender"
+                    value={userData.gender || ""}
+                    onChange={handleChange}
+                    fullWidth
+                    size="small"
+                    variant="outlined"
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                  >
+                    <MenuItem value="Male">Male</MenuItem>
+                    <MenuItem value="Female">Female</MenuItem>
+                    <MenuItem value="Other">Other</MenuItem>
+                  </TextField>
+                </Grid>
+
+                <Grid size={{ xs: 12, md: 12 }}>
+                  <Typography sx={{ fontSize: 14, fontWeight: 500, mb: 0.5 }}>
+                    Date of Birth
+                  </Typography>
+                  <TextField
+                    type="date"
+                    name="dob"
+                    value={userData.dob || ""}
+                    onChange={handleChange}
+                    fullWidth
+                    size="small"
+                    variant="outlined"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                  />
+                </Grid>
+
 
                 <Grid size={{ xs: 12, md: 12 }} display="flex" justifyContent="center">
 

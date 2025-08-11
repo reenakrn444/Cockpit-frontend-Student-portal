@@ -197,10 +197,10 @@ function Header() {
                     navigate("/userprofile")
                   }}
                 >
-                  <Avatar
+                  {/* <Avatar
                     src={userData?.profileImage}
                     sx={{ width: 56, height: 56, cursor: "pointer" }}
-                  />
+                  /> */}
                   <Typography>{userData.username}</Typography>
                 </Box>
               ) : (
