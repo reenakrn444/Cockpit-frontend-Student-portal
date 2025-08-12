@@ -41,12 +41,16 @@ function HomeSection() {
 
   const TestimonialCard = ({ testimonial }) => (
     <Card
-      className="cockpit-testimonial-card"
       sx={{
         fontSize: "6px",
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
+        borderRadius: "1rem",
+        padding: "1rem",
+        color: "#ffffff",
+        width: "100%",
+        backgroundColor: theme.HomeHeader.reviewCard
       }}
     >
       <CardContent sx={{ flexGrow: 1 }}>
@@ -91,7 +95,14 @@ function HomeSection() {
     <>
       <section>
         <Container maxWidth="xl">
-          <Box className="hero-section" sx={{ py: { md: 10, xs: 0 } }}>
+          <Box component="div" sx={{
+            backgroundImage: `url("/images/world-map.png")`,
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center center",
+            backgroundSize: "100% auto",
+            position: "relative",
+            py: { md: 10, xs: 0 },
+          }}>
             <Grid
               container
               spacing={4}
@@ -99,19 +110,18 @@ function HomeSection() {
               alignItems="center"
             >
               <Grid size={{ xs: 12 }}>
-                <Typography fontWeight={600} color="#183251" sx={{ fontFamily: "Exo, sans-serif", fontSize: { xs: "1.75rem", sm: "2rem", md: "2.5rem", lg: "3rem", xl: "3.25rem" } }}>Build Your Skills For DGCA Exams With <br /><Box component="span" color="#EAB308">COCKPIT</Box> — Your Gateway To The Skies!</Typography>
+                <Typography fontWeight={600} color={theme.HomeHeader.headingText} sx={{ fontFamily: "Exo, sans-serif", fontSize: { xs: "1.75rem", sm: "2rem", md: "2.5rem", lg: "3rem", xl: "3.25rem" } }}>Build Your Skills For DGCA Exams With <br /><Box component="span" color="#EAB308">COCKPIT</Box> — Your Gateway To The Skies!</Typography>
 
-                <Typography className="banner-text1" sx={{ mt: 3, fontSize: { xs: '18px', sm: '18px', md: '18px', lg: '18px', xl: '18px' }, width: { xs: '100%', sm: '100%', md: '60%', lg: '60%', xl: '60%' } }}>
+                <Typography color={theme.HomeHeader.headingText} sx={{ mt: 3, fontSize: { xs: '18px', sm: '18px', md: '18px', lg: '18px', xl: '18px' }, width: { xs: '100%', sm: '100%', md: '60%', lg: '60%', xl: '60%' } }}>
                   Most trusted pilot training platform for aspiring aviators - offering DGCA aligned content, CPL & ATPL exam prep, adaptive mock testing, and expert aviation guidance to help you succeed.
                 </Typography>
-                <Typography fontWeight={600} className="banner-text2">
+                <Typography fontWeight={600} color={theme.HomeHeader.headingText}  >
                   Ready for Takeoff?
                 </Typography>
 
                 <Button
                   variant="contained"
-                  sx={{ mt: 2, px: 4, py: 1.5, textTransform: "none", }}
-
+                  sx={{ mt: 2, px: 4, py: 1.5, textTransform: "none", backgroundColor: theme.HomeHeader.homeButton, color: theme.palette.primary.secondary }}
                   onClick={handleClick}
                 >
                   Get Started
@@ -132,14 +142,14 @@ function HomeSection() {
       </section>
 
       <section>
-        <Box className="offer" sx={{ py: 8 }}>
+        <Box sx={{ py: 8, backgroundColor: theme.HomeHeader.backgroundColor }}>
           <Container>
             <Typography
               variant="h4"
               fontWeight={600}
               fontSize={{ xs: "35px", sm: "45px", md: "45px", lg: "45px", xl: "45px" }}
               textAlign="left"
-              className="offer-heading"
+              sx={{ fontFamily: "Exo", color: "#eab308", textTransform: "Capitalize" }}
               gutterBottom
             >
               What We Deliver For Your Takeoff!
@@ -160,6 +170,7 @@ function HomeSection() {
                       display: "flex",
                       flexDirection: "column",
                       height: "100%",
+                      backgroundColor: theme.card.cardColor,
                     }}
                   >
                     <CardHeader title={item.title} className="offer-card-title"
@@ -172,7 +183,6 @@ function HomeSection() {
                       >
                         {item.text}
                       </Typography>
-
 
                     </CardContent>
                     <CardActions>
@@ -202,15 +212,20 @@ function HomeSection() {
       <section>
         <Box
           className="testimonials"
-          sx={{ py: 4, backgroundColor: "#f5f5f5" }}
+          sx={{ py: 4, backgroundColor: theme.HomeHeader.reviewBackground }}
         >
           <Container>
             <Grid container spacing={4} justifyContent="center">
               <Grid size={{ xs: 12, sm: 12, md: 8, lg: 8, xl: 8 }}>
-                <Typography className="testimonial-heading" fontSize={{ xs: "30px", sm: "30px", md: "40px", lg: "40px", xl: "40px" }}>
+                <Typography fontSize={{
+                  xs: "30px", sm: "30px", md: "40px", lg: "40px", xl: "40px", fontFamily: "Exo",
+                  fontWeight: 600,
+                  textAlign: "center",
+                  color: theme.HomeHeader.partnerText
+                }}>
                   Aviators Review
                 </Typography>
-                <Typography className="testimonial-text" fontSize={{ xs: "16px", sm: "16px", md: "18px", lg: "18px", xl: "18px" }}>
+                <Typography fontSize={{ xs: "16px", sm: "16px", md: "18px", lg: "18px", xl: "18px", color: theme.HomeHeader.smallPartnerText }}>
                   Authentic stories, honest ratings, and first-hand experiences
                   from our student pilots. Discover why future aviators trust{" "}
                   <span style={{ color: "#EAB308" }}>COCKPIT</span> with their
@@ -273,12 +288,13 @@ function HomeSection() {
                   textAlign="center"
                   fontSize={{ xs: "30px", sm: "30px", md: "40px", lg: "40px", xl: "40px" }}
                   gutterBottom
+                  color={theme.HomeHeader.partnerText}
                 >
                   Frequently Asked Questions
                 </Typography>
                 <Typography
                   variant="body1"
-                  color="text.secondary"
+                  color={theme.HomeHeader.smallPartnerText}
                   textAlign="center"
                   mb={5}
                   fontSize={{ xs: "16px", sm: "16px" }}
@@ -305,14 +321,15 @@ function HomeSection() {
                           expandIcon={<ExpandMoreIcon />}
                           sx={{
                             backgroundColor:
-                              expanded === panel ? "#289BDE1A" : "white",
+                              expanded === panel ? theme.HomeHeader.questionBackground : theme.HomeHeader.questionBackgroundnotchoosed,
+                              border : expanded === panel ? null : theme.HomeHeader.questionBackgroundBorder,
                             height: "80px",
                           }}
                         >
                           <Typography>{question?.question}</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                          <Typography color="text.secondary" fontStyle="italic">
+                          <Typography color={theme.HomeHeader.questionAnswer} fontStyle="italic">
                             {question?.answer}
                           </Typography>
                         </AccordionDetails>

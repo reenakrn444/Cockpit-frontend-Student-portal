@@ -104,14 +104,14 @@ const ChapterSection = () => {
 
     return (
         <Box sx={{ mt: 0 }}>
-            <Box sx={{ p: 4, backgroundColor: '#f5f5f5', display: "flex", alignItems: "center", }}>
+            <Box sx={{ p: 4, backgroundColor: theme.header.background.default, display: "flex", alignItems: "center", }}>
                 <Box
                     onClick={() => navigate("/training")}
-                    sx={{ display: "flex", alignItems: "center", cursor: "pointer", color: "#183251" }}
+                    sx={{ display: "flex", alignItems: "center", cursor: "pointer", color: theme.header.primary.text }}
                 >
                     <ArrowBackIcon sx={{ mr: 0.5 }} />
                 </Box>
-                <Typography variant="h4" fontWeight={700} color="#0f2848" gutterBottom fontSize={{ xs: '1.5rem', sm: '2.1rem' }}>
+                <Typography variant="h4" fontWeight={700} color={theme.header.primary.text} gutterBottom fontSize={{ xs: '1.5rem', sm: '2.1rem' }}>
                     {/* {syllabusTitle} Question Banks */}
                     {`${syllabusTitle
                         .split(' ')
@@ -120,20 +120,20 @@ const ChapterSection = () => {
                 </Typography>
             </Box>
 
-            <Box className="tabs-section" sx={{ p: isMobile ? 2 : 4, mt: 2, borderRadius: 2 }}>
-                <Box className="custom-tabs" component="ul" sx={{ listStyle: 'none', p: 0, m: 0, display: 'flex', overflowX: 'auto', borderRadius: '10px 10px 0 0', backgroundColor: '#F5F5F5' }}>
+            <Box sx={{ p: isMobile ? 2 : 4, mt: 2, borderRadius: 2, }}>
+                <Box component="ul" sx={{ listStyle: 'none', p: 0, m: 0, display: 'flex', overflowX: 'auto', borderRadius: '10px 10px 0 0', backgroundColor: theme.syllabus.booksBackground }}>
                     {books?.map((book, index) => (
-                        <Box component="li" className="nav-item" ref={(el) => (tabRefs.current[book._id] = el)} key={index} sx={{ minWidth: { xs: '50%', sm: '25%' }, flex: 1, borderRight: '1px solid #EAEAEA', }}>
+                        <Box component="li" className="nav-item" ref={(el) => (tabRefs.current[book._id] = el)} key={index} sx={{ minWidth: { xs: '50%', sm: '25%' }, flex: 1, borderRight: `1px solid ${theme.syllabus.booksBackground}`, }}>
                             <Button
                                 fullWidth
-                                className={`nav-link ${bookId === book?._id ? 'active' : ''}`}
+                                // className={`nav-link ${bookId === book?._id ? 'active' : ''}`}
                                 onClick={() => {
                                     { console.log(book, "booksdata") }
                                     setActiveBook(book?.bookTitle);
                                     setBookId(book?._id);
                                 }}
                                 sx={{
-                                    backgroundColor: bookId === book?._id ? '#f5f5f5' : '#0f2848',
+                                    backgroundColor: bookId === book?._id ? theme.syllabus.booksBackground : theme.syllabus.chaptersBackground,
                                     color: bookId === book?._id ? '#fbbd00' : '#fff',
                                     border: 'none',
                                     borderRight: '1px solid #f5f5f5',
@@ -163,7 +163,7 @@ const ChapterSection = () => {
                 </Box>
 
 
-                <Box className="chapter-list" sx={{ px: isMobile ? 1 : 4, py: 3, borderRadius: '0 0 10px 10px', backgroundColor: '#F5F5F5', }}>
+                <Box sx={{ px: isMobile ? 1 : 4, py: 3, borderRadius: '0 0 10px 10px', backgroundColor: theme.report.headingReport, }}>
                     {filteredChapters?.filter(chapter => chapter.isactive)?.map((chapter, index) => {
 
                         const isCompleted = completedChapterIds?.has(chapter?._id);
@@ -173,7 +173,7 @@ const ChapterSection = () => {
                                 key={index}
                                 onClick={() => handleChapterClick(chapter)}
                                 sx={{
-                                    backgroundColor: '#0f2b50',
+                                    backgroundColor: theme.syllabus.chaptersBackground,
                                     color: 'white',
                                     p: 2,
                                     mb: 2,

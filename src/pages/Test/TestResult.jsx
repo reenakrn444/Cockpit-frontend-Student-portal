@@ -12,6 +12,7 @@ const TestResultPage = () => {
     const [testData, setTestData] = useState([]);
     const navigate = useNavigate();
     const location = useLocation();
+    const theme = useTheme();
     const [initialPath] = useState(location.pathname);
 
     const {
@@ -29,11 +30,11 @@ const TestResultPage = () => {
 
     const getChipColor = (question) => {
         console.log(question, "question");
-        
-        if (question.currectAnswer) return '#22C55E'; // green
-        if (question.wrongAnswer) return '#C5322A'; // red
-        if (question.skipperAnswer) return '#F6F6F6'; // gray
-        return '#F6F6F6'; // default
+
+        if (question.currectAnswer) return '#22C55E';
+        if (question.wrongAnswer) return '#C5322A';
+        if (question.skipperAnswer) return theme.palette.primary.skippedBackground;
+        return theme.palette.primary.skippedBackground ;
     };
 
     const fetchTestResult = async () => {
@@ -67,7 +68,7 @@ const TestResultPage = () => {
 
     return (
         <Container maxWidth="lg" sx={{ py: 4, px: { xs: 2, sm: 4 } }}>
-            <Typography variant="h4" mb={4} sx={{ fontWeight: 'bold' }}>
+            <Typography variant="h4" mb={4} sx={{ fontWeight: 'bold', color: theme.header.primary.text }}>
                 {syllabusTitle} , {activeBook}
             </Typography>
 
@@ -108,10 +109,10 @@ const TestResultPage = () => {
 
             {/* Time Taken */}
             <Typography variant="h6" sx={{ mb: 4 }}>
-                <span style={{ color: '#183251', fontWeight: 'bold' }}>Time Taken:</span>{' '}
+                <span style={{ color: theme.header.primary.text, fontWeight: 'bold' }}>Time Taken:</span>{' '}
                 <span style={{ color: '#EAB308', fontWeight: 'bold' }}>{formatTime(timeTaken)}</span>
             </Typography>
-            <Container sx={{ backgroundColor: '#F6F6F6', borderRadius: 2, p: 2 }}>
+            <Container sx={{ backgroundColor: theme.report.headingReport, borderRadius: 2, p: 2 }}>
 
                 {/* Summary */}
                 <Box mt={2} mx={{ xs: 2, sm: 6, md: 10 }} display="flex" flexWrap="wrap" justifyContent="space-between" alignItems="center" gap={2}>
@@ -123,7 +124,7 @@ const TestResultPage = () => {
                         <Typography align="center" variant="h6">{resultCounts?.incorrect || 0}</Typography>
                         <Typography align="center">Incorrect</Typography>
                     </Paper>
-                    <Paper elevation={3} sx={{ p: 2, border: '1px solid #000', backgroundColor: "#F6F6F6", minWidth: { xs: "100%", sm: "30.33%" } }}>
+                    <Paper elevation={3} sx={{ p: 2, border: `1px solid ${theme.palette.primary.trimesterAcccordianText}`, backgroundColor: theme.palette.primary.trimesterAcccordian, minWidth: { xs: "100%", sm: "30.33%" } }}>
                         <Typography align="center" variant="h6">{resultCounts?.skipped || 0}</Typography>
                         <Typography align="center">Skipped</Typography>
                     </Paper>
@@ -135,22 +136,22 @@ const TestResultPage = () => {
                         onChange={handleAccordionToggle('progress')}
                         defaultExpanded
                         sx={{
-                            backgroundColor: '#183251',
+                            backgroundColor: theme.HomeHeader.homeButton,
                             color: 'white',
                             borderRadius: 1,
                         }}
                     >
                         <AccordionSummary
-                            expandIcon={expanded === 'progress' ? <RemoveIcon sx={{ color: '#EAB308' }} /> : <AddIcon sx={{ color: '#EAB308' }} />}
+                            expandIcon={expanded === 'progress' ? <RemoveIcon sx={{ color: theme.palette.primary.trimesterAcccordian }} /> : <AddIcon sx={{ color: theme.palette.primary.trimesterAcccordian }} />}
                         >
-                            <Typography fontWeight="bold" sx={{ color: 'white' }}>
+                            <Typography fontWeight="bold" sx={{ color: theme.palette.primary.trimester }}>
                                 Test Progress Analysis
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails
                             sx={{
-                                backgroundColor: '#fff',
-                                color: '#000',
+                                backgroundColor: theme.report.headingReport,
+                                color: theme.palette.primary.trimesterAcccordianText,
                                 borderRadius: '0 0 8px 8px',
                                 px: 2,
                                 py: 1,
@@ -196,15 +197,15 @@ const TestResultPage = () => {
                         expanded={expanded === 'answers'}
                         onChange={handleAccordionToggle('answers')}
                         sx={{
-                            backgroundColor: '#183251',
+                            backgroundColor: theme.HomeHeader.homeButton,
                             color: 'white',
                             borderRadius: 1,
                         }}
                     >
                         <AccordionSummary
-                            expandIcon={expanded === 'answers' ? <RemoveIcon sx={{ color: '#EAB308' }} /> : <AddIcon sx={{ color: '#EAB308' }} />}
+                            expandIcon={expanded === 'answers' ? <RemoveIcon sx={{ color: theme.palette.primary.trimesterAcccordian }} /> : <AddIcon sx={{ color: theme.palette.primary.trimesterAcccordian }} />}
                         >
-                            <Typography fontWeight="bold" sx={{ color: 'white' }}>
+                            <Typography fontWeight="bold" sx={{ color: theme.palette.primary.trimester }}>
                                 Test Answer Analysis
                             </Typography>
                         </AccordionSummary>
@@ -212,8 +213,8 @@ const TestResultPage = () => {
                             sx={{
                                 maxHeight: 500,
                                 overflowY: 'auto',
-                                backgroundColor: '#fff',
-                                color: '#000',
+                                backgroundColor: theme.report.headingReport,
+                                color: theme.palette.primary.trimesterAcccordianText,
                                 px: 2,
                                 py: 1,
                                 borderRadius: '0 0 8px 8px',
@@ -227,7 +228,7 @@ const TestResultPage = () => {
                                     <ul style={{ paddingLeft: '1.5rem', marginBottom: '0.5rem' }}>
                                         {q.options.map((option) => {
 
-                                            let color = 'black';
+                                            let color = theme.palette.primary.trimesterAcccordianText;
                                             if (option.isCorrect) color = '#A3E635';
                                             else if (option.id === q.choosedOption && !option.isCorrect) color = '#C5322A';
 

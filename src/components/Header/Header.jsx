@@ -5,6 +5,7 @@ import { DayCalculation } from "../../Helper/DayCalculation/Daycalculation";
 
 
 function Header() {
+
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("authToken");
@@ -107,10 +108,7 @@ function Header() {
                 }}>
                 Get Boarding Pass
               </Button>
-
             </ListItemButton>
-
-
           )}
         </ListItem>
       </List>
@@ -122,11 +120,12 @@ function Header() {
       component="header"
       sx={{
         py: 2,
-        backgroundColor: "white",
-        borderBottom: "1px solid #e0e0e0",
+        backgroundColor: theme.header.background.default,
+        borderBottom: theme.header.background.boderBottom,
         position: "sticky", // or "fixed" if you want it to stay even when scrolling past it
         top: 0,
         zIndex: 9999,
+        color: theme.header.primary.main,
       }}
     >
       <Grid
@@ -169,8 +168,9 @@ function Header() {
                         // height: isActive ? "35px" : "auto",
                         gap: "10px",
                         borderRadius: isActive ? "8px" : "0px",
-                        backgroundColor: isActive ? "#183251" : "transparent",
-                        color: isActive ? "#FFFFFF" : "#183251",
+                        // backgroundColor: isActive ? "#183251" : "transparent",
+                        backgroundColor: isActive ? theme.header.primary.main : "transparent",
+                        color: isActive ? theme.header.primary.active : theme.header.primary.main,
                         fontFamily: "Be Vietnam Pro",
                         fontWeight: 400,
                         fontSize: "18px",

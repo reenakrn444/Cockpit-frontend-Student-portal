@@ -5,6 +5,7 @@ import { toCapitalize } from "../../Helper/convertUpperCase";
 
 
 const FlightLog = () => {
+  const theme = useTheme();
   const navigate = useNavigate();
   const [selectedPeriod, setSelectedPeriod] = useState("Monthly");
   const [countResult, setCountResult] = useState();
@@ -83,7 +84,7 @@ const FlightLog = () => {
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       {/* Header */}
-      <Typography variant="h4" fontWeight={700} mb={0.5}>
+      <Typography variant="h4" fontWeight={700} mb={0.5} sx={{ color: theme.userprofie.text }}>
         Welcome back, {userData?.username || "User"}!
       </Typography>
       <Typography variant="subtitle1" color="text.secondary" mb={4}>
@@ -93,7 +94,7 @@ const FlightLog = () => {
       {/* Stats Section */}
       <Grid container spacing={3} mb={5}>
         <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-          <Card sx={{ p: 3, borderRadius: 3, border: " 1px solid #E5E7E9", justifyContent: "center", textAlign: "center" }}>
+          <Card sx={{ p: 3, borderRadius: 3, border: theme.card.border, backgroundColor: theme.card.bgcolor, justifyContent: "center", textAlign: "center" }}>
             <CardContent sx={{ flexGrow: 1 }}>
               <Typography fontWeight={600} mb={1}>
                 Completed Test
@@ -125,7 +126,7 @@ const FlightLog = () => {
           {/* <Card sx={{ p: {xs: 1, sm :3}, borderRadius: 3, }}> */}
           {/* <Typography fontWeight={600} sx={{ mb: 2 }}>Performance</Typography> */}
 
-          <Card sx={{ p: { xs: 1, sm: 1 }, borderRadius: 3, border: " 1px solid #E5E7E9", justifyContent: "center", textAlign: "center" }}>
+          <Card sx={{ p: { xs: 1, sm: 1 }, borderRadius: 3, border: theme.card.border, backgroundColor: theme.card.bgcolor, justifyContent: "center", textAlign: "center" }}>
             <CardContent sx={{ flexGrow: 1 }}>
               <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Typography fontWeight={600}>Test Performance</Typography>
@@ -142,7 +143,6 @@ const FlightLog = () => {
               </Box>
             </CardContent>
             {countResult && (
-
               <ReactSpeedometer
                 value={grade}
                 minValue={0}
@@ -155,9 +155,9 @@ const FlightLog = () => {
                 needleTransition="easeElastic"
                 needleHeightRatio={0.5}
                 ringWidth={15}
-                textColor="#000"
+                textColor={theme.card.textColor}
                 customSegmentStops={[0, grade, 100]}
-                currentValueText={`Your Grade: ${ countResult?.grade ? countResult?.grade?.toFixed(2) : "0"}%`}
+                currentValueText={`Your Grade: ${countResult?.grade ? countResult?.grade?.toFixed(2) : "0"}%`}
                 height={180}
                 width={270}
               />
@@ -200,7 +200,7 @@ const FlightLog = () => {
             const completionPercentage = Math.round((completed / total) * 100);
 
             return (
-              <Grid key={course._id} item xs={12} sm={6} md={3} lg={2}>
+              <Grid key={course._id} size={{ xs: 12, sm: 6, md: 3, lg: 2 }}>
                 <Card
                   sx={{
                     borderRadius: 3,
@@ -209,6 +209,7 @@ const FlightLog = () => {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "space-between",
+                    backgroundColor : theme.card.bgcolor
                   }}
                 >
                   <CardMedia
@@ -217,8 +218,8 @@ const FlightLog = () => {
                     image={course.imageUrl}
                     alt={course.title}
                   />
-                  <Box sx={{ ml: 2 }}>
-                    <CardContent sx={{ px: 0 }}>
+                  <Box sx={{ ml: 2,  }}>
+                    <CardContent sx={{ px: 0, }}>
                       <Typography variant="h6" fontWeight="bold" gutterBottom>
                         {toCapitalize(course?.title)}
                       </Typography>

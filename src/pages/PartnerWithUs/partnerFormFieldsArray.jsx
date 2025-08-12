@@ -42,7 +42,7 @@ const formFields = [
     required: true,
   },
   {
-    name: "message",
+    name: "needs",
     label:
       "Tell Us About Your Needs And How The Cockpit Can Help Your Institution",
     type: "multiline",
