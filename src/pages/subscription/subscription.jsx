@@ -185,7 +185,7 @@ const Subscription = () => {
                   borderRadius: 3,
                   border: theme.card.pricingcardBorder,
                   backgroundColor: theme.card.bgcolor,
-                  boxShadow : theme.card.pricingboxShadow,
+                  boxShadow: theme.card.pricingboxShadow,
                   height: "100%",
                   display: "flex",
                   flexDirection: "column",
@@ -286,8 +286,8 @@ const Subscription = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button sx={{color : "#000000"}} onClick={() => setPhoneModalOpen(false)}>Cancel</Button>
-          <Button variant="contained" sx={{backgroundColor : "#EAB308"}} onClick={handlePhoneSubmit}>Proceed to Pay</Button>
+          <Button sx={{ color: "#000000" }} onClick={() => setPhoneModalOpen(false)}>Cancel</Button>
+          <Button variant="contained" sx={{ backgroundColor: "#EAB308" }} onClick={handlePhoneSubmit}>Proceed to Pay</Button>
         </DialogActions>
       </Dialog>
     </Box>

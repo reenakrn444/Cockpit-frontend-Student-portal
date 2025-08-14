@@ -223,7 +223,7 @@ const UserProfile = () => {
         </Grid>
         <Grid size={{ xs: 12, sm: 6, md: 6 }}>
           <Box display="flex" justifyContent="center">
-            <Button sx={{ mb: { xs: 1, sm: 3 }, backgroundColor: "#EAB308", textTransform: 'none', fontSize: "18px" }} variant="contained" onClick={handleLogout}>
+            <Button sx={{ mb: { xs: 1, sm: 3 }, backgroundColor: "#EAB308", textTransform: 'none', color: "#ffffff", fontSize: "18px" }} variant="contained" onClick={handleLogout}>
               Logout
             </Button>
           </Box>
@@ -395,7 +395,7 @@ const UserProfile = () => {
       {/* Bottom Navigation Boxes */}
       <Grid container spacing={2} mt={4}>
         {["FLIGHT DECK", "MAINTENANCE", "FLIGHT LOG"].map((label) => (
-          <Grid size={{ xs: 12, md: 4 }} key={label} >
+          <Grid size={{ xs: 12, sm : 4, md: 4 }} key={label} >
             <Box
               sx={{
                 backgroundColor: theme.footer.background.default,
