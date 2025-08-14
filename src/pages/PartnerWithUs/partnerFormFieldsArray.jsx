@@ -1,11 +1,11 @@
 const formFields = [
   {
-    name: "institutionName",
+    name: "instituteName",
     label: "Institution Name",
     required: true,
   },
   {
-    name: "institutionType",
+    name: "instituteType",
     label: "Institution Type",
     required: true,
     type: "select",

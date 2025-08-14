@@ -1,6 +1,12 @@
-const styles = {
+
+
+
+
+const BlogSection3 = () => {
+  const theme = useTheme();
+  const styles = {
   wrapper: {
-    backgroundColor: "#fff",
+    backgroundColor: theme.palette.background.default,
     py: 8,
   },
   title: {
@@ -39,11 +45,6 @@ const styles = {
     mb: 1,
   },
 };
-
-
-
-const BlogSection3 = () => {
-  const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
   const cardData = [
@@ -236,6 +237,7 @@ const BlogSection3 = () => {
                     overflow: "hidden",
                     margin: "0 auto",
                     cursor: "pointer",
+                    backgroundColor: theme.card.bgcolor,
                   }}
                   onClick={item.onClick}
                 >

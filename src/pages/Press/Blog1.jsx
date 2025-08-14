@@ -1,13 +1,16 @@
-const styles = {
+const BlogSection1 = () => {
+  const navigate = useNavigate();
+  const theme = useTheme();
+  const styles = {
   wrapper: {
-    backgroundColor: "#fff",
+    backgroundColor: theme.palette.background.default,
     py: 8,
     mt: { xs: 2, sm: 8 },
   },
   title: {
     fontWeight: 700,
     mb: 4,
-    mt:5
+    mt: 5
   },
   subheading: {
     fontWeight: 700,
@@ -32,8 +35,7 @@ const styles = {
   },
 };
 
-const BlogSection1 = () => {
-  const navigate = useNavigate();
+
   const cardData = [
     {
       image: "/images/doctor.png",
@@ -58,7 +60,7 @@ const BlogSection1 = () => {
   ];
 
   return (
-    <Box sx={{ backgroundColor: "#F9F9F9" }}>
+    <Box sx={{ backgroundColor: theme.palette.background.default }}>
       {/* Hero Blog Card */}
       <Container maxWidth="md" sx={{ pt: 8 }}>
         <Card sx={{ borderRadius: "20px", overflow: "hidden" }}>
@@ -74,21 +76,21 @@ const BlogSection1 = () => {
       {/* Blog Content */}
       <Box sx={styles.wrapper}>
         <Container maxWidth="md">
-            <Typography variant="h5" sx={{ fontWeight: 600, mb: 1, fontSize: "42px" }}>
-              DGCA’s New FTO Ranking System: What Aspiring Pilots Need to Know
-            </Typography>
-            <Typography variant="h8" sx={{ fontWeight: 300, mb: 3 }}>
-              Picture this: you’re an aspiring pilot, dreaming of soaring
-              through the skies, but faced with a daunting choice—picking the
-              right flying school in India. With 34 DGCA-approved Flying
-              Training Organisations (FTOs) operating across 52 bases, how do
-              you know which one will give you the wings to succeed? Enter the
-              Directorate General of Civil Aviation’s (DGCA) groundbreaking FTO
-              ranking system, launching on October 1, 2025. This new framework
-              promises to revolutionize pilot training in India by shining a
-              spotlight on quality, safety, and transparency.
-            </Typography>
-          
+          <Typography variant="h5" sx={{ fontWeight: 600, mb: 1, fontSize: "42px" }}>
+            DGCA’s New FTO Ranking System: What Aspiring Pilots Need to Know
+          </Typography>
+          <Typography variant="h8" sx={{ fontWeight: 300, mb: 3 }}>
+            Picture this: you’re an aspiring pilot, dreaming of soaring
+            through the skies, but faced with a daunting choice—picking the
+            right flying school in India. With 34 DGCA-approved Flying
+            Training Organisations (FTOs) operating across 52 bases, how do
+            you know which one will give you the wings to succeed? Enter the
+            Directorate General of Civil Aviation’s (DGCA) groundbreaking FTO
+            ranking system, launching on October 1, 2025. This new framework
+            promises to revolutionize pilot training in India by shining a
+            spotlight on quality, safety, and transparency.
+          </Typography>
+
           <Typography variant="h5" sx={styles.title}>
             Why the DGCA Introduced the FTO Ranking System
           </Typography>
@@ -222,7 +224,7 @@ const BlogSection1 = () => {
       </Box>
 
       {/* From the Blog */}
-      <Box sx={{ backgroundColor: "#F9F9F9", py: 8 }}>
+      <Box sx={{ backgroundColor: theme.palette.background.default, py: 8 }}>
         <Container>
           <Typography
             variant="h5"
@@ -241,6 +243,7 @@ const BlogSection1 = () => {
                     overflow: "hidden",
                     margin: "0 auto",
                     cursor: "pointer",
+                    backgroundColor: theme.card.bgcolor,
                   }}
                   onClick={item.onClick}
                 >

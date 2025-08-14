@@ -328,7 +328,7 @@ const TrainingQuestion = () => {
                 <Box sx={{ mt: 2, px: 2 }}>
                   {question?.options?.map((option, idx) => (
                     <Box key={idx} sx={{ display: "flex", alignItems: "center" }}>
-                      <Radio
+                      {/* <Radio
                         checked={selectedAnswers[question._id] === idx}
                         disabled={selectedAnswers.hasOwnProperty(question._id)}
                         onChange={() => handleOptionChange(question._id, idx)}
@@ -355,7 +355,7 @@ const TrainingQuestion = () => {
                                 : "default",
                           },
                         }}
-                      />
+                      >
                       <Typography
                         sx={{
                           color:
@@ -370,6 +370,58 @@ const TrainingQuestion = () => {
                       >
                         {option.text}
                       </Typography>
+                      </Radio> */}
+                      <FormControlLabel
+                        control={
+                          <Radio
+                            checked={selectedAnswers[question._id] === idx}
+                            disabled={selectedAnswers.hasOwnProperty(question._id)}
+                            onChange={() => handleOptionChange(question._id, idx)}
+                            value={idx}
+                            name={`question-${question._id}`}
+                            sx={{
+                              color:
+                                selectedAnswers.hasOwnProperty(question._id)
+                                  ? option.isCorrect
+                                    ? "green"
+                                    : selectedAnswers[question._id] === idx
+                                      ? "red"
+                                      : "default"
+                                  : "default",
+                              pb: 3,
+                              alignItems: "center",
+                              "&.Mui-checked": {
+                                color:
+                                  selectedAnswers.hasOwnProperty(question._id)
+                                    ? option.isCorrect
+                                      ? "green"
+                                      : selectedAnswers[question._id] === idx
+                                        ? "red"
+                                        : "default"
+                                    : "default",
+                              },
+                            }}
+                          />
+                        }
+                        label={
+                          <Typography
+                            sx={{
+                              fontSize: "18px",
+                              pb: 2,
+                              color:
+                                selectedAnswers.hasOwnProperty(question._id)
+                                  ? option.isCorrect
+                                    ? "green"
+                                    : selectedAnswers[question._id] === idx
+                                      ? "red"
+                                      : "inherit"
+                                  : "inherit",
+                            }}
+                          >
+                            {option.text}
+                          </Typography>
+                        }
+                      />
                     </Box>
                   ))}
                 </Box>

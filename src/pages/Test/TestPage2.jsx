@@ -144,10 +144,10 @@ function TestPage2() {
     }, [activeBook, syllabusTitle]);
 
     useEffect(() => {
-  if (timeLeft === 0 && quizId && questions.length > 0) {
-    confirmSubmit();
-  }
-}, [timeLeft, quizId, questions]);
+        if (timeLeft === 0 && quizId && questions.length > 0) {
+            confirmSubmit();
+        }
+    }, [timeLeft, quizId, questions]);
 
     // Prevent browser back navigation
     useEffect(() => {
@@ -452,10 +452,10 @@ function TestPage2() {
                 {questions.length > 0 && (
                     <Paper sx={{ p: 3, mb: 2, border: '1px solid', borderColor: 'grey.400' }}>
                         <Typography sx={{ fontSize: '18px' }}>
-                            <span style={{ color: 'white', backgroundColor: '#183251', borderRadius: '50%', padding: '3px', display: 'inline-block', textAlign: 'center', width: '30px', height: '30px' }}>
+                            <span style={{ color: theme.palette.primary.skippedBackground, backgroundColor: theme.palette.primary.testQuestion, borderRadius: '50%', padding: '3px', display: 'inline-block', textAlign: 'center', width: '30px', height: '30px' }}>
                                 {currentQuestionIndex + 1}
                             </span>{' '}
-                            <span style={{ color: '#183251', fontWeight: '600', marginLeft: '10px' }}>
+                            <span style={{ color: theme.palette.primary.testQuestion, fontWeight: '600', marginLeft: '10px' }}>
                                 {questions[currentQuestionIndex]?.question}
                             </span>
                         </Typography>
@@ -500,8 +500,8 @@ function TestPage2() {
                 )}
 
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="space-between" alignItems="center" sx={{ mt: 3, mb: 4 }}>
-                    <Button variant="outlined" onClick={handlePrevious} sx={{ backgroundColor: "#183251", color: "white", textTransform: "none" }}>Previous</Button>
-                    <Button variant="outlined" onClick={handleNext} sx={{ backgroundColor: "#183251", color: "white", textTransform: "none" }}>Next</Button>
+                    <Button variant="outlined" onClick={handlePrevious} sx={{ backgroundColor: theme.header.primary.main, color: "white", textTransform: "none" }}>Previous</Button>
+                    <Button variant="outlined" onClick={handleNext} sx={{ backgroundColor: theme.header.primary.main, color: "white", textTransform: "none" }}>Next</Button>
                     <Button variant="outlined" onClick={handleReset} sx={{ backgroundColor: "#C5322A", color: "white", textTransform: "none" }}>Reset</Button>
                     <Button onClick={() => handleSkip(questions[currentQuestionIndex]?._id)} sx={{ border: `1px solid ${theme.palette.primary.trimesterAcccordianText}`, backgroundColor: theme.palette.primary.trimesterAcccordian, color: theme.palette.primary.skippedText, textTransform: "none" }}>Skip</Button>
                     <Button onClick={() => handleMarkForReview(questions[currentQuestionIndex]?._id)} sx={{ backgroundColor: "#A855F7", color: "white", textTransform: "none" }}>

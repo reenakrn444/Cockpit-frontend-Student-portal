@@ -1,24 +1,3 @@
-// import { createTheme } from '@mui/material/styles';
-
-// const theme = createTheme({
-//     typography: {
-//         fontFamily: '"Jost"',
-//     },
-//     // Optional: override components
-//     components: {
-//         MuiCssBaseline: {
-//             styleOverrides: {
-//                 body: {
-//                     fontFamily: '"Jost"',
-//                 },
-//             },
-//         },
-
-//     },
-// });
-
-// export default theme;
-
 import { createTheme } from '@mui/material/styles';
 
 export const lightTheme = createTheme({
@@ -26,6 +5,7 @@ export const lightTheme = createTheme({
         mode: 'light',
         background: {
             default: '#fafafa',
+            policyBgcolor: "#f8fafc",
         },
         primary: {
             main: '#EAB308',
@@ -35,6 +15,7 @@ export const lightTheme = createTheme({
             trimesterAcccordianText: "#000000",
             skippedBackground: "#F6F6F6",
             skippedText: "#000000",
+            testQuestion: "#183251",
         },
     },
     header: {
@@ -77,7 +58,9 @@ export const lightTheme = createTheme({
         bgcolor: "transparent",
         border: '1px solid #E5E7E9',
         textColor: "#000000",
-        cardColor: "#ffffff"
+        cardColor: "#ffffff",
+        pricingcardBorder: "1px solid #E4E4E7",
+        pricingboxShadow: '0px 26px 40px 0px #BCCAFF21',
     },
     HomeHeader: {
         headingText: "#183251",
@@ -100,6 +83,11 @@ export const lightTheme = createTheme({
         instructionsText: "#555555",
         instrucctionsTermsText: "#183251"
     },
+    policy: {
+        text: "#303A42",
+        subText:"#303A42",
+        sectionsubText : "#000000"
+    },
     typography: {
         fontFamily: '"Jost"',
     },
@@ -120,6 +108,7 @@ export const darkTheme = createTheme({
         mode: 'dark',
         background: {
             default: '#121212',
+            policyBgcolor: "#121212"
         },
         primary: {
             main: '#EAB308',
@@ -129,7 +118,7 @@ export const darkTheme = createTheme({
             trimesterAcccordianText: "#ffffff",
             skippedBackground: "#000000",
             skippedText: "#F6F6F6",
-
+            testQuestion: "#ffffff",
         },
     },
     header: {
@@ -173,7 +162,9 @@ export const darkTheme = createTheme({
         bgcolor: "#000000",
         border: '1px solid #18212E',
         textColor: "#ffffff",
-        cardColor: "#000000"
+        cardColor: "#000000",
+        pricingcardBorder: "1px solid #191919",
+        pricingboxShadow: '0px 26px 40px 0px #BCCAFF21',
     },
     HomeHeader: {
         headingText: "#ffffff",
@@ -195,6 +186,12 @@ export const darkTheme = createTheme({
         booksBackground: '#161616',
         instructionsText: "#ffffff",
         instrucctionsTermsText: "#183251"
+
+    },
+    policy: {
+        text: "#EAB308",
+        subText : "#ffffff",
+        sectionsubText : "#999999"
 
     },
     typography: {
