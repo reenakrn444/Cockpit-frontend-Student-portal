@@ -30,6 +30,7 @@ import BlogSection4 from '../pages/Press/Blog4';
 import TestResultPage from '../pages/Test/TestResult';
 import PartnerWithUsForm from "../pages/PartnerWithUs/PartnerWithUsForm";
 import PaymentPolicy from '../components/Footer/PaymentPolicy';
+import AdvertisementBanner from '../components/Advertisement/AdvertisementBanner';
 
 const AppContent = () => {
   const location = useLocation();
@@ -43,9 +44,19 @@ const AppContent = () => {
     pathname === "/testpage" ||
     pathname.startsWith("/resetpassword");;
 
+  const hideAdvertisement = pathname === "/login" ||
+    pathname === "/forgetpassword" ||
+    pathname === "/testRules" ||
+    pathname === "/testpage" ||
+    pathname === "/test-result" ||
+    pathname.startsWith("/resetpassword");
+
   return (
     <>
       {!hideHeaderFooter && <Header />}
+
+      {!hideAdvertisement && <AdvertisementBanner />}
+
       <Box sx={{ flex: 1, minHeight: { xs: 'calc(100vh - 64px)', md: 'calc(80vh - 64px)' } }}>
         <ScrollToTop />
         <Routes>

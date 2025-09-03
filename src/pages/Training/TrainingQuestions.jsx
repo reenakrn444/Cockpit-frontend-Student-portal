@@ -16,6 +16,7 @@ const TrainingQuestion = () => {
   const [attempted, setAttempted] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const questionRefs = useRef({});
+  const theme = useTheme();
 
 
   const questionsPerPage = 50;
@@ -172,11 +173,11 @@ const TrainingQuestion = () => {
                   activeBookId: bookId,
                 },
               })}
-              sx={{ display: "flex", alignItems: "center", cursor: "pointer", color: "#183251",  }}
+              sx={{ display: "flex", alignItems: "center", cursor: "pointer", color: theme.header.primary.text, }}
             >
               <ArrowBackIcon sx={{ mr: 0.5 }} />
             </Box>
-            <Typography variant="h4" textAlign="left" fontSize={{ xs: '1.5rem', sm: '2.1rem' }}>
+            <Typography variant="h4" textAlign="left" color={theme.header.primary.text} fontSize={{ xs: '1.5rem', sm: '2.1rem' }}>
               {toCapitalize(syllabusTitle)} &gt;{" "}
               <Box
                 component="span"
@@ -189,13 +190,13 @@ const TrainingQuestion = () => {
                   },
                 })}
                 sx={{
-                  cursor: "pointer", color: "#183251",
+                  cursor: "pointer", color: theme.header.primary.text,
                   // textDecoration: "underline" 
                 }}
               >
                 {toCapitalize(activeBook)}
               </Box>{" "}
-             
+
             </Typography>
           </Box>
 
@@ -209,7 +210,7 @@ const TrainingQuestion = () => {
               letterSpacing: "2px",
               textTransform: "uppercase",
               mt: 2,
-              fontSize:{ xs: '1.5rem', sm: '2.1rem' }
+              fontSize: { xs: '1.5rem', sm: '2.1rem' }
             }}
           >
             {chapterName}
@@ -254,8 +255,9 @@ const TrainingQuestion = () => {
                     borderRight: { xs: "1px solid #C0BEBE", sm: "1px solid #C0BEBE" },
                   }}
                 >
+                  {/* theme.header.primary.text */}
                   <Typography
-                    sx={{ color: "#183251", fontWeight: 700, fontSize: 18 }}
+                    sx={{ color: theme.HomeHeader.homeButton, fontWeight: 700, fontSize: 18 }}
                   >
                     Total Score
                   </Typography>
@@ -267,7 +269,7 @@ const TrainingQuestion = () => {
                     {/* <Box component="span" sx={{ color: "#72B701", fontWeight: "bold" }}>
               /
             </Box> */}
-                    <Box component="span" sx={{ color: "#183251", fontWeight: "bold" }}>
+                    <Box component="span" sx={{ color: theme.HomeHeader.homeButton, fontWeight: "bold" }}>
                       {filteredQuestions.length}
                     </Box>
                   </Typography>
@@ -275,7 +277,7 @@ const TrainingQuestion = () => {
 
                 <Grid item size={{ xs: 6 }} sx={{ my: 1, pr: { xs: 1, sm: 15 }, textAlign: "center" }}>
                   <Typography
-                    sx={{ color: "#183251", fontWeight: 700, fontSize: 18 }}
+                    sx={{ color: theme.HomeHeader.homeButton, fontWeight: 700, fontSize: 18 }}
                   >
                     Percentage
                   </Typography>
@@ -304,7 +306,7 @@ const TrainingQuestion = () => {
               <Box sx={{ border: "1px solid #ccc", borderRadius: 2 }} >
                 <Box
                   sx={{
-                    bgcolor: "#183251",
+                    bgcolor: theme.footer.background.default,
                     py: "10px",
                     px: 2,
                     borderRadius: "8px 8px 0 0",
@@ -326,7 +328,7 @@ const TrainingQuestion = () => {
                 <Box sx={{ mt: 2, px: 2 }}>
                   {question?.options?.map((option, idx) => (
                     <Box key={idx} sx={{ display: "flex", alignItems: "center" }}>
-                      <Radio
+                      {/* <Radio
                         checked={selectedAnswers[question._id] === idx}
                         disabled={selectedAnswers.hasOwnProperty(question._id)}
                         onChange={() => handleOptionChange(question._id, idx)}
@@ -353,7 +355,7 @@ const TrainingQuestion = () => {
                                 : "default",
                           },
                         }}
-                      />
+                      >
                       <Typography
                         sx={{
                           color:
@@ -368,6 +370,58 @@ const TrainingQuestion = () => {
                       >
                         {option.text}
                       </Typography>
+                      </Radio> */}
+                      <FormControlLabel
+                        control={
+                          <Radio
+                            checked={selectedAnswers[question._id] === idx}
+                            disabled={selectedAnswers.hasOwnProperty(question._id)}
+                            onChange={() => handleOptionChange(question._id, idx)}
+                            value={idx}
+                            name={`question-${question._id}`}
+                            sx={{
+                              color:
+                                selectedAnswers.hasOwnProperty(question._id)
+                                  ? option.isCorrect
+                                    ? "green"
+                                    : selectedAnswers[question._id] === idx
+                                      ? "red"
+                                      : "default"
+                                  : "default",
+                              pb: 3,
+                              alignItems: "center",
+                              "&.Mui-checked": {
+                                color:
+                                  selectedAnswers.hasOwnProperty(question._id)
+                                    ? option.isCorrect
+                                      ? "green"
+                                      : selectedAnswers[question._id] === idx
+                                        ? "red"
+                                        : "default"
+                                    : "default",
+                              },
+                            }}
+                          />
+                        }
+                        label={
+                          <Typography
+                            sx={{
+                              fontSize: "18px",
+                              pb: 2,
+                              color:
+                                selectedAnswers.hasOwnProperty(question._id)
+                                  ? option.isCorrect
+                                    ? "green"
+                                    : selectedAnswers[question._id] === idx
+                                      ? "red"
+                                      : "inherit"
+                                  : "inherit",
+                            }}
+                          >
+                            {option.text}
+                          </Typography>
+                        }
+                      />
                     </Box>
                   ))}
                 </Box>

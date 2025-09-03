@@ -50,7 +50,7 @@
 
 // export default PartnerSection;
 
-import { HeaderLogo , FourStripesPartnerLogo, AviationPartnerLogo} from "./ImagesRender";
+import { HeaderLogo, FourStripesPartnerLogo, AviationPartnerLogo } from "./ImagesRender";
 
 
 import { keyframes } from '@emotion/react';
@@ -67,17 +67,18 @@ const partners = [
 ];
 
 const PartnerSection = () => {
+    const theme = useTheme();
     return (
-        <Box sx={{ textAlign: 'center', py: 6, backgroundColor: '#f9f9f9' }}>
+        <Box sx={{ textAlign: 'center', py: 6, backgroundColor: theme.HomeHeader.background2 }}>
             <Typography
                 variant="h4"
                 fontWeight={700}
                 mb={1}
-                sx={{ fontFamily: 'Exo', color: '#1D1D1D' }}
+                sx={{ fontFamily: 'Exo', color: theme.HomeHeader.partnerText }}
             >
                 Our Trusted Partners
             </Typography>
-            <Typography variant="subtitle1" color="#777777" mb={4}>
+            <Typography variant="subtitle1" sx={{ color: theme.HomeHeader.smallPartnerText }} mb={4}>
                 we collaborate with top aviation brands to deliver unmatched experiences
             </Typography>
 

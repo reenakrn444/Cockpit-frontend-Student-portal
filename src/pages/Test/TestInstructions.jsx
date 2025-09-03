@@ -1,50 +1,3 @@
-
-const styles = {
-
-  heading: {
-    color: "#183251",
-    fontFamily: "Jost",
-    fontWeight: 700,
-    fontSize: { xs: "16px", sm: "18px" },
-  },
-  sectionTitle: {
-    color: "#EAB308",
-    fontFamily: "Jost",
-    fontWeight: 400,
-    fontSize: { xs: "16px", sm: "18px" },
-  },
-  itemText: {
-    color: "#555555",
-    fontFamily: "Jost",
-    fontSize: { xs: "16px", sm: "18px" },
-  },
-  subHeading: {
-    color: "#183251",
-    fontFamily: "Jost",
-    fontWeight: 700,
-    mt: 2,
-    fontSize: { xs: "16px", sm: "18px" },
-  },
-  finalNote: (isSmall) => ({
-    color: "#183251",
-    fontWeight: "bold",
-    fontSize: isSmall ? "0.9rem" : "18px",
-    mt: 4,
-  }),
-  getStartedButton: {
-    backgroundColor: "#183251",
-    fontFamily: "Be Vietnam Pro",
-    fontWeight: 400,
-    fontSize: { xs: "16px", sm: "18px" },
-    textTransform: "none",
-    color: "#EAB308",
-    borderRadius: "8px",
-    width: "auto"
-  },
-};
-
-
-
 const instructions = [
   {
     title: "Navigation",
@@ -86,13 +39,54 @@ import { Link } from "@mui/material";
 
 const TestInstructions = ({ syllabusId, bookId, activeBook, syllabusTitle }) => {
   const theme = useTheme();
+  const styles = {
+    heading: {
+      color: theme.HomeHeader.homeButton,
+      fontFamily: "Jost",
+      fontWeight: 700,
+      fontSize: { xs: "16px", sm: "18px" },
+    },
+    sectionTitle: {
+      color: "#EAB308",
+      fontFamily: "Jost",
+      fontWeight: 400,
+      fontSize: { xs: "16px", sm: "18px" },
+    },
+    itemText: {
+      color: theme.syllabus.instructionsText,
+      fontFamily: "Jost",
+      fontSize: { xs: "16px", sm: "18px" },
+    },
+    subHeading: {
+      color: theme.HomeHeader.homeButton,
+      fontFamily: "Jost",
+      fontWeight: 700,
+      mt: 2,
+      fontSize: { xs: "16px", sm: "18px" },
+    },
+    finalNote: (isSmall) => ({
+      color: theme.syllabus.instrucctionsTermsText,
+      fontWeight: "bold",
+      fontSize: isSmall ? "0.9rem" : "18px",
+      mt: 4,
+    }),
+    getStartedButton: {
+      backgroundColor: theme.footer.background.default,
+      fontFamily: "Be Vietnam Pro",
+      fontWeight: 400,
+      fontSize: { xs: "16px", sm: "18px" },
+      textTransform: "none",
+      color: "#EAB308",
+      borderRadius: "8px",
+      width: "auto"
+    },
+  };
   const navigate = useNavigate();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <>
       <Box sx={styles.container}>
-
         <Typography gutterBottom sx={styles.heading}>
           General Information
         </Typography>

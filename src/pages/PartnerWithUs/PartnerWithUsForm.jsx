@@ -1,4 +1,6 @@
 import formFields from "./partnerFormFieldsArray";
+import { apiPostToken } from "../../api/axios";
+import { snackbarEmitter } from "../../components/snackbar/CustomSnackBar";
 
 const initialFormData = formFields.reduce((acc, field) => {
     acc[field.name] = "";
@@ -17,6 +19,8 @@ const propsStyle = {
 const PartnerWithUsForm = () => {
     const [formData, setFormData] = useState(initialFormData);
     const [errors, setErrors] = useState({});
+    const theme = useTheme();
+    const [loading, setLoading] = useState(false);
 
     const validateField = (name, value) => {
         const field = formFields.find((f) => f.name === name);
@@ -61,8 +65,18 @@ const PartnerWithUsForm = () => {
 
 
     const submitFormData = async () => {
+        setLoading(true);
         console.log("Submitting to API:", formData);
-        // Example: await api.post('/partner-inquiry', formData);
+        const response = await apiPostToken('/registerPartner', formData);
+        console.log(response, "responseData");
+        if (response?.data?.status === 200) {
+            setLoading(false);
+            snackbarEmitter("Your form has been successfully submitted. You will receive a response from us shortly regarding your enquiry.", "success")
+        }
+        else {
+            setLoading(false);
+            snackbarEmitter("Something went wrong. Please try again after some time", "error")
+        }
     };
 
     const handleSubmit = () => {
@@ -78,7 +92,7 @@ const PartnerWithUsForm = () => {
                 fontWeight={600}
                 fontSize="48px"
                 fontFamily="Exo"
-                color="#183251"
+                color={theme.header.primary.text}
             >
                 Welcome To Cockpit — Partner With Us!
             </Typography>
@@ -104,6 +118,7 @@ const PartnerWithUsForm = () => {
                                 value={formData[field.name]}
                                 onChange={handleChange}
                                 fullWidth
+                                size="small"
                                 variant="outlined"
                                 multiline={field.type === "multiline"}
                                 minRows={field.type === "multiline" ? 4 : undefined}

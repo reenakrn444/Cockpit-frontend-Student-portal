@@ -1,11 +1,11 @@
 const formFields = [
   {
-    name: "institutionName",
+    name: "instituteName",
     label: "Institution Name",
     required: true,
   },
   {
-    name: "institutionType",
+    name: "instituteType",
     label: "Institution Type",
     required: true,
     type: "select",
@@ -42,7 +42,7 @@ const formFields = [
     required: true,
   },
   {
-    name: "message",
+    name: "needs",
     label:
       "Tell Us About Your Needs And How The Cockpit Can Help Your Institution",
     type: "multiline",

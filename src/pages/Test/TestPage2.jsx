@@ -7,6 +7,7 @@ import { HeaderLogo } from '../Home/ImagesRender';
 
 function TestPage2() {
     const location = useLocation();
+    const theme = useTheme();
     const navigate = useNavigate();
     const { activeBook, syllabusTitle, syllabusId, bookId } = location.state || {};
     const [questions, setQuestions] = useState([]);
@@ -109,7 +110,8 @@ function TestPage2() {
             console.error('Error during evaluation and submission:', error);
         }
     };
-
+ 
+    console.log("book id", bookId)
 
     useEffect(() => {
         const fetchTestQuestions = async () => {
@@ -143,10 +145,10 @@ function TestPage2() {
     }, [activeBook, syllabusTitle]);
 
     useEffect(() => {
-  if (timeLeft === 0 && quizId && questions.length > 0) {
-    confirmSubmit();
-  }
-}, [timeLeft, quizId, questions]);
+        if (timeLeft === 0 && quizId && questions.length > 0) {
+            confirmSubmit();
+        }
+    }, [timeLeft, quizId, questions]);
 
     // Prevent browser back navigation
     useEffect(() => {
@@ -379,10 +381,10 @@ function TestPage2() {
         if (isCurrent) return 'white';
 
         // Skipped → black text
-        if (isSkipped) return 'black';
+        if (isSkipped) return theme.palette.primary.skippedText;
 
         // Not visited at all → black
-        if (!isVisited && !isSelected && !isMarked) return 'black';
+        if (!isVisited && !isSelected && !isMarked) return theme.palette.primary.skippedText;
 
         // All others (answered, marked, not-answered but visited) → white
         return 'white';
@@ -392,7 +394,7 @@ function TestPage2() {
         const result = evaluation[questionId];
         if (result === 'correct') return '#22C55E';
         if (result === 'incorrect') return 'red';
-        if (result === 'skipped') return 'white';
+        if (result === 'skipped') return theme.palette.primary.skippedBackground;
 
         // ✅ Yellow if visited, not answered, not marked, not skipped, and not current
         if (
@@ -406,9 +408,9 @@ function TestPage2() {
         }
         if (index === currentQuestionIndex) return '#0D76F3';
         if (markedForReview[questionId]) return '#A855F7';
-        if (skip[questionId]) return 'white';
+        if (skip[questionId]) return theme.palette.primary.skippedBackground;
         if (selectedOptions[questionId]) return '#22C55E';
-        return '#F6F6F6';
+        return theme.palette.primary.skippedBackground;
     };
 
 
@@ -417,7 +419,7 @@ function TestPage2() {
         <>
             <TestHeader />
             <Container maxWidth="lg" sx={{ py: 4, px: { xs: 2, sm: 4 } }}>
-                <Typography variant="h4" mb={4} sx={{ fontWeight: 'bold' }}>
+                <Typography variant="h4" mb={4} sx={{ fontWeight: 'bold', color: theme.header.primary.text }}>
                     {syllabusTitle} , {activeBook}
                 </Typography>
 
@@ -444,17 +446,17 @@ function TestPage2() {
                 </Box>
 
                 <Typography variant="h6" sx={{ mb: 2 }}>
-                    <span style={{ color: '#183251', fontWeight: 'bold' }}>Time Left:</span>{' '}
+                    <span style={{ color: theme.header.primary.text, fontWeight: 'bold' }}>Time Left:</span>{' '}
                     <span style={{ color: '#EAB308', fontWeight: 'bold' }}>{formatTime(timeLeft)}</span>
                 </Typography>
 
                 {questions.length > 0 && (
                     <Paper sx={{ p: 3, mb: 2, border: '1px solid', borderColor: 'grey.400' }}>
                         <Typography sx={{ fontSize: '18px' }}>
-                            <span style={{ color: 'white', backgroundColor: '#183251', borderRadius: '50%', padding: '3px', display: 'inline-block', textAlign: 'center', width: '30px', height: '30px' }}>
+                            <span style={{ color: theme.palette.primary.skippedBackground, backgroundColor: theme.palette.primary.testQuestion, borderRadius: '50%', padding: '3px', display: 'inline-block', textAlign: 'center', width: '30px', height: '30px' }}>
                                 {currentQuestionIndex + 1}
                             </span>{' '}
-                            <span style={{ color: '#183251', fontWeight: '600', marginLeft: '10px' }}>
+                            <span style={{ color: theme.palette.primary.testQuestion, fontWeight: '600', marginLeft: '10px' }}>
                                 {questions[currentQuestionIndex]?.question}
                             </span>
                         </Typography>
@@ -499,10 +501,10 @@ function TestPage2() {
                 )}
 
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="space-between" alignItems="center" sx={{ mt: 3, mb: 4 }}>
-                    <Button variant="outlined" onClick={handlePrevious} sx={{ backgroundColor: "#183251", color: "white", textTransform: "none" }}>Previous</Button>
-                    <Button variant="outlined" onClick={handleNext} sx={{ backgroundColor: "#183251", color: "white", textTransform: "none" }}>Next</Button>
+                    <Button variant="outlined" onClick={handlePrevious} sx={{ backgroundColor: theme.header.primary.main, color: "white", textTransform: "none" }}>Previous</Button>
+                    <Button variant="outlined" onClick={handleNext} sx={{ backgroundColor: theme.header.primary.main, color: "white", textTransform: "none" }}>Next</Button>
                     <Button variant="outlined" onClick={handleReset} sx={{ backgroundColor: "#C5322A", color: "white", textTransform: "none" }}>Reset</Button>
-                    <Button onClick={() => handleSkip(questions[currentQuestionIndex]?._id)} sx={{ border: '1px solid #183251', color: "#183251", textTransform: "none" }}>Skip</Button>
+                    <Button onClick={() => handleSkip(questions[currentQuestionIndex]?._id)} sx={{ border: `1px solid ${theme.palette.primary.trimesterAcccordianText}`, backgroundColor: theme.palette.primary.trimesterAcccordian, color: theme.palette.primary.skippedText, textTransform: "none" }}>Skip</Button>
                     <Button onClick={() => handleMarkForReview(questions[currentQuestionIndex]?._id)} sx={{ backgroundColor: "#A855F7", color: "white", textTransform: "none" }}>
                         {markedForReview[questions[currentQuestionIndex]?._id] ? 'Unmark Review' : 'Mark for Review'}
                     </Button>

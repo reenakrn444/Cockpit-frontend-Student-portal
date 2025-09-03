@@ -1,62 +1,20 @@
 import { Link } from 'react-router-dom';
 import aeroPlaneTheme from "../../../public/images/AeroplaneTheme.svg"
 import nightTheme from "../../../public/images/NightTheme.svg"
-
+import { useThemeMode } from '../../contextApi/ThemeContext';
 
 const ThemeSettings = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-
+    const { toggleTheme, mode } = useThemeMode();
     return (
-        <Box sx={{ p: 10, minHeight: 'calc(80vh - 64px)', backgroundColor: "#fafafa" }}>
+        <Box sx={{
+            p: 10, minHeight: 'calc(80vh - 64px)',
+            backgroundColor: theme.palette.background.default
+        }}>
             <Grid container spacing={4} justifyContent="center">
                 {/* Left Password Card */}
                 <Grid size={{ xs: 12, md: 4 }}>
-                    {/* <Box
-                        sx={{
-                            backgroundColor: "#0c2340",
-                            borderRadius: 4,
-                            p: 4,
-                            height: "100%",
-                            color: "#ffffff",
-                            boxShadow: 3,
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "space-between",
-                        }}
-                    >
-                        <Box>
-                            <Typography variant="body1" color="white" mb={1}>
-                                Password
-                            </Typography>
-                            <Typography
-                                variant="body1"
-                                sx={{ color: "#EAB308", fontWeight: 600 }}
-                            >
-                                Theme
-                            </Typography>
-                        </Box>
-
-                        <Divider sx={{ my: 2, borderColor: "#EAB308" }} />
-
-                        <Button
-                            variant="contained"
-                            fullWidth
-                            sx={{
-                                backgroundColor: "#EAB308",
-                                color: "#000",
-                                fontWeight: 600,
-                                borderRadius: 2,
-                                textTransform: "none",
-                                mt: "auto",
-                                "&:hover": {
-                                    backgroundColor: "#d9a600",
-                                },
-                            }}
-                        >
-                            Delete Account
-                        </Button>
-                    </Box> */}
                     <Box
                         sx={{
                             backgroundColor: "#183251",
@@ -136,73 +94,56 @@ const ThemeSettings = () => {
                     {
                         title: "Light Mode",
                         image: aeroPlaneTheme,
+                        mode: "light"
                     },
                     {
                         title: "Dark Mode",
                         image: nightTheme,
+                        mode: "dark"
                     },
-                ].map((mode, index) => (
-                    <Grid size={{ xs: 12, sm: 6, md: 4 }} key={mode.title}>
+                ].map((themeOption, index) => (
+                    <Grid size={{ xs: 12, sm: 6, md: 4 }} key={themeOption.title}>
                         <Card
                             sx={{
                                 borderRadius: 3,
                                 boxShadow: 3,
-                                border: mode.title === "Light Mode" ? "3px solid #EAB308" : "",
+                                border: themeOption.title === "Light Mode" ? "3px solid #EAB308" : "",
                             }}
                         >
                             <CardMedia
                                 component="img"
                                 height="260"
-                                src={mode.image}
+                                src={themeOption.image}
                                 // image={mode.image}
-                                alt={mode.title}
+                                alt={themeOption.title}
                             />
-                            {/* <CardActions sx={{ justifyContent: "center", p: 2 }}>
-                                <Button
-                                    variant="contained"
-                                    sx={{
-                                        backgroundColor: "#EAB308",
-                                        color: "#000",
-                                        fontWeight: 600,
-                                        textTransform: "none",
-                                        borderRadius: 2,
-                                        "&:hover": {
-                                            backgroundColor: "#d9a600",
-                                        },
-                                    }}
-                                >
-                                    {mode.title}
-                                </Button>
-                            </CardActions> */}
+
                         </Card>
                         <Button
                             variant="contained"
+                            onClick={() => toggleTheme(themeOption.mode)}
                             sx={{
                                 backgroundColor: "#EAB308",
-                                color: "#fffff",
+                                color: "#ffffff",
                                 fontWeight: 600,
                                 textTransform: "none",
                                 borderRadius: 2,
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: "center",
-                                margin:"auto",
+                                margin: "auto",
                                 my: 2,
                                 "&:hover": {
                                     backgroundColor: "#d9a600",
                                 },
                             }}
                         >
-                            {mode.title}
+                            {themeOption.title}
                         </Button>
                     </Grid>
                 ))}
             </Grid>
-            <Box sx={{ mt: 4, textAlign: "center" }}>
-                <Typography variant="h5" fontWeight={700} color="#EAB308">
-                    Comming Soon.....
-                </Typography>
-            </Box>
+
         </Box>
     );
 };
