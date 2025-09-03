@@ -99,6 +99,8 @@ const ChapterSection = () => {
         const user = localStorage.getItem('user');
         console.log(chapter, "chapter");
         const chapterId = chapter?._id
+        console.log('chaptername', chapter.chaptername);
+        
         navigate(`/trainingQuestion/${chapter.syllabus}/${chapter.book}/${chapter.chaptername}`, { state: { syllabusTitle, syllabusId, bookId, chapterId, activeBook } });
     };
 
@@ -186,7 +188,7 @@ const ChapterSection = () => {
                                 <Grid container spacing={2} alignItems="right" display="flex" justifyContent="center">
                                     <Grid size={{ xs: 10, sm: 11 }} alignItems="left" display="grid" justifyContent={{ xs: "left", sm: "center" }} pl={{ xs: 0, sm: 4 }}>
                                         <Typography sx={{ fontWeight: 500 }}>
-                                            Chapter {chapter?.chapterno}:  {chapter?.chaptername?.toUpperCase()}
+                                            Chapter {index+1}:  {chapter?.chaptername?.toUpperCase()}
                                         </Typography>
                                     </Grid>
                                     <Grid size={{ xs: 2, sm: 1 }} alignItems="center" display="flex" justifyContent={{ xs: "right" }} pr={{ xs: 0 }}>

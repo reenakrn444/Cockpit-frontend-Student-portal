@@ -4,8 +4,6 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { formatTime } from './forrmatTime';
 
-
-
 const TestResultPage = () => {
     const isSmallScreen = useMediaQuery('(max-width:600px)');
     const [expanded, setExpanded] = useState("progress");
@@ -38,6 +36,9 @@ const TestResultPage = () => {
     };
 
     const fetchTestResult = async () => {
+        
+        // setTestData([]);
+
         const response = await apiPostToken('/testAnalysis', { quizId });
         if (response?.data?.status === 200) {
             setTestData(response.data.data || []);

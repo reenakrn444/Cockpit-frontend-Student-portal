@@ -110,7 +110,8 @@ function TestPage2() {
             console.error('Error during evaluation and submission:', error);
         }
     };
-
+ 
+    console.log("book id", bookId)
 
     useEffect(() => {
         const fetchTestQuestions = async () => {
