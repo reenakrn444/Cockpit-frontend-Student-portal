@@ -85,11 +85,11 @@ function Header() {
               navigate("/userprofile")
               setDrawerOpen(false);
             }}>
-              <Avatar
+              {/* <Avatar
                 src={userData?.profileImage}
                 sx={{ width: 56, height: 56, cursor: "pointer" }}
-              />
-              <ListItemText primary={userData?.username} />
+              /> */}
+              <ListItemText  primary={userData?.username} primaryTypographyProps={{ fontWeight: 'bold' }} />
             </ListItemButton>
           ) : (
             <ListItemButton component={Link} to="/login">
@@ -201,7 +201,7 @@ function Header() {
                     src={userData?.profileImage}
                     sx={{ width: 56, height: 56, cursor: "pointer" }}
                   /> */}
-                  <Typography>{userData.username}</Typography>
+                  <Typography sx={{fontWeight: '700'}}>{userData.username}</Typography>
                 </Box>
               ) : (
                 <Button variant="outlined" component={Link}
