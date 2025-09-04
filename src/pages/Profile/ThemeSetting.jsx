@@ -121,7 +121,7 @@ const ThemeSettings = () => {
                         </Card>
                         <Button
                             variant="contained"
-                            onClick={() => toggleTheme(themeOption.mode)}
+                            // onClick={() => toggleTheme(themeOption.mode)}
                             sx={{
                                 backgroundColor: "#EAB308",
                                 color: "#ffffff",
@@ -142,6 +142,10 @@ const ThemeSettings = () => {
                         </Button>
                     </Grid>
                 ))}
+
+                <Typography variant="h3" sx={{fontWeight: 600, color: "#EAB308", mb: 3, textAlign: "center" , alignItems: "center", justifyContent: "center"}}>
+                    Coming Soon.....
+                </Typography>
             </Grid>
 
         </Box>
