@@ -1,0 +1,267 @@
+import { getRecommendationByScore } from './TestResultRecomandations';
+import { apiPostToken } from '../../api/axios';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import { formatTime } from './forrmatTime';
+
+const TestResultPage = () => {
+    const isSmallScreen = useMediaQuery('(max-width:600px)');
+    const [expanded, setExpanded] = useState("progress");
+    const [testData, setTestData] = useState([]);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const theme = useTheme();
+    const [initialPath] = useState(location.pathname);
+
+    const {
+        evaluation,
+        resultCounts,
+        timeTaken,
+        activeBook,
+        quizId,
+        syllabusTitle,
+    } = useLocation().state || {};
+
+    const handleAccordionToggle = (panel) => (_event, isExpanded) => {
+        setExpanded(isExpanded ? panel : false);
+    };
+
+    const getChipColor = (question) => {
+        console.log(question, "question");
+
+        if (question.currectAnswer) return '#22C55E';
+        if (question.wrongAnswer) return '#C5322A';
+        if (question.skipperAnswer) return theme.palette.primary.skippedBackground;
+        return theme.palette.primary.skippedBackground ;
+    };
+
+    const fetchTestResult = async () => {
+        
+        // setTestData([]);
+
+        const response = await apiPostToken('/testAnalysis', { quizId });
+        if (response?.data?.status === 200) {
+            setTestData(response.data.data || []);
+        }
+    };
+
+    useEffect(() => {
+        fetchTestResult();
+    }, []);
+
+    useEffect(() => {
+        // Push a dummy state to the history stack
+        window.history.pushState(null, '', window.location.pathname);
+
+        const blockBack = () => {
+            // Immediately push current state again — user stays on this page
+            window.history.pushState(null, '', window.location.pathname);
+        };
+
+        // Listen for back/forward navigation
+        window.addEventListener('popstate', blockBack);
+
+        return () => {
+            window.removeEventListener('popstate', blockBack);
+        };
+    }, [])
+
+
+    return (
+        <Container maxWidth="lg" sx={{ py: 4, px: { xs: 2, sm: 4 } }}>
+            <Typography variant="h4" mb={4} sx={{ fontWeight: 'bold', color: theme.header.primary.text }}>
+                {syllabusTitle} , {activeBook}
+            </Typography>
+
+            {/* Chips based on testData */}
+            <Box
+                sx={{
+                    overflowX: { xs: 'auto', sm: 'visible' },
+                    whiteSpace: { xs: 'nowrap', sm: 'normal' },
+                    px: { xs: 1, sm: 0 },
+                    mb: 4,
+                }}
+            >
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexWrap: { xs: 'nowrap', sm: 'wrap' },
+                        gap: 1,
+                        justifyContent: 'flex-start',
+                    }}
+                >
+                    {testData.map((q, index) => (
+                        <Chip
+                            key={q._id}
+                            label={index + 1}
+                            sx={{
+                                minWidth: 40,
+                                backgroundColor: getChipColor(q),
+                                color: getChipColor(q) === "#F6F6F6" ? 'black' : 'white',
+                                // border: `${getChipColor(q) === "#F6F6F6" ? 'black' : 'transparent'} 1px solid`,
+                                fontWeight: 'bold',
+                                borderRadius: 2,
+                                pointerEvents: 'none',
+                            }}
+                        />
+                    ))}
+                </Box>
+            </Box>
+
+            {/* Time Taken */}
+            <Typography variant="h6" sx={{ mb: 4 }}>
+                <span style={{ color: theme.header.primary.text, fontWeight: 'bold' }}>Time Taken:</span>{' '}
+                <span style={{ color: '#EAB308', fontWeight: 'bold' }}>{formatTime(timeTaken)}</span>
+            </Typography>
+            <Container sx={{ backgroundColor: theme.report.headingReport, borderRadius: 2, p: 2 }}>
+
+                {/* Summary */}
+                <Box mt={2} mx={{ xs: 2, sm: 6, md: 10 }} display="flex" flexWrap="wrap" justifyContent="space-between" alignItems="center" gap={2}>
+                    <Paper elevation={3} sx={{ p: 2, backgroundColor: '#22C55E', color: '#fff', minWidth: { xs: "100%", sm: "30.33%" } }}>
+                        <Typography align="center" variant="h6">{resultCounts?.correct || 0}</Typography>
+                        <Typography align="center">Correct</Typography>
+                    </Paper>
+                    <Paper elevation={3} sx={{ p: 2, backgroundColor: '#C5322A', color: '#fff', minWidth: { xs: "100%", sm: "30.33%" } }}>
+                        <Typography align="center" variant="h6">{resultCounts?.incorrect || 0}</Typography>
+                        <Typography align="center">Incorrect</Typography>
+                    </Paper>
+                    <Paper elevation={3} sx={{ p: 2, border: `1px solid ${theme.palette.primary.trimesterAcccordianText}`, backgroundColor: theme.palette.primary.trimesterAcccordian, minWidth: { xs: "100%", sm: "30.33%" } }}>
+                        <Typography align="center" variant="h6">{resultCounts?.skipped || 0}</Typography>
+                        <Typography align="center">Skipped</Typography>
+                    </Paper>
+                </Box>
+                {/* Test Progress Analysis */}
+                <Box mt={3}>
+                    <Accordion
+                        expanded={expanded === 'progress'}
+                        onChange={handleAccordionToggle('progress')}
+                        defaultExpanded
+                        sx={{
+                            backgroundColor: theme.HomeHeader.homeButton,
+                            color: 'white',
+                            borderRadius: 1,
+                        }}
+                    >
+                        <AccordionSummary
+                            expandIcon={expanded === 'progress' ? <RemoveIcon sx={{ color: theme.palette.primary.trimesterAcccordian }} /> : <AddIcon sx={{ color: theme.palette.primary.trimesterAcccordian }} />}
+                        >
+                            <Typography fontWeight="bold" sx={{ color: theme.palette.primary.trimester }}>
+                                Test Progress Analysis
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails
+                            sx={{
+                                backgroundColor: theme.report.headingReport,
+                                color: theme.palette.primary.trimesterAcccordianText,
+                                borderRadius: '0 0 8px 8px',
+                                px: 2,
+                                py: 1,
+                            }}
+                        >
+
+                            {(() => {
+                                const total = 50;
+                                const correct = resultCounts?.correct || 0;
+                                const incorrect = resultCounts?.incorrect || 0;
+                                const skipped = resultCounts?.skipped || 0;
+                                const attempted = correct + incorrect;
+                                const completion = Math.round((attempted / total) * 100);
+                                const percentage = Math.round((correct / total) * 100);
+                                const passed = percentage >= 70;
+                                const recommendation = getRecommendationByScore(percentage);
+
+                                return (
+                                    <>
+                                        <Typography>
+                                            Current completion: {completion}% ({attempted}/{total} questions)
+                                        </Typography>
+                                        <Typography>
+                                            Performance: {percentage}% correct ({correct}/{total})
+                                        </Typography>
+                                        <Typography>
+                                            Result: <strong style={{ color: passed ? '#28a745' : '#dc3545' }}>{passed ? 'Passed' : 'Failed'}</strong>
+                                        </Typography>
+                                        <Typography mt={1}>
+                                            Recommendation: {recommendation}
+                                        </Typography>
+                                    </>
+                                );
+                            })()}
+
+                        </AccordionDetails>
+                    </Accordion>
+                </Box>
+
+                {/* Test Answer Analysis */}
+                <Box mt={2}>
+                    <Accordion
+                        expanded={expanded === 'answers'}
+                        onChange={handleAccordionToggle('answers')}
+                        sx={{
+                            backgroundColor: theme.HomeHeader.homeButton,
+                            color: 'white',
+                            borderRadius: 1,
+                        }}
+                    >
+                        <AccordionSummary
+                            expandIcon={expanded === 'answers' ? <RemoveIcon sx={{ color: theme.palette.primary.trimesterAcccordian }} /> : <AddIcon sx={{ color: theme.palette.primary.trimesterAcccordian }} />}
+                        >
+                            <Typography fontWeight="bold" sx={{ color: theme.palette.primary.trimester }}>
+                                Test Answer Analysis
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails
+                            sx={{
+                                maxHeight: 500,
+                                overflowY: 'auto',
+                                backgroundColor: theme.report.headingReport,
+                                color: theme.palette.primary.trimesterAcccordianText,
+                                px: 2,
+                                py: 1,
+                                borderRadius: '0 0 8px 8px',
+                            }}
+                        >
+                            {testData.map((q, index) => (
+                                <Box key={q._id} mb={4}>
+                                    <Typography fontWeight="bold" mb={1}>
+                                        {index + 1}. {q.question}
+                                    </Typography>
+                                    <ul style={{ paddingLeft: '1.5rem', marginBottom: '0.5rem' }}>
+                                        {q.options.map((option) => {
+
+                                            let color = theme.palette.primary.trimesterAcccordianText;
+                                            if (option.isCorrect) color = '#A3E635';
+                                            else if (option.id === q.choosedOption && !option.isCorrect) color = '#C5322A';
+
+                                            return (
+                                                <li key={option._id} style={{ color, fontWeight: option.isCorrect ? 'bold' : 'normal', fontSize: "16px" }}>
+                                                    {option.text}
+                                                </li>
+                                            );
+                                        })}
+                                    </ul>
+                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, }}>
+                                        <Typography fontWeight="bold" color="#00000" mt={1} sx={{ fontSize: '16px' }}>
+                                            ANSWER:
+                                        </Typography>
+                                        <Typography color="#A3E635" mt={1} sx={{ fontSize: '16px', color: '#A3E635', fontWeight: 'bold' }}>
+                                            {q.options.find((opt) => opt.isCorrect)?.text}
+                                        </Typography>
+                                    </Box>
+
+                                    {q.explanation && (
+                                        <Typography variant="body2" mt={1} sx={{ fontSize: '16px' }}>
+                                            {q.explanation}
+                                        </Typography>
+                                    )}
+                                </Box>
+                            ))}
+                        </AccordionDetails>
+                    </Accordion>
+                </Box>
+            </Container>
+        </Container>
+    );
+};
+
+export default TestResultPage;
