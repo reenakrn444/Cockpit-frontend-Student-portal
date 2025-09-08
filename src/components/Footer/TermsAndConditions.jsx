@@ -87,6 +87,7 @@ const TermsAndConditions = () => {
                         'Our logos and taglines are protected, and our trademarks are registered under Indian and, where applicable, international intellectual property laws.',
                         'You may not reproduce, distribute, modify, or create derivative works of Our content, including Our copyrighted logos, taglines, or registered trademarks, without prior written consent from the Company.',
                         'Any feedback, suggestions, or ideas You submit to Us may be implemented at Our discretion. By submitting feedback, You grant Us a non-exclusive, worldwide, royalty-free, perpetual license to use and implement such feedback without compensation to You.',
+                        'Prohibited Use: Data scraping, automated extraction, or copying of content, including questions, study material, or other resources available on the Service, is strictly prohibited without Our prior written permission.'
                     ]}
                 />
 

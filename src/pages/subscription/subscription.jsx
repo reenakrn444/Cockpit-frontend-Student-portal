@@ -131,7 +131,7 @@ const Subscription = () => {
         snackbarEmitter("Failed to create subscription. Please try again.", "error");
       }
     } catch (error) {
-      snackbarEmitter("Failed to create subscription. Please try again.", "error");
+      snackbarEmitter("creating subscription failed. Please try again.", "error");
     }
   };
 
