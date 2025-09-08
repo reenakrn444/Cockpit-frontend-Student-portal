@@ -31,10 +31,29 @@ import TestResultPage from '../pages/Test/TestResult';
 // import PartnerWithUsForm from "../pages/PartnerWithUs/PartnerWithUsForm";
 import PaymentPolicy from '../components/Footer/PaymentPolicy';
 // import AdvertisementBanner from '../components/Advertisement/AdvertisementBanner';
+import TokenExpiry from '../utils/TokenExpiry';
 
 const AppContent = () => {
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (TokenExpiry()) {  //check for initial render when component mounts
+      navigate("/");
+    }
+
+    const interval = setInterval(() => { //checks at every minute
+      if (TokenExpiry()) {
+        navigate("/");
+      }
+    }, 60 * 1000); // check every 1 min
+
+    return () => clearInterval(interval);
+  }, [navigate]);
+
   const location = useLocation();
   const { pathname } = location
+
   const AuthRoute = () => {
     const isAuthenticated = !!localStorage.getItem("authToken");
     return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
