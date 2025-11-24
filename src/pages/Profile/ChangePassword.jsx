@@ -85,7 +85,7 @@ const ChangePassword = () => {
         <Box sx={{ p: 5, backgroundColor: theme.palette.background.main, display: "flex", justifyContent: "center", alignItems: "center", minHeight: 'calc(80vh - 64px)' }}>
             <Grid container spacing={4} justifyContent="center">
                 {/* Left Card */}
-                <Grid size={{ xs: 12, md: 4 }}>
+                <Grid item xs={12} md={4}>
                     <Box
                         sx={{
                             backgroundColor: "#183251",
