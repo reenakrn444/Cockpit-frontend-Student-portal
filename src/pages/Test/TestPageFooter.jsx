@@ -4,7 +4,7 @@ const LegendItem = ({ color, label }) => (
       sx={{
         width: 12,
         height: 12,
-        borderRadius: '50%',
+        borderRadius: "50%",
         backgroundColor: color,
       }}
     />
@@ -15,13 +15,15 @@ const LegendItem = ({ color, label }) => (
 );
 
 const TestFooter = () => {
+  const theme = useTheme();
   return (
     <Box
       sx={{
-        backgroundColor: '#f0f0f0',
-        padding: '8px 16px',
-        width: '100%',
-        position: 'fixed',
+        backgroundColor:
+          theme.palette.mode === "dark" ? "#3932326e" : "#f0f0f0",
+        padding: "8px 16px",
+        width: "100%",
+        position: "fixed",
         bottom: 0,
         left: 0,
         zIndex: 10,

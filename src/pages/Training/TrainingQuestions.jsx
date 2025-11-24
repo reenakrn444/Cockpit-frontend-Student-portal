@@ -17,12 +17,13 @@ const TrainingQuestion = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const questionRefs = useRef({});
   const theme = useTheme();
-
+  const isDark = theme.palette.mode === "dark";
 
   const questionsPerPage = 50;
   const navigate = useNavigate();
   const location = useLocation();
-  const { syllabusTitle, syllabusId, bookId, chapterId, activeBook } = location.state;
+  const { syllabusTitle, syllabusId, bookId, chapterId, activeBook } =
+    location.state;
   console.log(activeBook, "activeBook");
 
   const userId = JSON.parse(localStorage.getItem("user"));
@@ -41,10 +42,7 @@ const TrainingQuestion = () => {
     fetchQuestions();
   }, []);
 
-  const filteredQuestions = questions.filter(
-    (q) =>
-      q.isactive === true
-  );
+  const filteredQuestions = questions.filter((q) => q.isactive === true);
 
   const totalPages = Math.ceil(filteredQuestions.length / questionsPerPage);
   const paginatedQuestions = filteredQuestions.slice(
@@ -83,9 +81,15 @@ const TrainingQuestion = () => {
     });
 
     if (res?.data?.status === 200) {
-      snackbarEmitter("Your request has been submitted successfully.", "success");
+      snackbarEmitter(
+        "Your request has been submitted successfully.",
+        "success"
+      );
     } else {
-      snackbarEmitter("Failed to submit your request. Please try again.", "error");
+      snackbarEmitter(
+        "Failed to submit your request. Please try again.",
+        "error"
+      );
     }
 
     setLoading(false);
@@ -149,8 +153,12 @@ const TrainingQuestion = () => {
     }
   };
 
-  const correctCount = Object.values(attempted).filter((val) => val === "correct").length;
-  const wrongCount = Object.values(attempted).filter((val) => val === "wrong").length;
+  const correctCount = Object.values(attempted).filter(
+    (val) => val === "correct"
+  ).length;
+  const wrongCount = Object.values(attempted).filter(
+    (val) => val === "wrong"
+  ).length;
   const totalAttempted = correctCount + wrongCount;
   const percentage = totalAttempted
     ? Math.round((correctCount / totalAttempted) * 100)
@@ -165,38 +173,52 @@ const TrainingQuestion = () => {
           </Typography> */}
           <Box sx={{ display: "flex", alignItems: "center", mb: 2, gap: 1 }}>
             <Box
-              onClick={() => navigate("/chapter", {
-                state: {
-                  title: syllabusTitle,
-                  id: syllabusId,
-                  activeBookTab: activeBook,
-                  activeBookId: bookId,
-                },
-              })}
-              sx={{ display: "flex", alignItems: "center", cursor: "pointer", color: theme.header.primary.text, }}
-            >
-              <ArrowBackIcon sx={{ mr: 0.5 }} />
-            </Box>
-            <Typography variant="h4" textAlign="left" color={theme.header.primary.text} fontSize={{ xs: '1.5rem', sm: '2.1rem' }}>
-              {toCapitalize(syllabusTitle)} &gt;{" "}
-              <Box
-                component="span"
-                onClick={() => navigate("/chapter", {
+              onClick={() =>
+                navigate("/chapter", {
                   state: {
                     title: syllabusTitle,
                     id: syllabusId,
                     activeBookTab: activeBook,
                     activeBookId: bookId,
                   },
-                })}
+                })
+              }
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                cursor: "pointer",
+                color: theme.header.primary.text,
+              }}
+            >
+              <ArrowBackIcon sx={{ mr: 0.5 }} />
+            </Box>
+            <Typography
+              variant="h4"
+              textAlign="left"
+              color={theme.header.primary.text}
+              fontSize={{ xs: "1.5rem", sm: "2.1rem" }}
+            >
+              {toCapitalize(syllabusTitle)} &gt;{" "}
+              <Box
+                component="span"
+                onClick={() =>
+                  navigate("/chapter", {
+                    state: {
+                      title: syllabusTitle,
+                      id: syllabusId,
+                      activeBookTab: activeBook,
+                      activeBookId: bookId,
+                    },
+                  })
+                }
                 sx={{
-                  cursor: "pointer", color: theme.header.primary.text,
-                  // textDecoration: "underline" 
+                  cursor: "pointer",
+                  color: theme.header.primary.text,
+                  // textDecoration: "underline"
                 }}
               >
                 {toCapitalize(activeBook)}
               </Box>{" "}
-
             </Typography>
           </Box>
 
@@ -210,7 +232,7 @@ const TrainingQuestion = () => {
               letterSpacing: "2px",
               textTransform: "uppercase",
               mt: 2,
-              fontSize: { xs: '1.5rem', sm: '2.1rem' }
+              fontSize: { xs: "1.5rem", sm: "2.1rem" },
             }}
           >
             {chapterName}
@@ -252,36 +274,78 @@ const TrainingQuestion = () => {
                     my: 1,
                     pl: { xs: 1, sm: 15 },
                     textAlign: "center",
-                    borderRight: { xs: "1px solid #C0BEBE", sm: "1px solid #C0BEBE" },
+                    borderRight: {
+                      xs: "1px solid #C0BEBE",
+                      sm: "1px solid #C0BEBE",
+                    },
                   }}
                 >
                   {/* theme.header.primary.text */}
                   <Typography
-                    sx={{ color: theme.HomeHeader.homeButton, fontWeight: 700, fontSize: 18 }}
+                    sx={{
+                      color: theme.HomeHeader.homeButton,
+                      fontWeight: 700,
+                      fontSize: 18,
+                    }}
                   >
                     Total Score
                   </Typography>
-                  <Box sx={{ my: 1, backgroundColor: "#C0BEBE", borderBottom: { xs: "1px solid #C0BEBE", sm: "1px solid #C0BEBE" }, }} />
+                  <Box
+                    sx={{
+                      my: 1,
+                      backgroundColor: "#C0BEBE",
+                      borderBottom: {
+                        xs: "1px solid #C0BEBE",
+                        sm: "1px solid #C0BEBE",
+                      },
+                    }}
+                  />
                   <Typography sx={{ fontSize: 24 }}>
-                    <Box component="span" sx={{ color: "#72B701", fontWeight: "bold" }}>
+                    <Box
+                      component="span"
+                      sx={{ color: "#72B701", fontWeight: "bold" }}
+                    >
                       {correctCount}/
                     </Box>
                     {/* <Box component="span" sx={{ color: "#72B701", fontWeight: "bold" }}>
               /
             </Box> */}
-                    <Box component="span" sx={{ color: theme.HomeHeader.homeButton, fontWeight: "bold" }}>
+                    <Box
+                      component="span"
+                      sx={{
+                        color: theme.HomeHeader.homeButton,
+                        fontWeight: "bold",
+                      }}
+                    >
                       {filteredQuestions.length}
                     </Box>
                   </Typography>
                 </Grid>
 
-                <Grid item size={{ xs: 6 }} sx={{ my: 1, pr: { xs: 1, sm: 15 }, textAlign: "center" }}>
+                <Grid
+                  item
+                  size={{ xs: 6 }}
+                  sx={{ my: 1, pr: { xs: 1, sm: 15 }, textAlign: "center" }}
+                >
                   <Typography
-                    sx={{ color: theme.HomeHeader.homeButton, fontWeight: 700, fontSize: 18 }}
+                    sx={{
+                      color: theme.HomeHeader.homeButton,
+                      fontWeight: 700,
+                      fontSize: 18,
+                    }}
                   >
                     Percentage
                   </Typography>
-                  <Box sx={{ my: 1, backgroundColor: "#C0BEBE", borderBottom: { xs: "1px solid #C0BEBE", sm: "1px solid #C0BEBE" }, }} />
+                  <Box
+                    sx={{
+                      my: 1,
+                      backgroundColor: "#C0BEBE",
+                      borderBottom: {
+                        xs: "1px solid #C0BEBE",
+                        sm: "1px solid #C0BEBE",
+                      },
+                    }}
+                  />
                   <Typography
                     sx={{
                       color: "#72B701",
@@ -299,11 +363,11 @@ const TrainingQuestion = () => {
       </Grid>
       {/* Questions Section */}
 
-      <Box sx={{ p: 3 }} >
+      <Box sx={{ p: 3 }}>
         <Grid container spacing={3} justifyContent="center">
           {paginatedQuestions?.map((question, index) => (
-            <Grid size={{ xs: 12 }} key={question._id || index} >
-              <Box sx={{ border: "1px solid #ccc", borderRadius: 2 }} >
+            <Grid size={{ xs: 12 }} key={question._id || index}>
+              <Box sx={{ border: "1px solid #ccc", borderRadius: 2 }}>
                 <Box
                   sx={{
                     bgcolor: theme.footer.background.default,
@@ -320,14 +384,59 @@ const TrainingQuestion = () => {
                     }
                   }}
                 >
-                  <Typography variant="subtitle1" color="white" >
-                    {index + 1 + (currentPage - 1) * questionsPerPage}. {question.question}
+                  <Typography
+                    sx={{
+                      fontSize: "18px",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <span
+                      style={{
+                        color: isDark ? "#000000" : "#ffffff",
+                        backgroundColor: isDark
+                          ? "#ffffff"
+                          : "rgba(183, 171, 171, 0.379)",
+                        borderRadius: "50%",
+                        padding: "4px",
+                        display: "inline-flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        width: "35px",
+                        height: "35px",
+                        fontWeight: "600",
+                      }}
+                    >
+                      {index + 1 + (currentPage - 1) * questionsPerPage}
+                    </span>
+
+                    <span
+                      style={{
+                        color: "#ffffff",
+                        marginLeft: "10px",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {question.question}
+                    </span>
                   </Typography>
+
+                  {/* <Typography variant="subtitle1" color="white">
+                    {index + 1 + (currentPage - 1) * questionsPerPage}.{" "}
+                    {question.question}
+                  </Typography> */}
                 </Box>
 
                 <Box sx={{ mt: 2, px: 2 }}>
                   {question?.options?.map((option, idx) => (
-                    <Box key={idx} sx={{ display: "flex", alignItems: "center" }}>
+                    <Box
+                      key={idx}
+                      sx={{
+                        display: "flex",
+                        alignItems: "flex-start", // Align radio button at top
+                        mb: 2, // Add space between options
+                      }}
+                    >
                       {/* <Radio
                         checked={selectedAnswers[question._id] === idx}
                         disabled={selectedAnswers.hasOwnProperty(question._id)}
@@ -375,30 +484,35 @@ const TrainingQuestion = () => {
                         control={
                           <Radio
                             checked={selectedAnswers[question._id] === idx}
-                            disabled={selectedAnswers.hasOwnProperty(question._id)}
-                            onChange={() => handleOptionChange(question._id, idx)}
+                            disabled={selectedAnswers.hasOwnProperty(
+                              question._id
+                            )}
+                            onChange={() =>
+                              handleOptionChange(question._id, idx)
+                            }
                             value={idx}
                             name={`question-${question._id}`}
                             sx={{
-                              color:
-                                selectedAnswers.hasOwnProperty(question._id)
+                              mt: 0.5, // ✅ Slightly push down for perfect top alignment
+                              color: selectedAnswers.hasOwnProperty(
+                                question._id
+                              )
+                                ? option.isCorrect
+                                  ? "green"
+                                  : selectedAnswers[question._id] === idx
+                                  ? "red"
+                                  : "default"
+                                : "default",
+                              "&.Mui-checked": {
+                                color: selectedAnswers.hasOwnProperty(
+                                  question._id
+                                )
                                   ? option.isCorrect
                                     ? "green"
                                     : selectedAnswers[question._id] === idx
-                                      ? "red"
-                                      : "default"
+                                    ? "red"
+                                    : "default"
                                   : "default",
-                              pb: 3,
-                              alignItems: "center",
-                              "&.Mui-checked": {
-                                color:
-                                  selectedAnswers.hasOwnProperty(question._id)
-                                    ? option.isCorrect
-                                      ? "green"
-                                      : selectedAnswers[question._id] === idx
-                                        ? "red"
-                                        : "default"
-                                    : "default",
                               },
                             }}
                           />
@@ -407,20 +521,26 @@ const TrainingQuestion = () => {
                           <Typography
                             sx={{
                               fontSize: "18px",
-                              pb: 2,
-                              color:
-                                selectedAnswers.hasOwnProperty(question._id)
-                                  ? option.isCorrect
-                                    ? "green"
-                                    : selectedAnswers[question._id] === idx
-                                      ? "red"
-                                      : "inherit"
-                                  : "inherit",
+                              lineHeight: 1.6,
+                              color: selectedAnswers.hasOwnProperty(
+                                question._id
+                              )
+                                ? option.isCorrect
+                                  ? "green"
+                                  : selectedAnswers[question._id] === idx
+                                  ? "red"
+                                  : "inherit"
+                                : "inherit",
                             }}
                           >
                             {option.text}
                           </Typography>
                         }
+                        sx={{
+                          alignItems: "flex-start", // ✅ Top-align label
+                          width: "100%",
+                          m: 0,
+                        }}
                       />
                     </Box>
                   ))}
@@ -428,25 +548,30 @@ const TrainingQuestion = () => {
 
                 {/* ✅ Always show explanation after answer selected */}
                 {selectedAnswers.hasOwnProperty(question._id) && (
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 2, p: 2 }}>
+                  <Box
+                    sx={{ display: "flex", alignItems: "center", gap: 2, p: 2 }}
+                  >
                     <Typography
                       variant="subtitle2"
                       fontWeight="bold"
-                      sx={{
+                      sx={(theme) => ({
                         borderRadius: 5,
                         backgroundColor: "#EAB308",
-                        color: "#ffffff",
+                        color:
+                          theme.palette.mode === "dark" ? "#000000" : "#FFFFFF",
                         width: "auto",
                         px: 2,
                         py: 1,
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                      }}
+                      })}
                     >
                       Answer
                     </Typography>
-                    <Typography variant="body2">{question.explanation}</Typography>
+                    <Typography variant="body2">
+                      {question.explanation}
+                    </Typography>
                   </Box>
                 )}
 
@@ -463,7 +588,11 @@ const TrainingQuestion = () => {
                     <Typography
                       variant="body2"
                       onClick={() => handleHelpClick(question._id)}
-                      sx={{ color: "#0081D7", cursor: "pointer", textDecoration: "underline" }}
+                      sx={{
+                        color: "#0081D7",
+                        cursor: "pointer",
+                        textDecoration: "underline",
+                      }}
                     >
                       Help?
                     </Typography>
@@ -471,8 +600,14 @@ const TrainingQuestion = () => {
                 )}
 
                 {showExplanationInput[question._id] && (
-                  <Box sx={{ p: 2, display: "flex", alignItems: "center", gap: 2 }}>
-                    <Typography variant="subtitle2" fontWeight="bold" color="#0081D7">
+                  <Box
+                    sx={{ p: 2, display: "flex", alignItems: "center", gap: 2 }}
+                  >
+                    <Typography
+                      variant="subtitle2"
+                      fontWeight="bold"
+                      color="#0081D7"
+                    >
                       File your answer
                     </Typography>
                     <TextField
@@ -480,13 +615,19 @@ const TrainingQuestion = () => {
                       fullWidth
                       size="small"
                       value={explanations[question._id] || ""}
-                      onChange={(e) => handleExplanationChange(question._id, e.target.value)}
+                      onChange={(e) =>
+                        handleExplanationChange(question._id, e.target.value)
+                      }
                     />
                     <CustomButton
                       variant="contained"
                       type="submit"
                       bgColor="#EAB308"
-                      sx={{ width: "fit-content" }}
+                      sx={{
+                        width: "fit-content",
+                        color: (theme) =>
+                          theme.palette.mode === "dark" ? "black" : "white",
+                      }}
                       loading={loading}
                       onClick={() => handleSubmitExplanation(question._id)}
                     >
@@ -543,7 +684,8 @@ const TrainingQuestion = () => {
               <CustomButton
                 variant="contained"
                 bgColor={
-                  Object.keys(selectedAnswers).length === filteredQuestions.length
+                  Object.keys(selectedAnswers).length ===
+                  filteredQuestions.length
                     ? "#EAB308"
                     : "#D3D3D3"
                 }
@@ -551,13 +693,19 @@ const TrainingQuestion = () => {
                   width: "fit-content",
                   cursor: "pointer",
                   color:
-                    Object.keys(selectedAnswers).length === filteredQuestions.length
-                      ? "white"
+                    Object.keys(selectedAnswers).length ===
+                    filteredQuestions.length
+                      ? theme.palette.mode === "dark"
+                        ? "Black"
+                        : "white"
                       : "#666666",
                 }}
                 loading={loading}
                 onClick={() => {
-                  if (Object.keys(selectedAnswers).length === filteredQuestions.length) {
+                  if (
+                    Object.keys(selectedAnswers).length ===
+                    filteredQuestions.length
+                  ) {
                     handleSubmitAllAnswers();
                   } else {
                     const firstUnanswered = filteredQuestions.find(
@@ -566,14 +714,17 @@ const TrainingQuestion = () => {
                     const element = questionRefs.current[firstUnanswered?._id];
                     if (element) {
                       // Determine page number for the unanswered question
-                      const index = filteredQuestions.findIndex(q => q._id === firstUnanswered?._id);
+                      const index = filteredQuestions.findIndex(
+                        (q) => q._id === firstUnanswered?._id
+                      );
                       const pageNum = Math.floor(index / questionsPerPage) + 1;
                       if (pageNum !== currentPage) {
                         setCurrentPage(pageNum);
                         setTimeout(() => {
                           const el = questionRefs.current[firstUnanswered?._id];
                           if (el) {
-                            const topOffset = el.getBoundingClientRect().top + window.scrollY;
+                            const topOffset =
+                              el.getBoundingClientRect().top + window.scrollY;
                             const adjustedOffset = topOffset - 120;
                             window.scrollTo({
                               top: adjustedOffset,
@@ -582,7 +733,8 @@ const TrainingQuestion = () => {
                           }
                         }, 300); // give time for page to re-render
                       } else {
-                        const topOffset = element.getBoundingClientRect().top + window.scrollY;
+                        const topOffset =
+                          element.getBoundingClientRect().top + window.scrollY;
                         const adjustedOffset = topOffset - 120;
                         window.scrollTo({
                           top: adjustedOffset,
@@ -636,7 +788,6 @@ const TrainingQuestion = () => {
             Submit All Answers
           </CustomButton> */}
         </Box>
-
       </Box>
 
       <Modal open={helpModalOpen} onClose={() => setHelpModalOpen(false)}>
@@ -676,6 +827,3 @@ const TrainingQuestion = () => {
 };
 
 export default TrainingQuestion;
-
-
-

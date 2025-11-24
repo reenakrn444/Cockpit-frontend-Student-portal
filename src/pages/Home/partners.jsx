@@ -50,10 +50,15 @@
 
 // export default PartnerSection;
 
-import { HeaderLogo, FourStripesPartnerLogo, AviationPartnerLogo } from "./ImagesRender";
+import {
+  HeaderLogo,
+  FourStripesPartnerLogo,
+  AviationPartnerLogo,
+  IFALogo,
+  Keralaflightacademy,
+} from "./ImagesRender";
 
-
-import { keyframes } from '@emotion/react';
+import { keyframes } from "@emotion/react";
 
 // Scroll only 60% to the left
 const scroll = keyframes`
@@ -62,51 +67,63 @@ const scroll = keyframes`
 `;
 
 const partners = [
-    { name: '4 Stripes', src: FourStripesPartnerLogo },
-    { name: 'Aviators Library', src: AviationPartnerLogo },
+  { name: "4 Stripes", src: FourStripesPartnerLogo },
+  { name: "Aviators Library", src: AviationPartnerLogo },
+  { name: "IFA", src: IFALogo },
+  { name: "kerala flight academy", src: Keralaflightacademy },
 ];
 
 const PartnerSection = () => {
-    const theme = useTheme();
-    return (
-        <Box sx={{ textAlign: 'center', py: 6, backgroundColor: theme.HomeHeader.background2 }}>
-            <Typography
-                variant="h4"
-                fontWeight={700}
-                mb={1}
-                sx={{ fontFamily: 'Exo', color: theme.HomeHeader.partnerText }}
-            >
-                Our Trusted Partners
-            </Typography>
-            <Typography variant="subtitle1" sx={{ color: theme.HomeHeader.smallPartnerText }} mb={4}>
-                we collaborate with top aviation brands to deliver unmatched experiences
-            </Typography>
+  const theme = useTheme();
+  return (
+    <Box
+      sx={{
+        textAlign: "center",
+        py: 6,
+        backgroundColor: theme.HomeHeader.background2,
+      }}
+    >
+      <Typography
+        variant="h4"
+        fontWeight={700}
+        mb={1}
+        sx={{ fontFamily: "Exo", color: theme.HomeHeader.partnerText }}
+      >
+        Our Trusted Partners
+      </Typography>
+      <Typography
+        variant="subtitle1"
+        sx={{ color: theme.HomeHeader.smallPartnerText }}
+        mb={4}
+      >
+        we collaborate with top aviation brands to deliver unmatched experiences
+      </Typography>
 
-            <Box sx={{ overflow: 'hidden', whiteSpace: 'nowrap' }}>
-                <Box
-                    sx={{
-                        display: 'inline-block',
-                        animation: `${scroll} 25s linear infinite`,
-                        '& img': {
-                            mx: 3,
-                            height: 110,
-                            filter: 'grayscale(80%)',
-                            opacity: 0.7,
-                        },
-                    }}
-                >
-                    {partners.map((partner, index) => (
-                        <img
-                            key={`${partner.name}-${index}`}
-                            src={partner.src}
-                            alt={partner.name}
-                            loading="lazy"
-                        />
-                    ))}
-                </Box>
-            </Box>
+      <Box sx={{ overflow: "hidden", whiteSpace: "nowrap" }}>
+        <Box
+          sx={{
+            display: "inline-block",
+            animation: `${scroll} 25s linear infinite`,
+            "& img": {
+              mx: 3,
+              height: 110,
+              filter: "grayscale(80%)",
+              opacity: 0.7,
+            },
+          }}
+        >
+          {partners.map((partner, index) => (
+            <img
+              key={`${partner.name}-${index}`}
+              src={partner.src}
+              alt={partner.name}
+              loading="lazy"
+            />
+          ))}
         </Box>
-    );
+      </Box>
+    </Box>
+  );
 };
 
 export default PartnerSection;

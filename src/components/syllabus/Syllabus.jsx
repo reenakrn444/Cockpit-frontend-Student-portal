@@ -21,7 +21,7 @@ const Syllabus = ({ handleClick, syllabusType }) => {
         };
         const response = await apiPostToken("/countTotalTest", requestBody);
         setCountResult(response?.data?.data?.completedTest || 0);
-      } catch (error) { }
+      } catch (error) {}
     };
 
     const fetchSyllabus = async () => {
@@ -42,15 +42,13 @@ const Syllabus = ({ handleClick, syllabusType }) => {
         if (response?.data?.status === 200) {
           setUserSyllabuses(response?.data?.data?.syllabuses || []);
         }
-      } catch (err) { }
+      } catch (err) {}
     };
 
     fetchFlightLogData();
     fetchSyllabus();
 
-
     if (userData?.isSubscribed && userData?.subscriptionEndDate) {
-
       const now = new Date();
       const end = new Date(userData.subscriptionEndDate);
       const diffInMs = end - now;
@@ -78,11 +76,12 @@ const Syllabus = ({ handleClick, syllabusType }) => {
   };
 
   useEffect(() => {
-    if (!token || !userData || syllabusType !== "Test") return;
+    if (!token || !userData) return;
 
     const { isSubscribed, subscriptionEndDate } = userData;
 
-    const isPlanExpired = isSubscribed && new Date(subscriptionEndDate) < new Date();
+    const isPlanExpired =
+      isSubscribed && new Date(subscriptionEndDate) < new Date();
     const isFreeTestLimitReached = !isSubscribed && countResult >= 3;
 
     if (isFreeTestLimitReached && !isPlanExpired) {
@@ -96,7 +95,12 @@ const Syllabus = ({ handleClick, syllabusType }) => {
         <Box sx={{ py: 5 }} p={5}>
           <Grid container spacing={2}>
             <Grid size={{ xs: 12, md: 8 }}>
-              <Typography variant="h4" fontWeight={700} color={theme.header.primary.main} mb={2}>
+              <Typography
+                variant="h4"
+                fontWeight={700}
+                color={theme.header.primary.main}
+                mb={2}
+              >
                 Discover Our DGCA Question Banks
               </Typography>
               <Typography
@@ -109,9 +113,10 @@ const Syllabus = ({ handleClick, syllabusType }) => {
                 General, Regulation & More - Crafted for CPL & ATPL aspirants.
               </Typography>
             </Grid>
+
             <Grid size={{ xs: 12, md: 3 }} ml="auto">
-              {syllabusType === "Test" && subscriptionDaysLeft !== null && (
-                subscriptionDaysLeft > 0 && subscriptionDaysLeft <= 3 ? (
+              {subscriptionDaysLeft !== null &&
+                (subscriptionDaysLeft > 0 && subscriptionDaysLeft <= 2 ? (
                   <Card
                     sx={{
                       p: 3,
@@ -121,8 +126,13 @@ const Syllabus = ({ handleClick, syllabusType }) => {
                       borderRadius: 2,
                     }}
                   >
-                    <Typography variant="body1" color="text.primary" fontWeight={600}>
-                      Your subscription will expire in {subscriptionDaysLeft} day
+                    <Typography
+                      variant="body1"
+                      color="text.primary"
+                      fontWeight={600}
+                    >
+                      Your subscription will expire in {subscriptionDaysLeft}{" "}
+                      day
                       {subscriptionDaysLeft > 1 ? "s" : ""}. Renew now to avoid
                       interruption.
                     </Typography>
@@ -149,7 +159,8 @@ const Syllabus = ({ handleClick, syllabusType }) => {
                     }}
                   >
                     <Typography variant="body1" color="error" fontWeight={600}>
-                      Your subscription has expired. Please renew to continue taking tests.
+                      Your subscription has expired. Please renew to continue
+                      taking tests.
                     </Typography>
                     <Button
                       variant="contained"
@@ -163,10 +174,9 @@ const Syllabus = ({ handleClick, syllabusType }) => {
                       Renew Plan
                     </Button>
                   </Card>
-                ) : null
-              )}
+                ) : null)}
 
-              {syllabusType === "Test" && showSubscribeCard && (
+              {showSubscribeCard && (
                 <Card
                   sx={{
                     p: 3,
@@ -176,12 +186,21 @@ const Syllabus = ({ handleClick, syllabusType }) => {
                     borderRadius: 2,
                   }}
                 >
-                  <Typography variant="body1" color="text.primary" fontWeight={600}>
-                    You’ve completed your 3 free tests. Subscribe to unlock full access.
+                  <Typography
+                    variant="body1"
+                    color="text.primary"
+                    fontWeight={600}
+                  >
+                    You’ve completed your 2 free tests. Subscribe to unlock full
+                    access.
                   </Typography>
                   <Button
                     variant="contained"
-                    sx={{ mt: 2, backgroundColor: "#EAB308", textTransform: "none" }}
+                    sx={{
+                      mt: 2,
+                      backgroundColor: "#EAB308",
+                      textTransform: "none",
+                    }}
                     onClick={() => navigate("/pricing")}
                   >
                     View Subscription Plans
@@ -213,8 +232,7 @@ const Syllabus = ({ handleClick, syllabusType }) => {
                 handleClick(course.title, course?._id);
               };
 
-              const isDisabled =
-                syllabusType === "Test" && shouldDisableTestButton(index);
+              const isDisabled = shouldDisableTestButton(index);
 
               return (
                 <Grid
@@ -230,7 +248,7 @@ const Syllabus = ({ handleClick, syllabusType }) => {
                       flexDirection: "column",
                       height: "100%",
                       width: "100%",
-                      backgroundColor:theme.card.bgcolor
+                      backgroundColor: theme.card.bgcolor,
                     }}
                   >
                     <CardMedia
@@ -264,14 +282,17 @@ const Syllabus = ({ handleClick, syllabusType }) => {
                                 <LinearProgress
                                   variant="determinate"
                                   value={completionPercentage}
-                                  sx={{
+                                  sx={(theme) => ({
                                     height: 8,
                                     borderRadius: 5,
-                                    backgroundColor: "#e0e0e0",
+                                    backgroundColor:
+                                      theme.palette.mode === "dark"
+                                        ? "#181515"
+                                        : "#e0e0e0",
                                     "& .MuiLinearProgress-bar": {
                                       backgroundColor: "#1e3a8a",
                                     },
-                                  }}
+                                  })}
                                 />
                               </Box>
                               <Typography
@@ -292,9 +313,12 @@ const Syllabus = ({ handleClick, syllabusType }) => {
                         variant="contained"
                         onClick={handleBtnClick}
                         disabled={isDisabled}
-                        sx={{
+                        sx={(theme) => ({
                           backgroundColor: "#EAB308",
-                          color: "#FFFFFF",
+                          color:
+                            theme.palette.mode === "dark"
+                              ? "#000000"
+                              : "#FFFFFF",
                           fontWeight: 600,
                           px: 4,
                           m: 2,
@@ -303,13 +327,17 @@ const Syllabus = ({ handleClick, syllabusType }) => {
                           "&:hover": {
                             backgroundColor: "#d9a600",
                           },
-                        }}
+                        })}
                       >
-                        {syllabusType === "Training" && !token && index >= 2 ? "Login to continue" : syllabusType === "Training" &&
-                          matchedUserSyllabus &&
-                          completionPercentage > 0
-                          ? "Resume" :
-                          syllabusType === "Test" && !token ? "Login to Start" : "Start"}
+                        {syllabusType === "Training" && !token && index >= 2
+                          ? "Login to continue"
+                          : syllabusType === "Training" &&
+                            matchedUserSyllabus &&
+                            completionPercentage > 0
+                          ? "Resume"
+                          : syllabusType === "Test" && !token
+                          ? "Login to Start"
+                          : "Start"}
                       </Button>
                     </Box>
                   </Card>

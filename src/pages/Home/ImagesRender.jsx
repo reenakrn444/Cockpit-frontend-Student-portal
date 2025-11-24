@@ -5,8 +5,15 @@ import AppleLoginLogo from "../../assests/images/apple.svg";
 import GoogleLoginLogo from "../../assests/images/google.svg";
 import AviationPartnerLogo from "../../assests/images/AviatorsLibraryPartners.jpg";
 import FourStripesPartnerLogo from "../../assests/images/4StripesPartner.png";
-
+import IFALogo from "../../assests/images/flyifa_logo.png";
+import Keralaflightacademy from "../../assests/images/keralaflightacademy.png";
 export {
-    HeaderLogo, FooterLogo, AppleLoginLogo, GoogleLoginLogo,
-    AviationPartnerLogo, FourStripesPartnerLogo
-}
+  HeaderLogo,
+  FooterLogo,
+  AppleLoginLogo,
+  GoogleLoginLogo,
+  AviationPartnerLogo,
+  FourStripesPartnerLogo,
+  IFALogo,
+  Keralaflightacademy
+};
