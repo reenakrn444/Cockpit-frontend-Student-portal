@@ -42,7 +42,7 @@ const Subscription = () => {
             days: plan?.duration,
             planId: plan?._id,
             subtitle: "per Year",
-            benefits: ["Tests", "Trainings", "Full Access"],
+            benefits: ["Real DGCA Question Bank – Fly with authentic data", "Unlimited DGCA like Tests – Practice till you’re cleared for take-off", "Latest Syllabus Access – Always flight ready with updates", "Detailed Result Analysis – Track your flight performance", "Updated Answers – Learn faster, climb higher"],
             trialText: "Get 7-day free trial (autopay)",
             cancelNote: "Cancellation: Cancel within 15 days or ₹1999 will deduct from the account",
           }
