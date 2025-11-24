@@ -433,7 +433,7 @@ const TrainingQuestion = () => {
                       key={idx}
                       sx={{
                         display: "flex",
-                        alignItems: "flex-start", // Align radio button at top
+                        alignItems: "center", // Align radio button at top
                         mb: 2, // Add space between options
                       }}
                     >
@@ -500,8 +500,8 @@ const TrainingQuestion = () => {
                                 ? option.isCorrect
                                   ? "green"
                                   : selectedAnswers[question._id] === idx
-                                  ? "red"
-                                  : "default"
+                                    ? "red"
+                                    : "default"
                                 : "default",
                               "&.Mui-checked": {
                                 color: selectedAnswers.hasOwnProperty(
@@ -510,10 +510,11 @@ const TrainingQuestion = () => {
                                   ? option.isCorrect
                                     ? "green"
                                     : selectedAnswers[question._id] === idx
-                                    ? "red"
-                                    : "default"
+                                      ? "red"
+                                      : "default"
                                   : "default",
                               },
+
                             }}
                           />
                         }
@@ -522,14 +523,17 @@ const TrainingQuestion = () => {
                             sx={{
                               fontSize: "18px",
                               lineHeight: 1.6,
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
                               color: selectedAnswers.hasOwnProperty(
                                 question._id
                               )
                                 ? option.isCorrect
                                   ? "green"
                                   : selectedAnswers[question._id] === idx
-                                  ? "red"
-                                  : "inherit"
+                                    ? "red"
+                                    : "inherit"
                                 : "inherit",
                             }}
                           >
@@ -537,7 +541,7 @@ const TrainingQuestion = () => {
                           </Typography>
                         }
                         sx={{
-                          alignItems: "flex-start", // ✅ Top-align label
+                          alignItems: "center", // ✅ Top-align label
                           width: "100%",
                           m: 0,
                         }}
@@ -685,7 +689,7 @@ const TrainingQuestion = () => {
                 variant="contained"
                 bgColor={
                   Object.keys(selectedAnswers).length ===
-                  filteredQuestions.length
+                    filteredQuestions.length
                     ? "#EAB308"
                     : "#D3D3D3"
                 }
@@ -694,7 +698,7 @@ const TrainingQuestion = () => {
                   cursor: "pointer",
                   color:
                     Object.keys(selectedAnswers).length ===
-                    filteredQuestions.length
+                      filteredQuestions.length
                       ? theme.palette.mode === "dark"
                         ? "Black"
                         : "white"
