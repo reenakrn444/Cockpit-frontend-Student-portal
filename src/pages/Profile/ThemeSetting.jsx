@@ -17,7 +17,7 @@ const ThemeSettings = () => {
     >
       <Grid container spacing={4} justifyContent="center">
         {/* Left Password Card */}
-        <Grid item xs={12} md={3}>
+        <Grid size={{xs:12, md:3}}>
           <Box
             sx={{
               backgroundColor: "#183251",
@@ -94,7 +94,7 @@ const ThemeSettings = () => {
         </Grid>
 
         {/* Light/Dark Mode Cards */}
-        <Grid item xs={12} container spacing={4} justifyContent="center" mt={4}>
+        <Grid container spacing={4} justifyContent="center" mt={4}>
           {[
             {
               title: "Light Mode",
@@ -107,7 +107,7 @@ const ThemeSettings = () => {
               mode: "dark",
             },
           ].map((themeOption, index) => (
-            <Grid item xs={12} sm={6} md={6} key={themeOption.title}>
+            <Grid size={{xs:12, sm:6, md:6}} key={themeOption.title}>
               <Card
                 sx={{
                   borderRadius: 3,
@@ -154,7 +154,7 @@ const ThemeSettings = () => {
           ))}
         </Grid>
 
-        <Typography
+        {/* <Typography
           variant="h3"
           sx={{
             fontWeight: 600,
@@ -166,7 +166,7 @@ const ThemeSettings = () => {
           }}
         >
           Coming Soon.....
-        </Typography>
+        </Typography> */}
       </Grid>
     </Box>
   );
