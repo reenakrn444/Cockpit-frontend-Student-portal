@@ -125,11 +125,27 @@ function TestPage2() {
         setLoading(true);
         const req = { syllabusId, bookId };
         const response = await apiPostToken("/testQuestionsByBookId", req);
-        setQuestions(response.data.data || []);
-        console.log("Fetched questions:", response.data.data);
+        // setQuestions(response.data.data || []);
+        const questionData = response?.data?.data;
 
-        setQuizId(response?.data?.data[0]?.quizId || ""); // Set quizId from response
+        console.log("Fetched questions:", questionData);
 
+        // setQuizId(response?.data?.data[0]?.quizId || ""); // Set quizId from response
+
+        if (Array.isArray(questionData)) {
+          setQuestions(questionData);
+
+          if (questionData.length > 0) {
+            setQuizId(questionData[0]?.quizId || "");
+          } else {
+            console.warn("Question array is empty");
+            setQuizId("");
+          }
+        } else {
+          console.warn("API did not return an array:", questionData);
+          setQuestions([]);
+          setQuizId("");
+        }
         setLoading(false);
         // ✅ Start timer after data is fetched
         // const newTimer = setInterval(() => {
@@ -147,6 +163,9 @@ function TestPage2() {
         // return () => clearInterval(newTimer);
       } catch (error) {
         console.error("Error fetching questions:", error);
+        setQuestions([]);
+        setQuizId("");
+        setLoading(false);
       }
     };
     fetchTestQuestions();

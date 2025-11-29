@@ -210,7 +210,7 @@ const Syllabus = ({ handleClick, syllabusType }) => {
             </Grid>
           </Grid>
           <Grid container spacing={2}>
-            {syllabus.map((course, index) => {
+            {syllabus?.map((course, index) => {
               const matchedUserSyllabus = userSyllabuses.find(
                 (item) => item._id === course._id
               );

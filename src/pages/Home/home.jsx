@@ -170,7 +170,8 @@ function HomeSection() {
                     px: 4,
                     py: 1.5,
                     textTransform: "none",
-                    backgroundColor: theme.HomeHeader.homeButton,
+                    backgroundColor:
+                      theme.palette.mode === "dark" ? "#EAB308" : "#183251",
                     color: theme.palette.primary.secondary,
                   }}
                   onClick={handleClick}
