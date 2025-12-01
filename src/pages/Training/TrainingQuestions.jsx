@@ -500,8 +500,8 @@ const TrainingQuestion = () => {
                                 ? option.isCorrect
                                   ? "green"
                                   : selectedAnswers[question._id] === idx
-                                    ? "red"
-                                    : "default"
+                                  ? "red"
+                                  : "default"
                                 : "default",
                               "&.Mui-checked": {
                                 color: selectedAnswers.hasOwnProperty(
@@ -510,11 +510,10 @@ const TrainingQuestion = () => {
                                   ? option.isCorrect
                                     ? "green"
                                     : selectedAnswers[question._id] === idx
-                                      ? "red"
-                                      : "default"
+                                    ? "red"
+                                    : "default"
                                   : "default",
                               },
-
                             }}
                           />
                         }
@@ -532,8 +531,8 @@ const TrainingQuestion = () => {
                                 ? option.isCorrect
                                   ? "green"
                                   : selectedAnswers[question._id] === idx
-                                    ? "red"
-                                    : "inherit"
+                                  ? "red"
+                                  : "inherit"
                                 : "inherit",
                             }}
                           >
@@ -689,7 +688,7 @@ const TrainingQuestion = () => {
                 variant="contained"
                 bgColor={
                   Object.keys(selectedAnswers).length ===
-                    filteredQuestions.length
+                  filteredQuestions.length
                     ? "#EAB308"
                     : "#D3D3D3"
                 }
@@ -698,7 +697,7 @@ const TrainingQuestion = () => {
                   cursor: "pointer",
                   color:
                     Object.keys(selectedAnswers).length ===
-                      filteredQuestions.length
+                    filteredQuestions.length
                       ? theme.palette.mode === "dark"
                         ? "Black"
                         : "white"
