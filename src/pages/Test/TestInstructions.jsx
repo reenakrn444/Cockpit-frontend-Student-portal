@@ -46,7 +46,7 @@ const TestInstructions = ({
   const theme = useTheme();
   const styles = {
     heading: {
-      color: theme.HomeHeader.homeButton,
+      color: theme.HomeHeader.headingText,
       fontFamily: "Jost",
       fontWeight: 700,
       fontSize: { xs: "16px", sm: "18px" },
@@ -63,7 +63,7 @@ const TestInstructions = ({
       fontSize: { xs: "16px", sm: "18px" },
     },
     subHeading: {
-      color: theme.HomeHeader.homeButton,
+      color: theme.HomeHeader.headingText,
       fontFamily: "Jost",
       fontWeight: 700,
       mt: 2,

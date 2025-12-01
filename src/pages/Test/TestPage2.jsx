@@ -774,8 +774,8 @@ function TestPage2() {
           <Button
             onClick={() => setOpenSubmitDialog(false)}
             sx={{
-              border: "1px solid #183251",
-              color: "#183251",
+              backgroundColor: "#183251",
+              color: "white",
               textTransform: "none",
             }}
           >

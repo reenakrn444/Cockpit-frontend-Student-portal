@@ -366,6 +366,8 @@ const Login = () => {
               sx: {
                 borderRadius: "50px",
                 backgroundColor: "white",
+                color: "black",
+
                 "& input": {
                   fontWeight: showPassword ? 400 : 700, // ✅ Apply to input text only
                 },

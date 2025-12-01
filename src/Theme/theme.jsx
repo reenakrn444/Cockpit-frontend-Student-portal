@@ -167,7 +167,7 @@ export const darkTheme = createTheme({
   },
   HomeHeader: {
     headingText: "#ffffff",
-    homeButton: "#ffffff",
+    homeButton: "#EAB308",
     backgroundColor: "#212121",
     background2: "#000000",
     partnerText: "#EAB308",
