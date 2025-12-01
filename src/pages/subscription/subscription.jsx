@@ -1,8 +1,7 @@
 import { apiPost, apiPostToken, apiGetToken } from "../../api/axios";
-import { load } from '@cashfreepayments/cashfree-js';
+import { load } from "@cashfreepayments/cashfree-js";
 import { CashFreeMode } from "../../config";
 import { snackbarEmitter } from "../../components/snackbar/CustomSnackBar";
-
 
 const Subscription = () => {
   const [subscriptionPlans, setSubscriptionPlans] = useState();
@@ -19,9 +18,9 @@ const Subscription = () => {
 
   let initializeSdk = async () => {
     cashfree = await load({
-      mode: CashFreeMode
-    })
-  }
+      mode: CashFreeMode,
+    });
+  };
 
   initializeSdk();
 
@@ -42,22 +41,32 @@ const Subscription = () => {
             days: plan?.duration,
             planId: plan?._id,
             subtitle: "per Year",
-            benefits: ["Real DGCA Question Bank – Fly with authentic data", "Unlimited DGCA like Tests – Practice till you’re cleared for take-off", "Latest Syllabus Access – Always flight ready with updates", "Detailed Result Analysis – Track your flight performance", "Updated Answers – Learn faster, climb higher"],
+            benefits: [
+              "Real DGCA Question Bank – Fly with authentic data",
+              "Unlimited DGCA like Tests – Practice till you’re cleared for take-off",
+              "Latest Syllabus Access – Always flight ready with updates",
+              "Detailed Result Analysis – Track your flight performance",
+              "Updated Answers – Learn faster, climb higher",
+            ],
             trialText: "Get 7-day free trial (autopay)",
-            cancelNote: "Cancellation: Cancel within 15 days or ₹1999 will deduct from the account",
-          }
-        })
+            cancelNote:
+              "Cancellation: Cancel within 15 days or ₹1999 will deduct from the account",
+          };
+        });
         console.log("plans", plans);
-        setSubscriptionPlans(plans)
+        setSubscriptionPlans(plans);
       } else {
-        snackbarEmitter("Failed to fetch subscription plans. Please try again.", "error");
+        snackbarEmitter(
+          "Failed to fetch subscription plans. Please try again.",
+          "error"
+        );
       }
-    } catch (error) { }
-  }
+    } catch (error) {}
+  };
 
   useEffect(() => {
     getPricingPlans();
-  }, [])
+  }, []);
 
   const handleSubscription = (plan) => {
     if (!token) {
@@ -80,26 +89,30 @@ const Subscription = () => {
 
     try {
       const requestBody = {
-        "duration": selectedPlan?.days,
-        "price": selectedPlan?.price,
-        "subscriptionPlan": selectedPlan?.title,
-        "pricingId": selectedPlan?.planId,
-
-      }
-      const subscriptionRes = await apiPostToken(`/subscription/createSubscription`, requestBody);
+        duration: selectedPlan?.days,
+        price: selectedPlan?.price,
+        subscriptionPlan: selectedPlan?.title,
+        pricingId: selectedPlan?.planId,
+      };
+      const subscriptionRes = await apiPostToken(
+        `/subscription/createSubscription`,
+        requestBody
+      );
       if (subscriptionRes?.data?.status === 200) {
         console.log("createSubscription response", subscriptionRes.data);
 
-        const subscriptionData =
-        {
-          "subcriptionId": subscriptionRes.data.data._id,
-          "amount": Number(selectedPlan.price),
-          "duration": parseInt(selectedPlan.days),
-          "phone": phoneInput
-        }
+        const subscriptionData = {
+          subcriptionId: subscriptionRes.data.data._id,
+          amount: Number(selectedPlan.price),
+          duration: parseInt(selectedPlan.days),
+          phone: phoneInput,
+        };
         console.log(subscriptionRes.data, "createSubscription response");
 
-        const response = await apiPostToken(`/subscription/createSubscriptionPayment`, subscriptionData);
+        const response = await apiPostToken(
+          `/subscription/createSubscriptionPayment`,
+          subscriptionData
+        );
         if (response?.data?.status === 200) {
           let order = response.data.data;
           console.log("createSubscriptionPayment response", order);
@@ -110,40 +123,54 @@ const Subscription = () => {
           };
           console.log(options, "options");
 
-          cashfree.checkout(options).then(async (data) => {
-            console.log(data, "checkout response");
-            const paymentMessage = data?.paymentDetails?.paymentMessage;
-            if (data?.payment_status === "SUCCESS") {
-              handleVerifySubscription(order);
-            }
-            else if (paymentMessage === "Payment finished. Check status.") {
-              handleVerifySubscription(order);
-            }
-            else {
-              snackbarEmitter("Payment was cancelled or failed.", "error");
-            }
-          }).catch((error) => {
-            snackbarEmitter("An error occurred during payment. Please try again.", "error");
-          });
+          cashfree
+            .checkout(options)
+            .then(async (data) => {
+              console.log(data, "checkout response");
+              const paymentMessage = data?.paymentDetails?.paymentMessage;
+              if (data?.payment_status === "SUCCESS") {
+                handleVerifySubscription(order);
+              } else if (paymentMessage === "Payment finished. Check status.") {
+                handleVerifySubscription(order);
+              } else {
+                snackbarEmitter("Payment was cancelled or failed.", "error");
+              }
+            })
+            .catch((error) => {
+              snackbarEmitter(
+                "An error occurred during payment. Please try again.",
+                "error"
+              );
+            });
         }
-      }
-      else {
-        snackbarEmitter("Failed to create subscription. Please try again.", "error");
+      } else {
+        snackbarEmitter(
+          "Failed to create subscription. Please try again.",
+          "error"
+        );
       }
     } catch (error) {
-      snackbarEmitter("creating subscription failed. Please try again.", "error");
+      snackbarEmitter(
+        "creating subscription failed. Please try again.",
+        "error"
+      );
     }
   };
 
   const handleVerifySubscription = async (order) => {
-    const response = await apiPostToken(`/subscription/verifySubscriptionPaymentStatus`, { orderId: order?.orderId });
+    const response = await apiPostToken(
+      `/subscription/verifySubscriptionPaymentStatus`,
+      { orderId: order?.orderId }
+    );
     console.log(response.data, "verifySubscriptionPaymentStatus response");
 
     if (response.data.status === 200) {
       snackbarEmitter("Payment Successful!", "success");
       const subscriptionStartDate = new Date();
       const subscriptionEndDate = new Date(subscriptionStartDate);
-      subscriptionEndDate.setDate(subscriptionEndDate.getDate() + Number(response.data.data.duration));
+      subscriptionEndDate.setDate(
+        subscriptionEndDate.getDate() + Number(response.data.data.duration)
+      );
 
       const updatedUser = {
         ...user,
@@ -156,13 +183,21 @@ const Subscription = () => {
 
       localStorage.setItem("user", JSON.stringify(updatedUser));
       window.dispatchEvent(new Event("userUpdated"));
-      navigate("/test")
+      navigate("/test");
     }
   };
 
   return (
-    <Box sx={{ backgroundColor: theme.palette.background.default, minHeight: "auto", display: "flex", alignItems: "center", justifyContent: "center", }}>
-      <Container maxWidth="md" sx={{ my: 5, }}>
+    <Box
+      sx={{
+        backgroundColor: theme.palette.background.default,
+        minHeight: "auto",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Container maxWidth="md" sx={{ my: 5 }}>
         <Typography variant="h4" align="center" fontWeight={700} gutterBottom>
           Find Your Perfect Plan
         </Typography>
@@ -172,13 +207,13 @@ const Subscription = () => {
           color="text.secondary"
           mb={4}
         >
-          Find the perfect plan to support your learning journey. Our pricing options are thoughtfully designed to fit the needs of students.
+          Find the perfect plan to support your learning journey. Our pricing
+          options are thoughtfully designed to fit the needs of students.
         </Typography>
         <Grid container spacing={4}>
           {subscriptionPlans?.map((plan, idx) => (
             <Grid size={{ xs: 12, sm: 4 }} key={idx}>
-              {console.log(plan, "plan")
-              }
+              {console.log(plan, "plan")}
               <Card
                 elevation={0}
                 sx={{
@@ -189,10 +224,10 @@ const Subscription = () => {
                   height: "100%",
                   display: "flex",
                   flexDirection: "column",
-                  p: 2
+                  p: 2,
                 }}
               >
-                <CardContent sx={{ flexGrow: 1, }}>
+                <CardContent sx={{ flexGrow: 1 }}>
                   <Box
                     component="img"
                     src="/images/SubscriptionHeaderIcon.svg"
@@ -205,8 +240,7 @@ const Subscription = () => {
                       justifyContent: "left",
                       mb: 2,
                     }}
-                  >
-                  </Box>
+                  ></Box>
                   <Typography variant="h6" align="left" fontWeight={600}>
                     {plan.title}
                   </Typography>
@@ -248,7 +282,7 @@ const Subscription = () => {
                     ))}
                   </List>
                 </CardContent>
-                <CardActions sx={{ justifyContent: "center", }}>
+                <CardActions sx={{ justifyContent: "center" }}>
                   <Button
                     variant="outlined"
                     onClick={() => handleSubscription(plan)}
@@ -286,8 +320,19 @@ const Subscription = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button sx={{ color: "#000000" }} onClick={() => setPhoneModalOpen(false)}>Cancel</Button>
-          <Button variant="contained" sx={{ backgroundColor: "#EAB308" }} onClick={handlePhoneSubmit}>Proceed to Pay</Button>
+          <Button
+            sx={{ color: "#000000" }}
+            onClick={() => setPhoneModalOpen(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            sx={{ backgroundColor: "#EAB308" }}
+            onClick={handlePhoneSubmit}
+          >
+            Proceed to Pay
+          </Button>
         </DialogActions>
       </Dialog>
     </Box>

@@ -65,6 +65,7 @@ const UserProfile = () => {
           : "",
       };
       setUserData(formattedData);
+      setEditData(formattedData);
 
       setProfileImage(userInfo?.image || "/default-profile.png");
 
@@ -177,6 +178,7 @@ const UserProfile = () => {
         if (data?.status === 200) {
           snackbarEmitter("User data updated successfully!", "success");
           setUserData(editData);
+          setEditData(editData);
 
           const updateUser = {
             ...user,

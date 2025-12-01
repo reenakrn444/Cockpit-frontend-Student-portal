@@ -108,6 +108,7 @@ const PartnerSection = () => {
               mx: 3,
               height: 110,
               // filter: "grayscale(80%)",
+
               opacity: 0.7,
             },
           }}
