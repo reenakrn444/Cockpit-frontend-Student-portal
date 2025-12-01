@@ -25,8 +25,8 @@ const ReportCard = ({ data }) => {
         gap: 2,
         alignItems: "flex-start",
         p: 2,
-        backgroundColor: highlight ? theme.report.report : theme.report.filedReport,
-        border: !highlight ? `2px solid ${theme.report.filedReportBorder}` : 'transparent',
+        backgroundColor: theme.report.filedReport,
+        border: `2px solid ${theme.report.filedReportBorder}`,
         borderRadius: 2,
         boxShadow: 0,
       }}
@@ -50,7 +50,7 @@ const ReportCard = ({ data }) => {
             mt={2}
             p={2}
             sx={{
-              backgroundColor: !highlight ? theme.report.filedReportBorder : theme.report.filedReport,
+              backgroundColor: !highlight ? theme.report.filedReportBorder : theme.report.filedReportBorder,
               borderRadius: 2,
             }}
           >
