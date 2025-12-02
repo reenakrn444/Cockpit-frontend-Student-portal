@@ -21,7 +21,7 @@ const Syllabus = ({ handleClick, syllabusType }) => {
         };
         const response = await apiPostToken("/countTotalTest", requestBody);
         setCountResult(response?.data?.data?.completedTest || 0);
-      } catch (error) {}
+      } catch (error) { }
     };
 
     const fetchSyllabus = async () => {
@@ -42,7 +42,7 @@ const Syllabus = ({ handleClick, syllabusType }) => {
         if (response?.data?.status === 200) {
           setUserSyllabuses(response?.data?.data?.syllabuses || []);
         }
-      } catch (err) {}
+      } catch (err) { }
     };
 
     fetchFlightLogData();
@@ -62,6 +62,19 @@ const Syllabus = ({ handleClick, syllabusType }) => {
     return index >= 2;
   };
 
+  const shouldDisableTrainingButton = (course) => {
+    // If not Training → never block
+    if (syllabusType !== "Training") return false;
+
+    // If subscription available → never block
+    if (userData?.isSubscribed) return false;
+
+    // If training item isBlocked → block button
+    return course?.isBlocked === true;
+  };
+
+
+
   const shouldDisableTestButton = (index) => {
     if (!token) return false;
 
@@ -71,8 +84,9 @@ const Syllabus = ({ handleClick, syllabusType }) => {
 
     if (isSubscribed && end < now) return true;
     if (isSubscribed && end >= now) return false;
-    if (!isSubscribed && countResult >= 3) return true;
+    if (!isSubscribed && countResult >= 2) return true;
     return false;
+
   };
 
   useEffect(() => {
@@ -82,11 +96,22 @@ const Syllabus = ({ handleClick, syllabusType }) => {
 
     const isPlanExpired =
       isSubscribed && new Date(subscriptionEndDate) < new Date();
-    const isFreeTestLimitReached = !isSubscribed && countResult >= 3;
+    const isFreeTestLimitReached = !isSubscribed && countResult >= 2;
 
-    if (isFreeTestLimitReached && !isPlanExpired) {
+    // SHOW CARD FOR TEST
+    if (syllabusType === "Test" && isFreeTestLimitReached && !isPlanExpired) {
       setShowSubscribeCard(true);
     }
+
+    // SHOW CARD FOR TRAINING WHEN ANY ITEM IS BLOCKED
+    if (
+      syllabusType === "Training" &&
+      !userData?.isSubscribed &&
+      syllabus?.some((item) => item?.isBlocked === true)
+    ) {
+      setShowSubscribeCard(true);
+    }
+
   }, [countResult, syllabusType, token, userData]);
 
   return (
@@ -115,7 +140,39 @@ const Syllabus = ({ handleClick, syllabusType }) => {
             </Grid>
 
             <Grid size={{ xs: 12, md: 3 }} ml="auto">
-              {subscriptionDaysLeft !== null &&
+              {syllabusType === "Training" &&
+                !userData?.isSubscribed &&
+                syllabus?.some((item) => item?.isBlocked === true) &&
+                <Card
+                  sx={{
+                    p: 3,
+                    mb: 3,
+                    backgroundColor: "#FFF3CD",
+                    border: "1px solid #FFEEBA",
+                    borderRadius: 2,
+                  }}
+                >
+                  <Typography
+                    variant="body1"
+                    color="text.primary"
+                    fontWeight={600}
+                  >
+                    Please upgrade to continue and unlock the full Cockpit learning experience with complete syllabus, unlimited tests, explanation & More.
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      mt: 2,
+                      backgroundColor: "#EAB308",
+                      textTransform: "none",
+                    }}
+                    onClick={() => navigate("/pricing")}
+                  >
+                    View Subscription Plans
+                  </Button>
+                </Card>
+              }
+              {syllabusType === "Test" && subscriptionDaysLeft !== null &&
                 (subscriptionDaysLeft > 0 && subscriptionDaysLeft <= 2 ? (
                   <Card
                     sx={{
@@ -176,7 +233,7 @@ const Syllabus = ({ handleClick, syllabusType }) => {
                   </Card>
                 ) : null)}
 
-              {showSubscribeCard && (
+              {syllabusType === "Test" && showSubscribeCard && (
                 <Card
                   sx={{
                     p: 3,
@@ -232,7 +289,12 @@ const Syllabus = ({ handleClick, syllabusType }) => {
                 handleClick(course.title, course?._id);
               };
 
-              const isDisabled = shouldDisableTestButton(index);
+              // const isDisabled = shouldDisableTestButton(index);
+              const isDisabled =
+                syllabusType === "Training"
+                  ? shouldDisableTrainingButton(course)
+                  : shouldDisableTestButton(index);
+
 
               return (
                 <Grid
@@ -334,10 +396,10 @@ const Syllabus = ({ handleClick, syllabusType }) => {
                           : syllabusType === "Training" &&
                             matchedUserSyllabus &&
                             completionPercentage > 0
-                          ? "Resume"
-                          : syllabusType === "Test" && !token
-                          ? "Login to Start"
-                          : "Start"}
+                            ? "Resume"
+                            : syllabusType === "Test" && !token
+                              ? "Login to Start"
+                              : "Start"}
                       </Button>
                     </Box>
                   </Card>
