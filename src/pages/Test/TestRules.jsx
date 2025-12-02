@@ -163,7 +163,7 @@ const TestRules = () => {
               ref={(el) => (tabRefs.current[book._id] = el)}
               key={index}
               sx={{
-                minWidth: "25%",
+                minWidth: { xs: "60%", sm: "40%", md: "25%" },
                 flex: 1,
                 borderRight: `1px solid ${theme.syllabus.booksBackground}`,
               }}
