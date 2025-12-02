@@ -86,6 +86,7 @@ const Syllabus = ({ handleClick, syllabusType }) => {
     if (isSubscribed && end >= now) return false;
     if (!isSubscribed && countResult >= 2) return true;
     return false;
+
   };
 
   useEffect(() => {
@@ -105,12 +106,11 @@ const Syllabus = ({ handleClick, syllabusType }) => {
     // SHOW CARD FOR TRAINING WHEN ANY ITEM IS BLOCKED
     if (
       syllabusType === "Training" &&
-      !isSubscribed &&
+      !userData?.isSubscribed &&
       syllabus?.some((item) => item?.isBlocked === true)
     ) {
       setShowSubscribeCard(true);
     }
-
 
   }, [countResult, syllabusType, token, userData]);
 
@@ -141,6 +141,8 @@ const Syllabus = ({ handleClick, syllabusType }) => {
 
             <Grid size={{ xs: 12, md: 3 }} ml="auto">
               {syllabusType === "Training" &&
+                !userData?.isSubscribed &&
+                syllabus?.some((item) => item?.isBlocked === true) &&
                 <Card
                   sx={{
                     p: 3,
