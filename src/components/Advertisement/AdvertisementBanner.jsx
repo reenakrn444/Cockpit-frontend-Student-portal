@@ -47,13 +47,14 @@ export default function AdvertisementBanner() {
             sx={{
                 position: "absolute",
                 top: 100,
-                right: 10,
+                left: 50,
                 maxWidth: 300,
                 height: 200,
                 margin: "10px auto",
                 borderRadius: 2,
                 overflow: "hidden",
                 boxShadow: 3,
+                zIndex: 999,
             }}
         >
             {/* Ad Image (Full background) */}
