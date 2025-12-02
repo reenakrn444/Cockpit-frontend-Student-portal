@@ -44,9 +44,9 @@ function TestPage2() {
         const isSkippedFlag = skip[question._id];
 
         const isSkipped =
-          !selected && isSkippedFlag ? true : false;
+          !selected && isSkippedFlag && isMarked ? true : false;
 
-        const isAnswered = !!selected && !isMarked ? true : false;
+        const isAnswered = !!selected ? true : false;
 
         const choosedOption = isAnswered ? selected : null;
 
