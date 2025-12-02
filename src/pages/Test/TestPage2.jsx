@@ -44,7 +44,7 @@ function TestPage2() {
         const isSkippedFlag = skip[question._id];
 
         const isSkipped =
-          !selected && isSkippedFlag && !isMarked ? true : false;
+          !selected && isSkippedFlag ? true : false;
 
         const isAnswered = !!selected && !isMarked ? true : false;
 
@@ -148,19 +148,19 @@ function TestPage2() {
         }
         setLoading(false);
         // ✅ Start timer after data is fetched
-        // const newTimer = setInterval(() => {
-        //   setTimeLeft((prev) => {
-        //     if (prev <= 1) {
-        //       clearInterval(newTimer);
-        //       // setTimeout(() => confirmSubmit(), 0); // auto-submit on timeout
-        //       return 0;
-        //     }
-        //     return prev - 1;
-        //   });
-        // }, 1000);
+        const newTimer = setInterval(() => {
+          setTimeLeft((prev) => {
+            if (prev <= 1) {
+              clearInterval(newTimer);
+              setTimeout(() => confirmSubmit(), 0); // auto-submit on timeout
+              return 0;
+            }
+            return prev - 1;
+          });
+        }, 1000);
 
-        // // Cleanup timer on unmount
-        // return () => clearInterval(newTimer);
+        // Cleanup timer on unmount
+        return () => clearInterval(newTimer);
       } catch (error) {
         console.error("Error fetching questions:", error);
         setQuestions([]);
@@ -622,7 +622,7 @@ function TestPage2() {
                       borderRadius: 1,
                       color:
                         selectedOptions[questions[currentQuestionIndex]._id] ===
-                        option.id
+                          option.id
                           ? "#A3E635"
                           : "inherit",
                       "& .MuiTypography-root": {
