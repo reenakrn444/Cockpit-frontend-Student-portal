@@ -8,7 +8,7 @@ export default function AdvertisementBanner() {
     const timerRef = useRef(null);
 
     // Pages where ad should NOT appear
-    const restrictedRoutes = ["/test", "/testpage"];
+    const restrictedRoutes = ["/", "/training", "/test", "/pricing"];
 
     // Fetch ads
     useEffect(() => {
@@ -36,78 +36,94 @@ export default function AdvertisementBanner() {
     }, [ads, currentIndex]);
 
     // Hide if route is restricted or no ads
-    if (restrictedRoutes.includes(location.pathname) || ads.length === 0 || !show) {
+    if (!restrictedRoutes.includes(location.pathname) || ads.length === 0 || !show) {
         return null;
     }
 
     const currentAd = ads[currentIndex];
-
     return (
-        <Card
-            sx={{
-                position: "absolute",
-                top: 100,
-                left: 50,
-                maxWidth: 300,
-                height: 200,
-                margin: "10px auto",
-                borderRadius: 2,
-                overflow: "hidden",
-                boxShadow: 3,
-                zIndex: 999,
-            }}
-        >
-            {/* Ad Image (Full background) */}
-            <CardMedia
-                component="img"
-                image={currentAd.image}
-                alt="Advertisement"
+        <>
+            <Box
                 sx={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    cursor: "pointer"
-                }}
-                onClick={() => window.open(currentAd.link, "_blank")}
-            />
-
-            {/* Close button (top right) */}
-            <IconButton
-                size="small"
-                sx={{
-                    position: "absolute",
-                    top: 6,
-                    right: 6,
-                    backgroundColor: "rgba(255,255,255,0.7)",
-                    "&:hover": { backgroundColor: "rgba(255,255,255,0.9)" }
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    width: "100vw",
+                    height: "100vh",
+                    backgroundColor: "rgba(0,0,0,0.5)",
+                    zIndex: 9998,
                 }}
                 onClick={() => setShow(false)}
             >
-                <CloseIcon fontSize="small" />
-            </IconButton>
+                <Card
+                    sx={{
+                        position: "fixed",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        width: "80vw",
+                        maxWidth: 600,
+                        height: "75vh",
+                        maxHeight: 520,
+                        borderRadius: 3,
+                        overflow: "hidden",
+                        boxShadow: 5,
+                        backgroundColor: "#fff",
+                        zIndex: 9999,
+                    }}
+                >
 
-            {/* Visit button (bottom center) */}
-            <Button
-                variant="contained"
-                size="small"
-                sx={{
-                    position: "absolute",
-                    bottom: 8,
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    textTransform: "none",
-                    color: "#FFFFFF",
-                    backgroundColor: "#EAB308",
-                    "&:hover": { backgroundColor: "#d9a600" },
-                    borderRadius: "20px",
-                    px: 3,
-                    zIndex: 2
-                }}
-                onClick={() => window.open(currentAd.link, "_blank")}
-            >
-                Visit
-            </Button>
-        </Card>
+                    <CardMedia
+                        component="img"
+                        image={currentAd.image}
+                        alt="Advertisement"
+                        sx={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                            cursor: "pointer"
+                        }}
+                        onClick={() => window.open(currentAd.link, "_blank")}
+                    />
 
+                    {/* Close button (top right) */}
+                    <IconButton
+                        size="small"
+                        sx={{
+                            position: "absolute",
+                            top: 6,
+                            right: 6,
+                            backgroundColor: "rgba(255,255,255,0.7)",
+                            "&:hover": { backgroundColor: "rgba(255,255,255,0.9)" }
+                        }}
+                        onClick={() => setShow(false)}
+                    >
+                        <CloseIcon fontSize="small" />
+                    </IconButton>
+
+                    {/* Visit button (bottom center) */}
+                    <Button
+                        variant="contained"
+                        size="small"
+                        sx={{
+                            position: "absolute",
+                            bottom: 8,
+                            left: "50%",
+                            transform: "translateX(-50%)",
+                            textTransform: "none",
+                            color: "#FFFFFF",
+                            backgroundColor: "#EAB308",
+                            "&:hover": { backgroundColor: "#d9a600" },
+                            borderRadius: "20px",
+                            px: 3,
+                            zIndex: 2
+                        }}
+                        onClick={() => window.open(currentAd.link, "_blank")}
+                    >
+                        Visit
+                    </Button>
+                </Card>
+            </Box>
+        </>
     );
 }
