@@ -37,11 +37,16 @@ const instructions = [
 
 import { Link } from "@mui/material";
 
-const TestInstructions = ({ syllabusId, bookId, activeBook, syllabusTitle }) => {
+const TestInstructions = ({
+  syllabusId,
+  bookId,
+  activeBook,
+  syllabusTitle,
+}) => {
   const theme = useTheme();
   const styles = {
     heading: {
-      color: theme.HomeHeader.homeButton,
+      color: theme.HomeHeader.headingText,
       fontFamily: "Jost",
       fontWeight: 700,
       fontSize: { xs: "16px", sm: "18px" },
@@ -58,7 +63,7 @@ const TestInstructions = ({ syllabusId, bookId, activeBook, syllabusTitle }) => 
       fontSize: { xs: "16px", sm: "18px" },
     },
     subHeading: {
-      color: theme.HomeHeader.homeButton,
+      color: theme.HomeHeader.headingText,
       fontFamily: "Jost",
       fontWeight: 700,
       mt: 2,
@@ -71,14 +76,14 @@ const TestInstructions = ({ syllabusId, bookId, activeBook, syllabusTitle }) => 
       mt: 4,
     }),
     getStartedButton: {
-      backgroundColor: theme.footer.background.default,
+      backgroundColor: theme.palette.mode === "dark" ? "#EAB308" : "#183251",
       fontFamily: "Be Vietnam Pro",
       fontWeight: 400,
       fontSize: { xs: "16px", sm: "18px" },
       textTransform: "none",
-      color: "#EAB308",
+      color: theme.palette.mode === "dark" ? "#000000" : "#EAB308",
       borderRadius: "8px",
-      width: "auto"
+      width: "auto",
     },
   };
   const navigate = useNavigate();
@@ -91,9 +96,13 @@ const TestInstructions = ({ syllabusId, bookId, activeBook, syllabusTitle }) => 
           General Information
         </Typography>
 
-        <Typography sx={styles.itemText}>Total Questions: 50 Questions</Typography>
+        <Typography sx={styles.itemText}>
+          Total Questions: 50 Questions
+        </Typography>
         <Typography sx={styles.itemText}>Total Time: 90 Minutes</Typography>
-        <Typography sx={styles.itemText}>Question Type: Multiple Choice Questions (MCQs)</Typography>
+        <Typography sx={styles.itemText}>
+          Question Type: Multiple Choice Questions (MCQs)
+        </Typography>
         <Typography sx={styles.itemText}>
           Marking Scheme: Explain if applicable: No Negative Marking
         </Typography>
@@ -122,19 +131,20 @@ const TestInstructions = ({ syllabusId, bookId, activeBook, syllabusTitle }) => 
           ))}
         </Grid>
 
-
         {/* Rules and Regulations */}
         <Typography variant="h6" sx={styles.subHeading}>
           Rules and Regulations
         </Typography>
         <Typography sx={styles.itemText}>
-          No External Help: The use of study materials, electronic devices, or assistance from others is strictly prohibited.
+          No External Help: The use of study materials, electronic devices, or
+          assistance from others is strictly prohibited.
         </Typography>
         <Typography sx={styles.itemText}>
           Single Attempt: Once submitted, the test cannot be resumed or retaken.
         </Typography>
         <Typography sx={{ ...styles.itemText, mt: 1 }}>
-          Any attempt to breach the guidelines may lead to termination of your test session and may impact your eligibility for further assessments.
+          Any attempt to breach the guidelines may lead to termination of your
+          test session and may impact your eligibility for further assessments.
         </Typography>
 
         {/* Evaluation */}
@@ -142,24 +152,45 @@ const TestInstructions = ({ syllabusId, bookId, activeBook, syllabusTitle }) => 
           Evaluation
         </Typography>
         <Typography sx={styles.itemText}>
-          Your results will be displayed upon submission or available in your dashboard.
+          Your results will be displayed upon submission or available in your
+          dashboard.
         </Typography>
 
         {/* Final Note */}
         <Typography sx={styles.finalNote(isSmall)}>
-          By swiping and starting the test, you confirm that you have read, understood, and agreed to the  <Link href="/test-terms-and-conditions" underline="hover" sx={{ color: '#1A7FC1' }}>Terms and Conditions </Link> and the rules outlined above.
+          By swiping and starting the test, you confirm that you have read,
+          understood, and agreed to the{" "}
+          <Link
+            href="/test-terms-and-conditions"
+            underline="hover"
+            sx={{
+              color: theme.palette.mode === "dark" ? "#ffffff" : "#183251",
+            }}
+          >
+            Terms and Conditions{" "}
+          </Link>{" "}
+          and the rules outlined above.
         </Typography>
       </Box>
-      <Box display="flex" justifyContent="center" alignItems="center" sx={{ mt: 2 }}>
-        <Button variant="contained" sx={styles.getStartedButton} onClick={() => {
-          navigate("/testpage", { state: { syllabusId, bookId, activeBook, syllabusTitle } })
-        }
-        }>
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        sx={{ mt: 2 }}
+      >
+        <Button
+          variant="contained"
+          sx={styles.getStartedButton}
+          onClick={() => {
+            navigate("/testpage", {
+              state: { syllabusId, bookId, activeBook, syllabusTitle },
+            });
+          }}
+        >
           Get Started
         </Button>
       </Box>
     </>
-
   );
 };
 

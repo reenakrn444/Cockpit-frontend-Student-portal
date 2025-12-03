@@ -3,9 +3,7 @@ import { HeaderLogo } from "../../pages/Home/ImagesRender";
 
 import { DayCalculation } from "../../Helper/DayCalculation/Daycalculation";
 
-
 function Header() {
-
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("authToken");
@@ -19,7 +17,7 @@ function Header() {
     username: "",
     email: "",
     userId: user?._id,
-    profileImage: ""
+    profileImage: "",
   });
 
   const [subscriptionInfo, setSubscriptionInfo] = useState({
@@ -32,7 +30,6 @@ function Header() {
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open);
   };
-
 
   useEffect(() => {
     const updateUserFromStorage = () => {
@@ -52,7 +49,8 @@ function Header() {
 
     // Update on custom event
     window.addEventListener("userUpdated", updateUserFromStorage);
-    return () => window.removeEventListener("userUpdated", updateUserFromStorage);
+    return () =>
+      window.removeEventListener("userUpdated", updateUserFromStorage);
   }, []);
 
   const navItems = [
@@ -64,7 +62,6 @@ function Header() {
 
   const drawerContent = (
     <Box sx={{ width: 200, mt: 5 }} role="presentation">
-
       <Box sx={{ display: "flex", justifyContent: "flex-end", p: 1 }}>
         <IconButton onClick={toggleDrawer(false)}>
           <CloseIcon />
@@ -74,26 +71,37 @@ function Header() {
       <List>
         {navItems.map((item) => (
           <ListItem key={item.text} disablePadding>
-            <ListItemButton component={Link} to={item.path} onClick={() => setDrawerOpen(false)}>
+            <ListItemButton
+              component={Link}
+              to={item.path}
+              onClick={() => setDrawerOpen(false)}
+            >
               <ListItemText primary={item.text} />
             </ListItemButton>
           </ListItem>
         ))}
         <ListItem disablePadding>
           {user ? (
-            <ListItemButton onClick={() => {
-              navigate("/userprofile")
-              setDrawerOpen(false);
-            }}>
+            <ListItemButton
+              onClick={() => {
+                navigate("/userprofile");
+                setDrawerOpen(false);
+              }}
+            >
               {/* <Avatar
                 src={userData?.profileImage}
                 sx={{ width: 56, height: 56, cursor: "pointer" }}
               /> */}
-              <ListItemText  primary={userData?.username} primaryTypographyProps={{ fontWeight: 'bold' }} />
+              <ListItemText
+                primary={userData?.username}
+                primaryTypographyProps={{ fontWeight: "bold" }}
+              />
             </ListItemButton>
           ) : (
             <ListItemButton component={Link} to="/login">
-              <Button variant="outlined" component={Link}
+              <Button
+                variant="outlined"
+                component={Link}
                 to="/login"
                 // color="warning"
                 sx={{
@@ -105,7 +113,8 @@ function Header() {
                   textTransform: "none",
                   display: "flex",
                   alignItems: "center",
-                }}>
+                }}
+              >
                 Get Boarding Pass
               </Button>
             </ListItemButton>
@@ -135,21 +144,20 @@ function Header() {
         sx={{ maxWidth: "xl", mx: "auto", px: 2 }}
       >
         {/* Logo */}
-        <Grid >
-          <Box component={Link}
-            to="/" sx={{ display: "flex", alignItems: "center" }}>
-            <img
-              src={HeaderLogo}
-              alt="Plane"
-              style={{ height: "60px" }}
-            />
+        <Grid>
+          <Box
+            component={Link}
+            to="/"
+            sx={{ display: "flex", alignItems: "center" }}
+          >
+            <img src={HeaderLogo} alt="Plane" style={{ height: "60px" }} />
           </Box>
         </Grid>
 
         {/* Desktop Nav */}
         {!isMobile && (
           <>
-            <Grid >
+            <Grid>
               <Box sx={{ display: "flex", gap: 4 }}>
                 {navItems.map((item) => {
                   const isActive = location.pathname === item.path;
@@ -163,14 +171,18 @@ function Header() {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        width: isActive ? 'fit-content' : "auto",
+                        width: isActive ? "fit-content" : "auto",
                         padding: "8px",
                         // height: isActive ? "35px" : "auto",
                         gap: "10px",
                         borderRadius: isActive ? "8px" : "0px",
                         // backgroundColor: isActive ? "#183251" : "transparent",
-                        backgroundColor: isActive ? theme.header.primary.main : "transparent",
-                        color: isActive ? theme.header.primary.active : theme.header.primary.main,
+                        backgroundColor: isActive
+                          ? theme.header.primary.main
+                          : "transparent",
+                        color: isActive
+                          ? theme.header.primary.active
+                          : theme.header.primary.main,
                         fontFamily: "Be Vietnam Pro",
                         fontWeight: 400,
                         fontSize: "18px",
@@ -184,7 +196,7 @@ function Header() {
               </Box>
             </Grid>
 
-            <Grid >
+            <Grid>
               {user ? (
                 <Box
                   sx={{
@@ -194,17 +206,21 @@ function Header() {
                     cursor: "pointer",
                   }}
                   onClick={() => {
-                    navigate("/userprofile")
+                    navigate("/userprofile");
                   }}
                 >
                   {/* <Avatar
                     src={userData?.profileImage}
                     sx={{ width: 56, height: 56, cursor: "pointer" }}
                   /> */}
-                  <Typography sx={{fontWeight: '700'}}>{userData.username}</Typography>
+                  <Typography sx={{ fontWeight: "700" }}>
+                    {userData.username}
+                  </Typography>
                 </Box>
               ) : (
-                <Button variant="outlined" component={Link}
+                <Button
+                  variant="outlined"
+                  component={Link}
                   to="/login"
                   sx={{
                     border: "2px solid #EAB308", // custom yellow
@@ -215,7 +231,8 @@ function Header() {
                     textTransform: "none",
                     display: "flex",
                     alignItems: "center",
-                  }}>
+                  }}
+                >
                   Get Boarding Pass
                 </Button>
               )}
