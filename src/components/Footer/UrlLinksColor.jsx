@@ -11,7 +11,7 @@ const ResourcesLink = [
   { label: "Privacy Policy", path: "/privacy-policy" },
   { label: "Cookies", path: "/cookies" },
   { label: "Payment Policy", path: "/payment-policy" },
-  { label: "Press", path: "/press" },
+  { label: "Press", path: "http://aviationupdates.in/lander" },
 ];
 
 export { platformLinks, ResourcesLink };
