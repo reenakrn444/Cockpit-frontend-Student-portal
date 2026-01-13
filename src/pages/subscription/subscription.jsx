@@ -14,7 +14,7 @@ const Subscription = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   let cashfree;
-  console.log(CashFreeMode, "CashFreeMode");
+  // console.log(CashFreeMode, "CashFreeMode");
 
   let initializeSdk = async () => {
     cashfree = await load({
@@ -27,12 +27,12 @@ const Subscription = () => {
   const getPricingPlans = async () => {
     try {
       const response = await apiGetToken(`/admin/getPricing`);
-      console.log("response", response);
+      // console.log("response", response);
 
       if (response?.data?.status === 200) {
-        console.log("response.data.data", response.data.data);
+        // console.log("response.data.data", response.data.data);
         const data = response.data.data;
-        console.log(data, "dataPlans");
+        // console.log(data, "dataPlans");
 
         let plans = data.map((plan) => {
           return {
@@ -53,7 +53,7 @@ const Subscription = () => {
               "Cancellation: Cancel within 15 days or ₹1999 will deduct from the account",
           };
         });
-        console.log("plans", plans);
+        // console.log("plans", plans);
         setSubscriptionPlans(plans);
       } else {
         snackbarEmitter(
@@ -99,7 +99,7 @@ const Subscription = () => {
         requestBody
       );
       if (subscriptionRes?.data?.status === 200) {
-        console.log("createSubscription response", subscriptionRes.data);
+        // console.log("createSubscription response", subscriptionRes.data);
 
         const subscriptionData = {
           subcriptionId: subscriptionRes.data.data._id,
@@ -107,7 +107,7 @@ const Subscription = () => {
           duration: parseInt(selectedPlan.days),
           phone: phoneInput,
         };
-        console.log(subscriptionRes.data, "createSubscription response");
+        // console.log(subscriptionRes.data, "createSubscription response");
 
         const response = await apiPostToken(
           `/subscription/createSubscriptionPayment`,
@@ -115,18 +115,18 @@ const Subscription = () => {
         );
         if (response?.data?.status === 200) {
           let order = response.data.data;
-          console.log("createSubscriptionPayment response", order);
+          // console.log("createSubscriptionPayment response", order);
 
           const options = {
             paymentSessionId: order?.paymentDetails?.payment_session_id,
             redirectTarget: "_modal",
           };
-          console.log(options, "options");
+          // console.log(options, "options");
 
           cashfree
             .checkout(options)
             .then(async (data) => {
-              console.log(data, "checkout response");
+              // console.log(data, "checkout response");
               const paymentMessage = data?.paymentDetails?.paymentMessage;
               if (data?.payment_status === "SUCCESS") {
                 handleVerifySubscription(order);
@@ -162,7 +162,7 @@ const Subscription = () => {
       `/subscription/verifySubscriptionPaymentStatus`,
       { orderId: order?.orderId }
     );
-    console.log(response.data, "verifySubscriptionPaymentStatus response");
+    // console.log(response.data, "verifySubscriptionPaymentStatus response");
 
     if (response.data.status === 200) {
       snackbarEmitter("Payment Successful!", "success");
@@ -179,7 +179,7 @@ const Subscription = () => {
         isSubscribed: true,
       };
 
-      console.log(updatedUser, "updatedUser");
+      // console.log(updatedUser, "updatedUser");
 
       localStorage.setItem("user", JSON.stringify(updatedUser));
       window.dispatchEvent(new Event("userUpdated"));
@@ -213,7 +213,7 @@ const Subscription = () => {
         <Grid container spacing={4}>
           {subscriptionPlans?.map((plan, idx) => (
             <Grid size={{ xs: 12, sm: 4 }} key={idx}>
-              {console.log(plan, "plan")}
+              {/* {console.log(plan, "plan")} */}
               <Card
                 elevation={0}
                 sx={{

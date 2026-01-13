@@ -10,7 +10,7 @@ const TrainingSyllabus = () => {
   const navigate = useNavigate();
 
   const handleClick = (title, id) => {
-    console.log(title, id, "paramssssss");
+    // console.log(title, id, "paramssssss");
     navigate("/chapter", { state: { title, id } });
   };
 

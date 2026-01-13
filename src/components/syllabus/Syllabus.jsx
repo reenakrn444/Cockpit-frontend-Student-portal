@@ -71,7 +71,7 @@ const Syllabus = ({ handleClick, syllabusType }) => {
 
     if (isSubscribed && end < now) return true;
     if (isSubscribed && end >= now) return false;
-    if (!isSubscribed && countResult >= 3) return true;
+    if (!isSubscribed && countResult >= 1) return true;
     return false;
   };
 
@@ -82,7 +82,7 @@ const Syllabus = ({ handleClick, syllabusType }) => {
 
     const isPlanExpired =
       isSubscribed && new Date(subscriptionEndDate) < new Date();
-    const isFreeTestLimitReached = !isSubscribed && countResult >= 3;
+    const isFreeTestLimitReached = !isSubscribed && countResult >= 1;
 
     if (isFreeTestLimitReached && !isPlanExpired) {
       setShowSubscribeCard(true);
@@ -191,7 +191,7 @@ const Syllabus = ({ handleClick, syllabusType }) => {
                     color="text.primary"
                     fontWeight={600}
                   >
-                    You’ve completed your 2 free tests. Subscribe to unlock full
+                    You’ve completed your 1 free tests. Subscribe to unlock full
                     access.
                   </Typography>
                   <Button

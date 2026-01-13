@@ -13,7 +13,7 @@ import { platformLinks, ResourcesLink } from "./UrlLinksColor";
 import { FooterLogo } from "../../pages/Home/ImagesRender";
 
 function FooterSection() {
-  console.log(platformLinks, "UrlColor");
+  // console.log(platformLinks, "UrlColor");
   const location = useLocation();
   const theme = useTheme();
   return (

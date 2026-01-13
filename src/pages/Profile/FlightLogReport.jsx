@@ -1,4 +1,12 @@
-import { LineChart, Line, XAxis, YAxis, Tooltip as RechartsTooltip, CartesianGrid, ResponsiveContainer } from "recharts";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip as RechartsTooltip,
+  CartesianGrid,
+  ResponsiveContainer,
+} from "recharts";
 import { apiGet, apiGetToken, apiPostToken } from "../../api/axios";
 import { toCapitalize } from "../../Helper/convertUpperCase";
 
@@ -18,7 +26,7 @@ const FlightLogReport = () => {
       const syllabi = resSyllabus?.data?.data || [];
 
       const response = await apiGetToken("/testListOfSyllabus");
-      console.log(response.data, "responseTestListOfSyllabus");
+      // console.log(response.data, "responseTestListOfSyllabus");
       const validSyllabusIds = response?.data?.data || [];
 
       // Filter syllabi based on matching _id
@@ -43,7 +51,7 @@ const FlightLogReport = () => {
     try {
       const bookResponse = await apiGet(`/booksBySyllabusId/${syllabus._id}`);
       const fetchedBooks = bookResponse?.data?.data || [];
-      console.log(fetchedBooks, "fetchedBooks");
+      // console.log(fetchedBooks, "fetchedBooks");
 
       setBookList(fetchedBooks);
     } catch (err) {
@@ -55,20 +63,22 @@ const FlightLogReport = () => {
     setSelectedBook(bookId);
     setSelectedAttempt("");
     try {
-      const response = await apiPostToken(`/countTestAttemptsByBook`, { bookId: bookId });
-      console.log(response.data.data.testAttempts, "responseattempts");
+      const response = await apiPostToken(`/countTestAttemptsByBook`, {
+        bookId: bookId,
+      });
+      // console.log(response.data.data.testAttempts, "responseattempts");
 
       const Attempts = response?.data?.data?.testAttempts;
-      console.log(Attempts, "attempts");
+      // console.log(Attempts, "attempts");
 
       setAttempts(Attempts);
-      const chartData = await apiPostToken(`/testChartData`, { bookId: bookId });
-      console.log(chartData, "chartData");
-
-
+      const chartData = await apiPostToken(`/testChartData`, {
+        bookId: bookId,
+      });
+      // console.log(chartData, "chartData");
 
       const rawChartData = chartData?.data?.data || [];
-      console.log(rawChartData, "rawChartData");
+      // console.log(rawChartData, "rawChartData");
 
       const processedData = rawChartData.map((item) => {
         const score =
@@ -91,8 +101,17 @@ const FlightLogReport = () => {
     if (active && payload?.length) {
       const { score, total, correct, incorrect } = payload[0].payload;
       return (
-        <div style={{ background: theme.card.bgcolor, padding: "10px", border: "1px solid #ccc", borderRadius: "8px" }}>
-          <p><strong>{label}</strong></p>
+        <div
+          style={{
+            background: theme.card.bgcolor,
+            padding: "10px",
+            border: "1px solid #ccc",
+            borderRadius: "8px",
+          }}
+        >
+          <p>
+            <strong>{label}</strong>
+          </p>
           <p>Score: {score}</p>
           <p>Total: {total}</p>
           <p>Correct: {correct}</p>
@@ -120,8 +139,11 @@ const FlightLogReport = () => {
                 boxShadow: 3,
                 height: "100%",
                 cursor: "pointer",
-                border: selectedSyllabus?._id === course._id ? "2px solid #EAB308" : "none",
-                backgroundColor: theme.card.bgcolor
+                border:
+                  selectedSyllabus?._id === course._id
+                    ? "2px solid #EAB308"
+                    : "none",
+                backgroundColor: theme.card.bgcolor,
               }}
             >
               <CardMedia
@@ -167,14 +189,14 @@ const FlightLogReport = () => {
         </Grid>
 
         <Grid size={{ xs: 12, sm: 6 }}>
-          {console.log(attempts, "attempts")}
+          {/* {console.log(attempts, "attempts")} */}
           <FormControl fullWidth>
             <TextField
               fullWidth
               label="Number of Attempts"
               placeholder="Number of Attempts"
               value={attempts?.toString() || "0"}
-              InputProps={{ readOnly: true ,}}
+              InputProps={{ readOnly: true }}
               disabled
             />
           </FormControl>
