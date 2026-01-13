@@ -30,22 +30,22 @@ const TrainingQuestion = () => {
   const token = localStorage.getItem("authToken");
   const { syllabusName, bookName, chapterName } = useParams();
 
-  useEffect(() => {
-    const disableRightClick = (e) => {
-      e.preventDefault();
-      snackbarEmitter(
-        "Right-click is disabled in training section.",
-        "warning"
-      );
-    };
+  // useEffect(() => {
+  //   const disableRightClick = (e) => {
+  //     e.preventDefault();
+  //     snackbarEmitter(
+  //       "Right-click is disabled in training section.",
+  //       "warning"
+  //     );
+  //   };
 
-    // 🔥 use window + capture phase
-    window.addEventListener("contextmenu", disableRightClick, true);
+  //   // 🔥 use window + capture phase
+  //   window.addEventListener("contextmenu", disableRightClick, true);
 
-    return () => {
-      window.removeEventListener("contextmenu", disableRightClick, true);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("contextmenu", disableRightClick, true);
+  //   };
+  // }, []);
 
   useEffect(() => {
     const fetchQuestions = async () => {
