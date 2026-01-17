@@ -698,41 +698,98 @@ function TestPage2() {
                     }
                   >
                     {questions[currentQuestionIndex]?.options?.map((option) => (
-                      <FormControlLabel
+                      // <FormControlLabel
+                      //   key={option._id}
+                      //   value={option.id}
+                      //   control={<Radio />}
+                      //   label={option.text}
+                      //   sx={{
+                      //     px: 2,
+                      //     borderRadius: 1,
+                      //     color:
+                      //       selectedOptions[
+                      //         questions[currentQuestionIndex]._id
+                      //       ] === option.id
+                      //         ? "#A3E635"
+                      //         : "inherit",
+                      //     "& .MuiTypography-root": {
+                      //       color:
+                      //         selectedOptions[
+                      //           questions[currentQuestionIndex]._id
+                      //         ] === option.id
+                      //           ? "#A3E635"
+                      //           : "inherit",
+                      //     },
+                      //     "& .MuiRadio-root": {
+                      //       color:
+                      //         selectedOptions[
+                      //           questions[currentQuestionIndex]._id
+                      //         ] === option.id
+                      //           ? "#A3E635"
+                      //           : "default",
+                      //     },
+                      //     "& .Mui-checked": {
+                      //       color: "#A3E635",
+                      //     },
+                      //   }}
+                      // />
+                      <Box
                         key={option._id}
-                        value={option.id}
-                        control={<Radio />}
-                        label={option.text}
+                        onClick={() =>
+                          handleOptionSelect(
+                            questions[currentQuestionIndex]._id,
+                            option.id
+                          )
+                        }
                         sx={{
-                          px: 2,
-                          borderRadius: 1,
-                          color:
+                          display: "grid",
+                          gridTemplateColumns: "22px 1fr",
+                          alignItems: "start",
+                          columnGap: "6px",
+                          cursor: "pointer",
+                          py: "2px",
+                        }}
+                      >
+                        <Radio
+                          checked={
                             selectedOptions[
                               questions[currentQuestionIndex]._id
                             ] === option.id
-                              ? "#A3E635"
-                              : "inherit",
-                          "& .MuiTypography-root": {
-                            color:
-                              selectedOptions[
-                                questions[currentQuestionIndex]._id
-                              ] === option.id
-                                ? "#A3E635"
-                                : "inherit",
-                          },
-                          "& .MuiRadio-root": {
+                          }
+                          value={option.id}
+                          disableRipple
+                          sx={{
+                            padding: 0,
+                            marginTop: "3px", // 🔥 KEY FIX — lifts radio exactly
+                            height: "20px",
+                            width: "20px",
                             color:
                               selectedOptions[
                                 questions[currentQuestionIndex]._id
                               ] === option.id
                                 ? "#A3E635"
                                 : "default",
-                          },
-                          "& .Mui-checked": {
-                            color: "#A3E635",
-                          },
-                        }}
-                      />
+                            "&.Mui-checked": {
+                              color: "#A3E635",
+                            },
+                          }}
+                        />
+
+                        <Typography
+                          sx={{
+                            fontSize: "15px",
+                            lineHeight: 1.45,
+                            color:
+                              selectedOptions[
+                                questions[currentQuestionIndex]._id
+                              ] === option.id
+                                ? "#A3E635"
+                                : "inherit",
+                          }}
+                        >
+                          {option.text}
+                        </Typography>
+                      </Box>
                     ))}
                   </RadioGroup>
                 </FormControl>
