@@ -58,7 +58,7 @@ function TestPage2() {
           skipped++;
         } else {
           const chosenOption = question.options.find(
-            (opt) => opt.id === selected
+            (opt) => opt.id === selected,
           );
           if (chosenOption?.isCorrect) {
             evalResult[question._id] = "correct";
@@ -201,7 +201,7 @@ function TestPage2() {
   const onExit = () => {
     snackbarEmitter(
       "Exiting fullscreen is not allowed. Your test may be terminated.",
-      "error"
+      "error",
     );
 
     const el = document.documentElement;
@@ -274,7 +274,7 @@ function TestPage2() {
 
       snackbarEmitter(
         "Screenshot / tab switch detected. Test will be submitted.",
-        "error"
+        "error",
       );
 
       // ⏱ submit AFTER UI hides
@@ -308,7 +308,7 @@ function TestPage2() {
         e.preventDefault();
         snackbarEmitter(
           "Keyboard shortcuts are disabled during the test.",
-          "warning"
+          "warning",
         );
       }
     };
@@ -328,7 +328,7 @@ function TestPage2() {
     const handleOffline = () => {
       snackbarEmitter(
         "You lost internet connection. Please reconnect quickly to avoid submission issues.",
-        "warning"
+        "warning",
       );
     };
 
@@ -348,20 +348,12 @@ function TestPage2() {
     if (!isCompatibleBrowser()) {
       snackbarEmitter(
         "Please use Google Chrome, Firefox, or Edge for the best experience.",
-        "error"
+        "error",
       );
     }
-
-    // if (!window.navigator.javaEnabled()) {
-    //     alert("JavaScript must be enabled to take the test.");
-    // }
   }, []);
 
-  useEffect(() => {
-    // console.log(
-    //   "Monitoring active: time tracking, tab switches, keyboard use, and fullscreen enforcement."
-    // );
-  }, []);
+  useEffect(() => {}, []);
 
   const handleOptionSelect = (questionId, optionId) => {
     setSelectedOptions((prev) => ({ ...prev, [questionId]: optionId }));
@@ -465,17 +457,6 @@ function TestPage2() {
   const handleSubmit = useCallback(() => {
     setOpenSubmitDialog(true);
   }, []);
-
-  // const getChipColor = (index, questionId) => {
-  //     const isCurrent = index === currentQuestionIndex;
-  //     const isMarked = markedForReview[questionId];
-  //     const isSkipped = skip[questionId];
-  //     const isSelected = selectedOptions[questionId];
-
-  //     if (isCurrent) return 'white'; // text color for current question
-  //     if (isMarked || isSelected) return 'white'; // text color for marked or answered
-  //     return 'black'; // default text color
-  // };
 
   const getChipColor = (index, questionId) => {
     const isCurrent = index === currentQuestionIndex;
@@ -693,7 +674,7 @@ function TestPage2() {
                     onChange={(e) =>
                       handleOptionSelect(
                         questions[currentQuestionIndex]._id,
-                        parseInt(e.target.value)
+                        parseInt(e.target.value),
                       )
                     }
                   >
@@ -738,7 +719,7 @@ function TestPage2() {
                         onClick={() =>
                           handleOptionSelect(
                             questions[currentQuestionIndex]._id,
-                            option.id
+                            option.id,
                           )
                         }
                         sx={{
