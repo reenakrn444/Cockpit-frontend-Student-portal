@@ -24,11 +24,28 @@ const TrainingQuestion = () => {
   const location = useLocation();
   const { syllabusTitle, syllabusId, bookId, chapterId, activeBook } =
     location.state;
-  console.log(activeBook, "activeBook");
+  // console.log(activeBook, "activeBook");
 
   const userId = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("authToken");
   const { syllabusName, bookName, chapterName } = useParams();
+
+  // useEffect(() => {
+  //   const disableRightClick = (e) => {
+  //     e.preventDefault();
+  //     snackbarEmitter(
+  //       "Right-click is disabled in training section.",
+  //       "warning"
+  //     );
+  //   };
+
+  //   // 🔥 use window + capture phase
+  //   window.addEventListener("contextmenu", disableRightClick, true);
+
+  //   return () => {
+  //     window.removeEventListener("contextmenu", disableRightClick, true);
+  //   };
+  // }, []);
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -391,9 +408,8 @@ const TrainingQuestion = () => {
                       alignItems: "center",
                     }}
                   >
-                    <Avatar
-                      sx={{
-                        bgcolor: isDark ? "#ffffff" : "rgba(183, 171, 171, 0.379)",
+                    {/* <span
+                      style={{
                         color: isDark ? "#000000" : "#ffffff",
                         width: { xs: 28, sm: 28 },
                         height: { xs: 28, sm: 28 },
@@ -402,11 +418,32 @@ const TrainingQuestion = () => {
                       }}
                     >
                       {index + 1 + (currentPage - 1) * questionsPerPage}
-                    </Avatar>
-
-                    <Typography
+                    </span> */}
+                    <Box
                       component="span"
                       sx={{
+                        width: { xs: 28, sm: 35 },
+                        height: { xs: 28, sm: 35 },
+                        minWidth: { xs: 28, sm: 35 }, // ✅ important
+                        borderRadius: "50%",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+
+                        fontWeight: 600,
+                        fontSize: { xs: "12px", sm: "14px" },
+                        lineHeight: 1, // ✅ critical fix
+
+                        color: isDark ? "#000" : "#fff",
+                        backgroundColor: isDark
+                          ? "#fff"
+                          : "rgba(183, 171, 171, 0.379)",
+                      }}
+                    >
+                      {index + 1 + (currentPage - 1) * questionsPerPage}
+                    </Box>
+                    <span
+                      style={{
                         color: "#ffffff",
                         ml: 1.5,
                         fontWeight: 600,

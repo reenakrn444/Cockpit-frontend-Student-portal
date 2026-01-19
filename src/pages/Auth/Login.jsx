@@ -29,7 +29,7 @@ const Login = () => {
       })
         .then((res) => res.json())
         .then(async (data) => {
-          console.log("User Info:", data);
+          // console.log("User Info:", data);
           setEmail(data?.email);
           setUsername(data?.name);
           const googleLoginRes = await apiPost("/AuthLoginUser", {
@@ -42,7 +42,7 @@ const Login = () => {
             return;
           }
 
-          console.log(googleLoginRes, "googleLoginRes");
+          // console.log(googleLoginRes, "googleLoginRes");
           const token = googleLoginRes.data.token;
           storeLoginDetails(token, googleLoginRes);
         })
@@ -50,7 +50,7 @@ const Login = () => {
           console.error("Failed to fetch user info", err);
           snackbarEmitter("Failed to fetch user info", "error");
           setLoading(false);
-          console.log(err.status, "error");
+          // console.log(err.status, "error");
         });
     },
     flow: "implicit",
@@ -138,10 +138,11 @@ const Login = () => {
 
     try {
       const response = await apiPost("/loginUser", { email, password });
+      // console.log(response);
       if (response?.data?.status === 200) {
         const token = response.data.token;
+        snackbarEmitter("Logged in successfully!", "success");
         storeLoginDetails(token, response);
-        // snackbarEmitter('Logged in successfully!', 'success');
       } else {
         setLoading(false);
         snackbarEmitter(response?.data?.message, "error");
@@ -170,6 +171,7 @@ const Login = () => {
     };
     localStorage.setItem("user", JSON.stringify(userdata));
     navigate("/");
+    // console.log(data);
   };
   return (
     <Box

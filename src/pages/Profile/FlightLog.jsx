@@ -13,7 +13,7 @@ const FlightLog = () => {
   const userData = JSON.parse(localStorage.getItem("user"));
 
   const handleClick = (title, id) => {
-    console.log(title, id, "paramssssss");
+    // console.log(title, id, "paramssssss");
     navigate("/chapter", { state: { title, id } });
   };
   let data;
@@ -26,7 +26,7 @@ const FlightLog = () => {
         };
         const response = await apiPostToken("/countTotalTest", requestBody);
         // Handle the response data as needed
-        console.log(response.data, "fflightLogDetails");
+        // console.log(response.data, "fflightLogDetails");
         setCountResult(response?.data?.data);
         data = [
           {
@@ -55,10 +55,10 @@ const FlightLog = () => {
         const response = await apiGetToken(
           `/task/studentTaskProgress?userId=${userData._id}`
         );
-        console.log(response, "responsegetStudentprogress");
+        // console.log(response, "responsegetStudentprogress");
         if (response?.data?.status === 200) {
           const taskStatus = response?.data?.data;
-          console.log(taskStatus, "taskstatus");
+          // console.log(taskStatus, "taskstatus");
           setUserSyllabuses(taskStatus?.syllabuses || []);
         }
       } catch (err) {

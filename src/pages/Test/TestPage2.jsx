@@ -31,6 +31,8 @@ function TestPage2() {
   const [openReviewWarning, setOpenReviewWarning] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  const [isContentBlocked, setIsContentBlocked] = useState(false);
+
   const confirmSubmit = async () => {
     try {
       const evalResult = {};
@@ -56,7 +58,7 @@ function TestPage2() {
           skipped++;
         } else {
           const chosenOption = question.options.find(
-            (opt) => opt.id === selected
+            (opt) => opt.id === selected,
           );
           if (chosenOption?.isCorrect) {
             evalResult[question._id] = "correct";
@@ -87,14 +89,14 @@ function TestPage2() {
         questionsList,
       };
 
-      console.log(payload, "payload");
+      // console.log(payload, "payload");
 
       const response = await apiPostToken("/testResults", payload);
 
-      console.log("Submit response:", response);
+      // console.log("Submit response:", response);
       if (response?.data?.status === 200) {
         document.removeEventListener("fullscreenchange", onExit);
-        console.log("Test submitted successfully");
+        // console.log("Test submitted successfully");
         navigate("/test-result", {
           state: {
             evaluation: evalResult,
@@ -117,7 +119,7 @@ function TestPage2() {
     }
   };
 
-  console.log("book id", bookId);
+  // console.log("book id", bookId);
 
   useEffect(() => {
     const fetchTestQuestions = async () => {
@@ -128,7 +130,7 @@ function TestPage2() {
         // setQuestions(response.data.data || []);
         const questionData = response?.data?.data;
 
-        console.log("Fetched questions:", questionData);
+        // console.log("Fetched questions:", questionData);
 
         // setQuizId(response?.data?.data[0]?.quizId || ""); // Set quizId from response
 
@@ -199,7 +201,7 @@ function TestPage2() {
   const onExit = () => {
     snackbarEmitter(
       "Exiting fullscreen is not allowed. Your test may be terminated.",
-      "error"
+      "error",
     );
 
     const el = document.documentElement;
@@ -234,30 +236,64 @@ function TestPage2() {
     };
   }, []);
 
-  useEffect(() => {
-    let violationCount = 0;
+  // useEffect(() => {
+  //   let violationCount = 0;
 
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        violationCount++;
-        snackbarEmitter(
-          `Tab switch detected! This may lead to auto-submission.`,
-          "warning"
-        );
-        // alert(`Tab switch detected! Warning ${violationCount}/3`);
-        if (violationCount >= 1) {
-          confirmSubmit();
-          snackbarEmitter(
-            "Too many violations. Your test will be auto-submitted.",
-            "error"
-          );
-        }
-      }
+  //   const handleVisibilityChange = () => {
+  //     if (document.hidden) {
+  //       violationCount++;
+  //       snackbarEmitter(
+  //         `Tab switch detected! This may lead to auto-submission.`,
+  //         "warning"
+  //       );
+  //       // alert(`Tab switch detected! Warning ${violationCount}/3`);
+  //       if (violationCount >= 1) {
+  //         confirmSubmit();
+  //         snackbarEmitter(
+  //           "Too many violations. Your test will be auto-submitted.",
+  //           "error"
+  //         );
+  //       }
+  //     }
+  //   };
+
+  //   document.addEventListener("visibilitychange", handleVisibilityChange);
+  //   return () => {
+  //     document.removeEventListener("visibilitychange", handleVisibilityChange);
+  //   };
+  // }, [confirmSubmit]);
+  useEffect(() => {
+    let triggered = false;
+
+    const handleViolation = () => {
+      if (triggered) return;
+      triggered = true;
+
+      // 🔒 INSTANTLY HIDE CONTENT
+      setIsContentBlocked(true);
+
+      snackbarEmitter(
+        "Screenshot / tab switch detected. Test will be submitted.",
+        "error",
+      );
+
+      // ⏱ submit AFTER UI hides
+      setTimeout(() => {
+        confirmSubmit();
+      }, 500);
     };
 
-    document.addEventListener("visibilitychange", handleVisibilityChange);
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        handleViolation();
+      }
+    });
+
+    window.addEventListener("pagehide", handleViolation);
+
     return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      document.removeEventListener("visibilitychange", handleViolation);
+      window.removeEventListener("pagehide", handleViolation);
     };
   }, [confirmSubmit]);
 
@@ -272,7 +308,7 @@ function TestPage2() {
         e.preventDefault();
         snackbarEmitter(
           "Keyboard shortcuts are disabled during the test.",
-          "warning"
+          "warning",
         );
       }
     };
@@ -292,7 +328,7 @@ function TestPage2() {
     const handleOffline = () => {
       snackbarEmitter(
         "You lost internet connection. Please reconnect quickly to avoid submission issues.",
-        "warning"
+        "warning",
       );
     };
 
@@ -312,20 +348,12 @@ function TestPage2() {
     if (!isCompatibleBrowser()) {
       snackbarEmitter(
         "Please use Google Chrome, Firefox, or Edge for the best experience.",
-        "error"
+        "error",
       );
     }
-
-    // if (!window.navigator.javaEnabled()) {
-    //     alert("JavaScript must be enabled to take the test.");
-    // }
   }, []);
 
-  useEffect(() => {
-    console.log(
-      "Monitoring active: time tracking, tab switches, keyboard use, and fullscreen enforcement."
-    );
-  }, []);
+  useEffect(() => {}, []);
 
   const handleOptionSelect = (questionId, optionId) => {
     setSelectedOptions((prev) => ({ ...prev, [questionId]: optionId }));
@@ -429,17 +457,6 @@ function TestPage2() {
   const handleSubmit = useCallback(() => {
     setOpenSubmitDialog(true);
   }, []);
-
-  // const getChipColor = (index, questionId) => {
-  //     const isCurrent = index === currentQuestionIndex;
-  //     const isMarked = markedForReview[questionId];
-  //     const isSkipped = skip[questionId];
-  //     const isSelected = selectedOptions[questionId];
-
-  //     if (isCurrent) return 'white'; // text color for current question
-  //     if (isMarked || isSelected) return 'white'; // text color for marked or answered
-  //     return 'black'; // default text color
-  // };
 
   const getChipColor = (index, questionId) => {
     const isCurrent = index === currentQuestionIndex;
@@ -558,106 +575,313 @@ function TestPage2() {
           </Box>
         </Box>
 
-        <Typography variant="h6" sx={{ mb: 2 }}>
-          <span
-            style={{ color: theme.header.primary.text, fontWeight: "bold" }}
-          >
-            Time Left:
-          </span>{" "}
-          <span style={{ color: "#EAB308", fontWeight: "bold" }}>
-            {formatTime(timeLeft)}
-          </span>
-        </Typography>
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{ mb: 2 }}
+        >
+          <Typography variant="h6" sx={{ mb: 2 }}>
+            <span
+              style={{ color: theme.header.primary.text, fontWeight: "bold" }}
+            >
+              Time Left:
+            </span>{" "}
+            <span style={{ color: "#EAB308", fontWeight: "bold" }}>
+              {formatTime(timeLeft)}
+            </span>
+          </Typography>
 
-        {questions.length > 0 && (
-          <Paper
-            sx={{ p: 3, mb: 2, border: "1px solid", borderColor: "grey.400" }}
+          <Button
+            variant="contained"
+            onClick={handleSubmit}
+            sx={{
+              backgroundColor: "#22C55E",
+              color: "white",
+              textTransform: "none",
+              display: { xs: "block", sm: "none" },
+            }}
           >
-            <Typography sx={{ fontSize: "18px" }}>
-              <span
-                style={{
-                  color: theme.palette.primary.skippedBackground,
-                  backgroundColor: theme.palette.primary.testQuestion,
-                  borderRadius: "50%",
-                  padding: "3px",
-                  display: "inline-block",
-                  textAlign: "center",
-                  width: "30px",
-                  height: "30px",
+            Submit
+          </Button>
+        </Box>
+
+        <div
+          id="exam-content"
+          style={{
+            opacity: isContentBlocked ? 0 : 1,
+            pointerEvents: isContentBlocked ? "none" : "auto",
+            transition: "opacity 0.1s ease",
+          }}
+        >
+          {isContentBlocked ? (
+            <Box
+              sx={{
+                height: "300px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                fontSize: "20px",
+                fontWeight: "bold",
+                color: "red",
+                border: "1px solid #ccc",
+                borderRadius: 2,
+              }}
+            >
+              Content hidden due to policy violation
+            </Box>
+          ) : (
+            questions.length > 0 && (
+              <Paper
+                sx={{
+                  p: 3,
+                  mb: 2,
+                  border: "1px solid",
+                  borderColor: "grey.400",
                 }}
               >
-                {currentQuestionIndex + 1}
-              </span>{" "}
-              <span
-                style={{
-                  color: theme.palette.primary.testQuestion,
-                  fontWeight: "600",
-                  marginLeft: "10px",
-                }}
-              >
-                {questions[currentQuestionIndex]?.question}
-              </span>
-            </Typography>
-
-            <FormControl component="fieldset" sx={{ mt: 2 }}>
-              <RadioGroup
-                value={
-                  selectedOptions[questions[currentQuestionIndex]._id] || ""
-                }
-                onChange={(e) =>
-                  handleOptionSelect(
-                    questions[currentQuestionIndex]._id,
-                    parseInt(e.target.value)
-                  )
-                }
-              >
-                {questions[currentQuestionIndex]?.options?.map((option) => (
-                  <FormControlLabel
-                    key={option._id}
-                    value={option.id}
-                    control={<Radio />}
-                    label={option.text}
-                    sx={{
-                      px: 2,
-                      borderRadius: 1,
-                      color:
-                        selectedOptions[questions[currentQuestionIndex]._id] ===
-                          option.id
-                          ? "#A3E635"
-                          : "inherit",
-                      "& .MuiTypography-root": {
-                        color:
-                          selectedOptions[
-                            questions[currentQuestionIndex]._id
-                          ] === option.id
-                            ? "#A3E635"
-                            : "inherit",
-                      },
-                      "& .MuiRadio-root": {
-                        color:
-                          selectedOptions[
-                            questions[currentQuestionIndex]._id
-                          ] === option.id
-                            ? "#A3E635"
-                            : "default",
-                      },
-                      "& .Mui-checked": {
-                        color: "#A3E635",
-                      },
+                <Typography sx={{ fontSize: "18px" }}>
+                  <span
+                    style={{
+                      color: theme.palette.primary.skippedBackground,
+                      backgroundColor: theme.palette.primary.testQuestion,
+                      borderRadius: "50%",
+                      padding: "3px",
+                      display: "inline-block",
+                      textAlign: "center",
+                      width: "30px",
+                      height: "30px",
                     }}
-                  />
-                ))}
-              </RadioGroup>
-            </FormControl>
-          </Paper>
-        )}
+                  >
+                    {currentQuestionIndex + 1}
+                  </span>{" "}
+                  <span
+                    style={{
+                      color: theme.palette.primary.testQuestion,
+                      fontWeight: "600",
+                      marginLeft: "10px",
+                    }}
+                  >
+                    {questions[currentQuestionIndex]?.question}
+                  </span>
+                </Typography>
+
+                <FormControl component="fieldset" sx={{ mt: 2 }}>
+                  <RadioGroup
+                    value={
+                      selectedOptions[questions[currentQuestionIndex]._id] || ""
+                    }
+                    onChange={(e) =>
+                      handleOptionSelect(
+                        questions[currentQuestionIndex]._id,
+                        parseInt(e.target.value),
+                      )
+                    }
+                  >
+                    {questions[currentQuestionIndex]?.options?.map((option) => (
+                      // <FormControlLabel
+                      //   key={option._id}
+                      //   value={option.id}
+                      //   control={<Radio />}
+                      //   label={option.text}
+                      //   sx={{
+                      //     px: 2,
+                      //     borderRadius: 1,
+                      //     color:
+                      //       selectedOptions[
+                      //         questions[currentQuestionIndex]._id
+                      //       ] === option.id
+                      //         ? "#A3E635"
+                      //         : "inherit",
+                      //     "& .MuiTypography-root": {
+                      //       color:
+                      //         selectedOptions[
+                      //           questions[currentQuestionIndex]._id
+                      //         ] === option.id
+                      //           ? "#A3E635"
+                      //           : "inherit",
+                      //     },
+                      //     "& .MuiRadio-root": {
+                      //       color:
+                      //         selectedOptions[
+                      //           questions[currentQuestionIndex]._id
+                      //         ] === option.id
+                      //           ? "#A3E635"
+                      //           : "default",
+                      //     },
+                      //     "& .Mui-checked": {
+                      //       color: "#A3E635",
+                      //     },
+                      //   }}
+                      // />
+                      <Box
+                        key={option._id}
+                        onClick={() =>
+                          handleOptionSelect(
+                            questions[currentQuestionIndex]._id,
+                            option.id,
+                          )
+                        }
+                        sx={{
+                          display: "grid",
+                          gridTemplateColumns: "22px 1fr",
+                          alignItems: "start",
+                          columnGap: "6px",
+                          cursor: "pointer",
+                          py: "2px",
+                        }}
+                      >
+                        <Radio
+                          checked={
+                            selectedOptions[
+                              questions[currentQuestionIndex]._id
+                            ] === option.id
+                          }
+                          value={option.id}
+                          disableRipple
+                          sx={{
+                            padding: 0,
+                            marginTop: "3px", // 🔥 KEY FIX — lifts radio exactly
+                            height: "20px",
+                            width: "20px",
+                            color:
+                              selectedOptions[
+                                questions[currentQuestionIndex]._id
+                              ] === option.id
+                                ? "#A3E635"
+                                : "default",
+                            "&.Mui-checked": {
+                              color: "#A3E635",
+                            },
+                          }}
+                        />
+
+                        <Typography
+                          sx={{
+                            fontSize: "15px",
+                            lineHeight: 1.45,
+                            color:
+                              selectedOptions[
+                                questions[currentQuestionIndex]._id
+                              ] === option.id
+                                ? "#A3E635"
+                                : "inherit",
+                          }}
+                        >
+                          {option.text}
+                        </Typography>
+                      </Box>
+                    ))}
+                  </RadioGroup>
+                </FormControl>
+              </Paper>
+            )
+          )}
+        </div>
+        {/* now */}
+
+        <Box display={{ xs: "block", sm: "none" }} sx={{ mt: 3, mb: 4 }}>
+          <Stack spacing={2}>
+            {/* Row 1 */}
+            <Stack direction="row" spacing={2}>
+              <Button
+                fullWidth
+                onClick={handlePrevious}
+                disabled={currentQuestionIndex === 0}
+                sx={{
+                  backgroundColor:
+                    currentQuestionIndex === 0
+                      ? "grey.400"
+                      : theme.header.primary.main,
+                  color: "white",
+                  textTransform: "none",
+                }}
+              >
+                Previous
+              </Button>
+
+              <Button
+                fullWidth
+                onClick={() => handleSkip(questions[currentQuestionIndex]?._id)}
+                sx={{
+                  backgroundColor: theme.palette.primary.trimesterAcccordian,
+                  color: theme.palette.primary.skippedText,
+                  textTransform: "none",
+                }}
+              >
+                Skip
+              </Button>
+
+              <Button
+                fullWidth
+                onClick={handleNext}
+                disabled={currentQuestionIndex === questions.length - 1}
+                sx={{
+                  backgroundColor:
+                    currentQuestionIndex === questions.length - 1
+                      ? "grey.400"
+                      : theme.header.primary.main,
+                  color: "white",
+                  textTransform: "none",
+                }}
+              >
+                Next
+              </Button>
+            </Stack>
+
+            {/* Row 2 */}
+            <Stack
+              direction="row"
+              justifyContent="center"
+              gap={4}
+              sx={{
+                pl: "15%",
+              }}
+            >
+              <Button
+                onClick={handleReset}
+                sx={{
+                  width: 120,
+                  backgroundColor: "#C5322A",
+                  color: "white",
+                  textTransform: "none",
+                }}
+              >
+                Reset
+              </Button>
+
+              <Button
+                onClick={() =>
+                  handleMarkForReview(questions[currentQuestionIndex]?._id)
+                }
+                sx={{
+                  width: 170,
+                  backgroundColor: "#A855F7",
+                  color: "white",
+                  textTransform: "none",
+                }}
+              >
+                {markedForReview[questions[currentQuestionIndex]?._id]
+                  ? "Unmark Review"
+                  : "Mark as Review"}
+              </Button>
+            </Stack>
+          </Stack>
+        </Box>
 
         <Stack
-          direction={{ xs: "column", sm: "row" }}
+          direction="row"
           spacing={2}
           justifyContent="space-between"
           alignItems="center"
-          sx={{ mt: 3, mb: 4 }}
+          sx={{
+            mt: 3,
+            mb: 4,
+            display: {
+              xs: "none",
+              sm: "flex",
+            },
+          }}
         >
           {/* Disable Previous button for the first question */}
           <Button

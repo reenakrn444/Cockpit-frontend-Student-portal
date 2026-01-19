@@ -29,7 +29,7 @@ const TestResultPage = () => {
   };
 
   const getChipColor = (question) => {
-    console.log(question, "question");
+    // console.log(question, "question");
 
     if (question.currectAnswer) return "#22C55E";
     if (question.wrongAnswer) return "#C5322A";
