@@ -64,7 +64,7 @@ const TrainingQuestion = () => {
   const totalPages = Math.ceil(filteredQuestions.length / questionsPerPage);
   const paginatedQuestions = filteredQuestions.slice(
     (currentPage - 1) * questionsPerPage,
-    currentPage * questionsPerPage
+    currentPage * questionsPerPage,
   );
 
   const handleOptionChange = (questionId, optionIndex) => {
@@ -100,12 +100,12 @@ const TrainingQuestion = () => {
     if (res?.data?.status === 200) {
       snackbarEmitter(
         "Your request has been submitted successfully.",
-        "success"
+        "success",
       );
     } else {
       snackbarEmitter(
         "Failed to submit your request. Please try again.",
-        "error"
+        "error",
       );
     }
 
@@ -171,10 +171,10 @@ const TrainingQuestion = () => {
   };
 
   const correctCount = Object.values(attempted).filter(
-    (val) => val === "correct"
+    (val) => val === "correct",
   ).length;
   const wrongCount = Object.values(attempted).filter(
-    (val) => val === "wrong"
+    (val) => val === "wrong",
   ).length;
   const totalAttempted = correctCount + wrongCount;
   const percentage = totalAttempted
@@ -450,7 +450,7 @@ const TrainingQuestion = () => {
                       }}
                     >
                       {question.question}
-                    </Typography>
+                    </span>
                   </Typography>
                 </Box>
 
@@ -512,7 +512,7 @@ const TrainingQuestion = () => {
                           <Radio
                             checked={selectedAnswers[question._id] === idx}
                             disabled={selectedAnswers.hasOwnProperty(
-                              question._id
+                              question._id,
                             )}
                             onChange={() =>
                               handleOptionChange(question._id, idx)
@@ -522,23 +522,23 @@ const TrainingQuestion = () => {
                             sx={{
                               mt: 0.5, // ✅ Slightly push down for perfect top alignment
                               color: selectedAnswers.hasOwnProperty(
-                                question._id
+                                question._id,
                               )
                                 ? option.isCorrect
                                   ? "green"
                                   : selectedAnswers[question._id] === idx
-                                  ? "red"
-                                  : "default"
+                                    ? "red"
+                                    : "default"
                                 : "default",
                               "&.Mui-checked": {
                                 color: selectedAnswers.hasOwnProperty(
-                                  question._id
+                                  question._id,
                                 )
                                   ? option.isCorrect
                                     ? "green"
                                     : selectedAnswers[question._id] === idx
-                                    ? "red"
-                                    : "default"
+                                      ? "red"
+                                      : "default"
                                   : "default",
                               },
                             }}
@@ -553,13 +553,13 @@ const TrainingQuestion = () => {
                               justifyContent: "center",
                               alignItems: "center",
                               color: selectedAnswers.hasOwnProperty(
-                                question._id
+                                question._id,
                               )
                                 ? option.isCorrect
                                   ? "green"
                                   : selectedAnswers[question._id] === idx
-                                  ? "red"
-                                  : "inherit"
+                                    ? "red"
+                                    : "inherit"
                                 : "inherit",
                             }}
                           >
@@ -739,13 +739,13 @@ const TrainingQuestion = () => {
                     handleSubmitAllAnswers();
                   } else {
                     const firstUnanswered = filteredQuestions.find(
-                      (q) => !selectedAnswers.hasOwnProperty(q._id)
+                      (q) => !selectedAnswers.hasOwnProperty(q._id),
                     );
                     const element = questionRefs.current[firstUnanswered?._id];
                     if (element) {
                       // Determine page number for the unanswered question
                       const index = filteredQuestions.findIndex(
-                        (q) => q._id === firstUnanswered?._id
+                        (q) => q._id === firstUnanswered?._id,
                       );
                       const pageNum = Math.floor(index / questionsPerPage) + 1;
                       if (pageNum !== currentPage) {
