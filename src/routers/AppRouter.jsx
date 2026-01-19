@@ -30,7 +30,7 @@ import BlogSection4 from "../pages/Press/Blog4";
 import TestResultPage from "../pages/Test/TestResult";
 import PartnerWithUsForm from "../pages/PartnerWithUs/PartnerWithUsForm";
 import PaymentPolicy from "../components/Footer/PaymentPolicy";
-// import AdvertisementBanner from '../components/Advertisement/AdvertisementBanner';
+import AdvertisementBanner from '../components/Advertisement/AdvertisementBanner';
 import TokenExpiry from "../utils/TokenExpiry";
 
 const AppContent = () => {
@@ -65,18 +65,18 @@ const AppContent = () => {
     pathname === "/testpage" ||
     pathname.startsWith("/resetpassword");
 
-  // const hideAdvertisement = pathname === "/login" ||
-  //   pathname === "/forgetpassword" ||
-  //   pathname === "/testRules" ||
-  //   pathname === "/testpage" ||
-  //   pathname === "/test-result" ||
-  //   pathname.startsWith("/resetpassword");
+  const hideAdvertisement = pathname === "/login" ||
+    pathname === "/forgetpassword" ||
+    pathname === "/testRules" ||
+    pathname === "/testpage" ||
+    pathname === "/test-result" ||
+    pathname.startsWith("/resetpassword");
 
   return (
     <>
       {!hideHeaderFooter && <Header />}
 
-      {/* {!hideAdvertisement && <AdvertisementBanner />} */}
+      {!hideAdvertisement && <AdvertisementBanner />}
 
       <Box
         sx={{

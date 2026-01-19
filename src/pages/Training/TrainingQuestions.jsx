@@ -411,17 +411,10 @@ const TrainingQuestion = () => {
                     {/* <span
                       style={{
                         color: isDark ? "#000000" : "#ffffff",
-                        backgroundColor: isDark
-                          ? "#ffffff"
-                          : "rgba(183, 171, 171, 0.379)",
-                        borderRadius: "50%",
-                        padding: "4px",
-                        display: "inline-flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        width: "35px",
-                        height: "35px",
-                        fontWeight: "600",
+                        width: { xs: 28, sm: 28 },
+                        height: { xs: 28, sm: 28 },
+                        fontWeight: 600,
+                        fontSize: { xs: "18px", sm: "16px" },
                       }}
                     >
                       {index + 1 + (currentPage - 1) * questionsPerPage}
@@ -452,18 +445,13 @@ const TrainingQuestion = () => {
                     <span
                       style={{
                         color: "#ffffff",
-                        marginLeft: "10px",
+                        ml: 1.5,
                         fontWeight: 600,
                       }}
                     >
                       {question.question}
-                    </span>
+                    </Typography>
                   </Typography>
-
-                  {/* <Typography variant="subtitle1" color="white">
-                    {index + 1 + (currentPage - 1) * questionsPerPage}.{" "}
-                    {question.question}
-                  </Typography> */}
                 </Box>
 
                 <Box sx={{ mt: 2, px: 2 }}>

@@ -2,8 +2,10 @@ import { apiPost, apiPostToken, apiGetToken } from "../../api/axios";
 import { load } from "@cashfreepayments/cashfree-js";
 import { CashFreeMode } from "../../config";
 import { snackbarEmitter } from "../../components/snackbar/CustomSnackBar";
+import { DayCalculation } from "../../Helper/DayCalculation/Daycalculation";
 
 const Subscription = () => {
+
   const [subscriptionPlans, setSubscriptionPlans] = useState();
   const [phoneModalOpen, setPhoneModalOpen] = useState(false);
   const [phoneInput, setPhoneInput] = useState("");
@@ -11,6 +13,15 @@ const Subscription = () => {
 
   const token = localStorage.getItem("authToken");
   const user = JSON.parse(localStorage.getItem("user"));
+  const [subscriptionInfo, setSubscriptionInfo] = useState({
+    subscription: "",
+    daysLeft: 0,
+    subscriptionStartDate: "",
+    subscriptionEndDate: "",
+    pricingId: "",
+  });
+
+
   const navigate = useNavigate();
   const theme = useTheme();
   let cashfree;
@@ -61,12 +72,38 @@ const Subscription = () => {
           "error"
         );
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   useEffect(() => {
     getPricingPlans();
   }, []);
+
+  const fetchUserData = useCallback(async () => {
+    const data = await apiGetToken(`/getUser?userId=${user._id}`);
+    if (data?.data?.status === 200) {
+      const userInfo = data.data.data.user;
+      console.log(userInfo, "userInfo");
+
+      if (userInfo?.is_subscribed) {
+        setSubscriptionInfo({
+          subscription: data.data.data?.subscription[0]?.subscriptionPlan,
+          daysLeft: DayCalculation(
+            userInfo?.subscription_start_date,
+            userInfo?.subscription_end_date
+          ),
+          pricingId: data.data.data?.subscription[0]?.pricingId,
+          subscriptionStartDate: userInfo?.subscription_start_date,
+          subscriptionEndDate: userInfo?.subscription_end_date,
+        });
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchUserData();
+  }, [fetchUserData]);
+
 
   const handleSubscription = (plan) => {
     if (!token) {
@@ -144,12 +181,16 @@ const Subscription = () => {
             });
         }
       } else {
+        console.log(subscriptionRes, "skdjhjsgdfjasdbd");
+
         snackbarEmitter(
           "Failed to create subscription. Please try again.",
           "error"
         );
       }
     } catch (error) {
+      console.log(error, "skdjhjsgdfjasdbd");
+
       snackbarEmitter(
         "creating subscription failed. Please try again.",
         "error"
@@ -187,6 +228,9 @@ const Subscription = () => {
     }
   };
 
+  console.log(subscriptionInfo, "subscriptionInfo");
+
+
   return (
     <Box
       sx={{
@@ -197,6 +241,7 @@ const Subscription = () => {
         justifyContent: "center",
       }}
     >
+      {console.log(subscriptionInfo, "subscriptionInfo90909")}
       <Container maxWidth="md" sx={{ my: 5 }}>
         <Typography variant="h4" align="center" fontWeight={700} gutterBottom>
           Find Your Perfect Plan
@@ -282,6 +327,7 @@ const Subscription = () => {
                     ))}
                   </List>
                 </CardContent>
+                {console.log(plan, "plan987868")}
                 <CardActions sx={{ justifyContent: "center" }}>
                   <Button
                     variant="outlined"
@@ -294,8 +340,9 @@ const Subscription = () => {
                       fontWeight: 600,
                       fontSize: "14px",
                     }}
+                    disabled={subscriptionInfo?.pricingId === plan.planId}
                   >
-                    {!token ? "Login to subscribe the plan" : "Get Started"}
+                    {!token ? "Login to subscribe the plan" : subscriptionInfo?.pricingId === plan.planId ? "Current Plan" : "Get Started"}
                   </Button>
                 </CardActions>
               </Card>
