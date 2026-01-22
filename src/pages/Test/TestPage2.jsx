@@ -9,6 +9,9 @@ function TestPage2() {
   const location = useLocation();
   const theme = useTheme();
   const navigate = useNavigate();
+
+  const chipRefs = useRef([]);
+
   const { activeBook, syllabusTitle, syllabusId, bookId } =
     location.state || {};
   const [questions, setQuestions] = useState([]);
@@ -45,8 +48,7 @@ function TestPage2() {
         const isMarked = markedForReview[question._id];
         const isSkippedFlag = skip[question._id];
 
-        const isSkipped =
-          !selected && isSkippedFlag && isMarked ? true : false;
+        const isSkipped = !selected && isSkippedFlag && isMarked ? true : false;
 
         const isAnswered = !!selected ? true : false;
 
@@ -340,6 +342,18 @@ function TestPage2() {
   }, []);
 
   useEffect(() => {
+    const activeChip = chipRefs.current[currentQuestionIndex];
+
+    if (activeChip) {
+      activeChip.scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+        block: "nearest",
+      });
+    }
+  }, [currentQuestionIndex]);
+
+  useEffect(() => {
     const isCompatibleBrowser = () => {
       const ua = navigator.userAgent;
       return /Chrome|Firefox|Edg/.test(ua);
@@ -556,6 +570,7 @@ function TestPage2() {
             {questions.map((question, index) => (
               <Chip
                 key={question._id}
+                ref={(el) => (chipRefs.current[index] = el)}
                 label={index + 1}
                 onClick={() => goToQuestion(index)}
                 sx={{
