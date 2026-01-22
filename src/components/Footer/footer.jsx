@@ -13,7 +13,7 @@ import { platformLinks, ResourcesLink } from "./UrlLinksColor";
 import { FooterLogo } from "../../pages/Home/ImagesRender";
 
 function FooterSection() {
-  console.log(ResourcesLink, "UrlColor");
+  // console.log(ResourcesLink, "UrlColor");
   const location = useLocation();
   const theme = useTheme();
   return (
@@ -89,7 +89,7 @@ function FooterSection() {
                       {link.label}
                     </a>
                   </Typography>
-                )
+                );
               else {
                 const isActive = location.pathname === link.path;
 
@@ -108,7 +108,6 @@ function FooterSection() {
                   </Typography>
                 );
               }
-
             })}
           </Grid>
 
