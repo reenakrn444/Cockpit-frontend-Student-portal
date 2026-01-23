@@ -64,9 +64,9 @@ const PartnerWithUsForm = () => {
 
   const submitFormData = async () => {
     setLoading(true);
-    console.log("Submitting to API:", formData);
+    // console.log("Submitting to API:", formData);
     const response = await apiPostToken("/registerPartner", formData);
-    console.log(response, "responseData");
+    // console.log(response, "responseData");
     if (response?.data?.status === 200) {
       setLoading(false);
 

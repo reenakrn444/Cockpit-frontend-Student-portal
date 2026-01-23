@@ -5,7 +5,6 @@ import { snackbarEmitter } from "../../components/snackbar/CustomSnackBar";
 import { DayCalculation } from "../../Helper/DayCalculation/Daycalculation";
 
 const Subscription = () => {
-
   const [subscriptionPlans, setSubscriptionPlans] = useState();
   const [phoneModalOpen, setPhoneModalOpen] = useState(false);
   const [phoneInput, setPhoneInput] = useState("");
@@ -21,11 +20,10 @@ const Subscription = () => {
     pricingId: "",
   });
 
-
   const navigate = useNavigate();
   const theme = useTheme();
   let cashfree;
-  console.log(CashFreeMode, "CashFreeMode");
+  // console.log(CashFreeMode, "CashFreeMode");
 
   let initializeSdk = async () => {
     cashfree = await load({
@@ -38,12 +36,12 @@ const Subscription = () => {
   const getPricingPlans = async () => {
     try {
       const response = await apiGetToken(`/admin/getPricing`);
-      console.log("response", response);
+      // console.log("response", response);
 
       if (response?.data?.status === 200) {
-        console.log("response.data.data", response.data.data);
+        // console.log("response.data.data", response.data.data);
         const data = response.data.data;
-        console.log(data, "dataPlans");
+        // console.log(data, "dataPlans");
 
         let plans = data.map((plan) => {
           return {
@@ -64,15 +62,15 @@ const Subscription = () => {
               "Cancellation: Cancel within 15 days or ₹1999 will deduct from the account",
           };
         });
-        console.log("plans", plans);
+        // console.log("plans", plans);
         setSubscriptionPlans(plans);
       } else {
         snackbarEmitter(
           "Failed to fetch subscription plans. Please try again.",
-          "error"
+          "error",
         );
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -83,14 +81,14 @@ const Subscription = () => {
     const data = await apiGetToken(`/getUser?userId=${user._id}`);
     if (data?.data?.status === 200) {
       const userInfo = data.data.data.user;
-      console.log(userInfo, "userInfo");
+      // console.log(userInfo, "userInfo");
 
       if (userInfo?.is_subscribed) {
         setSubscriptionInfo({
           subscription: data.data.data?.subscription[0]?.subscriptionPlan,
           daysLeft: DayCalculation(
             userInfo?.subscription_start_date,
-            userInfo?.subscription_end_date
+            userInfo?.subscription_end_date,
           ),
           pricingId: data.data.data?.subscription[0]?.pricingId,
           subscriptionStartDate: userInfo?.subscription_start_date,
@@ -103,7 +101,6 @@ const Subscription = () => {
   useEffect(() => {
     fetchUserData();
   }, [fetchUserData]);
-
 
   const handleSubscription = (plan) => {
     if (!token) {
@@ -133,10 +130,10 @@ const Subscription = () => {
       };
       const subscriptionRes = await apiPostToken(
         `/subscription/createSubscription`,
-        requestBody
+        requestBody,
       );
       if (subscriptionRes?.data?.status === 200) {
-        console.log("createSubscription response", subscriptionRes.data);
+        // console.log("createSubscription response", subscriptionRes.data);
 
         const subscriptionData = {
           subcriptionId: subscriptionRes.data.data._id,
@@ -144,26 +141,26 @@ const Subscription = () => {
           duration: parseInt(selectedPlan.days),
           phone: phoneInput,
         };
-        console.log(subscriptionRes.data, "createSubscription response");
+        // console.log(subscriptionRes.data, "createSubscription response");
 
         const response = await apiPostToken(
           `/subscription/createSubscriptionPayment`,
-          subscriptionData
+          subscriptionData,
         );
         if (response?.data?.status === 200) {
           let order = response.data.data;
-          console.log("createSubscriptionPayment response", order);
+          // console.log("createSubscriptionPayment response", order);
 
           const options = {
             paymentSessionId: order?.paymentDetails?.payment_session_id,
             redirectTarget: "_modal",
           };
-          console.log(options, "options");
+          // console.log(options, "options");
 
           cashfree
             .checkout(options)
             .then(async (data) => {
-              console.log(data, "checkout response");
+              // console.log(data, "checkout response");
               const paymentMessage = data?.paymentDetails?.paymentMessage;
               if (data?.payment_status === "SUCCESS") {
                 handleVerifySubscription(order);
@@ -176,24 +173,24 @@ const Subscription = () => {
             .catch((error) => {
               snackbarEmitter(
                 "An error occurred during payment. Please try again.",
-                "error"
+                "error",
               );
             });
         }
       } else {
-        console.log(subscriptionRes, "skdjhjsgdfjasdbd");
+        // console.log(subscriptionRes, "skdjhjsgdfjasdbd");
 
         snackbarEmitter(
           "Failed to create subscription. Please try again.",
-          "error"
+          "error",
         );
       }
     } catch (error) {
-      console.log(error, "skdjhjsgdfjasdbd");
+      // console.log(error, "skdjhjsgdfjasdbd");
 
       snackbarEmitter(
         "creating subscription failed. Please try again.",
-        "error"
+        "error",
       );
     }
   };
@@ -201,16 +198,16 @@ const Subscription = () => {
   const handleVerifySubscription = async (order) => {
     const response = await apiPostToken(
       `/subscription/verifySubscriptionPaymentStatus`,
-      { orderId: order?.orderId }
+      { orderId: order?.orderId },
     );
-    console.log(response.data, "verifySubscriptionPaymentStatus response");
+    // console.log(response.data, "verifySubscriptionPaymentStatus response");
 
     if (response.data.status === 200) {
       snackbarEmitter("Payment Successful!", "success");
       const subscriptionStartDate = new Date();
       const subscriptionEndDate = new Date(subscriptionStartDate);
       subscriptionEndDate.setDate(
-        subscriptionEndDate.getDate() + Number(response.data.data.duration)
+        subscriptionEndDate.getDate() + Number(response.data.data.duration),
       );
 
       const updatedUser = {
@@ -220,7 +217,7 @@ const Subscription = () => {
         isSubscribed: true,
       };
 
-      console.log(updatedUser, "updatedUser");
+      // console.log(updatedUser, "updatedUser");
 
       localStorage.setItem("user", JSON.stringify(updatedUser));
       window.dispatchEvent(new Event("userUpdated"));
@@ -228,8 +225,7 @@ const Subscription = () => {
     }
   };
 
-  console.log(subscriptionInfo, "subscriptionInfo");
-
+  // console.log(subscriptionInfo, "subscriptionInfo");
 
   return (
     <Box
@@ -241,7 +237,7 @@ const Subscription = () => {
         justifyContent: "center",
       }}
     >
-      {console.log(subscriptionInfo, "subscriptionInfo90909")}
+      {/* {console.log(subscriptionInfo, "subscriptionInfo90909")} */}
       <Container maxWidth="md" sx={{ my: 5 }}>
         <Typography variant="h4" align="center" fontWeight={700} gutterBottom>
           Find Your Perfect Plan
@@ -258,7 +254,7 @@ const Subscription = () => {
         <Grid container spacing={4}>
           {subscriptionPlans?.map((plan, idx) => (
             <Grid size={{ xs: 12, sm: 4 }} key={idx}>
-              {console.log(plan, "plan")}
+              {/* {console.log(plan, "plan")} */}
               <Card
                 elevation={0}
                 sx={{
@@ -327,7 +323,7 @@ const Subscription = () => {
                     ))}
                   </List>
                 </CardContent>
-                {console.log(plan, "plan987868")}
+                {/* {console.log(plan, "plan987868")} */}
                 <CardActions sx={{ justifyContent: "center" }}>
                   <Button
                     variant="outlined"
@@ -342,7 +338,11 @@ const Subscription = () => {
                     }}
                     disabled={subscriptionInfo?.pricingId === plan.planId}
                   >
-                    {!token ? "Login to subscribe the plan" : subscriptionInfo?.pricingId === plan.planId ? "Current Plan" : "Get Started"}
+                    {!token
+                      ? "Login to subscribe the plan"
+                      : subscriptionInfo?.pricingId === plan.planId
+                        ? "Current Plan"
+                        : "Get Started"}
                   </Button>
                 </CardActions>
               </Card>

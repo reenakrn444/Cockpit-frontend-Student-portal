@@ -24,11 +24,28 @@ const TrainingQuestion = () => {
   const location = useLocation();
   const { syllabusTitle, syllabusId, bookId, chapterId, activeBook } =
     location.state;
-  console.log(activeBook, "activeBook");
+  // console.log(activeBook, "activeBook");
 
   const userId = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("authToken");
   const { syllabusName, bookName, chapterName } = useParams();
+
+  // useEffect(() => {
+  //   const disableRightClick = (e) => {
+  //     e.preventDefault();
+  //     snackbarEmitter(
+  //       "Right-click is disabled in training section.",
+  //       "warning"
+  //     );
+  //   };
+
+  //   // 🔥 use window + capture phase
+  //   window.addEventListener("contextmenu", disableRightClick, true);
+
+  //   return () => {
+  //     window.removeEventListener("contextmenu", disableRightClick, true);
+  //   };
+  // }, []);
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -47,7 +64,7 @@ const TrainingQuestion = () => {
   const totalPages = Math.ceil(filteredQuestions.length / questionsPerPage);
   const paginatedQuestions = filteredQuestions.slice(
     (currentPage - 1) * questionsPerPage,
-    currentPage * questionsPerPage
+    currentPage * questionsPerPage,
   );
 
   const handleOptionChange = (questionId, optionIndex) => {
@@ -83,12 +100,12 @@ const TrainingQuestion = () => {
     if (res?.data?.status === 200) {
       snackbarEmitter(
         "Your request has been submitted successfully.",
-        "success"
+        "success",
       );
     } else {
       snackbarEmitter(
         "Failed to submit your request. Please try again.",
-        "error"
+        "error",
       );
     }
 
@@ -154,10 +171,10 @@ const TrainingQuestion = () => {
   };
 
   const correctCount = Object.values(attempted).filter(
-    (val) => val === "correct"
+    (val) => val === "correct",
   ).length;
   const wrongCount = Object.values(attempted).filter(
-    (val) => val === "wrong"
+    (val) => val === "wrong",
   ).length;
   const totalAttempted = correctCount + wrongCount;
   const percentage = totalAttempted
@@ -391,9 +408,8 @@ const TrainingQuestion = () => {
                       alignItems: "center",
                     }}
                   >
-                    <Avatar
-                      sx={{
-                        bgcolor: isDark ? "#ffffff" : "rgba(183, 171, 171, 0.379)",
+                    {/* <span
+                      style={{
                         color: isDark ? "#000000" : "#ffffff",
                         width: { xs: 28, sm: 28 },
                         height: { xs: 28, sm: 28 },
@@ -402,18 +418,39 @@ const TrainingQuestion = () => {
                       }}
                     >
                       {index + 1 + (currentPage - 1) * questionsPerPage}
-                    </Avatar>
-
-                    <Typography
+                    </span> */}
+                    <Box
                       component="span"
                       sx={{
+                        width: { xs: 28, sm: 35 },
+                        height: { xs: 28, sm: 35 },
+                        minWidth: { xs: 28, sm: 35 }, // ✅ important
+                        borderRadius: "50%",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+
+                        fontWeight: 600,
+                        fontSize: { xs: "12px", sm: "14px" },
+                        lineHeight: 1, // ✅ critical fix
+
+                        color: isDark ? "#000" : "#fff",
+                        backgroundColor: isDark
+                          ? "#fff"
+                          : "rgba(183, 171, 171, 0.379)",
+                      }}
+                    >
+                      {index + 1 + (currentPage - 1) * questionsPerPage}
+                    </Box>
+                    <span
+                      style={{
                         color: "#ffffff",
                         ml: 1.5,
                         fontWeight: 600,
                       }}
                     >
                       {question.question}
-                    </Typography>
+                    </span>
                   </Typography>
                 </Box>
 
@@ -475,7 +512,7 @@ const TrainingQuestion = () => {
                           <Radio
                             checked={selectedAnswers[question._id] === idx}
                             disabled={selectedAnswers.hasOwnProperty(
-                              question._id
+                              question._id,
                             )}
                             onChange={() =>
                               handleOptionChange(question._id, idx)
@@ -485,23 +522,23 @@ const TrainingQuestion = () => {
                             sx={{
                               mt: 0.5, // ✅ Slightly push down for perfect top alignment
                               color: selectedAnswers.hasOwnProperty(
-                                question._id
+                                question._id,
                               )
                                 ? option.isCorrect
                                   ? "green"
                                   : selectedAnswers[question._id] === idx
-                                  ? "red"
-                                  : "default"
+                                    ? "red"
+                                    : "default"
                                 : "default",
                               "&.Mui-checked": {
                                 color: selectedAnswers.hasOwnProperty(
-                                  question._id
+                                  question._id,
                                 )
                                   ? option.isCorrect
                                     ? "green"
                                     : selectedAnswers[question._id] === idx
-                                    ? "red"
-                                    : "default"
+                                      ? "red"
+                                      : "default"
                                   : "default",
                               },
                             }}
@@ -516,13 +553,13 @@ const TrainingQuestion = () => {
                               justifyContent: "center",
                               alignItems: "center",
                               color: selectedAnswers.hasOwnProperty(
-                                question._id
+                                question._id,
                               )
                                 ? option.isCorrect
                                   ? "green"
                                   : selectedAnswers[question._id] === idx
-                                  ? "red"
-                                  : "inherit"
+                                    ? "red"
+                                    : "inherit"
                                 : "inherit",
                             }}
                           >
@@ -702,13 +739,13 @@ const TrainingQuestion = () => {
                     handleSubmitAllAnswers();
                   } else {
                     const firstUnanswered = filteredQuestions.find(
-                      (q) => !selectedAnswers.hasOwnProperty(q._id)
+                      (q) => !selectedAnswers.hasOwnProperty(q._id),
                     );
                     const element = questionRefs.current[firstUnanswered?._id];
                     if (element) {
                       // Determine page number for the unanswered question
                       const index = filteredQuestions.findIndex(
-                        (q) => q._id === firstUnanswered?._id
+                        (q) => q._id === firstUnanswered?._id,
                       );
                       const pageNum = Math.floor(index / questionsPerPage) + 1;
                       if (pageNum !== currentPage) {

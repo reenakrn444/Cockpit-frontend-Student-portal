@@ -16,7 +16,7 @@ const ChapterSection = () => {
   const [bookId, setBookId] = useState("");
   const tabRefs = useRef({});
 
-  console.log(locationData, "locationData", syllabusTitle, "syllabusTitle");
+  // console.log(locationData, "locationData", syllabusTitle, "syllabusTitle");
 
   const navigate = useNavigate();
   const theme = useTheme();
@@ -27,17 +27,17 @@ const ChapterSection = () => {
       const response = await apiGetToken(
         `/task/studentTaskProgress?userId=${userData._id}`
       );
-      console.log(response, "responsegetStudentprogress");
+      // console.log(response, "responsegetStudentprogress");
       if (response?.data?.status === 200) {
         const taskStatus = response?.data?.data;
-        console.log(taskStatus, "taskstatus");
+        // console.log(taskStatus, "taskstatus");
         const completedIds = new Set();
         // setUserSyllabuses(taskStatus?.syllabuses || []);
         taskStatus?.syllabuses?.forEach((syllabus) => {
           syllabus.books?.forEach((book) => {
             book.chapters?.forEach((chapter) => {
               if (chapter.isTaskCompleted) {
-                console.log(chapter, "chapter222");
+                // console.log(chapter, "chapter222");
                 completedIds.add(chapter._id);
               }
             });
@@ -55,7 +55,7 @@ const ChapterSection = () => {
       try {
         // const bookResponse = await apiGet('/getBooks');
         const bookResponse = await apiGet(`/booksBySyllabusId/${syllabusId}`);
-        console.log(bookResponse, "bookResponse");
+        // console.log(bookResponse, "bookResponse");
 
         const fetchedBooks = bookResponse?.data?.data;
         setBooks(fetchedBooks);
@@ -96,9 +96,9 @@ const ChapterSection = () => {
 
   const handleChapterClick = (chapter) => {
     const user = localStorage.getItem("user");
-    console.log(chapter, "chapter");
+    // console.log(chapter, "chapter");
     const chapterId = chapter?._id;
-    console.log("chaptername", chapter.chaptername);
+    // console.log("chaptername", chapter.chaptername);
 
     navigate(
       `/trainingQuestion/${chapter.syllabus}/${chapter.book}/${chapter.chaptername}`,
@@ -177,7 +177,7 @@ const ChapterSection = () => {
                 // className={`nav-link ${bookId === book?._id ? 'active' : ''}`}
                 onClick={() => {
                   {
-                    console.log(book, "booksdata");
+                    // console.log(book, "booksdata");
                   }
                   setActiveBook(book?.bookTitle);
                   setBookId(book?._id);

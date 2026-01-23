@@ -82,7 +82,7 @@ const TestRules = () => {
   const [bookId, setBookId] = useState("");
   const tabRefs = useRef({});
 
-  console.log(locationData, "locationData", syllabusTitle, "syllabusTitle");
+  // console.log(locationData, "locationData", syllabusTitle, "syllabusTitle");
 
   const navigate = useNavigate();
   const theme = useTheme();
@@ -93,7 +93,7 @@ const TestRules = () => {
       try {
         // const bookResponse = await apiGet('/getBooks');
         const bookResponse = await apiGet(`/booksBySyllabusId/${syllabusId}`);
-        console.log(bookResponse, "bookResponse");
+        // console.log(bookResponse, "bookResponse");
 
         const fetchedBooks = bookResponse?.data?.data;
         setBooks(fetchedBooks);

@@ -50,7 +50,7 @@ const UserProfile = () => {
     const data = await apiGetToken(`/getUser?userId=${user._id}`);
     if (data?.data?.status === 200) {
       const userInfo = data.data.data.user;
-      console.log(userInfo, "userInfo");
+      // console.log(userInfo, "userInfo");
 
       const formattedData = {
         username: userInfo.username,
@@ -432,7 +432,7 @@ const UserProfile = () => {
               <Divider sx={{ borderColor: "#F4D269", mb: 2 }} />
               <Box display="flex" justifyContent="space-between" mt={2}>
                 <Typography variant="body2">SUBSCRIPTION</Typography>
-                {console.log(subscriptionInfo, "subscriptionInfo")}
+                {/* {console.log(subscriptionInfo, "subscriptionInfo")} */}
                 <Typography variant="body2">
                   {subscriptionInfo.subscription
                     ? subscriptionInfo.subscription
