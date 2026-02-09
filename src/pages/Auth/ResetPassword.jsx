@@ -1,10 +1,17 @@
 import { apiPost } from '../../api/axios';
 import { CustomButton } from '../../components';
 import { snackbarEmitter } from '../../components/snackbar/CustomSnackBar';
+import { Link } from 'react-router-dom';
+
+
 
 const ResetPassword = () => {
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    const [confirmPassword, setConfirmPassword] = useState('');
+
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
     const { token } = useParams();
@@ -13,12 +20,17 @@ const ResetPassword = () => {
 
     const handleInputChange = (field, value) => {
         if (field === 'password') setPassword(value);
+        if (field === 'confirmPassword') setConfirmPassword(value);
 
         setErrors((prev) => {
             let errorMsg = '';
 
             if (value.trim() === '') {
                 errorMsg = `${field[0].toUpperCase() + field.slice(1)} is required`;
+            }
+
+            if (field === 'confirmPassword' && value !== password) {
+                errorMsg = "Passwords do not match";
             }
 
             return { ...prev, [field]: errorMsg };
@@ -31,6 +43,8 @@ const ResetPassword = () => {
         const newErrors = {};
 
         if (!password.trim()) newErrors.password = 'Password is required';
+        if (!confirmPassword.trim()) newErrors.confirmPassword = 'Confirm Password is required';
+        else if (password !== confirmPassword) newErrors.confirmPassword = 'Passwords do not match';
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -77,6 +91,33 @@ const ResetPassword = () => {
                 px: 2,
             }}
         >
+            
+            <Box component={Link}
+                to="/" sx={{
+                    position: "fixed", top: { xs: 10, sm: 10 }, left: {
+                        xs: '50%',   // Center horizontally on small screens
+                        sm: '20px',  // Align to left on larger screens
+                        md: '20px',
+                    },
+                    transform: {
+                        xs: 'translateX(-50%)',  // Center adjustment for xs
+                        sm: 'none',
+                    },
+                }}>
+
+                <Box
+                    component="img"
+                    src="/src/assests/images/fulllogo.svg"
+                    alt="Plane"
+                    sx={{
+                        height: 100,
+                        mb: {
+                            xs: 15,
+                            sm: 0
+                        }
+                    }}
+                />
+            </Box>
             <Box
                 sx={{
                     backgroundColor: 'rgba(0, 0, 0, 0.19)',
@@ -112,7 +153,7 @@ const ResetPassword = () => {
                             px: 2,
                             py: 1,
                             color: '#fff',
-                            backgroundColor: '#f1b600',
+                            backgroundColor: '#EAB308',
                             fontWeight: 500,
                             textTransform: 'none',
                             textAlign: 'center',
@@ -148,7 +189,7 @@ const ResetPassword = () => {
                                         onClick={() => setShowPassword((prev) => !prev)}
                                         edge="end"
                                     >
-                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        {showPassword ? <Visibility /> : <VisibilityOff />}
                                     </IconButton>
                                 </InputAdornment>
                             ),
@@ -162,10 +203,43 @@ const ResetPassword = () => {
                             },
                         }}
                     />
+                    <Typography variant="body2" color="white" mt={2} mb={0}>
+                        {'Confirm password'}
+                    </Typography>
+                    <TextField
+                        fullWidth
+                        margin="normal"
+                        placeholder="Confirm your new Password"
+                        type={showConfirmPassword ? 'text' : 'password'}
+                        value={confirmPassword}
+                        onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
+                        error={!!errors.confirmPassword}
+                        helperText={errors.confirmPassword}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        onClick={() => setShowConfirmPassword((prev) => !prev)}
+                                        edge="end"
+                                    >
+                                        {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                            sx: {
+                                borderRadius: '50px', backgroundColor: 'white', '& input': {
+                                    fontWeight: showConfirmPassword ? 400 : 700,
+                                },
+                                '& input::placeholder': {
+                                    fontWeight: "400",
+                                },
+                            },
+                        }}
+                    />
                     <CustomButton
                         onClick={handleRegister}
                         loading={loading}
-                        bgColor="#f1b600"
+                        bgColor="#EAB308"
                         borderRadius="50px"
                         sx={{ mt: 2 }}
                     >

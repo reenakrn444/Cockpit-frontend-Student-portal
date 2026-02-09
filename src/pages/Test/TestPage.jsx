@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { apiPost } from '../../api/axios';
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { apiPost } from "../../api/axios";
 import {
   Box,
   Button,
@@ -10,8 +10,8 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Paper
-} from '@mui/material';
+  Paper,
+} from "@mui/material";
 
 function TestPage() {
   const location = useLocation();
@@ -28,10 +28,10 @@ function TestPage() {
     const fetchQuestions = async () => {
       try {
         const req = { syllabus: syllabusTitle, book: activeBook };
-        const response = await apiPost('/randomQuestions', req);
+        const response = await apiPost("/randomQuestions", req);
         setQuestions(response.data.data);
       } catch (error) {
-        console.error('Error fetching questions:', error);
+        console.error("Error fetching questions:", error);
       }
     };
     fetchQuestions();
@@ -50,7 +50,7 @@ function TestPage() {
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
   };
 
   const handleAnswer = (qId, optionId) => {
@@ -69,21 +69,23 @@ function TestPage() {
   };
 
   const handleSubmit = () => {
-    alert('Test Submitted!');
+    alert("Test Submitted!");
     setShowSubmitDialog(false);
   };
 
   const getBoxColor = (index) => {
     const qId = questions[index]?._id;
-    if (currentQuestionIndex === index) return 'primary';
-    if (answers[qId]?.review) return 'warning';
-    if (answers[qId]?.selected !== undefined) return 'success';
-    return 'default';
+    if (currentQuestionIndex === index) return "primary";
+    if (answers[qId]?.review) return "warning";
+    if (answers[qId]?.selected !== undefined) return "success";
+    return "default";
   };
 
   return (
     <Box p={2}>
-      <Typography variant="h4" gutterBottom>{syllabusTitle} - {activeBook}</Typography>
+      <Typography variant="h4" gutterBottom>
+        {syllabusTitle} - {activeBook}
+      </Typography>
 
       {/* Question Navigation Boxes */}
       <Grid container spacing={1} sx={{ mb: 2 }}>
@@ -94,7 +96,11 @@ function TestPage() {
               color={getBoxColor(index)}
               size="small"
               onClick={() => setCurrentQuestionIndex(index)}
-              sx={{ minWidth: '30px', bgcolor: getBoxColor(index) === 'default' ? '#e0e0e0' : undefined }}
+              sx={{
+                minWidth: "30px",
+                bgcolor:
+                  getBoxColor(index) === "default" ? "#e0e0e0" : undefined,
+              }}
             >
               {index + 1}
             </Button>
@@ -111,21 +117,25 @@ function TestPage() {
       {questions.length > 0 && (
         <Paper variant="outlined" sx={{ p: 2, mb: 2 }}>
           <Typography variant="subtitle1">
-            Q{currentQuestionIndex + 1}. {questions[currentQuestionIndex].question}
+            Q{currentQuestionIndex + 1}.{" "}
+            {questions[currentQuestionIndex].question}
           </Typography>
           <Box mt={2}>
             {questions[currentQuestionIndex].options.map((opt, idx) => (
               <Button
                 key={opt._id}
                 variant={
-                  answers[questions[currentQuestionIndex]._id]?.selected === opt.id
-                    ? 'contained'
-                    : 'outlined'
+                  answers[questions[currentQuestionIndex]._id]?.selected ===
+                  opt.id
+                    ? "contained"
+                    : "outlined"
                 }
                 color="info"
                 fullWidth
-                sx={{ mb: 1, textAlign: 'left' }}
-                onClick={() => handleAnswer(questions[currentQuestionIndex]._id, opt.id)}
+                sx={{ mb: 1, textAlign: "left" }}
+                onClick={() =>
+                  handleAnswer(questions[currentQuestionIndex]._id, opt.id)
+                }
               >
                 {opt.text}
               </Button>
@@ -142,7 +152,9 @@ function TestPage() {
         >
           Previous
         </Button>
-        <Button onClick={() => handleReview(questions[currentQuestionIndex]._id)}>
+        <Button
+          onClick={() => handleReview(questions[currentQuestionIndex]._id)}
+        >
           Mark for Review
         </Button>
         <Button onClick={handleReset}>Reset</Button>
@@ -162,11 +174,12 @@ function TestPage() {
       </Box>
 
       {/* Submit Dialog */}
-      <Dialog open={showSubmitDialog} onClose={() => setShowSubmitDialog(false)}>
+      <Dialog
+        open={showSubmitDialog}
+        onClose={() => setShowSubmitDialog(false)}
+      >
         <DialogTitle>Submit Test</DialogTitle>
-        <DialogContent>
-          Are you sure you want to submit the test?
-        </DialogContent>
+        <DialogContent>Are you sure you want to submit the test?</DialogContent>
         <DialogActions>
           <Button onClick={() => setShowSubmitDialog(false)}>Cancel</Button>
           <Button color="error" onClick={handleSubmit}>

@@ -9,11 +9,12 @@ const groupByDate = (data) =>
   }, {});
 
 const ReportList = ({ reports }) => {
+  const theme = useTheme();
   const grouped = groupByDate(reports);
   const sortedDates = Object.keys(grouped).sort((a, b) => new Date(b) - new Date(a));
 
   return (
-    <Paper sx={{ p: 2, borderRadius: 3 }}>
+    <Paper sx={{ p: 2, borderRadius: 3, backgroundColor: theme.report.paperBackground }}>
       {sortedDates.map((date) => (
         <Box key={date} sx={{ mb: 4 }}>
           <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -23,7 +24,7 @@ const ReportList = ({ reports }) => {
           </Box>
           <Grid container spacing={2}>
             {grouped[date].map((item) => (
-              <Grid size={{xs:12}} key={item._id}>
+              <Grid size={{ xs: 12 }} key={item._id}>
                 <ReportCard data={item} />
               </Grid>
             ))}

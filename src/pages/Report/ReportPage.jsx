@@ -30,9 +30,8 @@ const ReportPage = () => {
                 sx={{
                     width: "100%",
                     height: 64,
-                    backgroundColor: "#f9f9f9",
+                    backgroundColor: theme.report.headingReport,
                     borderRadius: "12px 12px 0 0",
-                    px: 2,
                     display: "flex",
                     alignItems: "center",
                     boxShadow: "0px 0px 2px rgba(0,0,0,0.1)",
@@ -49,8 +48,8 @@ const ReportPage = () => {
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: "center",
-                                backgroundColor: index === 0 ? "#f5f5f5" : "transparent",
-                                borderRight: index < 3 ? "1px solid #e0e0e0" : "none",
+                                backgroundColor: index === 0 ? theme.report.headingReport : theme.report.transparent,
+                                borderRight: index < 3 ? theme.report.headingReportBorder : "none",
                                 borderRadius:
                                     index === 0
                                         ? "12px 0 0 0"
@@ -62,7 +61,7 @@ const ReportPage = () => {
                             {label && <Typography
                                 sx={{
                                     fontWeight: 700,
-                                    color: index === 0 ? "#f1b600" : "#999",
+                                    color: index === 0 ? "#EAB308" : "#999",
                                     fontSize: 18,
                                     textAlign: "center",
                                     width: "100%",

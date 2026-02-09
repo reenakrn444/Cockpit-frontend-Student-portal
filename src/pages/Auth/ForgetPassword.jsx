@@ -1,6 +1,8 @@
 import { apiPost } from '../../api/axios';
 import { CustomButton } from '../../components';
 import { snackbarEmitter } from '../../components/snackbar/CustomSnackBar';
+import { Link } from 'react-router-dom';
+
 
 const ForgetPassword = () => {
     const [email, setEmail] = useState('');
@@ -79,6 +81,32 @@ const ForgetPassword = () => {
                 px: 2,
             }}
         >
+            <Box component={Link}
+                to="/" sx={{
+                    position: "fixed", top: { xs: 10, sm: 10 }, left: {
+                        xs: '50%',   // Center horizontally on small screens
+                        sm: '20px',  // Align to left on larger screens
+                        md: '20px',
+                    },
+                    transform: {
+                        xs: 'translateX(-50%)',  // Center adjustment for xs
+                        sm: 'none',
+                    },
+                }}>
+
+                <Box
+                    component="img"
+                    src="/src/assests/images/fulllogo.svg"
+                    alt="Plane"
+                    sx={{
+                        height: 100,
+                        mb: {
+                            xs: 15,
+                            sm: 0
+                        }
+                    }}
+                />
+            </Box>
             <Box
                 sx={{
                     backgroundColor: 'rgba(0, 0, 0, 0.19)',
@@ -114,7 +142,7 @@ const ForgetPassword = () => {
                             px: 2,
                             py: 1,
                             color: '#fff',
-                            backgroundColor: '#f1b600',
+                            backgroundColor: '#EAB308',
                             fontWeight: 500,
                             textTransform: 'none',
                             textAlign: 'center',
@@ -149,7 +177,7 @@ const ForgetPassword = () => {
                     <CustomButton
                         onClick={handleForgetPassword}
                         loading={loading}
-                        bgColor="#f1b600"
+                        bgColor="#EAB308"
                         sx={{ my: 2 }}
                         borderRadius="50px"
                     >

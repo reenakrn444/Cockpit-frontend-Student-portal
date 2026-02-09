@@ -82,13 +82,13 @@ const ChangePassword = () => {
 
 
     return (
-        <Box sx={{ p: 5, backgroundColor: "#fafafa", minHeight: "auto" }}>
+        <Box sx={{ p: 5, backgroundColor: theme.palette.background.main, display: "flex", justifyContent: "center", alignItems: "center", minHeight: 'calc(80vh - 64px)' }}>
             <Grid container spacing={4} justifyContent="center">
                 {/* Left Card */}
-                <Grid size={{ xs: 12, md: 4 }}>
+                <Grid item xs={12} md={4}>
                     <Box
                         sx={{
-                            backgroundColor: "#0c2340",
+                            backgroundColor: "#183251",
                             borderRadius: 3,
                             px: 4,
                             py: 4,
@@ -139,12 +139,14 @@ const ChangePassword = () => {
                                         // backgroundColor: "#f1b600",
                                         backgroundColor: "transparent",
                                         color: "transparent",
+                                        cursor: "default", // disables pointer hand
+                                        pointerEvents: "none",
                                         // fontWeight: 600,
                                         // borderRadius: 0,
                                         textTransform: "none",
-                                        "&:hover": {
-                                            backgroundColor: "#d9a600",
-                                        },
+                                        // "&:hover": {
+                                        //     backgroundColor: "#d9a600",
+                                        // },
                                     }}
                                 >
                                     Delete Account
@@ -159,7 +161,7 @@ const ChangePassword = () => {
                 </Grid>
 
                 {/* Right Form */}
-                <Grid size={{ xs: 12, md: 8 }}>
+                <Grid size={{ xs: 12, md: 8 }} sx={{ color: theme.passwordText.main }}>
                     <form onSubmit={handleSubmit}>
                         <Box
                             sx={{
@@ -203,13 +205,14 @@ const ChangePassword = () => {
                                                         }
                                                         edge="end"
                                                     >
-                                                        {showPassword.current ? <Visibility /> : <VisibilityOff />}
+                                                        {showPassword.current ? <Visibility  sx={{ color: theme.passwordText.inputEyeIcon}} /> : <VisibilityOff sx={{ color: theme.passwordText.inputEyeIcon}} />}
                                                     </IconButton>
                                                 </InputAdornment>
                                             ),
                                             sx: {
                                                 backgroundColor: "white", '& input': {
-                                                    fontWeight: showPassword ? 400 : 700, // ✅ Apply to input text only
+                                                    fontWeight: showPassword?.current ? 400 : 700, // ✅ Apply to input text only
+                                                    color: theme.passwordText.input,
                                                 },
                                                 '& input::placeholder': {
                                                     fontWeight: "400",                      // ✅ Normal weight for placeholder
@@ -240,13 +243,14 @@ const ChangePassword = () => {
                                                         }
                                                         edge="end"
                                                     >
-                                                        {showPassword.new ? <Visibility /> : <VisibilityOff />}
+                                                        {showPassword.new ? <Visibility  sx={{ color: theme.passwordText.inputEyeIcon}}   /> : <VisibilityOff  sx={{ color: theme.passwordText.inputEyeIcon}}  />}
                                                     </IconButton>
                                                 </InputAdornment>
                                             ),
                                             sx: {
                                                 backgroundColor: "white", '& input': {
-                                                    fontWeight: showPassword ? 400 : 700, // ✅ Apply to input text only
+                                                    fontWeight: showPassword?.new ? 400 : 700, // ✅ Apply to input text only
+                                                    color: theme.passwordText.input,
                                                 },
                                                 '& input::placeholder': {
                                                     fontWeight: "400",                      // ✅ Normal weight for placeholder
@@ -277,16 +281,17 @@ const ChangePassword = () => {
                                                         }
                                                         edge="end"
                                                     >
-                                                        {showPassword.confirm ? <Visibility /> : <VisibilityOff />}
+                                                        {showPassword.confirm ? <Visibility sx={{ color: theme.passwordText.inputEyeIcon}}  /> : <VisibilityOff  sx={{ color: theme.passwordText.inputEyeIcon}}  />}
                                                     </IconButton>
                                                 </InputAdornment>
                                             ),
                                             sx: {
                                                 backgroundColor: "white", '& input': {
-                                                    fontWeight: showPassword ? 400 : 700, // ✅ Apply to input text only
+                                                    fontWeight: showPassword?.confirm ? 400 : 700, // ✅ Apply to input text only
+                                                    color: theme.passwordText.input,
                                                 },
                                                 '& input::placeholder': {
-                                                    fontWeight: "400",                      // ✅ Normal weight for placeholder
+                                                    fontWeight: "400",
                                                 },
                                             },
                                         }}
@@ -319,7 +324,7 @@ const ChangePassword = () => {
                                         variant="caption"
                                         display="block"
                                         align="center"
-                                        color="gray"
+                                        color={theme.passwordText.main}
                                         sx={{ mt: 1 }}
                                     >
                                         You will be asked to log in again with your new password after you save your changes.

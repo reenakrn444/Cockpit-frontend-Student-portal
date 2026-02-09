@@ -1,8 +1,17 @@
 const platformLinks = [
-    { label: 'Home', path: '/' },
-    { label: 'Training', path: '/training' },
-    { label: 'Test', path: '/taketest' },
-    { label: 'Syllabus', path: '/syllabus' }
+  { label: "Home", path: "/" },
+  { label: "Training", path: "/training" },
+  { label: "Test", path: "/test" },
+  { label: "Partner With Us", path: "/partner-with-us" },
+  //{ label: 'Syllabus', path: '/syllabus' }
 ];
 
-export { platformLinks }
+const ResourcesLink = [
+  { label: "Terms and Conditions", path: "/terms-and-conditions" },
+  { label: "Privacy Policy", path: "/privacy-policy" },
+  { label: "Cookies", path: "/cookies" },
+  { label: "Payment Policy", path: "/payment-policy" },
+  { label: "Press", path: "http://aviationupdates.in/lander" },
+];
+
+export { platformLinks, ResourcesLink };

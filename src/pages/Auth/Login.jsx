@@ -1,33 +1,76 @@
-import { apiPost } from '../../api/axios';
-import { CustomButton } from '../../components';
-import { snackbarEmitter } from '../../components/snackbar/CustomSnackBar';
-import CopyrightFooter from '../../Helper/copyrighttext';
+import { apiPost } from "../../api/axios";
+import { CustomButton } from "../../components";
+import { snackbarEmitter } from "../../components/snackbar/CustomSnackBar";
+import CopyrightFooter from "../../Helper/copyrighttext";
+import { Link } from "react-router-dom";
+import { useGoogleLogin } from "@react-oauth/google";
+import {
+  HeaderLogo,
+  AppleLoginLogo,
+  GoogleLoginLogo,
+} from "../Home/ImagesRender";
 
 const Login = () => {
-  const [activeForm, setActiveForm] = useState('login');
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [activeForm, setActiveForm] = useState("login");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
+  const Googlelogin = useGoogleLogin({
+    onSuccess: async (TokenResponse) => {
+      await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+        headers: {
+          Authorization: `Bearer ${TokenResponse?.access_token}`,
+        },
+      })
+        .then((res) => res.json())
+        .then(async (data) => {
+          // console.log("User Info:", data);
+          setEmail(data?.email);
+          setUsername(data?.name);
+          const googleLoginRes = await apiPost("/AuthLoginUser", {
+            email: data?.email,
+          });
+          if (googleLoginRes?.data?.status !== 200) {
+            snackbarEmitter("Invalid Credentials", "error");
+            setLoading(false);
+            setEmail("");
+            return;
+          }
+
+          // console.log(googleLoginRes, "googleLoginRes");
+          const token = googleLoginRes.data.token;
+          storeLoginDetails(token, googleLoginRes);
+        })
+        .catch((err) => {
+          console.error("Failed to fetch user info", err);
+          snackbarEmitter("Failed to fetch user info", "error");
+          setLoading(false);
+          // console.log(err.status, "error");
+        });
+    },
+    flow: "implicit",
+  });
+
   const handleInputChange = (field, value) => {
-    if (field === 'email') setEmail(value);
-    if (field === 'username') setUsername(value);
-    if (field === 'password') setPassword(value);
+    if (field === "email") setEmail(value);
+    if (field === "username") setUsername(value);
+    if (field === "password") setPassword(value);
 
     setErrors((prev) => {
-      let errorMsg = '';
+      let errorMsg = "";
 
-      if (value.trim() === '') {
+      if (value.trim() === "") {
         errorMsg = `${field[0].toUpperCase() + field.slice(1)} is required`;
       } else if (
-        field === 'email' &&
+        field === "email" &&
         !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
       ) {
-        errorMsg = 'Invalid email format';
+        errorMsg = "Invalid email format";
       }
 
       return { ...prev, [field]: errorMsg };
@@ -36,11 +79,11 @@ const Login = () => {
 
   const validateLogin = () => {
     const newErrors = {};
-    if (!email.trim()) newErrors.email = 'Email is required';
+    if (!email.trim()) newErrors.email = "Email is required";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
-      newErrors.email = 'Invalid email format';
+      newErrors.email = "Invalid email format";
 
-    if (!password.trim()) newErrors.password = 'Password is required';
+    if (!password.trim()) newErrors.password = "Password is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -48,12 +91,12 @@ const Login = () => {
 
   const validateRegister = () => {
     const newErrors = {};
-    if (!email.trim()) newErrors.email = 'Email is required';
+    if (!email.trim()) newErrors.email = "Email is required";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
-      newErrors.email = 'Invalid email format';
+      newErrors.email = "Invalid email format";
 
-    if (!username.trim()) newErrors.username = 'Username is required';
-    if (!password.trim()) newErrors.password = 'Password is required';
+    if (!username.trim()) newErrors.username = "Username is required";
+    if (!password.trim()) newErrors.password = "Password is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -66,29 +109,24 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await apiPost('/registerUser', {
+      const response = await apiPost("/registerUser", {
         email,
         username,
         password,
       });
       if (response?.data?.status === 200) {
-        snackbarEmitter('User registered successfully!', 'success');
-        setEmail('');
-        setUsername('');
-        setPassword('');
-        setActiveForm('login');
+        snackbarEmitter("User registered successfully!", "success");
+        setEmail("");
+        setUsername("");
+        setPassword("");
+        setActiveForm("login");
         setLoading(false);
-      }
-      else {
-        snackbarEmitter(response?.data?.message, 'error');
-        // setEmail('');
-        // setUsername('');
-        // setPassword('');
-        // setActiveForm('login');
+      } else {
+        snackbarEmitter(response?.data?.message, "error");
         setLoading(false);
       }
     } catch (error) {
-      snackbarEmitter('Registration failed', 'error');
+      snackbarEmitter("Registration failed", "error");
       setLoading(false);
     }
   };
@@ -99,116 +137,156 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await apiPost('/loginUser', { email, password });
+      const response = await apiPost("/loginUser", { email, password });
+      // console.log(response);
       if (response?.data?.status === 200) {
         const token = response.data.token;
-        localStorage.setItem('authToken', token);
-        const userdata = {
-          _id: response.data.userData._id,
-          userRegisteredDate: response?.data?.userData?.createdAt,
-          username: response.data.userData.username,
-          profileImage: response?.data?.userData?.image || "/default-profile.png",
-          isSubscribed: response.data.userData.is_subscribed,
-          subscriptionStartDate: response.data.userData.is_subscribed ? response.data.userData.subscription_start_date : "",
-          subscriptionEndDate: response.data.userData.is_subscribed ? response.data.userData.subscription_end_date : "",
-        }
-        localStorage.setItem('user', JSON.stringify(userdata));
-        setLoading(false);
-        // snackbarEmitter('Logged in successfully!', 'success');
-        navigate('/');
+        snackbarEmitter("Logged in successfully!", "success");
+        storeLoginDetails(token, response);
       } else {
         setLoading(false);
-        snackbarEmitter(response?.data?.message, 'error');
+        snackbarEmitter(response?.data?.message, "error");
       }
     } catch (error) {
       setLoading(false);
-      snackbarEmitter('Login failed', 'error');
+      snackbarEmitter("Login failed", "error");
     }
   };
 
+  const storeLoginDetails = (token, response) => {
+    setLoading(false);
+    localStorage.setItem("authToken", token);
+    const userdata = {
+      _id: response.data.userData._id,
+      userRegisteredDate: response?.data?.userData?.createdAt,
+      username: response.data.userData.username,
+      profileImage: response?.data?.userData?.image || "/default-profile.png",
+      isSubscribed: response.data.userData.is_subscribed,
+      subscriptionStartDate: response.data.userData.is_subscribed
+        ? response.data.userData.subscription_start_date
+        : "",
+      subscriptionEndDate: response.data.userData.is_subscribed
+        ? response.data.userData.subscription_end_date
+        : "",
+    };
+    localStorage.setItem("user", JSON.stringify(userdata));
+    navigate("/");
+    // console.log(data);
+  };
   return (
     <Box
       sx={{
         backgroundImage: "url('/images/login.png')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'right',
-        alignItems: 'center',
-        position: 'relative',
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        height: "100vh",
+        display: "flex",
+        justifyContent: "right",
+        alignItems: "center",
+        position: "relative",
         px: 2,
       }}
     >
       <Box
+        component={Link}
+        to="/"
         sx={{
-          backgroundColor: 'rgba(0, 0, 0, 0.19)',
-          backdropFilter: 'blur(10px)',
-          borderRadius: '30px',
+          position: "fixed",
+          top: { xs: 10, sm: 10 },
+          left: {
+            xs: "50%", // Center horizontally on small screens
+            sm: "20px", // Align to left on larger screens
+            md: "20px",
+          },
+          transform: {
+            xs: "translateX(-50%)", // Center adjustment for xs
+            sm: "none",
+          },
+        }}
+      >
+        <Box
+          component="img"
+          src={HeaderLogo}
+          alt="Plane"
+          sx={{
+            height: 100,
+            mb: {
+              xs: 15,
+              sm: 0,
+            },
+          }}
+        />
+      </Box>
+
+      <Box
+        sx={{
+          backgroundColor: "rgba(0, 0, 0, 0.19)",
+          backdropFilter: "blur(10px)",
+          borderRadius: "30px",
           p: 4,
-          width: '100%',
+          width: "100%",
           maxWidth: 420,
-          color: 'white',
+          color: "white",
           zIndex: 2,
+          mt: { xs: 4, sm: 2, md: 0 },
         }}
       >
         <Typography variant="h6" align="center" gutterBottom>
           Welcome to COCKPIT..!
         </Typography>
-
         <Box
           sx={{
-            display: 'flex',
-            backgroundColor: '#0f2c4c',
-            borderRadius: '999px',
-            p: '5px',
-            width: '100%',
-            justifyContent: 'center',
+            display: "flex",
+            backgroundColor: "#0f2c4c",
+            borderRadius: "999px",
+            p: "5px",
+            width: "100%",
+            justifyContent: "center",
             mb: 2,
           }}
         >
           <Button
             onClick={() => {
-              setActiveForm('login');
+              setActiveForm("login");
               setErrors({});
-              setEmail('');
-              setUsername('');
-              setPassword('');
+              setEmail("");
+              setUsername("");
+              setPassword("");
             }}
             size="small"
             sx={{
               flex: 1,
-              borderRadius: '999px',
+              borderRadius: "999px",
               px: 2,
               py: 1,
-              color: activeForm === 'login' ? '#000' : '#fff',
+              color: activeForm === "login" ? "#000" : "#fff",
               backgroundColor:
-                activeForm === 'login' ? '#f1b600' : 'transparent',
+                activeForm === "login" ? "#EAB308" : "transparent",
               fontWeight: 500,
-              textTransform: 'none',
+              textTransform: "none",
             }}
           >
             Login
           </Button>
           <Button
             onClick={() => {
-              setActiveForm('register');
+              setActiveForm("register");
               setErrors({});
-              setEmail('');
-              setUsername('');
-              setPassword('');
+              setEmail("");
+              setUsername("");
+              setPassword("");
             }}
             size="small"
             sx={{
               flex: 1,
-              borderRadius: '999px',
+              borderRadius: "999px",
               px: 2,
               py: 1,
-              color: activeForm === 'register' ? '#000' : '#fff',
+              color: activeForm === "register" ? "#000" : "#fff",
               backgroundColor:
-                activeForm === 'register' ? '#f1b600' : 'transparent',
+                activeForm === "register" ? "#EAB308" : "transparent",
               fontWeight: 500,
-              textTransform: 'none',
+              textTransform: "none",
             }}
           >
             Register
@@ -220,9 +298,9 @@ const Login = () => {
           training resources.
         </Typography>
 
-        <form onSubmit={activeForm === 'login' ? handleLogin : handleRegister}>
+        <form onSubmit={activeForm === "login" ? handleLogin : handleRegister}>
           <Typography variant="body2" color="white" mt={2} mb={0}>
-            {activeForm === 'login' ? 'Pilot ID / E-mail' : 'Email Address'}
+            {activeForm === "login" ? "Pilot ID / E-mail" : "Email Address"}
           </Typography>
           <TextField
             fullWidth
@@ -230,15 +308,19 @@ const Login = () => {
             size="small"
             placeholder="Enter your Email Address"
             value={email}
-            onChange={(e) => handleInputChange('email', e.target.value)}
+            onChange={(e) => handleInputChange("email", e.target.value)}
             error={!!errors.email}
             helperText={errors.email}
             InputProps={{
-              sx: { borderRadius: '50px', backgroundColor: 'white' },
+              sx: {
+                borderRadius: "50px",
+                backgroundColor: "white",
+                color: "#000000",
+              },
             }}
           />
 
-          {activeForm === 'register' && (
+          {activeForm === "register" && (
             <>
               <Typography variant="body2" color="white" mt={2} mb={0}>
                 User Name
@@ -249,27 +331,27 @@ const Login = () => {
                 size="small"
                 placeholder="Enter your User name"
                 value={username}
-                onChange={(e) => handleInputChange('username', e.target.value)}
+                onChange={(e) => handleInputChange("username", e.target.value)}
                 error={!!errors.username}
                 helperText={errors.username}
                 InputProps={{
-                  sx: { borderRadius: '50px', backgroundColor: 'white' },
+                  sx: { borderRadius: "50px", backgroundColor: "white" },
                 }}
               />
             </>
           )}
 
           <Typography variant="body2" color="white" mt={2} mb={0}>
-            {activeForm === 'login' ? 'Access Key' : 'Password'}
+            {activeForm === "login" ? "Access Key" : "Password"}
           </Typography>
           <TextField
             fullWidth
             margin="normal"
             size="small"
             placeholder="Enter your Password"
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword ? "text" : "password"}
             value={password}
-            onChange={(e) => handleInputChange('password', e.target.value)}
+            onChange={(e) => handleInputChange("password", e.target.value)}
             error={!!errors.password}
             helperText={errors.password}
             InputProps={{
@@ -284,63 +366,90 @@ const Login = () => {
                 </InputAdornment>
               ),
               sx: {
-                borderRadius: '50px', backgroundColor: 'white',
-                '& input': {
+                borderRadius: "50px",
+                backgroundColor: "white",
+                color: "black",
+
+                "& input": {
                   fontWeight: showPassword ? 400 : 700, // ✅ Apply to input text only
                 },
-                '& input::placeholder': {
-                  fontWeight: "400",                      // ✅ Normal weight for placeholder
+                "& input::placeholder": {
+                  fontWeight: "400", // ✅ Normal weight for placeholder
                 },
               },
             }}
           />
 
-
           <Grid container alignItems="center" my={2}>
-            {activeForm === 'login' &&
-              <Grid
-                size={{ xs: 12 }}
-                display="flex"
-                justifyContent="flex-end"
-              >
+            {activeForm === "login" && (
+              <Grid size={{ xs: 12 }} display="flex" justifyContent="flex-end">
                 <Typography
                   variant="caption"
                   color="white"
-                  sx={{ fontSize: '12px', cursor: 'pointer' }}
-                  onClick={() => navigate('/forgetpassword')}
+                  sx={{ fontSize: "12px", cursor: "pointer" }}
+                  onClick={() => navigate("/forgetpassword")}
                   component="span"
                   display="inline"
                 >
                   Forgot Password ?
                 </Typography>
               </Grid>
-            }
+            )}
           </Grid>
 
           <CustomButton
-            onClick={activeForm === 'login' ? handleLogin : handleRegister}
+            onClick={activeForm === "login" ? handleLogin : handleRegister}
             loading={loading}
-            bgColor="#f1b600"
+            bgColor="#EAB308"
             borderRadius="50px"
           >
-            {activeForm === 'login' ? 'Board me' : 'Register'}
+            {activeForm === "login" ? "Board me" : "Register"}
           </CustomButton>
         </form>
 
-        {/* <Typography variant="body2" align="center" color="white" my={2}>
-          - OR -
-        </Typography>
+        {activeForm === "login" && (
+          <>
+            <Typography variant="body2" align="center" color="white" my={2}>
+              - OR -
+            </Typography>
 
-        <Grid container justifyContent="center" spacing={2}>
-          {['apple', 'google', 'twitter'].map((provider) => (
-            <Grid key={provider}>
-              <Avatar
-                src={`/images/${provider}.png`}
-                sx={{ width: 40, height: 40, backgroundColor: 'white' }}
-              />
+            <Grid container justifyContent="center" spacing={8}>
+              {["google"].map((provider) => (
+                <Grid key={provider}>
+                  <Box
+                    src={
+                      provider === "apple" ? AppleLoginLogo : GoogleLoginLogo
+                    }
+                    sx={{
+                      width: 40,
+                      height: 40,
+                      backgroundColor: "#fff",
+                      borderRadius: "60px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      cursor: "pointer",
+                      boxShadow: 1,
+                    }}
+                    onClick={() => {
+                      if (provider === "google") {
+                        Googlelogin();
+                      }
+                    }}
+                  >
+                    <img
+                      src={
+                        provider === "apple" ? AppleLoginLogo : GoogleLoginLogo
+                      }
+                      alt="apple"
+                      style={{ width: 80, height: 80 }}
+                    />
+                  </Box>
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid> */}
+          </>
+        )}
       </Box>
 
       {/* Footer Typography OUTSIDE the card */}
@@ -348,12 +457,12 @@ const Login = () => {
         variant="caption"
         align="center"
         sx={{
-          position: 'absolute',
+          position: "absolute",
           bottom: 10,
           left: 5,
-          width: '100%',
-          color: 'white',
-          textAlign: 'center',
+          width: "100%",
+          color: "white",
+          textAlign: "center",
           zIndex: 1,
         }}
       >
@@ -364,4 +473,3 @@ const Login = () => {
 };
 
 export default Login;
-
