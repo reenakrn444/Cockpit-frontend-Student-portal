@@ -32,7 +32,7 @@ import PartnerWithUsForm from "../pages/PartnerWithUs/PartnerWithUsForm";
 import PaymentPolicy from "../components/Footer/PaymentPolicy";
 import AdvertisementBanner from "../components/Advertisement/AdvertisementBanner";
 import TokenExpiry from "../utils/TokenExpiry";
-// import AviationAuthority from "../Exam/AviationAuthority";
+import AviationAuthority from "../Exam/AviationAuthority";
 
 const AppContent = () => {
   const navigate = useNavigate();
@@ -93,7 +93,7 @@ const AppContent = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/forgetpassword" element={<ForgetPassword />} />
           <Route path="/resetpassword/:token" element={<ResetPassword />} />
-          {/* <Route path="/Exam" element={<AviationAuthority />} /> */}
+          <Route path="/Exam" element={<AviationAuthority />} />
 
           <Route
             path="/terms-and-conditions"
