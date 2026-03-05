@@ -67,6 +67,68 @@ const PageLoader = () => (
 );
 // import AviationAuthority from "../Exam/AviationAuthority";
 
+// Lazy-loaded page components
+const Home = lazy(() => import("../pages/Home/home"));
+const Login = lazy(() => import("../pages/Auth/Login"));
+const TrainingSyllabus = lazy(() =>
+  import("../pages/Training/TrainingSyllabus")
+);
+const Chapter = lazy(() => import("../pages/Chapter/chapter"));
+const TrainingQuestion = lazy(() =>
+  import("../pages/Training/TrainingQuestions")
+);
+const TestSyllabus = lazy(() => import("../pages/Test/TestSyllabus"));
+const TestRules = lazy(() => import("../pages/Test/TestRules"));
+const TestPage2 = lazy(() => import("../pages/Test/TestPage2"));
+const UserProfile = lazy(() => import("../pages/Profile/UserProfile"));
+const Subscription = lazy(() => import("../pages/subscription/subscription"));
+const ForgetPassword = lazy(() => import("../pages/Auth/ForgetPassword"));
+const ResetPassword = lazy(() => import("../pages/Auth/ResetPassword"));
+const ReportPage = lazy(() => import("../pages/Report/ReportPage"));
+const ChangePassword = lazy(() => import("../pages/Profile/ChangePassword"));
+const ThemeSettings = lazy(() => import("../pages/Profile/ThemeSetting"));
+const ComingSoon = lazy(() =>
+  import("../pages/CommingSoon/commingSoon")
+);
+const TermsAndConditions = lazy(() =>
+  import("../components/Footer/TermsAndConditions")
+);
+const TestTermsAndConditions = lazy(() =>
+  import("../components/Footer/TestTermsAndConditions")
+);
+const PrivacyPolicy = lazy(() => import("../components/Footer/PrivacyPolicy"));
+const CookiesPolicy = lazy(() => import("../components/Footer/Cookies"));
+const PressPage = lazy(() => import("../pages/Press/Press"));
+const FlightLog = lazy(() => import("../pages/Profile/FlightLog"));
+const FlightLogReport = lazy(() =>
+  import("../pages/Profile/FlightLogReport")
+);
+const BlogSection1 = lazy(() => import("../pages/Press/Blog1"));
+const BlogSection2 = lazy(() => import("../pages/Press/Blog2"));
+const BlogSection3 = lazy(() => import("../pages/Press/Blog3"));
+const BlogSection4 = lazy(() => import("../pages/Press/Blog4"));
+const TestResultPage = lazy(() => import("../pages/Test/TestResult"));
+const PartnerWithUsForm = lazy(() =>
+  import("../pages/PartnerWithUs/PartnerWithUsForm")
+);
+const PaymentPolicy = lazy(() =>
+  import("../components/Footer/PaymentPolicy")
+);
+
+const PageLoader = () => (
+  <Box
+    sx={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      minHeight: "calc(100vh - 64px)",
+    }}
+  >
+    <CircularProgress />
+  </Box>
+);
+// import AviationAuthority from "../Exam/AviationAuthority";
+
 const AppContent = () => {
   const navigate = useNavigate();
 
@@ -128,6 +190,7 @@ const AppContent = () => {
           <Route path="/forgetpassword" element={<ForgetPassword />} />
           <Route path="/resetpassword/:token" element={<ResetPassword />} />
           <Route path="/Exam" element={<AviationAuthority />} />
+          {/* <Route path="/Exam" element={<AviationAuthority />} /> */}
 
           <Route
             path="/terms-and-conditions"
