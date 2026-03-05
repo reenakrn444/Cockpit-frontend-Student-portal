@@ -2,7 +2,11 @@ import { getRecommendationByScore } from "./TestResultRecomandations";
 import { apiPostToken } from "../../api/axios";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { formatTime } from "./forrmatTime";
+import { formatTime, formatCompletedDate } from "./forrmatTime";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+import CancelIcon from "@mui/icons-material/Cancel";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import { blue } from "@mui/material/colors";
 
 const TestResultPage = () => {
   const isSmallScreen = useMediaQuery("(max-width:600px)");
@@ -13,6 +17,8 @@ const TestResultPage = () => {
 
   const theme = useTheme();
   const [initialPath] = useState(location.pathname);
+
+  const { formattedDate, formattedTime } = formatCompletedDate(new Date());
 
   const {
     evaluation,
@@ -150,58 +156,244 @@ const TestResultPage = () => {
         }}
       >
         {/* Summary */}
-        <Box
-          mt={2}
-          mx={{ xs: 2, sm: 6, md: 10 }}
-          display="flex"
-          flexWrap="wrap"
-          justifyContent="space-between"
-          alignItems="center"
-          gap={2}
-        >
-          <Paper
-            elevation={3}
-            sx={{
-              p: 2,
-              backgroundColor: "#22C55E",
-              color: "#fff",
-              minWidth: { xs: "100%", sm: "30.33%" },
-            }}
-          >
-            <Typography align="center" variant="h6">
-              {resultCounts?.correct || 0}
-            </Typography>
-            <Typography align="center">Correct</Typography>
-          </Paper>
-          <Paper
-            elevation={3}
-            sx={{
-              p: 2,
-              backgroundColor: "#C5322A",
-              color: "#fff",
-              minWidth: { xs: "100%", sm: "30.33%" },
-            }}
-          >
-            <Typography align="center" variant="h6">
-              {resultCounts?.incorrect || 0}
-            </Typography>
-            <Typography align="center">Incorrect</Typography>
-          </Paper>
-          <Paper
-            elevation={3}
-            sx={{
-              p: 2,
-              border: `1px solid ${theme.palette.primary.trimesterAcccordianText}`,
-              backgroundColor: theme.palette.primary.trimesterAcccordian,
-              minWidth: { xs: "100%", sm: "30.33%" },
-            }}
-          >
-            <Typography align="center" variant="h6">
-              {resultCounts?.skipped || 0}
-            </Typography>
-            <Typography align="center">Skipped</Typography>
-          </Paper>
-        </Box>
+        {(() => {
+          const total = 10; // or dynamic
+          const correct = resultCounts?.correct || 0;
+          const incorrect = resultCounts?.incorrect || 0;
+          const percentage = Math.round((correct / total) * 100);
+          const passed = percentage >= 70;
+
+          const bgColor = passed ? "#E8F5E9" : "#FDECEC";
+
+          return (
+            <Box
+              sx={{
+                backgroundColor: bgColor,
+                border: "1px solid #C8E6C9",
+                borderRadius: "16px",
+                p: 4,
+                mb: 4,
+              }}
+            >
+              {/* Top Row: Status + Score */}
+              <Box display="flex" alignItems="center" gap={2} mb={3}>
+                <Box
+                  sx={{
+                    width: 50,
+                    height: 50,
+                    borderRadius: "50%",
+                    backgroundColor: passed ? "#c4e8c7" : "#f0d8d8",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  {passed ? (
+                    <CheckCircleIcon sx={{ color: "white", fontSize: 28 }} />
+                  ) : (
+                    <CancelIcon sx={{ color: "white", fontSize: 28 }} />
+                  )}
+                </Box>
+
+                <Box>
+                  <Typography variant="h5" fontSize="15" fontWeight="bold">
+                    {passed ? "Passed" : "Failed"}
+                  </Typography>
+                  <Typography sx={{ color: passed ? "#22C55E" : "#C5322A" }}>
+                    Score: {percentage}%
+                  </Typography>
+                </Box>
+              </Box>
+
+              {/* Stats Row */}
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                gap={2}
+                flexWrap="wrap"
+                mb={3}
+              >
+                {/* Total Questions */}
+                <Paper
+                  elevation={0}
+                  sx={{
+                    flex: 1,
+                    minWidth: 200,
+                    p: 2,
+                    borderRadius: "12px",
+                    backgroundColor: "#F3F4F6",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    textAlign: "center",
+                  }}
+                >
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    gap={1}
+                    justifyContent="center"
+                  >
+                    <RadioButtonCheckedIcon sx={{ fontSize: 18 }} />
+                    <Typography variant="body2" color="#687a87">
+                      Total Questions
+                    </Typography>
+                  </Box>
+                  <Typography variant="h5" fontWeight="bold" mt={1}>
+                    {total}
+                  </Typography>
+                </Paper>
+
+                {/* Correct */}
+                <Paper
+                  elevation={0}
+                  sx={{
+                    flex: 1,
+                    minWidth: 200,
+                    p: 2,
+                    borderRadius: "12px",
+                    backgroundColor: "#F3F4F6",
+                  }}
+                >
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    gap={1}
+                  >
+                    <CheckCircleIcon sx={{ color: "#22C55E", fontSize: 18 }} />
+                    <Typography variant="body2" color="#687a87">
+                      Correct
+                    </Typography>
+                  </Box>
+                  <Typography
+                    variant="h5"
+                    fontWeight="bold"
+                    mt={1}
+                    sx={{ color: "#22C55E", textAlign: "center" }}
+                  >
+                    {correct}
+                  </Typography>
+                </Paper>
+
+                {/* Incorrect */}
+                <Paper
+                  elevation={0}
+                  sx={{
+                    flex: 1,
+                    minWidth: 200,
+                    p: 2,
+                    borderRadius: "12px",
+                    backgroundColor: "#F3F4F6",
+                  }}
+                >
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    gap={1}
+                    justifyContent="center"
+                  >
+                    <CancelIcon sx={{ color: "#EF4444", fontSize: 18 }} />
+                    <Typography variant="body2" color="#687a87" align="center">
+                      Incorrect
+                    </Typography>
+                  </Box>
+                  <Typography
+                    variant="h5"
+                    fontWeight="bold"
+                    mt={1}
+                    sx={{ color: "#EF4444", textAlign: "center" }}
+                  >
+                    {incorrect}
+                  </Typography>
+                </Paper>
+
+                {/* Completed */}
+                <Paper
+                  elevation={0}
+                  sx={{
+                    flex: 1,
+                    minWidth: 200,
+                    p: 2,
+                    borderRadius: "12px",
+                    backgroundColor: "#F3F4F6",
+                  }}
+                >
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    gap={1}
+                    justifyContent="center"
+                  >
+                    <CalendarTodayIcon sx={{ fontSize: 18 }} />
+                    <Typography variant="body2" color="#687a87" align="center">
+                      Completed
+                    </Typography>
+                  </Box>
+                  <Typography
+                    variant="body1"
+                    fontWeight="bold"
+                    mt={1}
+                    sx={{ textAlign: "center" }}
+                  >
+                    {formattedDate}
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    color="text.secondary"
+                    sx={{ textAlign: "center" }}
+                  >
+                    {formattedTime}
+                  </Typography>
+                </Paper>
+              </Box>
+
+              {/* Performance Bar */}
+              <Box sx={{ mt: 2 }}>
+                {/* Label + Percentage Row */}
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    mb: 1,
+                  }}
+                >
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      fontSize: "16px", // 👈 Increased size
+                      fontWeight: 500,
+                      color: "#475569",
+                    }}
+                  >
+                    Performance
+                  </Typography>
+
+                  <Typography fontWeight="bold">{percentage}%</Typography>
+                </Box>
+
+                {/* Progress Bar */}
+                <Box
+                  sx={{
+                    height: 10,
+                    backgroundColor: "#E5E7EB",
+                    borderRadius: "10px",
+                    overflow: "hidden",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: `${percentage}%`,
+                      height: "100%",
+                      backgroundColor: "#EAB308",
+                      transition: "width 0.4s ease",
+                    }}
+                  />
+                </Box>
+              </Box>
+            </Box>
+          );
+        })()}
         {/* Test Progress Analysis */}
         <Box mt={3}>
           <Accordion

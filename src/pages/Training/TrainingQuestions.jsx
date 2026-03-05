@@ -64,7 +64,7 @@ const TrainingQuestion = () => {
   const totalPages = Math.ceil(filteredQuestions.length / questionsPerPage);
   const paginatedQuestions = filteredQuestions.slice(
     (currentPage - 1) * questionsPerPage,
-    currentPage * questionsPerPage
+    currentPage * questionsPerPage,
   );
 
   const handleOptionChange = (questionId, optionIndex) => {
@@ -100,12 +100,12 @@ const TrainingQuestion = () => {
     if (res?.data?.status === 200) {
       snackbarEmitter(
         "Your request has been submitted successfully.",
-        "success"
+        "success",
       );
     } else {
       snackbarEmitter(
         "Failed to submit your request. Please try again.",
-        "error"
+        "error",
       );
     }
 
@@ -171,10 +171,10 @@ const TrainingQuestion = () => {
   };
 
   const correctCount = Object.values(attempted).filter(
-    (val) => val === "correct"
+    (val) => val === "correct",
   ).length;
   const wrongCount = Object.values(attempted).filter(
-    (val) => val === "wrong"
+    (val) => val === "wrong",
   ).length;
   const totalAttempted = correctCount + wrongCount;
   const percentage = totalAttempted
@@ -411,17 +411,10 @@ const TrainingQuestion = () => {
                     {/* <span
                       style={{
                         color: isDark ? "#000000" : "#ffffff",
-                        backgroundColor: isDark
-                          ? "#ffffff"
-                          : "rgba(183, 171, 171, 0.379)",
-                        borderRadius: "50%",
-                        padding: "4px",
-                        display: "inline-flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        width: "35px",
-                        height: "35px",
-                        fontWeight: "600",
+                        width: { xs: 28, sm: 28 },
+                        height: { xs: 28, sm: 28 },
+                        fontWeight: 600,
+                        fontSize: { xs: "18px", sm: "16px" },
                       }}
                     >
                       {index + 1 + (currentPage - 1) * questionsPerPage}
@@ -452,18 +445,13 @@ const TrainingQuestion = () => {
                     <span
                       style={{
                         color: "#ffffff",
-                        marginLeft: "10px",
+                        ml: 1.5,
                         fontWeight: 600,
                       }}
                     >
                       {question.question}
                     </span>
                   </Typography>
-
-                  {/* <Typography variant="subtitle1" color="white">
-                    {index + 1 + (currentPage - 1) * questionsPerPage}.{" "}
-                    {question.question}
-                  </Typography> */}
                 </Box>
 
                 <Box sx={{ mt: 2, px: 2 }}>
@@ -524,7 +512,7 @@ const TrainingQuestion = () => {
                           <Radio
                             checked={selectedAnswers[question._id] === idx}
                             disabled={selectedAnswers.hasOwnProperty(
-                              question._id
+                              question._id,
                             )}
                             onChange={() =>
                               handleOptionChange(question._id, idx)
@@ -534,23 +522,23 @@ const TrainingQuestion = () => {
                             sx={{
                               mt: 0.5, // ✅ Slightly push down for perfect top alignment
                               color: selectedAnswers.hasOwnProperty(
-                                question._id
+                                question._id,
                               )
                                 ? option.isCorrect
                                   ? "green"
                                   : selectedAnswers[question._id] === idx
-                                  ? "red"
-                                  : "default"
+                                    ? "red"
+                                    : "default"
                                 : "default",
                               "&.Mui-checked": {
                                 color: selectedAnswers.hasOwnProperty(
-                                  question._id
+                                  question._id,
                                 )
                                   ? option.isCorrect
                                     ? "green"
                                     : selectedAnswers[question._id] === idx
-                                    ? "red"
-                                    : "default"
+                                      ? "red"
+                                      : "default"
                                   : "default",
                               },
                             }}
@@ -565,13 +553,13 @@ const TrainingQuestion = () => {
                               justifyContent: "center",
                               alignItems: "center",
                               color: selectedAnswers.hasOwnProperty(
-                                question._id
+                                question._id,
                               )
                                 ? option.isCorrect
                                   ? "green"
                                   : selectedAnswers[question._id] === idx
-                                  ? "red"
-                                  : "inherit"
+                                    ? "red"
+                                    : "inherit"
                                 : "inherit",
                             }}
                           >
@@ -751,13 +739,13 @@ const TrainingQuestion = () => {
                     handleSubmitAllAnswers();
                   } else {
                     const firstUnanswered = filteredQuestions.find(
-                      (q) => !selectedAnswers.hasOwnProperty(q._id)
+                      (q) => !selectedAnswers.hasOwnProperty(q._id),
                     );
                     const element = questionRefs.current[firstUnanswered?._id];
                     if (element) {
                       // Determine page number for the unanswered question
                       const index = filteredQuestions.findIndex(
-                        (q) => q._id === firstUnanswered?._id
+                        (q) => q._id === firstUnanswered?._id,
                       );
                       const pageNum = Math.floor(index / questionsPerPage) + 1;
                       if (pageNum !== currentPage) {

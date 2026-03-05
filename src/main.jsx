@@ -1,7 +1,6 @@
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { ThemeProvider, CssBaseline } from '@mui/material';
-// import AdvertisementBanner from './components/Advertisement/AdvertisementBanner';
 import { ThemeProviderWrapper, useThemeMode } from './contextApi/ThemeContext';
 import { lightTheme, darkTheme } from './Theme/theme';
 import { CustomSnackbarProvider } from './components';

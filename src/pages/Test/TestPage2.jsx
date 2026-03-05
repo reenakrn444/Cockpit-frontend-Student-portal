@@ -9,6 +9,9 @@ function TestPage2() {
   const location = useLocation();
   const theme = useTheme();
   const navigate = useNavigate();
+
+  const chipRefs = useRef([]);
+
   const { activeBook, syllabusTitle, syllabusId, bookId } =
     location.state || {};
   const [questions, setQuestions] = useState([]);
@@ -45,10 +48,9 @@ function TestPage2() {
         const isMarked = markedForReview[question._id];
         const isSkippedFlag = skip[question._id];
 
-        const isSkipped =
-          !selected && isSkippedFlag && !isMarked ? true : false;
+        const isSkipped = !selected && isSkippedFlag && isMarked ? true : false;
 
-        const isAnswered = !!selected && !isMarked ? true : false;
+        const isAnswered = !!selected ? true : false;
 
         const choosedOption = isAnswered ? selected : null;
 
@@ -58,7 +60,7 @@ function TestPage2() {
           skipped++;
         } else {
           const chosenOption = question.options.find(
-            (opt) => opt.id === selected
+            (opt) => opt.id === selected,
           );
           if (chosenOption?.isCorrect) {
             evalResult[question._id] = "correct";
@@ -150,19 +152,19 @@ function TestPage2() {
         }
         setLoading(false);
         // ✅ Start timer after data is fetched
-        // const newTimer = setInterval(() => {
-        //   setTimeLeft((prev) => {
-        //     if (prev <= 1) {
-        //       clearInterval(newTimer);
-        //       // setTimeout(() => confirmSubmit(), 0); // auto-submit on timeout
-        //       return 0;
-        //     }
-        //     return prev - 1;
-        //   });
-        // }, 1000);
+        const newTimer = setInterval(() => {
+          setTimeLeft((prev) => {
+            if (prev <= 1) {
+              clearInterval(newTimer);
+              setTimeout(() => confirmSubmit(), 0); // auto-submit on timeout
+              return 0;
+            }
+            return prev - 1;
+          });
+        }, 1000);
 
-        // // Cleanup timer on unmount
-        // return () => clearInterval(newTimer);
+        // Cleanup timer on unmount
+        return () => clearInterval(newTimer);
       } catch (error) {
         console.error("Error fetching questions:", error);
         setQuestions([]);
@@ -201,7 +203,7 @@ function TestPage2() {
   const onExit = () => {
     snackbarEmitter(
       "Exiting fullscreen is not allowed. Your test may be terminated.",
-      "error"
+      "error",
     );
 
     const el = document.documentElement;
@@ -274,7 +276,7 @@ function TestPage2() {
 
       snackbarEmitter(
         "Screenshot / tab switch detected. Test will be submitted.",
-        "error"
+        "error",
       );
 
       // ⏱ submit AFTER UI hides
@@ -308,7 +310,7 @@ function TestPage2() {
         e.preventDefault();
         snackbarEmitter(
           "Keyboard shortcuts are disabled during the test.",
-          "warning"
+          "warning",
         );
       }
     };
@@ -328,7 +330,7 @@ function TestPage2() {
     const handleOffline = () => {
       snackbarEmitter(
         "You lost internet connection. Please reconnect quickly to avoid submission issues.",
-        "warning"
+        "warning",
       );
     };
 
@@ -340,6 +342,18 @@ function TestPage2() {
   }, []);
 
   useEffect(() => {
+    const activeChip = chipRefs.current[currentQuestionIndex];
+
+    if (activeChip) {
+      activeChip.scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+        block: "nearest",
+      });
+    }
+  }, [currentQuestionIndex]);
+
+  useEffect(() => {
     const isCompatibleBrowser = () => {
       const ua = navigator.userAgent;
       return /Chrome|Firefox|Edg/.test(ua);
@@ -348,20 +362,12 @@ function TestPage2() {
     if (!isCompatibleBrowser()) {
       snackbarEmitter(
         "Please use Google Chrome, Firefox, or Edge for the best experience.",
-        "error"
+        "error",
       );
     }
-
-    // if (!window.navigator.javaEnabled()) {
-    //     alert("JavaScript must be enabled to take the test.");
-    // }
   }, []);
 
-  useEffect(() => {
-    // console.log(
-    //   "Monitoring active: time tracking, tab switches, keyboard use, and fullscreen enforcement."
-    // );
-  }, []);
+  useEffect(() => {}, []);
 
   const handleOptionSelect = (questionId, optionId) => {
     setSelectedOptions((prev) => ({ ...prev, [questionId]: optionId }));
@@ -466,17 +472,6 @@ function TestPage2() {
     setOpenSubmitDialog(true);
   }, []);
 
-  // const getChipColor = (index, questionId) => {
-  //     const isCurrent = index === currentQuestionIndex;
-  //     const isMarked = markedForReview[questionId];
-  //     const isSkipped = skip[questionId];
-  //     const isSelected = selectedOptions[questionId];
-
-  //     if (isCurrent) return 'white'; // text color for current question
-  //     if (isMarked || isSelected) return 'white'; // text color for marked or answered
-  //     return 'black'; // default text color
-  // };
-
   const getChipColor = (index, questionId) => {
     const isCurrent = index === currentQuestionIndex;
     const isMarked = markedForReview[questionId];
@@ -575,6 +570,7 @@ function TestPage2() {
             {questions.map((question, index) => (
               <Chip
                 key={question._id}
+                ref={(el) => (chipRefs.current[index] = el)}
                 label={index + 1}
                 onClick={() => goToQuestion(index)}
                 sx={{
@@ -693,7 +689,7 @@ function TestPage2() {
                     onChange={(e) =>
                       handleOptionSelect(
                         questions[currentQuestionIndex]._id,
-                        parseInt(e.target.value)
+                        parseInt(e.target.value),
                       )
                     }
                   >
@@ -738,7 +734,7 @@ function TestPage2() {
                         onClick={() =>
                           handleOptionSelect(
                             questions[currentQuestionIndex]._id,
-                            option.id
+                            option.id,
                           )
                         }
                         sx={{

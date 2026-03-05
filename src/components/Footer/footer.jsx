@@ -13,7 +13,7 @@ import { platformLinks, ResourcesLink } from "./UrlLinksColor";
 import { FooterLogo } from "../../pages/Home/ImagesRender";
 
 function FooterSection() {
-  // console.log(platformLinks, "UrlColor");
+  // console.log(ResourcesLink, "UrlColor");
   const location = useLocation();
   const theme = useTheme();
   return (
@@ -73,22 +73,41 @@ function FooterSection() {
               Resources
             </Typography>
             {ResourcesLink.map((link) => {
-              const isActive = location.pathname === link.path;
+              if (link.label === "Press")
+                return (
+                  <Typography key={link.path} variant="body1">
+                    <a
+                      href={link.path}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        textDecoration: "none",
+                        color: "white",
+                        textAlign: "center",
+                      }}
+                    >
+                      {link.label}
+                    </a>
+                  </Typography>
+                );
+              else {
+                const isActive = location.pathname === link.path;
 
-              return (
-                <Typography key={link.path} variant="body1">
-                  <Link
-                    to={link.path}
-                    style={{
-                      textDecoration: "none",
-                      color: isActive ? "#EAB308" : "white",
-                      textAlign: "center",
-                    }}
-                  >
-                    {link.label}
-                  </Link>
-                </Typography>
-              );
+                return (
+                  <Typography key={link.path} variant="body1">
+                    <Link
+                      to={link.path}
+                      style={{
+                        textDecoration: "none",
+                        color: isActive ? "#EAB308" : "white",
+                        textAlign: "center",
+                      }}
+                    >
+                      {link.label}
+                    </Link>
+                  </Typography>
+                );
+              }
             })}
           </Grid>
 
