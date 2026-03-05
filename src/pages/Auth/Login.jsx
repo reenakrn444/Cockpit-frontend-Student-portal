@@ -29,7 +29,6 @@ const Login = () => {
       })
         .then((res) => res.json())
         .then(async (data) => {
-          // console.log("User Info:", data);
           setEmail(data?.email);
           setUsername(data?.name);
           const googleLoginRes = await apiPost("/AuthLoginUser", {

@@ -57,6 +57,7 @@ function Header() {
     { text: "Home", path: "/" },
     { text: "Training", path: "/training" },
     { text: "Test", path: "/test" },
+    { text: "Exam", path: "/Exam" },
     // { text: "Exam", path: "/Exam" },
     { text: "Pricing", path: "/pricing" },
   ];
