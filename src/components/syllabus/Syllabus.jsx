@@ -1,7 +1,10 @@
+import { hide } from "@popperjs/core";
 import { apiGet, apiPostToken } from "../../api/axios";
 import { toCapitalize } from "../../Helper/convertUpperCase";
+import { useLoader } from "../Loader/Loader";
 
 const Syllabus = ({ handleClick, syllabusType }) => {
+  const { showLoader, hideLoader } = useLoader();
   const navigate = useNavigate();
   const theme = useTheme();
   const [syllabus, setSyllabus] = useState([]);
@@ -26,10 +29,12 @@ const Syllabus = ({ handleClick, syllabusType }) => {
 
     const fetchSyllabus = async () => {
       try {
+        showLoader();
         const response = await apiGet("/getSyllabus");
         setSyllabus(response.data.data);
         getStudentProgress();
       } catch (error) {
+        hideLoader();
         console.error("Error fetching syllabus:", error);
       }
     };
@@ -41,8 +46,11 @@ const Syllabus = ({ handleClick, syllabusType }) => {
         );
         if (response?.data?.status === 200) {
           setUserSyllabuses(response?.data?.data?.syllabuses || []);
+          hideLoader();
         }
-      } catch (err) { }
+      } catch (err) {
+        hideLoader();
+       }
     };
 
     fetchFlightLogData();

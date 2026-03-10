@@ -161,7 +161,7 @@ const TermsAndConditions = () => {
                             </ListItem>
                             <ListItem>
                                 <Typography component="span">
-                                    Sudarsan Aviation LLP, Bhubaneswar, Odisha, 751020
+                                    Sudarsan Aviations Technologies Private Limited, Bhubaneswar, Odisha, 751020
                                 </Typography>
                             </ListItem>
                         </List>

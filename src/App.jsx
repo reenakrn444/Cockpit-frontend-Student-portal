@@ -1,9 +1,12 @@
 import AppRouter from "./routers/AppRouter";
+import { Loader } from "./components/Loader/Loader";
 
 function App() {
   return (
     <div>
-      <AppRouter />
+      <Loader>
+        <AppRouter />
+      </Loader>
     </div>
   );
 }

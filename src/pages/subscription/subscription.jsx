@@ -3,8 +3,11 @@ import { load } from "@cashfreepayments/cashfree-js";
 import { CashFreeMode } from "../../config";
 import { snackbarEmitter } from "../../components/snackbar/CustomSnackBar";
 import { DayCalculation } from "../../Helper/DayCalculation/Daycalculation";
+import { useLoader } from "../../components/Loader/Loader";
+import { hide } from "@popperjs/core";
 
 const Subscription = () => {
+  const { showLoader, hideLoader } = useLoader();
   const [subscriptionPlans, setSubscriptionPlans] = useState();
   const [phoneModalOpen, setPhoneModalOpen] = useState(false);
   const [phoneInput, setPhoneInput] = useState("");
@@ -35,6 +38,7 @@ const Subscription = () => {
 
   const getPricingPlans = async () => {
     try {
+      showLoader();
       const response = await apiGetToken(`/admin/getPricing`);
       // console.log("response", response);
 
@@ -63,14 +67,19 @@ const Subscription = () => {
           };
         });
         // console.log("plans", plans);
+
         setSubscriptionPlans(plans);
+        hideLoader();
       } else {
+        hideLoader();
         snackbarEmitter(
           "Failed to fetch subscription plans. Please try again.",
           "error",
         );
       }
-    } catch (error) {}
+    } catch (error) {
+      hideLoader();
+    }
   };
 
   useEffect(() => {

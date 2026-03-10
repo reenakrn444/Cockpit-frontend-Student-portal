@@ -1,6 +1,8 @@
 import { apiGet } from "../../api/axios";
+import { useLoader } from "../Loader/Loader";
 
 export default function AdvertisementBanner() {
+  const { showLoader, hideLoader } = useLoader();
   const [ads, setAds] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [show, setShow] = useState(true);
@@ -13,14 +15,17 @@ export default function AdvertisementBanner() {
   // Fetch ads
   useEffect(() => {
     const fetchAds = async () => {
+      showLoader();
       try {
         const { data } = await apiGet("/admin/getAllAdvertisement");
         const activeAds = data?.data?.filter(
           (ad) => ad.isactive && !ad.expired,
         );
         setAds(activeAds || []);
+        hideLoader();
       } catch (err) {
         console.error("Error fetching ads:", err);
+        hideLoader();
       }
     };
     fetchAds();

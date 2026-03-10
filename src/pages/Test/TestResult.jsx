@@ -157,7 +157,7 @@ const TestResultPage = () => {
       >
         {/* Summary */}
         {(() => {
-          const total = 10; // or dynamic
+          const total = 50; // or dynamic
           const correct = resultCounts?.correct || 0;
           const incorrect = resultCounts?.incorrect || 0;
           const percentage = Math.round((correct / total) * 100);
